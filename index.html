@@ -283,6 +283,39 @@ header p{color:rgba(255,255,255,.55);font-size:13px}
 .para-timer{font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--yellow);text-align:center;margin-bottom:10px}
 .para-timer.danger{color:var(--red);animation:firePulse .6s ease-in-out infinite}
 .para-xp{font-size:11px;font-family:'Space Mono',monospace;background:rgba(255,217,74,.15);border:1px solid rgba(255,217,74,.3);border-radius:100px;padding:2px 10px;color:var(--yellow);display:inline-block}
+/* ===== ⚡ GEGEN DIE ZEIT ===== */
+.speed-hero{background:linear-gradient(135deg,#1a0530,#3d0a6b);border-radius:18px;padding:22px 20px;margin-bottom:18px;text-align:center;position:relative;overflow:hidden}
+.speed-hero::after{content:'⚡';position:absolute;right:-10px;bottom:-20px;font-size:100px;opacity:.06;transform:rotate(-15deg)}
+.speed-hero h2{color:#fff;margin:0 0 6px;font-size:20px}
+.speed-hero p{color:rgba(255,255,255,.55);margin:0;font-size:12px;font-weight:700}
+.speed-sub-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
+.speed-sub-btn{padding:16px 10px;border-radius:14px;border:2px solid #dde5f5;background:var(--light);cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;color:var(--navy);transition:all .2s;text-align:center}
+.speed-sub-btn:hover{border-color:var(--cyan);background:#e8f8ff;transform:translateY(-2px)}
+.speed-sub-btn .ssbi{font-size:32px;display:block;margin-bottom:6px}
+.speed-sub-btn .ssbt{font-size:13px;font-weight:900;color:var(--navy)}
+.speed-sub-btn .ssbs{font-size:10px;color:#888;margin-top:3px;font-family:'Space Mono',monospace}
+.speed-ring-wrap{position:relative;width:72px;height:72px;flex-shrink:0}
+.speed-ring{transform:rotate(-90deg)}
+.speed-ring-bg{fill:none;stroke:rgba(255,255,255,.1);stroke-width:6}
+.speed-ring-fill{fill:none;stroke-width:6;stroke-linecap:round;transition:stroke-dashoffset .9s linear,stroke .3s}
+.speed-ring-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;font-family:'Space Mono',monospace;color:#fff}
+.bsatz-scenario{background:linear-gradient(135deg,#0d1b3e,#1a3a8f);border-radius:14px;padding:16px 18px;margin-bottom:14px}
+.bsatz-scenario-label{font-size:9px;font-family:'Space Mono',monospace;letter-spacing:2px;color:var(--cyan);text-transform:uppercase;margin-bottom:6px}
+.bsatz-scenario-text{font-size:14px;font-weight:800;color:#fff;line-height:1.6}
+.bsatz-amount{display:inline-block;background:rgba(255,217,74,.2);border:1px solid rgba(255,217,74,.4);border-radius:100px;padding:2px 10px;font-family:'Space Mono',monospace;font-size:12px;color:var(--yellow);margin-top:6px}
+.bsatz-options{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.bsatz-btn{background:var(--light);border:2px solid #dde5f5;border-radius:12px;padding:12px 14px;cursor:pointer;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;color:var(--navy);text-align:left;transition:all .2s;line-height:1.6;width:100%}
+.bsatz-btn:hover:not(:disabled){border-color:var(--blue);background:#e8efff;transform:translateX(3px)}
+.bsatz-btn.correct{background:#e8fff5;border-color:var(--green);color:#005c36}
+.bsatz-btn.wrong{background:#fff0f3;border-color:var(--red);animation:shake .35s ease}
+.bsatz-btn.dim{opacity:.3;pointer-events:none}
+.bsatz-btn .bsatz-label{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#aaa;display:block;margin-bottom:3px;font-family:'Nunito',sans-serif;font-weight:800}
+.speed-hdr{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.speed-hdr-info{flex:1}
+.speed-hdr-q{font-size:13px;font-weight:900;color:var(--navy)}
+.speed-hdr-score{font-size:11px;font-family:'Space Mono',monospace;color:var(--yellow);margin-top:2px}
+.combo-flash{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);z-index:7000;font-size:48px;font-weight:900;color:var(--yellow);text-shadow:0 0 30px rgba(255,217,74,.8);pointer-events:none;transition:transform .15s cubic-bezier(.34,1.56,.64,1),opacity .3s}
+.combo-flash.show{transform:translate(-50%,-50%) scale(1)}
 </style>
 .badge-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
 @media(max-width:480px){.badge-grid{grid-template-columns:repeat(3,1fr)}}
@@ -314,6 +347,8 @@ header p{color:rgba(255,255,255,.55);font-size:13px}
   </div>
 </div>
 
+<div class="combo-flash" id="comboFlash"></div>
+
 <div class="wrapper">
   <header>
     <h1>Steuer-<span>Lernspiel</span></h1>
@@ -342,7 +377,7 @@ header p{color:rgba(255,255,255,.55);font-size:13px}
     <button class="mode-tab" onclick="sw('ao')" id="tab-ao"><span class="ti">⚖️</span>Abgaben&shy;ordnung</button>
     <button class="mode-tab" onclick="sw('kurios')" id="tab-kurios"><span class="ti">🤯</span>Kurioses</button>
     <button class="mode-tab" onclick="sw('recht')" id="tab-recht"><span class="ti">🏛️</span>Privat- &amp; Öff. Recht</button>
-    <button class="mode-tab" onclick="sw('para')" id="tab-para"><span class="ti">🔍</span>§ Memory</button>
+    <button class="mode-tab" onclick="sw('speed')" id="tab-speed"><span class="ti">⚡</span>Gegen die Zeit</button>
     <button class="mode-tab" onclick="sw('badges')" id="tab-badges"><span class="ti">🏅</span>Abzeichen</button>
   </div>
   <select class="mode-select" id="mobileSelect" onchange="sw(this.value)" style="display:none">
@@ -365,7 +400,7 @@ header p{color:rgba(255,255,255,.55);font-size:13px}
       <button class="mnav-btn" id="mnav-ao" onclick="sw('ao')"><span class="mni">⚖️</span>AO</button>
       <button class="mnav-btn" id="mnav-kurios" onclick="sw('kurios')"><span class="mni">🤯</span>Kurioses</button>
       <button class="mnav-btn" id="mnav-recht" onclick="sw('recht')"><span class="mni">🏛️</span>Recht</button>
-      <button class="mnav-btn" id="mnav-para" onclick="sw('para')"><span class="mni">🔍</span>§ Memory</button>
+      <button class="mnav-btn" id="mnav-speed" onclick="sw('speed')"><span class="mni">⚡</span>Speed</button>
       <button class="mnav-btn" id="mnav-karriere" onclick="sw('karriere')"><span class="mni">🎓</span>Karriere</button>
       <button class="mnav-btn" id="mnav-badges" onclick="sw('badges')"><span class="mni">🏅</span>Badges</button>
     </div>
@@ -632,7 +667,7 @@ function sw(m){
   else if(m==='ao')sh_ao=shuffle(D_AO);
   else if(m==='kurios')sh_kurios=shuffle(D_KURIOS);
   else if(m==='recht')sh_recht=shuffle(D_RECHT);
-  else if(m==='para'){ clearInterval(paraTimer); }
+  else if(m==='speed'){ clearInterval(paraTimer); clearInterval(spTimer); }
   // track played modes for all_modes badge
   if(!playedModes.includes(m)){playedModes.push(m);savePlayedModes();checkBadges();}
   document.querySelectorAll('.mode-tab').forEach(t=>t.classList.remove('active'));
@@ -665,7 +700,7 @@ function render(){
   else if(mode==='kurios')renderKurios(a);
   else if(mode==='recht')renderRecht(a);
   else if(mode==='badges')renderBadges(a);
-  else if(mode==='para')renderPara(a);
+  else if(mode==='speed')renderSpeed(a);
   else renderKarriere(a);
 }
 
@@ -1514,6 +1549,396 @@ function endParaGame(){
     </div>
   </div>`;
   conf(30);
+}
+
+// ==================== ⚡ GEGEN DIE ZEIT ====================
+
+// --- Buchungssätze Daten ---
+const D_BSATZ = [
+  {
+    scenario:'Ein Unternehmen kauft Büromaterial auf Rechnung.',
+    amount:'480,00 €',
+    correct:'Bürobedarf 480,00 € an Verbindlichkeiten a. LL 480,00 €',
+    wrong:['Bank 480,00 € an Bürobedarf 480,00 €','Verbindlichkeiten a. LL 480,00 € an Kasse 480,00 €'],
+    explain:'Kauf auf Rechnung → Aufwand (Bürobedarf) steigt, Verbindlichkeit entsteht.'
+  },
+  {
+    scenario:'Das Unternehmen zahlt die Miete für den Monat per Banküberweisung.',
+    amount:'1.200,00 €',
+    correct:'Mietaufwand 1.200,00 € an Bank 1.200,00 €',
+    wrong:['Bank 1.200,00 € an Mietaufwand 1.200,00 €','Kasse 1.200,00 € an Mietaufwand 1.200,00 €'],
+    explain:'Mietzahlung per Bank → Aufwand (Soll) steigt, Bankkonto (Haben) sinkt.'
+  },
+  {
+    scenario:'Ein Kunde zahlt eine offene Rechnung per Banküberweisung.',
+    amount:'2.380,00 €',
+    correct:'Bank 2.380,00 € an Forderungen a. LL 2.380,00 €',
+    wrong:['Forderungen a. LL 2.380,00 € an Bank 2.380,00 €','Umsatzerlöse 2.380,00 € an Bank 2.380,00 €'],
+    explain:'Kunde zahlt → Bank (Soll) steigt, Forderung (Haben) wird ausgebucht.'
+  },
+  {
+    scenario:'Das Unternehmen entnimmt Geld aus der Kasse und legt es auf das Bankkonto ein.',
+    amount:'500,00 €',
+    correct:'Bank 500,00 € an Kasse 500,00 €',
+    wrong:['Kasse 500,00 € an Bank 500,00 €','Eigenkapital 500,00 € an Kasse 500,00 €'],
+    explain:'Kasseneinlage: Geld geht von Kasse (Haben) auf Bank (Soll) – reiner Aktivtausch.'
+  },
+  {
+    scenario:'Das Unternehmen kauft eine Maschine und zahlt sofort per Banküberweisung.',
+    amount:'15.000,00 €',
+    correct:'Maschinen 15.000,00 € an Bank 15.000,00 €',
+    wrong:['Bank 15.000,00 € an Maschinen 15.000,00 €','Maschinen 15.000,00 € an Verbindlichkeiten a. LL 15.000,00 €'],
+    explain:'Kauf + Sofortzahlung: Aktivkonto Maschinen (Soll) steigt, Bank (Haben) sinkt.'
+  },
+  {
+    scenario:'Der Unternehmer entnimmt privat Bargeld aus dem Betrieb.',
+    amount:'300,00 €',
+    correct:'Privatentnahme 300,00 € an Kasse 300,00 €',
+    wrong:['Kasse 300,00 € an Privatentnahme 300,00 €','Eigenkapital 300,00 € an Bank 300,00 €'],
+    explain:'Privatentnahme vermindert das Eigenkapital (Soll) und die Kasse (Haben).'
+  },
+  {
+    scenario:'Das Unternehmen erhält eine Anzahlung eines Kunden auf das Bankkonto.',
+    amount:'800,00 €',
+    correct:'Bank 800,00 € an Erhaltene Anzahlungen 800,00 €',
+    wrong:['Umsatzerlöse 800,00 € an Bank 800,00 €','Forderungen a. LL 800,00 € an Bank 800,00 €'],
+    explain:'Anzahlung: Bank steigt (Soll), aber noch keine Leistung erbracht → Verbindlichkeit „Erhaltene Anzahlungen" (Haben).'
+  },
+  {
+    scenario:'Das Unternehmen zahlt Löhne und Gehälter an Mitarbeiter per Bank.',
+    amount:'8.500,00 €',
+    correct:'Lohnaufwand 8.500,00 € an Bank 8.500,00 €',
+    wrong:['Bank 8.500,00 € an Lohnaufwand 8.500,00 €','Lohnaufwand 8.500,00 € an Verbindlichkeiten a. LL 8.500,00 €'],
+    explain:'Gehaltszahlung: Aufwandskonto Lohnaufwand (Soll) steigt, Bank (Haben) sinkt.'
+  },
+  {
+    scenario:'Ein Unternehmen verkauft Waren gegen Rechnung (ohne Umsatzsteuer).',
+    amount:'3.600,00 €',
+    correct:'Forderungen a. LL 3.600,00 € an Umsatzerlöse 3.600,00 €',
+    wrong:['Umsatzerlöse 3.600,00 € an Forderungen a. LL 3.600,00 €','Bank 3.600,00 € an Umsatzerlöse 3.600,00 €'],
+    explain:'Verkauf auf Rechnung: Forderung entsteht (Soll), Erlös (Haben) steigt.'
+  },
+  {
+    scenario:'Das Unternehmen begleicht eine Lieferantenrechnung per Banküberweisung.',
+    amount:'950,00 €',
+    correct:'Verbindlichkeiten a. LL 950,00 € an Bank 950,00 €',
+    wrong:['Bank 950,00 € an Verbindlichkeiten a. LL 950,00 €','Aufwand 950,00 € an Bank 950,00 €'],
+    explain:'Zahlung an Lieferant: Verbindlichkeit sinkt (Soll), Bank sinkt (Haben).'
+  },
+  {
+    scenario:'Das Unternehmen erhält Zinsen für ein Bankguthaben gutgeschrieben.',
+    amount:'120,00 €',
+    correct:'Bank 120,00 € an Zinserträge 120,00 €',
+    wrong:['Zinsaufwand 120,00 € an Bank 120,00 €','Zinserträge 120,00 € an Forderungen 120,00 €'],
+    explain:'Zinseinnahmen: Bank (Soll) steigt, Ertragskonto Zinserträge (Haben) steigt.'
+  },
+  {
+    scenario:'Eine Maschine wird planmäßig über 5 Jahre abgeschrieben (Jahresrate).',
+    amount:'2.000,00 €',
+    correct:'Abschreibungen 2.000,00 € an Maschinen 2.000,00 €',
+    wrong:['Maschinen 2.000,00 € an Abschreibungen 2.000,00 €','Bank 2.000,00 € an Maschinen 2.000,00 €'],
+    explain:'AfA: Aufwandskonto Abschreibungen (Soll) steigt, Aktivkonto Maschinen (Haben) sinkt.'
+  },
+  {
+    scenario:'Das Unternehmen nimmt einen Kredit bei der Bank auf.',
+    amount:'20.000,00 €',
+    correct:'Bank 20.000,00 € an Verbindlichkeiten gegenüber Kreditinstituten 20.000,00 €',
+    wrong:['Eigenkapital 20.000,00 € an Bank 20.000,00 €','Verbindlichkeiten 20.000,00 € an Bank 20.000,00 €'],
+    explain:'Kreditaufnahme: Bank (Soll) steigt, neue Verbindlichkeit gegenüber Kreditinstituten (Haben) entsteht.'
+  },
+  {
+    scenario:'Das Unternehmen kauft Rohstoffe und zahlt sofort per Kasse.',
+    amount:'760,00 €',
+    correct:'Rohstoffe 760,00 € an Kasse 760,00 €',
+    wrong:['Kasse 760,00 € an Rohstoffe 760,00 €','Rohstoffe 760,00 € an Verbindlichkeiten a. LL 760,00 €'],
+    explain:'Barkauf Rohstoffe: Bestandskonto Rohstoffe (Soll) steigt, Kasse (Haben) sinkt.'
+  },
+  {
+    scenario:'Das Unternehmen zahlt Versicherungsprämien für das Geschäftsjahr per Bank.',
+    amount:'1.800,00 €',
+    correct:'Versicherungsaufwand 1.800,00 € an Bank 1.800,00 €',
+    wrong:['Bank 1.800,00 € an Versicherungsaufwand 1.800,00 €','Versicherungsaufwand 1.800,00 € an Verbindlichkeiten 1.800,00 €'],
+    explain:'Versicherungszahlung: Aufwand (Soll) steigt, Bank (Haben) sinkt.'
+  },
+  {
+    scenario:'Waren werden aus dem Warenlager entnommen und als Aufwand verbucht.',
+    amount:'1.100,00 €',
+    correct:'Warenaufwand 1.100,00 € an Warenbestand 1.100,00 €',
+    wrong:['Warenbestand 1.100,00 € an Warenaufwand 1.100,00 €','Umsatzerlöse 1.100,00 € an Warenbestand 1.100,00 €'],
+    explain:'Warenentnahme: Aufwandskonto (Soll) steigt, Aktivkonto Warenbestand (Haben) sinkt.'
+  },
+  {
+    scenario:'Das Unternehmen erhält eine Gutschrift für eine fehlerhafte Lieferung.',
+    amount:'340,00 €',
+    correct:'Verbindlichkeiten a. LL 340,00 € an Skontoerträge/Wareneinkauf 340,00 €',
+    wrong:['Umsatzerlöse 340,00 € an Verbindlichkeiten 340,00 €','Bank 340,00 € an Forderungen 340,00 €'],
+    explain:'Gutschrift des Lieferanten: Verbindlichkeit sinkt (Soll), Gegenleistung (Haben) als Ertragskorrektur.'
+  },
+  {
+    scenario:'Das Unternehmen zahlt Körperschaftsteuer-Vorauszahlung per Banküberweisung.',
+    amount:'5.000,00 €',
+    correct:'Körperschaftsteuer 5.000,00 € an Bank 5.000,00 €',
+    wrong:['Bank 5.000,00 € an Körperschaftsteuer 5.000,00 €','Steueraufwand 5.000,00 € an Verbindlichkeiten 5.000,00 €'],
+    explain:'Steuervorauszahlung: Steueraufwandskonto (Soll) steigt, Bank (Haben) sinkt.'
+  },
+];
+
+// Speed state
+let spTimer=null, spMode='menu', spSub='bsatz';
+let spIdx=0, spPool=[], spAnswered=false, spSeconds=0, spScore=0, spCombo=0, spCorrect=0, spWrong=0;
+const SP_TIME_BSATZ=12, SP_TIME_PARA=10, SP_ROUNDS=10;
+
+// --- RENDER ENTRY ---
+function renderSpeed(a){
+  clearInterval(spTimer);
+  spMode='menu';
+  a.innerHTML=`<div>
+    <div class="speed-hero">
+      <h2>⚡ Gegen die Zeit</h2>
+      <p>Schnell denken – schnell antworten · Jede Sekunde zählt!</p>
+    </div>
+    <div class="speed-sub-tabs">
+      <button class="speed-sub-btn" onclick="spStart('bsatz')">
+        <span class="ssbi">📒</span>
+        <div class="ssbt">Buchungssätze</div>
+        <div class="ssbs">12 Sek. · ${D_BSATZ.length} Sachverhalte</div>
+      </button>
+      <button class="speed-sub-btn" onclick="spStart('para')">
+        <span class="ssbi">🔍</span>
+        <div class="ssbt">§ Para-Sprint</div>
+        <div class="ssbs">10 Sek. · ${D_PARA.length} Paragraphen</div>
+      </button>
+    </div>
+    <div style="background:var(--light);border:2px solid #dde5f5;border-radius:14px;padding:14px 16px;font-size:12px;color:#555;font-weight:700;line-height:1.7">
+      💡 <b>Wie es funktioniert:</b> Pro Frage läuft ein Countdown.<br>
+      Richtige Antwort = Punkte + Combo-Bonus.<br>
+      Zeit abgelaufen oder falsch = Combo bricht ab.<br>
+      Schaffe so viele richtige Antworten wie möglich in <b>${SP_ROUNDS} Fragen</b>!
+    </div>
+  </div>`;
+}
+
+function spStart(sub){
+  clearInterval(spTimer);
+  spSub=sub;
+  spIdx=0; spAnswered=false; spScore=0; spCombo=0; spCorrect=0; spWrong=0;
+  if(sub==='bsatz') spPool=[...D_BSATZ].sort(()=>Math.random()-.5).slice(0,SP_ROUNDS);
+  else spPool=[...D_PARA].sort(()=>Math.random()-.5).slice(0,SP_ROUNDS);
+  spMode='playing';
+  spRender();
+}
+
+function spRender(){
+  clearInterval(spTimer);
+  const a=document.getElementById('ga');
+  if(spIdx>=spPool.length){spEnd();return;}
+  spAnswered=false;
+  spSeconds=spSub==='bsatz'?SP_TIME_BSATZ:SP_TIME_PARA;
+  const item=spPool[spIdx];
+  const circumference=2*Math.PI*30; // r=30
+  if(spSub==='bsatz') spRenderBsatz(a,item,circumference);
+  else spRenderPara(a,item,circumference);
+  spStartTimer(circumference);
+}
+
+function spRenderBsatz(a,item,circ){
+  const opts=[
+    {text:item.correct,correct:true},
+    ...item.wrong.map(w=>({text:w,correct:false}))
+  ].sort(()=>Math.random()-.5);
+  a.innerHTML=`<div>
+    ${spHeader(circ)}
+    <div class="bsatz-scenario">
+      <div class="bsatz-scenario-label">📋 Sachverhalt – welcher Buchungssatz ist richtig?</div>
+      <div class="bsatz-scenario-text">${item.scenario}</div>
+      <div class="bsatz-amount">💶 ${item.amount}</div>
+    </div>
+    <div class="bsatz-options">
+      ${opts.map((o,i)=>`<button class="bsatz-btn" id="sbopt-${i}" onclick="spAnswerBsatz(${i},${o.correct})">
+        <span class="bsatz-label">Option ${String.fromCharCode(65+i)}</span>
+        ${o.text}
+      </button>`).join('')}
+    </div>
+    <div class="fb" id="spfb"></div>
+  </div>`;
+}
+
+function spRenderPara(a,item,circ){
+  const law=item.law;
+  const allOpts=[
+    {para:item.para,name:item.name,correct:true},
+    ...item.distractors.map(d=>{
+      const f=D_PARA.find(x=>x.para===d);
+      return {para:d,name:f?f.name:(PARA_NAMES[d]||''),correct:false};
+    })
+  ].sort(()=>Math.random()-.5).slice(0,3); // only 3 options for speed mode
+  a.innerHTML=`<div>
+    ${spHeader(circ)}
+    <div class="para-quote" style="margin-bottom:12px">
+      <div class="para-quote-label">📖 Welcher Paragraph? · Gesetz: <b>${law}</b></div>
+      <div class="para-quote-text">${item.quote}</div>
+    </div>
+    <div class="bsatz-options">
+      ${allOpts.map((o,i)=>`<button class="bsatz-btn" id="sbopt-${i}" onclick="spAnswerPara(${i},${o.correct})">
+        <span class="bsatz-label">Option ${String.fromCharCode(65+i)}</span>
+        <b style="font-size:14px">${o.para}</b> ${o.name?`<span style="color:#888;font-size:10px;font-family:'Nunito',sans-serif;font-weight:700"> – ${o.name}</span>`:''}
+      </button>`).join('')}
+    </div>
+    <div class="fb" id="spfb"></div>
+  </div>`;
+}
+
+function spHeader(circ){
+  const timeSec=spSub==='bsatz'?SP_TIME_BSATZ:SP_TIME_PARA;
+  const ringColor=spSeconds>timeSec*.4?'#00c2e0':'#ff4d6d';
+  return `<div class="speed-hdr">
+    <div class="speed-ring-wrap">
+      <svg class="speed-ring" viewBox="0 0 72 72" width="72" height="72">
+        <circle class="speed-ring-bg" cx="36" cy="36" r="30"/>
+        <circle class="speed-ring-fill" id="spRingFill" cx="36" cy="36" r="30"
+          stroke="${ringColor}"
+          stroke-dasharray="${circ}"
+          stroke-dashoffset="${circ*(1-spSeconds/timeSec)}"/>
+      </svg>
+      <div class="speed-ring-num" id="spRingNum">${spSeconds}</div>
+    </div>
+    <div class="speed-hdr-info">
+      <div class="speed-hdr-q">${spSub==='bsatz'?'📒 Buchungssatz':'🔍 § Para-Sprint'} · Frage ${spIdx+1}/${SP_ROUNDS}</div>
+      <div class="speed-hdr-score">⭐ ${spScore} Pkt &nbsp;|&nbsp; 🔥 ${spCombo}er Combo &nbsp;|&nbsp; ✅ ${spCorrect} / ❌ ${spWrong}</div>
+    </div>
+  </div>`;
+}
+
+function spStartTimer(circ){
+  const timeSec=spSub==='bsatz'?SP_TIME_BSATZ:SP_TIME_PARA;
+  spTimer=setInterval(()=>{
+    spSeconds--;
+    const num=document.getElementById('spRingNum');
+    const ring=document.getElementById('spRingFill');
+    if(!num){clearInterval(spTimer);return;}
+    num.textContent=spSeconds;
+    const frac=Math.max(0,spSeconds/timeSec);
+    const c=2*Math.PI*30;
+    ring.setAttribute('stroke-dashoffset', c*(1-frac));
+    ring.setAttribute('stroke', spSeconds>timeSec*.4?'#00c2e0':'#ff4d6d');
+    if(spSeconds<=0){clearInterval(spTimer);if(!spAnswered)spTimeout();}
+  },1000);
+}
+
+function spAnswerBsatz(idx,correct){
+  if(spAnswered)return;
+  spAnswered=true; clearInterval(spTimer);
+  const item=spPool[spIdx];
+  spProcessAnswer(correct, idx, item.explain);
+}
+
+function spAnswerPara(idx,correct){
+  if(spAnswered)return;
+  spAnswered=true; clearInterval(spTimer);
+  const item=spPool[spIdx];
+  spProcessAnswer(correct, idx, `<b>${item.para} ${item.law}</b> – ${item.name}`);
+}
+
+function spProcessAnswer(correct, idx, explain){
+  document.querySelectorAll('.bsatz-btn').forEach(b=>b.disabled=true);
+  if(correct){
+    const timeSec=spSub==='bsatz'?SP_TIME_BSATZ:SP_TIME_PARA;
+    spCombo++; spCorrect++;
+    const pts=10+spCombo*2+Math.ceil(spSeconds/timeSec*10);
+    spScore+=pts; totSc+=pts; corr++; streak++;
+    document.getElementById('sbopt-'+idx).classList.add('correct');
+    document.getElementById('totSc').textContent=totSc;
+    document.getElementById('corrCt').textContent=corr;
+    const sc=document.getElementById('streakCt');
+    sc.textContent=streak+' 🔥';
+    if(streak>=3)sc.classList.add('streak-hot');
+    if(spCombo>=3) spShowCombo(spCombo);
+    checkBadges(); conf(4);
+    const fb=document.getElementById('spfb');
+    fb.className='fb show correct';
+    fb.innerHTML=`✅ Richtig! +${pts} Pkt${spCombo>1?` <span class="para-xp">🔥 ${spCombo}er Combo!</span>`:''}${explain?`<br><span style="font-size:11px;color:#666">${explain}</span>`:''}`;
+  } else {
+    spCombo=0; spWrong++; wrong++; streak=0;
+    document.getElementById('sbopt-'+idx).classList.add('wrong');
+    document.getElementById('wrongCt').textContent=wrong;
+    document.getElementById('streakCt').textContent='0 🔥';
+    document.getElementById('streakCt').classList.remove('streak-hot');
+    // highlight correct
+    document.querySelectorAll('.bsatz-btn').forEach(b=>{
+      if(spSub==='bsatz'&&b.textContent.includes(spPool[spIdx].correct.substring(0,20)))b.classList.add('correct');
+      else if(spSub==='para'&&b.querySelector('b')&&b.querySelector('b').textContent===spPool[spIdx].para)b.classList.add('correct');
+      else if(!b.classList.contains('wrong'))b.classList.add('dim');
+    });
+    const fb=document.getElementById('spfb');
+    fb.className='fb show wrong';
+    fb.innerHTML=`❌ Falsch! Combo weg.${explain?`<br><span style="font-size:11px;color:#666">${explain}</span>`:''}`;
+  }
+  setTimeout(()=>{spIdx++;spRender();},1600);
+}
+
+function spTimeout(){
+  spAnswered=true; spCombo=0; spWrong++; wrong++; streak=0;
+  document.querySelectorAll('.bsatz-btn').forEach(b=>{
+    b.disabled=true;
+    if(spSub==='bsatz'&&b.textContent.includes(spPool[spIdx].correct.substring(0,20)))b.classList.add('correct');
+    else if(spSub==='para'&&b.querySelector('b')&&b.querySelector('b').textContent===spPool[spIdx].para)b.classList.add('correct');
+    else b.classList.add('dim');
+  });
+  document.getElementById('wrongCt').textContent=wrong;
+  document.getElementById('streakCt').textContent='0 🔥';
+  document.getElementById('streakCt').classList.remove('streak-hot');
+  const fb=document.getElementById('spfb');
+  fb.className='fb show wrong';
+  fb.innerHTML=`⏰ Zeit! Combo weg.`;
+  setTimeout(()=>{spIdx++;spRender();},1600);
+}
+
+function spShowCombo(n){
+  const el=document.getElementById('comboFlash');
+  const msgs={3:'🔥 Combo x3!',5:'⚡ Combo x5!!',7:'💥 COMBO x7!!!',10:'🏆 PERFECT x10!!!'};
+  el.textContent=msgs[n]||(n>=10?'🏆 UNSTOPPABLE!':null);
+  if(!el.textContent)return;
+  el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),900);
+}
+
+function spEnd(){
+  clearInterval(spTimer);
+  const a=document.getElementById('ga');
+  const maxPts=SP_ROUNDS*(10+SP_ROUNDS*2+10);
+  const pct=Math.round(spCorrect/SP_ROUNDS*100);
+  const ringColor=pct>=80?'var(--green)':pct>=50?'var(--cyan)':'var(--orange)';
+  const emoji=pct>=80?'🏆':pct>=50?'🎯':'📖';
+  updateHighscore('speed_'+spSub,spScore,maxPts);
+  a.innerHTML=`<div class="result-sc show">
+    <div class="result-trophy">${emoji}</div>
+    <div class="result-score-ring" style="background:conic-gradient(${ringColor} ${pct*3.6}deg,rgba(255,255,255,.08) 0%);box-shadow:0 0 30px rgba(0,194,224,.3)">
+      <div class="result-score-inner">${spScore}<small>Pkt</small></div>
+    </div>
+    <div class="result-title">${spSub==='bsatz'?'📒 Buchungssätze':'🔍 § Sprint'} – Ergebnis</div>
+    <div style="display:flex;gap:12px;justify-content:center;margin:10px 0">
+      <div style="background:rgba(0,201,123,.12);border:2px solid rgba(0,201,123,.3);border-radius:10px;padding:8px 16px;text-align:center">
+        <div style="font-size:20px;font-weight:900;color:var(--green)">${spCorrect}</div>
+        <div style="font-size:10px;color:#888;font-weight:700">Richtig</div>
+      </div>
+      <div style="background:rgba(255,77,109,.1);border:2px solid rgba(255,77,109,.25);border-radius:10px;padding:8px 16px;text-align:center">
+        <div style="font-size:20px;font-weight:900;color:var(--red)">${spWrong}</div>
+        <div style="font-size:10px;color:#888;font-weight:700">Falsch/Zeit</div>
+      </div>
+      <div style="background:rgba(255,217,74,.12);border:2px solid rgba(255,217,74,.3);border-radius:10px;padding:8px 16px;text-align:center">
+        <div style="font-size:20px;font-weight:900;color:var(--yellow)">${spScore}</div>
+        <div style="font-size:10px;color:#888;font-weight:700">Punkte</div>
+      </div>
+    </div>
+    <div class="result-msg">${pct>=80?'Blitzschnell und präzise – Steuerprofi!':pct>=50?'Gut! Mit etwas Übung bist du unschlagbar.':'Buchungssätze brauchen Übung – dran bleiben!'}</div>
+    <div class="result-actions">
+      <button class="restart-btn" onclick="spStart('${spSub}')">🔄 Nochmal</button>
+      <button class="restart-btn" style="background:linear-gradient(135deg,#3d0a6b,#7b2ff7);color:#fff" onclick="spStart('${spSub==='bsatz'?'para':'bsatz'}')">
+        ${spSub==='bsatz'?'🔍 § Sprint':'📒 Buchungssätze'} ausprobieren ➜
+      </button>
+    </div>
+  </div>`;
+  conf(20);
 }
 
 // ==================== BADGES ====================
