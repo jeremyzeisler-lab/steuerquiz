@@ -33,14 +33,25 @@ header p{color:rgba(255,255,255,.55);font-size:13px}
 .mode-tab.active{background:var(--blue);border-color:var(--cyan);color:#fff;box-shadow:0 0 16px rgba(0,194,224,.22)}
 .mode-tab .ti{font-size:17px;display:block;margin-bottom:2px}
 /* ===== MOBILE BOTTOM NAV ===== */
-.mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(10,18,45,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid rgba(255,255,255,.12);padding:6px 4px env(safe-area-inset-bottom,6px)}
-.mobile-nav-inner{display:flex;overflow-x:auto;gap:2px;scrollbar-width:none;-ms-overflow-style:none;justify-content:space-around}
-.mobile-nav-inner::-webkit-scrollbar{display:none}
-.mnav-btn{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 10px;border-radius:12px;border:none;background:transparent;color:rgba(255,255,255,.45);cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;font-size:9px;transition:all .2s;min-width:52px;white-space:nowrap}
-.mnav-btn .mni{font-size:20px;line-height:1;margin-bottom:1px;transition:transform .2s}
+.mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(10,18,45,.95);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid rgba(255,255,255,.12);padding:6px 0 env(safe-area-inset-bottom,6px)}
+.mobile-nav-inner{display:flex;justify-content:space-around;align-items:center}
+.mnav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 4px;border-radius:12px;border:none;background:transparent;color:rgba(255,255,255,.45);cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;font-size:9px;transition:all .2s;white-space:nowrap}
+.mnav-btn .mni{font-size:22px;line-height:1;margin-bottom:1px;transition:transform .2s}
 .mnav-btn:hover{color:rgba(255,255,255,.75)}
-.mnav-btn.active{color:var(--cyan);background:rgba(0,194,224,.12);border:1px solid rgba(0,194,224,.2)}
+.mnav-btn.active{color:var(--cyan);background:rgba(0,194,224,.1)}
 .mnav-btn.active .mni{transform:scale(1.18)}
+/* Quiz Drawer */
+.quiz-drawer-backdrop{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .25s}
+.quiz-drawer-backdrop.open{opacity:1;pointer-events:all}
+.quiz-drawer{position:fixed;bottom:0;left:0;right:0;z-index:301;background:rgba(10,18,45,.98);border-top:2px solid rgba(255,255,255,.15);border-radius:22px 22px 0 0;padding:16px 16px calc(env(safe-area-inset-bottom,8px) + 80px);transform:translateY(100%);transition:transform .3s cubic-bezier(.34,1.1,.64,1)}
+.quiz-drawer.open{transform:translateY(0)}
+.drawer-handle{width:40px;height:4px;background:rgba(255,255,255,.2);border-radius:100px;margin:0 auto 14px;cursor:pointer}
+.drawer-title{font-size:11px;font-family:'Space Mono',monospace;letter-spacing:2px;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:12px;text-align:center}
+.drawer-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.drawer-btn{background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.1);border-radius:14px;padding:14px 10px;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;color:rgba(255,255,255,.7);text-align:center;transition:all .2s;display:flex;align-items:center;gap:8px}
+.drawer-btn:hover,.drawer-btn.active{background:rgba(0,194,224,.15);border-color:var(--cyan);color:#fff}
+.drawer-btn.active{background:rgba(26,58,143,.4);border-color:var(--cyan);color:var(--cyan)}
+.drawer-btn .dbi{font-size:22px;flex-shrink:0}
 @media(max-width:640px){
   .mode-tabs{display:none!important}
   .mobile-nav{display:block}
@@ -378,6 +389,7 @@ header p{color:rgba(255,255,255,.55);font-size:13px}
     <button class="mode-tab" onclick="sw('kurios')" id="tab-kurios"><span class="ti">🤯</span>Kurioses</button>
     <button class="mode-tab" onclick="sw('recht')" id="tab-recht"><span class="ti">🏛️</span>Privat- &amp; Öff. Recht</button>
     <button class="mode-tab" onclick="sw('speed')" id="tab-speed"><span class="ti">⚡</span>Gegen die Zeit</button>
+    <button class="mode-tab" onclick="sw('karriere')" id="tab-karriere"><span class="ti">🎓</span>Karriere</button>
     <button class="mode-tab" onclick="sw('badges')" id="tab-badges"><span class="ti">🏅</span>Abzeichen</button>
   </div>
   <select class="mode-select" id="mobileSelect" onchange="sw(this.value)" style="display:none">
@@ -391,18 +403,28 @@ header p{color:rgba(255,255,255,.55);font-size:13px}
     <option value="karriere">🎓 Karriere</option>
   </select>
 
+  <!-- Quiz Drawer backdrop + panel -->
+  <div class="quiz-drawer-backdrop" id="drawerBackdrop" onclick="closeDrawer()"></div>
+  <div class="quiz-drawer" id="quizDrawer">
+    <div class="drawer-handle" onclick="closeDrawer()"></div>
+    <div class="drawer-title">Quiz-Kategorien</div>
+    <div class="drawer-grid">
+      <button class="drawer-btn" id="drawer-est" onclick="swDrawer('est')"><span class="dbi">💼</span>Einkommensteuer</button>
+      <button class="drawer-btn" id="drawer-ust" onclick="swDrawer('ust')"><span class="dbi">🛒</span>Umsatzsteuer</button>
+      <button class="drawer-btn" id="drawer-bilanz" onclick="swDrawer('bilanz')"><span class="dbi">📋</span>Bilanz</button>
+      <button class="drawer-btn" id="drawer-ao" onclick="swDrawer('ao')"><span class="dbi">⚖️</span>Abgabenordnung</button>
+      <button class="drawer-btn" id="drawer-kurios" onclick="swDrawer('kurios')"><span class="dbi">🤯</span>Kurioses</button>
+      <button class="drawer-btn" id="drawer-recht" onclick="swDrawer('recht')"><span class="dbi">🏛️</span>Privat- &amp; Öff. Recht</button>
+    </div>
+  </div>
+
   <nav class="mobile-nav" id="mobileNav">
     <div class="mobile-nav-inner">
-      <button class="mnav-btn active" id="mnav-basics" onclick="sw('basics')"><span class="mni">📚</span>Basics</button>
-      <button class="mnav-btn" id="mnav-est" onclick="sw('est')"><span class="mni">💼</span>EstG</button>
-      <button class="mnav-btn" id="mnav-ust" onclick="sw('ust')"><span class="mni">🛒</span>UStG</button>
-      <button class="mnav-btn" id="mnav-bilanz" onclick="sw('bilanz')"><span class="mni">📋</span>Bilanz</button>
-      <button class="mnav-btn" id="mnav-ao" onclick="sw('ao')"><span class="mni">⚖️</span>AO</button>
-      <button class="mnav-btn" id="mnav-kurios" onclick="sw('kurios')"><span class="mni">🤯</span>Kurioses</button>
-      <button class="mnav-btn" id="mnav-recht" onclick="sw('recht')"><span class="mni">🏛️</span>Recht</button>
+      <button class="mnav-btn active" id="mnav-basics" onclick="sw('basics')"><span class="mni">📚</span>Lernen</button>
+      <button class="mnav-btn" id="mnav-quiz" onclick="toggleDrawer()"><span class="mni">🎯</span>Quiz</button>
       <button class="mnav-btn" id="mnav-speed" onclick="sw('speed')"><span class="mni">⚡</span>Speed</button>
       <button class="mnav-btn" id="mnav-karriere" onclick="sw('karriere')"><span class="mni">🎓</span>Karriere</button>
-      <button class="mnav-btn" id="mnav-badges" onclick="sw('badges')"><span class="mni">🏅</span>Badges</button>
+      <button class="mnav-btn" id="mnav-badges" onclick="sw('badges')"><span class="mni">🏅</span>Mehr</button>
     </div>
   </nav>
 
@@ -659,8 +681,31 @@ function resetScore(){
   document.getElementById('wrongCt').textContent=0;
   document.getElementById('streakCt').textContent=0;
 }
+function toggleDrawer(){
+  const d=document.getElementById('quizDrawer'),b=document.getElementById('drawerBackdrop');
+  if(d.classList.contains('open')){closeDrawer();}
+  else{d.classList.add('open');b.classList.add('open');document.getElementById('mnav-quiz').classList.add('active');}
+}
+function closeDrawer(){
+  const d=document.getElementById('quizDrawer'),b=document.getElementById('drawerBackdrop');
+  if(!d)return;
+  d.classList.remove('open');b.classList.remove('open');
+  const quizModes=['est','ust','bilanz','ao','kurios','recht'];
+  if(!quizModes.includes(mode)) document.getElementById('mnav-quiz').classList.remove('active');
+}
+function swDrawer(m){closeDrawer();sw(m);}
+function syncMobileNav(m){
+  const quizModes=['est','ust','bilanz','ao','kurios','recht'];
+  const map={basics:'mnav-basics',speed:'mnav-speed',karriere:'mnav-karriere',badges:'mnav-badges'};
+  document.querySelectorAll('.mnav-btn').forEach(b=>b.classList.remove('active'));
+  if(map[m]) document.getElementById(map[m])?.classList.add('active');
+  else if(quizModes.includes(m)) document.getElementById('mnav-quiz')?.classList.add('active');
+  document.querySelectorAll('.drawer-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('drawer-'+m)?.classList.add('active');
+}
 function sw(m){
   mode=m;idx=0;answered=false;
+  closeDrawer();
   if(m==='est'){sh_ein=shuffle(D_EINKUNFT);sh_werb=shuffle(D_WERBUNG);}
   else if(m==='ust')sh_ust=shuffle(D_UST);
   else if(m==='bilanz'){sh_bzu=shuffle(D_BILANZ_ZU);sh_buch=shuffle(D_BUCHUNG);}
@@ -668,14 +713,11 @@ function sw(m){
   else if(m==='kurios')sh_kurios=shuffle(D_KURIOS);
   else if(m==='recht')sh_recht=shuffle(D_RECHT);
   else if(m==='speed'){ clearInterval(paraTimer); clearInterval(spTimer); }
-  // track played modes for all_modes badge
   if(!playedModes.includes(m)){playedModes.push(m);savePlayedModes();checkBadges();}
   document.querySelectorAll('.mode-tab').forEach(t=>t.classList.remove('active'));
   const tab=document.getElementById('tab-'+m);
   if(tab)tab.classList.add('active');
-  document.querySelectorAll('.mnav-btn').forEach(b=>b.classList.remove('active'));
-  const mb=document.getElementById('mnav-'+m);
-  if(mb){mb.classList.add('active');mb.scrollIntoView({inline:'center',behavior:'smooth',block:'nearest'});}
+  syncMobileNav(m);
   const sel=document.getElementById('mobileSelect');
   if(sel)sel.value=m;
   render();
