@@ -558,9 +558,9 @@ const FACTS = [
   {icon:'🕵️',title:'Selbstanzeige: Reue macht straffrei',preview:'Wer sich selbst anzeigt, kommt straffrei davon?',detail:'§ 371 AO erlaubt eine strafbefreiende Selbstanzeige: Wer hinterzogene Steuern vollständig korrigiert und nachzahlt (inkl. Zinsen), bleibt straffrei. Aber: Die Anzeige muss vollständig sein – partielle Selbstanzeigen sind seit 2015 nicht mehr strafbefreiend!'},
   {icon:'💸',title:'Spitzensteuersatz historisch bis 95 %',preview:'Ja, 95 % Einkommensteuer gab es wirklich...',detail:'Nach dem Zweiten Weltkrieg erhoben die Alliierten in Deutschland zeitweise Spitzensteuersätze von bis zu 95 %. In den 1970er Jahren lagen sie noch bei 56 %. Heute beträgt der Spitzensteuersatz 42 %, die "Reichensteuer" 45 %.'},
   {icon:'☕',title:'Kaffeesteuer: 2,19 € pro kg Röstkaffee',preview:'Selbst der Morgenkaffee ist besteuert...',detail:'Deutschland erhebt eine eigene Kaffeesteuer (§ 1 KaffeeStG): Auf Röstkaffee entfallen 2,19 €/kg, auf löslichen Kaffee 4,78 €/kg. Sie fließt vollständig an den Bund und bringt ca. 1 Mrd. € / Jahr. Tee ist dagegen steuerfrei!'},
-  {icon:'🧮',title:'58 % aller Steuern: Lohn + Mehrwert',preview:'Zwei Steuern dominieren den Staatshaushalt...',detail:'Lohnsteuer (ca. 249 Mrd. €) und Umsatzsteuer (ca. 302 Mrd. €) machen zusammen über 58 % des gesamten deutschen Steueraufkommens aus. Fast jeder Kauf und fast jedes Gehalt finanziert den Staatshaushalt direkt.'},
-  {icon:'🏛️',title:'Berlin hat 17 Finanzämter',preview:'So viele Finanzämter hat die Hauptstadt...',detail:'Die Stadt Berlin hat 17 Finanzämter – von Charlottenburg bis Zehlendorf. Brandenburg hat 14 Finanzämter, die Städte wie Cottbus, Frankfurt (Oder), Potsdam, Neuruppin und andere Regionen bedienen.'},
-  {icon:'🎓',title:'FHF Königs Wusterhausen – Ausbildungsstätte',preview:'Wo lernen Berlins und Brandenburgs Finanzbeamte?',detail:'Die Fachhochschule für Finanzen (FHF) in Königs Wusterhausen (OT Niederlehme) ist die gemeinsame Ausbildungsstätte beider Länder. Dort studieren angehende Bachelor of Laws (LL.B.) im gehobenen Dienst – kostenlos, mit Bezügen!'},
+  {icon:'🧮',title:'58 % aller Steuern: Lohn + Mehrwert',preview:'Zwei Steuern dominieren den Staatshaushalt...',detail:'Lohnsteuer (248,9 Mrd. €) und Umsatzsteuer (302,1 Mrd. €) machen zusammen über 58 % des gesamten deutschen Steueraufkommens von 947,7 Mrd. € aus (2024, Quelle: Statistisches Bundesamt). Fast jeder Kauf und fast jedes Gehalt finanziert den Staatshaushalt direkt.'},
+  {icon:'🏛️',title:'Berlin hat 23 Finanzämter',preview:'So viele Finanzämter hat die Hauptstadt...',detail:'Berlin hat insgesamt 23 Finanzämter: 17 Regionalfinanzämter (von Charlottenburg bis Zehlendorf) sowie 6 Finanzämter mit zentraler Zuständigkeit: FA für Körperschaften I–IV, FA für Fahndung und Strafsachen und das Technische Finanzamt. In diesen 23 Ämtern arbeiten über 6.100 Beschäftigte.'},
+  {icon:'🎓',title:'FHF Königs Wusterhausen – gemeinsame Ausbildungsstätte',preview:'Wo lernen Berlins und Brandenburgs Finanzbeamte?',detail:'Die Fachhochschule für Finanzen (FHF) in Königs Wusterhausen (OT Niederlehme) ist die gemeinsame Ausbildungsstätte für Berlin, Brandenburg und Sachsen-Anhalt. Das 3-jährige duale Studium endet mit dem akademischen Grad <b>Diplom-Finanzwirt/in (FH)</b> – komplett kostenfrei, mit vollen Anwärterbezügen ab Tag 1.'},
 ];
 
 // ==================== STATE ====================
@@ -661,16 +661,16 @@ ${FACTS.map((f,i)=>`<div class="fact-card" onclick="toggleFact(${i})" id="fc${i}
 <div style="text-align:center;margin-bottom:14px">
   <div style="font-size:11px;color:#888;font-weight:700;margin-bottom:3px">Gesamtes Steueraufkommen 2024 (Bund, Länder, Gemeinden)</div>
   <div style="font-size:34px;font-weight:900;color:var(--navy)">947,7 Mrd. €</div>
-  <div style="font-size:11px;color:#aaa;font-family:'Space Mono',monospace">Bislang höchster Wert · +3,5 % ggü. Vorjahr</div>
+  <div style="font-size:11px;color:#aaa;font-family:'Space Mono',monospace">Höchster Wert je gemessen · +3,5 % ggü. Vorjahr · Quelle: Statistisches Bundesamt (April 2025)</div>
 </div>
 <div style="margin-bottom:16px">
   <div class="sbar-row"><div class="sbar-lbl">🛒 Umsatzsteuer (inkl. Einfuhrumsatzsteuer)<span>302 Mrd. · 31,7 %</span></div><div class="sbar-track"><div class="sbar-fill" style="width:100%;background:linear-gradient(90deg,#ff8c42,#ffb347)"></div></div></div>
-  <div class="sbar-row"><div class="sbar-lbl">💼 Lohnsteuer<span>249 Mrd. · 26,4 %</span></div><div class="sbar-track"><div class="sbar-fill" style="width:82%;background:linear-gradient(90deg,#1a3a8f,#4472ca)"></div></div></div>
-  <div class="sbar-row"><div class="sbar-lbl">🏭 Gewerbesteuer<span>75 Mrd. · 7,9 %</span></div><div class="sbar-track"><div class="sbar-fill" style="width:25%;background:linear-gradient(90deg,#7b5ea7,#a77ed4)"></div></div></div>
+  <div class="sbar-row"><div class="sbar-lbl">💼 Lohnsteuer<span>248,9 Mrd. · 26,3 %</span></div><div class="sbar-track"><div class="sbar-fill" style="width:82%;background:linear-gradient(90deg,#1a3a8f,#4472ca)"></div></div></div>
+  <div class="sbar-row"><div class="sbar-lbl">🏭 Gewerbesteuer<span>75,3 Mrd. · 7,9 %</span></div><div class="sbar-track"><div class="sbar-fill" style="width:25%;background:linear-gradient(90deg,#7b5ea7,#a77ed4)"></div></div></div>
   <div class="sbar-row"><div class="sbar-lbl">📊 Veranlagte Einkommensteuer<span>74 Mrd. · 7,8 %</span></div><div class="sbar-track"><div class="sbar-fill" style="width:24%;background:linear-gradient(90deg,#2196f3,#64b5f6)"></div></div></div>
   <div class="sbar-row"><div class="sbar-lbl">🏢 Körperschaftsteuer<span>40 Mrd. · 4,3 %</span></div><div class="sbar-track"><div class="sbar-fill" style="width:13%;background:linear-gradient(90deg,#00bcd4,#4dd0e1)"></div></div></div>
-  <div class="sbar-row"><div class="sbar-lbl">⚡ Energiesteuer<span>35 Mrd. · 3,7 %</span></div><div class="sbar-track"><div class="sbar-fill" style="width:12%;background:linear-gradient(90deg,#4caf50,#81c784)"></div></div></div>
-  <div class="hl">🧮 <b>Merksatz:</b> Allein Umsatzsteuer + Lohnsteuer = über 58 % aller Einnahmen. Fast jeder Kauf und fast jedes Gehalt finanziert den Staatshaushalt!</div>
+  <div class="sbar-row"><div class="sbar-lbl">⚡ Energiesteuer<span>35,1 Mrd. · 3,7 %</span></div><div class="sbar-track"><div class="sbar-fill" style="width:12%;background:linear-gradient(90deg,#4caf50,#81c784)"></div></div></div>
+  <div class="hl">🧮 <b>Merksatz:</b> Allein Umsatzsteuer (302,1 Mrd.) + Lohnsteuer (248,9 Mrd.) = über 58 % aller Einnahmen. Fast jeder Kauf und fast jedes Gehalt finanziert den Staatshaushalt! <span class="new26">Quelle: Destatis 2025</span></div>
 </div>
 
 <div class="bsec">🔀 Wer bekommt die Steuern & wofür?</div>
