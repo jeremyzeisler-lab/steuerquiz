@@ -257,7 +257,33 @@ header p{color:rgba(255,255,255,.55);font-size:13px}
 .bt-body .bt-desc{font-size:11px;color:rgba(255,255,255,.55);font-weight:600}
 /* ===== HIGHSCORE CHIP ===== */
 .hs-chip{display:inline-flex;align-items:center;gap:5px;background:linear-gradient(135deg,rgba(255,217,74,.15),rgba(255,217,74,.08));border:1px solid rgba(255,217,74,.35);border-radius:100px;padding:3px 10px;font-size:10px;font-family:'Space Mono',monospace;color:var(--yellow);font-weight:700;margin-left:8px}
-/* ===== BADGES PAGE ===== */
+/* ===== § MEMORY GAME ===== */
+.para-quote{background:linear-gradient(135deg,var(--navy),#1a3a8f);color:#fff;border-radius:18px;padding:22px 20px;margin-bottom:20px;position:relative;overflow:hidden}
+.para-quote::before{content:'❝';position:absolute;top:-10px;left:12px;font-size:80px;opacity:.08;font-family:Georgia,serif;line-height:1}
+.para-quote-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--cyan);text-transform:uppercase;margin-bottom:8px}
+.para-quote-text{font-size:14px;font-weight:700;line-height:1.65;color:#fff}
+.para-quote-hint{font-size:11px;color:rgba(255,255,255,.45);margin-top:10px;font-weight:600}
+.para-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+@media(max-width:480px){.para-grid{grid-template-columns:1fr}}
+.para-card{background:var(--light);border:2px solid #dde5f5;border-radius:14px;padding:14px 16px;cursor:pointer;transition:all .2s;text-align:left;font-family:'Nunito',sans-serif}
+.para-card:hover:not(:disabled){border-color:var(--cyan);background:#e8f8ff;transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,194,224,.15)}
+.para-card:disabled{cursor:not-allowed}
+.para-card .pc-para{font-size:22px;font-weight:900;color:var(--navy);font-family:'Space Mono',monospace;margin-bottom:4px}
+.para-card .pc-law{font-size:10px;font-weight:700;color:#888;font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:1px}
+.para-card .pc-name{font-size:12px;font-weight:800;color:var(--navy);margin-top:2px}
+.para-card.correct{background:#e8fff5;border-color:var(--green);transform:scale(1.03);box-shadow:0 0 0 3px rgba(0,201,123,.25)}
+.para-card.wrong{background:#fff0f3;border-color:var(--red);animation:shake .4s ease}
+.para-card.dim{opacity:.35;pointer-events:none}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.para-streak{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
+.para-streak-dot{width:10px;height:10px;border-radius:50%;background:#e0e8f5;transition:all .3s}
+.para-streak-dot.done{background:var(--green)}
+.para-streak-dot.current{background:var(--cyan);box-shadow:0 0 8px rgba(0,194,224,.6);animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.4)}}
+.para-timer{font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:var(--yellow);text-align:center;margin-bottom:10px}
+.para-timer.danger{color:var(--red);animation:firePulse .6s ease-in-out infinite}
+.para-xp{font-size:11px;font-family:'Space Mono',monospace;background:rgba(255,217,74,.15);border:1px solid rgba(255,217,74,.3);border-radius:100px;padding:2px 10px;color:var(--yellow);display:inline-block}
+</style>
 .badge-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
 @media(max-width:480px){.badge-grid{grid-template-columns:repeat(3,1fr)}}
 .badge-item{background:var(--light);border:2px solid #dde5f5;border-radius:14px;padding:12px 8px;text-align:center;transition:all .2s}
@@ -316,6 +342,7 @@ header p{color:rgba(255,255,255,.55);font-size:13px}
     <button class="mode-tab" onclick="sw('ao')" id="tab-ao"><span class="ti">⚖️</span>Abgaben&shy;ordnung</button>
     <button class="mode-tab" onclick="sw('kurios')" id="tab-kurios"><span class="ti">🤯</span>Kurioses</button>
     <button class="mode-tab" onclick="sw('recht')" id="tab-recht"><span class="ti">🏛️</span>Privat- &amp; Öff. Recht</button>
+    <button class="mode-tab" onclick="sw('para')" id="tab-para"><span class="ti">🔍</span>§ Memory</button>
     <button class="mode-tab" onclick="sw('badges')" id="tab-badges"><span class="ti">🏅</span>Abzeichen</button>
   </div>
   <select class="mode-select" id="mobileSelect" onchange="sw(this.value)" style="display:none">
@@ -338,6 +365,7 @@ header p{color:rgba(255,255,255,.55);font-size:13px}
       <button class="mnav-btn" id="mnav-ao" onclick="sw('ao')"><span class="mni">⚖️</span>AO</button>
       <button class="mnav-btn" id="mnav-kurios" onclick="sw('kurios')"><span class="mni">🤯</span>Kurioses</button>
       <button class="mnav-btn" id="mnav-recht" onclick="sw('recht')"><span class="mni">🏛️</span>Recht</button>
+      <button class="mnav-btn" id="mnav-para" onclick="sw('para')"><span class="mni">🔍</span>§ Memory</button>
       <button class="mnav-btn" id="mnav-karriere" onclick="sw('karriere')"><span class="mni">🎓</span>Karriere</button>
       <button class="mnav-btn" id="mnav-badges" onclick="sw('badges')"><span class="mni">🏅</span>Badges</button>
     </div>
@@ -588,7 +616,7 @@ function updSc(ok){
   if(streak>=3){sc.classList.add('streak-hot');}else{sc.classList.remove('streak-hot');}
   checkBadges();
 }
-const MODE_ORDER = ['basics','est','ust','bilanz','ao','kurios','recht','karriere'];
+const MODE_ORDER = ['basics','est','ust','bilanz','ao','kurios','recht','para','karriere','badges'];
 function resetScore(){
   totSc=0;corr=0;wrong=0;streak=0;
   document.getElementById('totSc').textContent=0;
@@ -604,6 +632,7 @@ function sw(m){
   else if(m==='ao')sh_ao=shuffle(D_AO);
   else if(m==='kurios')sh_kurios=shuffle(D_KURIOS);
   else if(m==='recht')sh_recht=shuffle(D_RECHT);
+  else if(m==='para'){ clearInterval(paraTimer); }
   // track played modes for all_modes badge
   if(!playedModes.includes(m)){playedModes.push(m);savePlayedModes();checkBadges();}
   document.querySelectorAll('.mode-tab').forEach(t=>t.classList.remove('active'));
@@ -636,6 +665,7 @@ function render(){
   else if(mode==='kurios')renderKurios(a);
   else if(mode==='recht')renderRecht(a);
   else if(mode==='badges')renderBadges(a);
+  else if(mode==='para')renderPara(a);
   else renderKarriere(a);
 }
 
@@ -934,13 +964,13 @@ function renderKarriere(a){
   <h2>🎓 Karriere in der Finanzverwaltung</h2>
   <p>Dein Einstieg bei der Finanzverwaltung Berlin & Brandenburg</p>
 </div>
-<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px">
-  <a href="#karriere-wege" style="text-decoration:none"><span style="background:#eafff5;border:2px solid #b7f5dc;color:#005c36;border-radius:100px;padding:5px 13px;font-size:11px;font-weight:800;cursor:pointer;display:inline-block">🛤️ Ausbildungswege</span></a>
-  <a href="#karriere-voraussetzungen" style="text-decoration:none"><span style="background:#eef3ff;border:2px solid #c0d4ff;color:#1a3a8f;border-radius:100px;padding:5px 13px;font-size:11px;font-weight:800;cursor:pointer;display:inline-block">✅ Voraussetzungen</span></a>
-  <a href="#karriere-timeline" style="text-decoration:none"><span style="background:#fff5e8;border:2px solid #ffd6a0;color:#8a4000;border-radius:100px;padding:5px 13px;font-size:11px;font-weight:800;cursor:pointer;display:inline-block">📈 Karriereweg</span></a>
-  <a href="#karriere-fhf" style="text-decoration:none"><span style="background:#f5f0ff;border:2px solid #d4b8ff;color:#5c2d91;border-radius:100px;padding:5px 13px;font-size:11px;font-weight:800;cursor:pointer;display:inline-block">🏫 FHF</span></a>
-  <a href="#karriere-aemter" style="text-decoration:none"><span style="background:var(--light);border:2px solid #dde5f5;color:var(--navy);border-radius:100px;padding:5px 13px;font-size:11px;font-weight:800;cursor:pointer;display:inline-block">🗺️ Finanzämter</span></a>
-  <a href="#karriere-vorteile" style="text-decoration:none"><span style="background:#fff8e1;border:2px solid var(--yellow);color:#7a5c00;border-radius:100px;padding:5px 13px;font-size:11px;font-weight:800;cursor:pointer;display:inline-block">🌟 Vorteile</span></a>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px">
+  <span onclick="scrollToId('karriere-wege')" style="background:#eafff5;border:2px solid #b7f5dc;color:#005c36;border-radius:100px;padding:5px 13px;font-size:11px;font-weight:800;cursor:pointer;display:inline-block">🛤️ Ausbildungswege</span>
+  <span onclick="scrollToId('karriere-voraussetzungen')" style="background:#eef3ff;border:2px solid #c0d4ff;color:#1a3a8f;border-radius:100px;padding:5px 13px;font-size:11px;font-weight:800;cursor:pointer;display:inline-block">✅ Voraussetzungen</span>
+  <span onclick="scrollToId('karriere-timeline')" style="background:#fff5e8;border:2px solid #ffd6a0;color:#8a4000;border-radius:100px;padding:5px 13px;font-size:11px;font-weight:800;cursor:pointer;display:inline-block">📈 Karriereweg</span>
+  <span onclick="scrollToId('karriere-fhf')" style="background:#f5f0ff;border:2px solid #d4b8ff;color:#5c2d91;border-radius:100px;padding:5px 13px;font-size:11px;font-weight:800;cursor:pointer;display:inline-block">🏫 FHF</span>
+  <span onclick="scrollToId('karriere-aemter')" style="background:var(--light);border:2px solid #dde5f5;color:var(--navy);border-radius:100px;padding:5px 13px;font-size:11px;font-weight:800;cursor:pointer;display:inline-block">🗺️ Finanzämter</span>
+  <span onclick="scrollToId('karriere-vorteile')" style="background:#fff8e1;border:2px solid var(--yellow);color:#7a5c00;border-radius:100px;padding:5px 13px;font-size:11px;font-weight:800;cursor:pointer;display:inline-block">🌟 Vorteile</span>
 </div>
 
 <div class="bsec" id="karriere-wege">🛤️ Zwei Wege – ein Ziel</div>
@@ -1246,6 +1276,246 @@ function conf(n){
   }
 }
 
+// ==================== § MEMORY GAME ====================
+// ==================== § PARA LOOKUP (name for every possible distractor) ====================
+const PARA_NAMES = {
+  '§ 1 AO':'Anwendungsbereich AO','§ 3 AO':'Steuerbegriff','§ 30 AO':'Steuergeheimnis',
+  '§ 90 AO':'Mitwirkungspflichten','§ 103 AO':'Auskunftspflicht Dritter','§ 118 AO':'Verwaltungsakt',
+  '§ 122 AO':'Bekanntgabe','§ 152 AO':'Verspätungszuschlag','§ 153 AO':'Berichtigungspflicht',
+  '§ 155 AO':'Steuerfestsetzung','§ 157 AO':'Form Steuerbescheid','§ 162 AO':'Schätzung',
+  '§ 165 AO':'Vorläufige Steuerfestsetzung','§ 169 AO':'Festsetzungsverjährung',
+  '§ 170 AO':'Beginn Festsetzungsfrist','§ 171 AO':'Ablaufhemmung',
+  '§ 173 AO':'Aufhebung/Änderung neuer Tatsachen','§ 180 AO':'Gesonderte Feststellung',
+  '§ 193 AO':'Zulässigkeit Außenprüfung','§ 200 AO':'Mitwirkungspflicht Betriebsprüfung',
+  '§ 201 AO':'Schlussbesprechung','§ 240 AO':'Säumniszuschläge',
+  '§ 348 AO':'Nicht anfechtbare Verwaltungsakte','§ 355 AO':'Einspruchsfrist',
+  '§ 356 AO':'Einspruchsbefugnis','§ 357 AO':'Einlegung Einspruch',
+  '§ 363 AO':'Aussetzung Einspruchsverfahren','§ 370 AO':'Steuerhinterziehung',
+  '§ 371 AO':'Selbstanzeige','§ 378 AO':'Leichtfertige Steuerverkürzung',
+  '§ 393 AO':'Verhältnis Steuerstrafverfahren','§ 398 AO':'Einstellung bei geringer Schuld',
+  '§ 1 EStG':'Unbeschränkte Steuerpflicht','§ 2 EStG':'Einkunftsarten',
+  '§ 3 EStG':'Steuerfreie Einnahmen','§ 4 EStG':'Gewinnbegriff',
+  '§ 6 EStG':'Bewertung Wirtschaftsgüter','§ 7 EStG':'AfA',
+  '§ 9 EStG':'Werbungskosten','§ 10 EStG':'Sonderausgaben',
+  '§ 11 EStG':'Zu- und Abflussprinzip','§ 12 EStG':'Nicht abziehbare Ausgaben',
+  '§ 13 EStG':'Land- und Forstwirtschaft','§ 14 EStG':'Veräußerung Betrieb',
+  '§ 15 EStG':'Gewerbebetrieb','§ 16 EStG':'Betriebsveräußerung',
+  '§ 17 EStG':'Veräußerung von Anteilen','§ 18 EStG':'Selbständige Arbeit',
+  '§ 19 EStG':'Nichtselbständige Arbeit','§ 20 EStG':'Kapitalvermögen',
+  '§ 21 EStG':'Vermietung und Verpachtung','§ 22 EStG':'Sonstige Einkünfte',
+  '§ 23 EStG':'Private Veräußerungsgeschäfte','§ 25 EStG':'Veranlagung',
+  '§ 32a EStG':'Einkommensteuertarif','§ 34 EStG':'Außerordentliche Einkünfte',
+  '§ 38 EStG':'Erhebung Lohnsteuer','§ 40 EStG':'Pauschalierung Lohnsteuer',
+  '§ 46 EStG':'Veranlagung Arbeitnehmer',
+  '§ 1 UStG':'Steuerbare Umsätze','§ 2 UStG':'Unternehmerbegriff',
+  '§ 3 UStG':'Lieferung / sonstige Leistung','§ 4 UStG':'Steuerbefreiungen',
+  '§ 10 UStG':'Bemessungsgrundlage','§ 12 UStG':'Umsatzsteuersätze',
+  '§ 13 UStG':'Entstehung Steuer','§ 14 UStG':'Rechnung',
+  '§ 15 UStG':'Vorsteuerabzug','§ 18 UStG':'Besteuerungsverfahren',
+  '§ 19 UStG':'Kleinunternehmer',
+  'Art. 1 GG':'Menschenwürde','Art. 2 GG':'Allgem. Handlungsfreiheit',
+  'Art. 3 GG':'Gleichheitsgrundsatz','Art. 14 GG':'Eigentumsgarantie',
+  'Art. 19 GG':'Einschränkung Grundrechte','Art. 20 GG':'Staatsgrundsätze',
+  'Art. 28 GG':'Verfassungsgrundsätze Länder','Art. 105 GG':'Steuergesetzgebung',
+  'Art. 106 GG':'Steuerverteilung','Art. 108 GG':'Steuerverwaltung',
+  '§ 1 BGB':'Rechtsfähigkeit','§ 145 BGB':'Angebot',
+  '§ 433 BGB':'Kaufvertrag','§ 823 BGB':'Schadensersatz',
+  '§ 1 KStG':'Unbeschränkte Körperschaftsteuerpflicht',
+  '§ 7 GewStG':'Gewerbeertrag','§ 2 GewStG':'Steuerpflicht Gewerbesteuer',
+};
+
+const D_PARA = [
+  // AO
+  {quote:'Steuern sind Geldleistungen, die nicht eine Gegenleistung für eine besondere Leistung darstellen.',para:'§ 3 AO',law:'AO',name:'Steuerbegriff',icon:'⚖️',distractors:['§ 30 AO','§ 155 AO','§ 3 EStG']},
+  {quote:'Amtsträger … haben das Steuergeheimnis zu wahren.',para:'§ 30 AO',law:'AO',name:'Steuergeheimnis',icon:'🔒',distractors:['§ 3 AO','§ 90 AO','§ 393 AO']},
+  {quote:'Steuerbescheide sind schriftlich oder elektronisch zu erteilen, soweit nichts anderes bestimmt ist.',para:'§ 157 AO',law:'AO',name:'Form des Steuerbescheids',icon:'📄',distractors:['§ 122 AO','§ 155 AO','§ 180 AO']},
+  {quote:'Die Festsetzungsfrist beträgt … vier Jahre.',para:'§ 169 AO',law:'AO',name:'Festsetzungsverjährung',icon:'⏳',distractors:['§ 170 AO','§ 171 AO','§ 152 AO']},
+  {quote:'Die Einspruchsfrist beträgt einen Monat.',para:'§ 355 AO',law:'AO',name:'Einspruchsfrist',icon:'📬',distractors:['§ 348 AO','§ 363 AO','§ 357 AO']},
+  {quote:'Wer … Steuern verkürzt oder … nicht gerechtfertigte Steuervorteile erlangt, wird … bestraft.',para:'§ 370 AO',law:'AO',name:'Steuerhinterziehung',icon:'🚨',distractors:['§ 371 AO','§ 378 AO','§ 398 AO']},
+  {quote:'Straffreiheit tritt nicht ein, wenn … eine der Steuerstraftaten im Zeitpunkt der Selbstanzeige bereits entdeckt war.',para:'§ 371 AO',law:'AO',name:'Selbstanzeige',icon:'🕊️',distractors:['§ 370 AO','§ 378 AO','§ 153 AO']},
+  {quote:'Handelt der Täter leichtfertig, so ist die Tat als leichtfertige Steuerverkürzung … als Ordnungswidrigkeit zu ahnden.',para:'§ 378 AO',law:'AO',name:'Leichtfertige Steuerverkürzung',icon:'⚠️',distractors:['§ 370 AO','§ 371 AO','§ 398 AO']},
+  {quote:'Soweit die Besteuerungsgrundlagen nicht ermittelt … werden können, sind sie zu schätzen.',para:'§ 162 AO',law:'AO',name:'Schätzung',icon:'🎯',distractors:['§ 155 AO','§ 169 AO','§ 173 AO']},
+  {quote:'Ein Verwaltungsakt ist jede Verfügung, Entscheidung oder andere hoheitliche Maßnahme … mit unmittelbarer Rechtswirkung nach außen.',para:'§ 118 AO',law:'AO',name:'Verwaltungsakt',icon:'🏛️',distractors:['§ 122 AO','§ 155 AO','§ 157 AO']},
+  {quote:'Die Außenprüfung … dient der Ermittlung … der steuerlichen Verhältnisse des Steuerpflichtigen.',para:'§ 193 AO',law:'AO',name:'Zulässigkeit Außenprüfung',icon:'🔎',distractors:['§ 162 AO','§ 200 AO','§ 201 AO']},
+  {quote:'Der Steuerpflichtige hat bei der Feststellung der Sachverhalte … mitzuwirken.',para:'§ 200 AO',law:'AO',name:'Mitwirkungspflicht Betriebsprüfung',icon:'📋',distractors:['§ 90 AO','§ 193 AO','§ 201 AO']},
+  {quote:'Für Steuern, die nicht bis zum Ablauf des Fälligkeitstages entrichtet werden, ist … ein Säumniszuschlag zu entrichten.',para:'§ 240 AO',law:'AO',name:'Säumniszuschläge',icon:'💸',distractors:['§ 152 AO','§ 169 AO','§ 171 AO']},
+  {quote:'Steuerpflichtige und ihre Vertreter dürfen nicht verpflichtet werden, Selbstbelastungen im Besteuerungsverfahren zu machen.',para:'§ 393 AO',law:'AO',name:'Verhältnis Straf- und Besteuerungsverfahren',icon:'⚖️',distractors:['§ 30 AO','§ 370 AO','§ 378 AO']},
+  // EStG
+  {quote:'Natürliche Personen, die … einen Wohnsitz … im Inland haben, sind unbeschränkt einkommensteuerpflichtig.',para:'§ 1 EStG',law:'EStG',name:'Unbeschränkte Steuerpflicht',icon:'🏠',distractors:['§ 2 EStG','§ 25 EStG','§ 1 KStG']},
+  {quote:'Der Einkommensteuer unterliegen … Einkünfte aus Land- und Forstwirtschaft, Gewerbebetrieb, selbständiger Arbeit …',para:'§ 2 EStG',law:'EStG',name:'Einkunftsarten (Überblick)',icon:'📊',distractors:['§ 1 EStG','§ 13 EStG','§ 15 EStG']},
+  {quote:'Einkünfte aus nichtselbständiger Arbeit sind Gehälter, Löhne, Gratifikationen …',para:'§ 19 EStG',law:'EStG',name:'Nichtselbständige Arbeit',icon:'💼',distractors:['§ 18 EStG','§ 20 EStG','§ 38 EStG']},
+  {quote:'Einkünfte aus selbständiger Arbeit sind Einkünfte aus freiberuflicher Tätigkeit.',para:'§ 18 EStG',law:'EStG',name:'Selbständige Arbeit (Freie Berufe)',icon:'🎨',distractors:['§ 15 EStG','§ 19 EStG','§ 22 EStG']},
+  {quote:'Einkünfte aus Gewerbebetrieb sind Einkünfte aus gewerblichen Unternehmen.',para:'§ 15 EStG',law:'EStG',name:'Gewerbebetrieb',icon:'🏭',distractors:['§ 13 EStG','§ 16 EStG','§ 17 EStG']},
+  {quote:'Einkünfte aus Kapitalvermögen sind … Gewinnanteile (Dividenden) …',para:'§ 20 EStG',law:'EStG',name:'Kapitalvermögen',icon:'📈',distractors:['§ 19 EStG','§ 21 EStG','§ 23 EStG']},
+  {quote:'Einkünfte aus Vermietung und Verpachtung sind Einkünfte aus der Vermietung unbeweglichen Vermögens.',para:'§ 21 EStG',law:'EStG',name:'Vermietung und Verpachtung',icon:'🏘️',distractors:['§ 20 EStG','§ 22 EStG','§ 23 EStG']},
+  {quote:'Die Einkommensteuer beträgt … 14 Prozent … bis … 45 Prozent.',para:'§ 32a EStG',law:'EStG',name:'Einkommensteuertarif',icon:'📊',distractors:['§ 2 EStG','§ 25 EStG','§ 34 EStG']},
+  {quote:'Werbungskosten sind Aufwendungen zur Erwerbung, Sicherung und Erhaltung der Einnahmen.',para:'§ 9 EStG',law:'EStG',name:'Werbungskosten',icon:'🧾',distractors:['§ 4 EStG','§ 10 EStG','§ 12 EStG']},
+  {quote:'Nicht abziehbar sind Aufwendungen für die Lebensführung des Steuerpflichtigen …',para:'§ 12 EStG',law:'EStG',name:'Nicht abziehbare Ausgaben',icon:'🚫',distractors:['§ 9 EStG','§ 10 EStG','§ 11 EStG']},
+  {quote:'Einnahmen sind innerhalb des Kalenderjahres bezogen, in dem sie dem Steuerpflichtigen zugeflossen sind.',para:'§ 11 EStG',law:'EStG',name:'Zu- und Abflussprinzip',icon:'💰',distractors:['§ 9 EStG','§ 10 EStG','§ 12 EStG']},
+  {quote:'Private Veräußerungsgeschäfte sind … Veräußerungsgeschäfte bei Grundstücken, bei denen der Zeitraum … nicht mehr als zehn Jahre beträgt.',para:'§ 23 EStG',law:'EStG',name:'Private Veräußerungsgeschäfte',icon:'🏡',distractors:['§ 20 EStG','§ 21 EStG','§ 22 EStG']},
+  // UStG
+  {quote:'Der Umsatzsteuer unterliegen … Lieferungen und sonstige Leistungen, die ein Unternehmer … im Inland gegen Entgelt erbringt.',para:'§ 1 UStG',law:'UStG',name:'Steuerbare Umsätze',icon:'🛒',distractors:['§ 2 UStG','§ 3 UStG','§ 4 UStG']},
+  {quote:'Unternehmer ist, wer eine gewerbliche oder berufliche Tätigkeit … selbständig ausübt.',para:'§ 2 UStG',law:'UStG',name:'Unternehmerbegriff',icon:'🏢',distractors:['§ 1 UStG','§ 3 UStG','§ 15 UStG']},
+  {quote:'Der Umsatzsteuer ist … die Lieferung von Gegenständen … Die Lieferung ist … die Verschaffung der Verfügungsmacht.',para:'§ 3 UStG',law:'UStG',name:'Lieferung / sonstige Leistung',icon:'📦',distractors:['§ 1 UStG','§ 2 UStG','§ 4 UStG']},
+  {quote:'Die Steuer beträgt für jeden steuerpflichtigen Umsatz 19 Prozent … ermäßigter Steuersatz: 7 Prozent.',para:'§ 12 UStG',law:'UStG',name:'Umsatzsteuersätze',icon:'💹',distractors:['§ 1 UStG','§ 4 UStG','§ 10 UStG']},
+  {quote:'Der Unternehmer kann … Vorsteuerbeträge abziehen.',para:'§ 15 UStG',law:'UStG',name:'Vorsteuerabzug',icon:'↩️',distractors:['§ 12 UStG','§ 13 UStG','§ 14 UStG']},
+  {quote:'Kleinunternehmer: Steuerpflichtige … deren Umsatz … 25.000 Euro nicht überstiegen hat.',para:'§ 19 UStG',law:'UStG',name:'Kleinunternehmerregelung',icon:'🏪',distractors:['§ 2 UStG','§ 12 UStG','§ 18 UStG']},
+  // GG
+  {quote:'Der Bund hat die ausschließliche Gesetzgebung über … Zölle und Finanzmonopole.',para:'Art. 105 GG',law:'GG',name:'Steuergesetzgebung Bund',icon:'🇩🇪',distractors:['Art. 20 GG','Art. 106 GG','Art. 108 GG']},
+  {quote:'Die Bundesrepublik Deutschland ist ein demokratischer und sozialer Bundesstaat.',para:'Art. 20 GG',law:'GG',name:'Staatsgrundsätze (Demokratie, Sozialstaat)',icon:'⚖️',distractors:['Art. 1 GG','Art. 3 GG','Art. 28 GG']},
+  {quote:'Das Eigentum … wird gewährleistet … Sein Gebrauch soll … dem Wohl der Allgemeinheit dienen.',para:'Art. 14 GG',law:'GG',name:'Eigentumsgarantie',icon:'🏛️',distractors:['Art. 1 GG','Art. 2 GG','Art. 3 GG']},
+  {quote:'Alle Menschen sind vor dem Gesetz gleich.',para:'Art. 3 GG',law:'GG',name:'Gleichheitsgrundsatz',icon:'⚖️',distractors:['Art. 1 GG','Art. 2 GG','Art. 20 GG']},
+];
+
+let paraIdx=0, paraShuffled=[], paraAnswered=false, paraTimer=null, paraSeconds=0, paraScore=0, paraRound=0;
+const PARA_TOTAL = 10;
+const PARA_TIME = 20;
+
+function startParaGame(){
+  paraShuffled = [...D_PARA].sort(()=>Math.random()-.5).slice(0,PARA_TOTAL);
+  paraIdx=0; paraAnswered=false; paraScore=0; paraRound=0;
+  renderParaQuestion();
+}
+
+function renderPara(a){
+  a.innerHTML=`<div style="text-align:center;padding:30px 16px 10px">
+    <div style="font-size:52px;margin-bottom:12px">🔍</div>
+    <div style="font-size:21px;font-weight:900;color:var(--navy);margin-bottom:8px">§ Paragraph-Memory</div>
+    <div style="font-size:13px;color:#666;font-weight:700;margin-bottom:6px;line-height:1.6">Dir wird ein Zitat aus einem Gesetz gezeigt.<br>Finde den richtigen Paragraphen – so schnell wie möglich!</div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:14px 0 20px">
+      <div style="background:#eef3ff;border:2px solid #c0d4ff;border-radius:10px;padding:10px 16px;font-size:12px;font-weight:800;color:var(--navy)">⏱️ ${PARA_TIME} Sek. pro Frage</div>
+      <div style="background:#eafff5;border:2px solid #b7f5dc;border-radius:10px;padding:10px 16px;font-size:12px;font-weight:800;color:#005c36">📋 ${PARA_TOTAL} Fragen</div>
+      <div style="background:#fff8e1;border:2px solid var(--yellow);border-radius:10px;padding:10px 16px;font-size:12px;font-weight:800;color:#7a5c00">⚡ Schnelligkeit = Bonuspunkte</div>
+    </div>
+    <div style="font-size:11px;color:#aaa;font-weight:700;margin-bottom:16px">AO · EStG · UStG · GG – ${D_PARA.length} Paragraphen im Pool</div>
+    <button onclick="startParaGame()" style="padding:16px 40px;border-radius:100px;border:none;background:linear-gradient(135deg,var(--blue),#2255cc);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:16px;cursor:pointer;box-shadow:0 8px 24px rgba(26,58,143,.4);transition:all .2s" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform=''">🚀 Spiel starten</button>
+  </div>`;
+}
+
+function renderParaQuestion(){
+  const a = document.getElementById('ga');
+  if(paraIdx >= paraShuffled.length){ endParaGame(); return; }
+  const item = paraShuffled[paraIdx];
+  paraAnswered = false;
+  paraSeconds = PARA_TIME;
+  const allOptions = [
+    {para: item.para, law: item.law, name: item.name, correct: true},
+    ...item.distractors.map(d => {
+      const found = D_PARA.find(x=>x.para===d);
+      const lookupName = PARA_NAMES[d] || '';
+      return {para:d, law: d.includes('AO')?'AO':d.includes('EStG')?'EStG':d.includes('UStG')?'UStG':d.includes('GG')?'GG':d.includes('BGB')?'BGB':d.includes('GewSt')?'GewStG':d.includes('KSt')?'KStG':'', name: found?found.name:lookupName, correct:false};
+    })
+  ].sort(()=>Math.random()-.5);
+
+  const dots = paraShuffled.map((_,i)=>`<div class="para-streak-dot ${i<paraIdx?'done':i===paraIdx?'current':''}"></div>`).join('');
+  a.innerHTML=`<div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <div style="font-size:13px;font-weight:800;color:rgba(255,255,255,.6)">${item.icon} Frage ${paraIdx+1} / ${PARA_TOTAL}</div>
+      <div class="para-xp">max +${PARA_TIME*5} Pkt</div>
+    </div>
+    <div class="para-streak">${dots}</div>
+    <div class="para-timer" id="para-timer">⏱️ ${paraSeconds}s</div>
+    <div class="para-quote">
+      <div class="para-quote-label">📖 Gesetzeszitat – welcher Paragraph?</div>
+      <div class="para-quote-text">${item.quote}</div>
+      <div class="para-quote-hint">Gesetz: <b>${item.law}</b></div>
+    </div>
+    <div class="para-grid" id="para-options">
+      ${allOptions.map((o,i)=>`
+        <button class="para-card" onclick="answerPara(${i},${o.correct},this)" id="popt-${i}">
+          <div class="pc-para">${o.para}</div>
+          <div class="pc-law">${o.law}</div>
+          <div class="pc-name">${o.name}</div>
+        </button>`).join('')}
+    </div>
+    <div class="fb" id="fb" style="margin-top:4px"></div>
+    <button class="next-btn" id="nb" onclick="nextParaQ()" style="margin-top:12px">Weiter ➜</button>
+  </div>`;
+  startParaTimer();
+}
+
+function startParaTimer(){
+  clearInterval(paraTimer);
+  paraTimer = setInterval(()=>{
+    paraSeconds--;
+    const t=document.getElementById('para-timer');
+    if(!t){clearInterval(paraTimer);return;}
+    t.textContent=`⏱️ ${paraSeconds}s`;
+    if(paraSeconds<=5)t.classList.add('danger');
+    if(paraSeconds<=0){clearInterval(paraTimer);if(!paraAnswered)timeoutPara();}
+  },1000);
+}
+
+function answerPara(idx, correct, btn){
+  if(paraAnswered)return;
+  paraAnswered=true; clearInterval(paraTimer);
+  const pts=correct?Math.max(1,paraSeconds)*5:0;
+  if(correct){paraScore+=pts;totSc+=pts;corr++;streak++;}
+  else{wrong++;streak=0;}
+  document.getElementById('totSc').textContent=totSc;
+  document.getElementById('corrCt').textContent=corr;
+  document.getElementById('wrongCt').textContent=wrong;
+  const sc=document.getElementById('streakCt');
+  sc.textContent=streak+' 🔥';
+  if(streak>=3)sc.classList.add('streak-hot');else sc.classList.remove('streak-hot');
+  checkBadges();
+  document.querySelectorAll('.para-card').forEach(b=>b.disabled=true);
+  document.getElementById('popt-'+idx).classList.add(correct?'correct':'wrong');
+  if(!correct){
+    document.querySelectorAll('.para-card').forEach(b=>{
+      if(b.querySelector('.pc-para').textContent===paraShuffled[paraIdx].para)b.classList.add('correct');
+      else b.classList.add('dim');
+    });
+  } else conf(6);
+  const fb=document.getElementById('fb');
+  fb.className='fb show '+(correct?'correct':'wrong');
+  fb.innerHTML=correct
+    ?`✅ Richtig! <b>${paraShuffled[paraIdx].para} ${paraShuffled[paraIdx].law}</b> – ${paraShuffled[paraIdx].name}. <span class="para-xp">+${pts} Punkte</span>`
+    :`❌ Es war <b>${paraShuffled[paraIdx].para} ${paraShuffled[paraIdx].law}</b> – ${paraShuffled[paraIdx].name}.`;
+  document.getElementById('nb').classList.add('show');
+}
+
+function timeoutPara(){
+  paraAnswered=true; wrong++; streak=0;
+  document.getElementById('streakCt').textContent=streak+' 🔥';
+  document.getElementById('streakCt').classList.remove('streak-hot');
+  document.querySelectorAll('.para-card').forEach(b=>{
+    b.disabled=true;
+    if(b.querySelector('.pc-para').textContent===paraShuffled[paraIdx].para)b.classList.add('correct');
+    else b.classList.add('dim');
+  });
+  const fb=document.getElementById('fb');
+  fb.className='fb show wrong';
+  fb.innerHTML=`⏰ Zeit abgelaufen! Es war <b>${paraShuffled[paraIdx].para} – ${paraShuffled[paraIdx].name}</b>.`;
+  document.getElementById('nb').classList.add('show');
+}
+
+function nextParaQ(){paraIdx++;renderParaQuestion();}
+
+function endParaGame(){
+  clearInterval(paraTimer);
+  const a=document.getElementById('ga');
+  const maxPts=PARA_TOTAL*PARA_TIME*5;
+  const pct=Math.round(paraScore/maxPts*100);
+  const emoji=pct>=70?'🏆':pct>=40?'🎯':'📖';
+  const ringColor=pct>=70?'var(--green)':pct>=40?'var(--cyan)':'var(--orange)';
+  updateHighscore('para',paraScore,maxPts);
+  a.innerHTML=`<div class="result-sc show">
+    <div class="result-trophy">${emoji}</div>
+    <div class="result-score-ring" style="background:conic-gradient(${ringColor} ${Math.min(pct,100)*3.6}deg,rgba(255,255,255,.08) 0%);box-shadow:0 0 30px rgba(0,194,224,.3)">
+      <div class="result-score-inner">${paraScore}<small>Pkt</small></div>
+    </div>
+    <div class="result-title">§ Memory abgeschlossen!</div>
+    <div class="result-msg">${pct>=70?'Paragraphen-Profi! Du kennst deine Gesetze auswendig!':pct>=40?'Gut gemacht! Noch etwas Wiederholung!':'Weiter üben – die §§ kommen mit der Zeit!'}<br>
+    <span style="font-family:'Space Mono',monospace;font-size:11px;color:${ringColor}">${paraScore} von max. ${maxPts} Punkten (${pct} %)</span></div>
+    <div class="result-actions">
+      <button class="restart-btn" onclick="startParaGame()">🔄 Nochmal</button>
+      <button class="restart-btn" style="background:linear-gradient(135deg,var(--blue),#2255cc);color:#fff" onclick="sw('ao')">Weiter: ⚖️ AO ➜</button>
+    </div>
+  </div>`;
+  conf(30);
+}
+
 // ==================== BADGES ====================
 const BADGES = [
   {id:'first_correct', icon:'⭐', name:'Erster Treffer', desc:'Erste richtige Antwort gegeben', check:()=>corr>=1},
@@ -1362,6 +1632,17 @@ function initSplash(){
   },2200);
 }
 
+function scrollToId(id){
+  // Small delay ensures the element is in the DOM after dynamic render
+  requestAnimationFrame(()=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    // Account for sticky bottom nav on mobile (~72px) and a little breathing room
+    const navH = window.innerWidth <= 640 ? 80 : 16;
+    const top = el.getBoundingClientRect().top + window.scrollY - navH;
+    window.scrollTo({top, behavior:'smooth'});
+  });
+}
 function showAblauf(which){
   document.getElementById('ablauf-md').style.display=which==='md'?'block':'none';
   document.getElementById('ablauf-gd').style.display=which==='gd'?'block':'none';
