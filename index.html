@@ -239,6 +239,19 @@ header p{color:rgba(255,255,255,.55);font-size:13px}
 @media(max-width:520px){.finanzamt-grid{grid-template-columns:1fr 1fr}}
 .fa-card{background:var(--light);border:2px solid #dde5f5;border-radius:9px;padding:9px 11px;font-size:11px;font-weight:700;color:var(--navy);text-align:center}
 .fa-card .fai{font-size:18px;display:block;margin-bottom:3px}
+.fa-acc-wrap{border-radius:13px;overflow:visible;margin-bottom:4px}
+.fa-acc-btn{width:100%;background:linear-gradient(135deg,#001828,#003060);border:2px solid #2a5a9a;border-radius:13px;padding:11px 15px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-family:'Nunito',sans-serif;transition:border-color .2s}
+.fa-acc-btn:hover{border-color:#5a9aee}
+.fa-acc-btn-bb{background:linear-gradient(135deg,#002818,#004830);border-color:#2a7a50}
+.fa-acc-btn-bb:hover{border-color:#4aaa78}
+.fa-acc-left{display:flex;align-items:center;gap:10px}
+.fa-acc-icon{font-size:20px;flex-shrink:0}
+.fa-acc-name{display:block;font-size:13px;font-weight:900;color:#fff;text-align:left}
+.fa-acc-sub{display:block;font-size:10px;color:rgba(255,255,255,.45);font-family:'Space Mono',monospace;text-align:left;margin-top:1px}
+.fa-acc-arrow{font-size:13px;color:rgba(255,255,255,.4);transition:transform .25s;flex-shrink:0}
+.fa-acc-body{padding:12px;background:#f5f8ff;border:2px solid #c0d4ff;border-top:none;border-radius:0 0 13px 13px;margin-top:-2px}
+.fa-acc-btn-bb+.fa-acc-body{background:#f2fdf6;border-color:#b0eece}
+.fa-acc-label{font-size:10px;font-weight:800;color:#888;margin-bottom:7px;letter-spacing:.5px;text-transform:uppercase}
 .benefits-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
 @media(max-width:480px){.benefits-grid{grid-template-columns:1fr}}
 .benefit-card{background:linear-gradient(135deg,#eef3ff,#e0eaff);border:2px solid #c0d4ff;border-radius:11px;padding:12px;font-size:12px;font-weight:700;color:var(--navy)}
@@ -327,7 +340,21 @@ header p{color:rgba(255,255,255,.55);font-size:13px}
 .speed-hdr-score{font-size:11px;font-family:'Space Mono',monospace;color:var(--yellow);margin-top:2px}
 .combo-flash{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);z-index:7000;font-size:48px;font-weight:900;color:var(--yellow);text-shadow:0 0 30px rgba(255,217,74,.8);pointer-events:none;transition:transform .15s cubic-bezier(.34,1.56,.64,1),opacity .3s}
 .combo-flash.show{transform:translate(-50%,-50%) scale(1)}
-</style>
+/* ===== BEWERBUNGS-CHECKLISTE ===== */
+.cl-section{margin-bottom:18px}
+.cl-title{font-size:12px;font-weight:900;color:var(--navy);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.cl-item{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border-radius:10px;background:var(--light);border:2px solid #dde5f5;margin-bottom:5px;cursor:pointer;transition:all .2s;user-select:none}
+.cl-item.done{background:#e8fff5;border-color:var(--green)}
+.cl-item.done .cl-box{background:var(--green);border-color:var(--green)}
+.cl-item.done .cl-box::after{content:"✓";color:#fff;font-size:11px;font-weight:900;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+.cl-item.done .cl-text{color:#666;text-decoration:line-through}
+.cl-item.optional{border-style:dashed}
+.cl-box{width:20px;height:20px;border-radius:5px;border:2px solid #c0d0e8;background:#fff;flex-shrink:0;position:relative;margin-top:1px;transition:all .2s}
+.cl-text{font-size:12px;font-weight:700;color:var(--navy);line-height:1.4;flex:1}
+.cl-sub{font-size:10px;color:#888;font-weight:600;margin-top:2px}
+.cl-badge{font-size:9px;font-family:'Space Mono',monospace;padding:1px 6px;border-radius:100px;font-weight:700;margin-left:4px}
+.cl-progress{height:5px;background:#e0e8f5;border-radius:100px;margin-bottom:12px;overflow:hidden}
+.cl-prog-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));border-radius:100px;transition:width .4s ease}
 .badge-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
 @media(max-width:480px){.badge-grid{grid-template-columns:repeat(3,1fr)}}
 .badge-item{background:var(--light);border:2px solid #dde5f5;border-radius:14px;padding:12px 8px;text-align:center;transition:all .2s}
@@ -365,6 +392,10 @@ header p{color:rgba(255,255,255,.55);font-size:13px}
     <h1>Steuer-<span>Lernspiel</span></h1>
     <p>Lern spielend, wie Steuern &amp; Recht funktionieren – und entdecke deine Karrierechancen!</p>
     <p style="margin-top:8px;font-size:11px;color:rgba(255,255,255,.35);max-width:520px;margin-left:auto;margin-right:auto;line-height:1.5">⚠️ Inoffizielles, privat erstelltes Bildungsangebot. Keine Verbindung zur Finanzverwaltung Berlin oder Brandenburg. Alle Angaben ohne Gewähr – maßgeblich sind stets die offiziellen Informationen der zuständigen Behörden.</p>
+    <div style="margin-top:14px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+      <button onclick="sw('karriere');requestAnimationFrame(()=>scrollToId('karriere-bewerben'))" style="background:linear-gradient(135deg,var(--cyan),#0095c8);color:var(--navy);border:none;border-radius:100px;padding:9px 22px;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer;transition:all .2s;box-shadow:0 4px 18px rgba(0,194,224,.35)" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(0,194,224,.5)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 18px rgba(0,194,224,.35)'">🚀 Jetzt bewerben</button>
+      <button onclick="sw('karriere')" style="background:rgba(255,255,255,.1);color:rgba(255,255,255,.75);border:2px solid rgba(255,255,255,.2);border-radius:100px;padding:9px 22px;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer;transition:all .2s" onmouseover="this.style.background='rgba(255,255,255,.18)';this.style.color='#fff'" onmouseout="this.style.background='rgba(255,255,255,.1)';this.style.color='rgba(255,255,255,.75)'">🎓 Karriere entdecken</button>
+    </div>
   </header>
 
   <div class="score-bar">
@@ -1034,6 +1065,135 @@ function ansRecht(ch){
   showFb(ok,item.explain);if(ok)conf(5);
 }
 
+// ==================== FINANZÄMTER ACCORDION ====================
+function toggleAmt(which){
+  var body = document.getElementById('fa-body-'+which);
+  var arrow = document.getElementById('fa-arr-'+which);
+  var btn = body && body.previousElementSibling;
+  if(!body) return;
+  var opening = body.style.display === 'none' || body.style.display === '';
+  body.style.display = opening ? 'block' : 'none';
+  if(arrow) arrow.style.transform = opening ? 'rotate(180deg)' : 'rotate(0)';
+  if(btn) btn.setAttribute('aria-expanded', opening);
+}
+
+// ==================== BEWERBUNGSFRISTEN COUNTDOWN ====================
+function buildCountdown(el){
+  if(!el) return;
+  var now = new Date();
+  var y   = now.getFullYear();
+
+  // Einstellungstermine
+  var mdStart = new Date(now >= new Date(y,7,15) ? y+1 : y, 7, 15);
+  var gdStart = new Date(now >= new Date(y,8,1)  ? y+1 : y, 8,  1);
+  var jg      = gdStart.getFullYear();
+
+  // Bewerbungsfristen (offiziell)
+  var beFrist    = new Date(jg,   0, 31);   // Berlin: 31. Jan. Einstellungsjahr
+  var bbFristEnd = new Date(jg-1, 11, 31);  // Brandenburg: 31. Dez. Vorjahr
+
+  // Nächste Runde (Schätzung)
+  var bbNextOpen = new Date(jg, 7, 1);   // ~01. Aug.
+  var beNextOpen = new Date(jg, 8, 1);   // ~01. Sep.
+
+  function dLeft(d){ var t = d - now; return t <= 0 ? null : Math.ceil(t/86400000); }
+
+  function dFmt(d){
+    return d.toLocaleDateString('de-DE', {day:'2-digit', month:'long', year:'numeric'});
+  }
+
+  function urgCol(days, max){
+    if(!days) return '#666';
+    var p = days/max;
+    if(p <= 0.08) return '#ff4d6d';
+    if(p <= 0.20) return '#ff8c42';
+    if(p <= 0.45) return '#ffd94a';
+    return '#00c2e0';
+  }
+
+  // One info-row inside a panel
+  function infoRow(label, dateObj, max, isEst){
+    var d   = dLeft(dateObj);
+    var exp = (d === null);
+    var col = exp ? 'rgba(255,255,255,.2)' : urgCol(d, max);
+    var daysTxt = exp
+      ? '<span style="font-size:9px;color:rgba(255,255,255,.3);font-family:Space Mono,monospace;background:rgba(255,255,255,.06);padding:1px 7px;border-radius:20px">abgelaufen</span>'
+      : '<span style="font-size:16px;font-weight:900;color:' + col + ';font-family:Space Mono,monospace">' + d + '<span style="font-size:10px;margin-left:2px;color:rgba(255,255,255,.4)">T</span></span>';
+    var urgWarn = '';
+    if(!exp && d <= 7)  urgWarn = '<span style="font-size:11px;margin-left:4px">🚨</span>';
+    else if(!exp && d <= 30) urgWarn = '<span style="font-size:11px;margin-left:4px;color:#ff8c42">⚠</span>';
+    return '<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.07)">'
+      + '<div>'
+        + '<div style="font-size:11px;font-weight:800;color:' + (exp ? 'rgba(255,255,255,.3)' : '#fff') + '">' + label + urgWarn + '</div>'
+        + '<div style="font-size:9px;color:rgba(255,255,255,.35);font-family:Space Mono,monospace;margin-top:2px">' + dFmt(dateObj) + (isEst ? ' · Schätzung' : ' · offiziell') + '</div>'
+      + '</div>'
+      + daysTxt
+      + '</div>';
+  }
+
+  // Header row without border-bottom (last row in a panel)
+  function infoRowLast(label, dateObj, max, isEst){
+    var d   = dLeft(dateObj);
+    var exp = (d === null);
+    var col = exp ? 'rgba(255,255,255,.2)' : urgCol(d, max);
+    var daysTxt = exp
+      ? '<span style="font-size:9px;color:rgba(255,255,255,.3);font-family:Space Mono,monospace;background:rgba(255,255,255,.06);padding:1px 7px;border-radius:20px">abgelaufen</span>'
+      : '<span style="font-size:16px;font-weight:900;color:' + col + ';font-family:Space Mono,monospace">' + d + '<span style="font-size:10px;margin-left:2px;color:rgba(255,255,255,.4)">T</span></span>';
+    var urgWarn = '';
+    if(!exp && d <= 7)  urgWarn = '<span style="font-size:11px;margin-left:4px">🚨</span>';
+    else if(!exp && d <= 30) urgWarn = '<span style="font-size:11px;margin-left:4px;color:#ff8c42">⚠</span>';
+    return '<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0">'
+      + '<div>'
+        + '<div style="font-size:11px;font-weight:800;color:' + (exp ? 'rgba(255,255,255,.3)' : '#fff') + '">' + label + urgWarn + '</div>'
+        + '<div style="font-size:9px;color:rgba(255,255,255,.35);font-family:Space Mono,monospace;margin-top:2px">' + dFmt(dateObj) + (isEst ? ' · Schätzung' : ' · offiziell') + '</div>'
+      + '</div>'
+      + daysTxt
+      + '</div>';
+  }
+
+  // Section label above rows
+  function sectionLabel(txt){
+    return '<div style="font-size:8px;font-family:Space Mono,monospace;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin:0 0 4px">' + txt + '</div>';
+  }
+
+  // Full panel for one Bundesland
+  function panel(accentColor, flag, name, startRow, deadlineRow, nextOpenRow){
+    return '<div style="background:linear-gradient(160deg,rgba(8,16,46,.98),rgba(18,38,95,.82));border:2px solid ' + accentColor + ';border-radius:14px;padding:13px 15px;flex:1;min-width:0">'
+      + '<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">'
+        + '<span style="font-size:20px">' + flag + '</span>'
+        + '<div style="font-size:13px;font-weight:900;color:#fff">' + name + '</div>'
+      + '</div>'
+      + sectionLabel('📅 Einstellungstermin')
+      + startRow
+      + sectionLabel('📋 Bewerbungsfrist')
+      + deadlineRow
+      + sectionLabel('🔮 Nächste Runde')
+      + nextOpenRow
+      + '</div>';
+  }
+
+  el.innerHTML =
+    '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:6px">'
+    + panel(
+        '#4a90ff', '🏛️', 'Berlin',
+        infoRow('Einstellungsstart · 01.09. / 15.08.', gdStart, 220, false),
+        infoRow('Bewerbungsschluss', beFrist, 180, false),
+        infoRowLast('Portal öffnet voraussichtlich', beNextOpen, 400, true)
+      )
+    + panel(
+        '#00c97b', '🌿', 'Brandenburg',
+        infoRow('Einstellungsstart · 01.09. / 15.08.', gdStart, 220, false),
+        infoRow('Bewerbungsende', bbFristEnd, 120, false),
+        infoRowLast('Portal öffnet voraussichtlich', bbNextOpen, 400, true)
+      )
+    + '</div>'
+    + '<div style="font-size:10px;color:rgba(255,255,255,.28);font-family:Space Mono,monospace;text-align:center;margin-bottom:16px">'
+    + '✅ Einstellungstermine offiziell · ⚠ Nächste Runde: Schätzung auf Basis Vorjahre · Stets offizielle Portale prüfen'
+    + '</div>';
+}
+
+
+
 // ==================== NEU: KARRIERE ====================
 function renderKarriere(a){
   a.innerHTML=`<div class="karriere">
@@ -1048,6 +1208,9 @@ function renderKarriere(a){
   <span onclick="scrollToId('karriere-fhf')" style="background:#f5f0ff;border:2px solid #d4b8ff;color:#5c2d91;border-radius:100px;padding:5px 13px;font-size:11px;font-weight:800;cursor:pointer;display:inline-block">🏫 FHF</span>
   <span onclick="scrollToId('karriere-aemter')" style="background:var(--light);border:2px solid #dde5f5;color:var(--navy);border-radius:100px;padding:5px 13px;font-size:11px;font-weight:800;cursor:pointer;display:inline-block">🗺️ Finanzämter</span>
   <span onclick="scrollToId('karriere-vorteile')" style="background:#fff8e1;border:2px solid var(--yellow);color:#7a5c00;border-radius:100px;padding:5px 13px;font-size:11px;font-weight:800;cursor:pointer;display:inline-block">🌟 Vorteile</span>
+  <span onclick="scrollToId('karriere-fristen')" style="background:#f5e8ff;border:2px solid #d4a0ff;color:#5c0096;border-radius:100px;padding:5px 13px;font-size:11px;font-weight:800;cursor:pointer;display:inline-block">⏱️ Fristen</span>
+  <span onclick="scrollToId('karriere-checkliste')" style="background:#eafff5;border:2px solid #b7f5dc;color:#005c36;border-radius:100px;padding:5px 13px;font-size:11px;font-weight:800;cursor:pointer;display:inline-block">📋 Checkliste</span>
+  <span onclick="scrollToId('karriere-bewerben')" style="background:linear-gradient(135deg,rgba(0,194,224,.18),rgba(26,58,143,.18));border:2px solid var(--cyan);color:var(--cyan);border-radius:100px;padding:5px 13px;font-size:11px;font-weight:800;cursor:pointer;display:inline-block">🚀 Jetzt bewerben</span>
 </div>
 
 <div class="bsec" id="karriere-wege">🛤️ Zwei Wege – ein Ziel</div>
@@ -1068,7 +1231,7 @@ function renderKarriere(a){
     <div class="karriere-item"><b>Dauer:</b> 3 Jahre (duales Studium: 21 Monate Theorie + 15 Monate Praxis)</div>
     <div class="karriere-item"><b>Schulabschluss:</b> Allgemeine Hochschulreife (Abitur) oder Fachhochschulreife – Notendurchschnitt mind. 3,0 (Brandenburg)</div>
     <div class="karriere-item"><b>Studienort:</b> Fachhochschule für Finanzen (FHF) Königs Wusterhausen + Finanzämter</div>
-    <div class="karriere-item"><b>Vergütung:</b> Anwärterbezüge: Berlin 1.527,45 € brutto (Stand 01.02.2025) / Brandenburg: wird direkt durch die FHF festgesetzt (steuerpflichtig! Keine Studiengebühren)</div>
+    <div class="karriere-item"><b>Vergütung:</b> Anwärterbezüge: Berlin 1.527,45 € brutto (Stand 01.02.2025) / Brandenburg 1.571,43 € brutto (Stand 01.07.2025) (steuerpflichtig! Keine Studiengebühren)</div>
     <div class="karriere-item"><b>Abschluss:</b> <b>Diplom-Finanzwirt/in (FH)</b> · Befähigung gehobener Steuerverwaltungsdienst</div>
     <div class="karriere-item"><b>Studienbeginn:</b> <span style="color:#1a3a8f;font-weight:900">1. September</span> (jährlich)</div>
   </div>
@@ -1102,7 +1265,7 @@ function renderKarriere(a){
       </div>
       <div style="display:flex;gap:10px;align-items:flex-start">
         <div style="background:#ffd94a;color:#0d1b3e;border-radius:6px;padding:3px 8px;font-size:10px;font-weight:900;font-family:'Space Mono',monospace;flex-shrink:0;margin-top:1px">Monat 23–24</div>
-        <div style="font-size:12px;font-weight:700;color:#333"><b>Laufbahnprüfung</b> – 5 schriftliche Klausuren + mündliche Abschlussprüfung → Abschluss: <b>Finanzwirt/in</b></div>
+        <div style="font-size:12px;font-weight:700;color:#333"><b>Laufbahnprüfung</b> – 5 Klausuren à <b>3 Stunden</b> + mündliche Abschlussprüfung → Abschluss: <b>Finanzwirt/in</b></div>
       </div>
     </div>
     <div style="margin-top:12px;padding:10px 12px;background:rgba(0,92,54,.1);border-radius:9px;font-size:11px;font-weight:700;color:#005c36">
@@ -1153,7 +1316,7 @@ function renderKarriere(a){
 
       <div style="display:flex;gap:10px;align-items:flex-start">
         <div style="background:#ffd94a;color:#0d1b3e;border-radius:6px;padding:3px 8px;font-size:10px;font-weight:900;font-family:'Space Mono',monospace;flex-shrink:0;margin-top:1px">Abschluss</div>
-        <div style="font-size:12px;font-weight:700;color:#333"><b>Laufbahnprüfung</b> – Schriftliche Klausuren + mündliche Prüfung + wissenschaftliche Hausarbeit → akademischer Titel: <b>Diplom-Finanzwirt/in (FH)</b> · feierliche Diplomierungsveranstaltung</div>
+        <div style="font-size:12px;font-weight:700;color:#333"><b>Laufbahnprüfung</b> – 5 Klausuren à <b>5 Stunden</b> + mündliche Prüfung + wissenschaftliche Hausarbeit → akademischer Titel: <b>Diplom-Finanzwirt/in (FH)</b> · feierliche Diplomierungsveranstaltung</div>
       </div>
 
     </div>
@@ -1190,7 +1353,7 @@ function renderKarriere(a){
   </div>
   <div class="tl-step">
     <div class="tl-dot"><div class="tl-circle" style="background:#ff8c42;color:#fff">4</div><div class="tl-line"></div></div>
-    <div class="tl-body"><div class="tl-title">📋 Abschlussprüfung (Laufbahnprüfung)</div><div class="tl-sub">Schriftliche Klausuren (5 Klausuren à 3 Stunden) + mündliche Prüfung. Beim Studium (gehobener Dienst) zusätzlich eine Abschlussarbeit. Bei Bestehen: Akademischer Titel <b>Diplom-Finanzwirt/in (FH)</b> und Übernahme ins Beamtenverhältnis auf Probe.</div><div class="tl-badge">Laufbahnprüfung · Diplom-Finanzwirt/in (FH)</div></div>
+    <div class="tl-body"><div class="tl-title">📋 Abschlussprüfung (Laufbahnprüfung)</div><div class="tl-sub">Schriftliche Klausuren (mittlerer Dienst: 5 Klausuren à <b>3 Stunden</b> · gehobener Dienst: 5 Klausuren à <b>5 Stunden</b>) + mündliche Prüfung. Beim Studium (gehobener Dienst) zusätzlich eine wissenschaftliche Abschlussarbeit. Bei Bestehen: Akademischer Titel <b>Diplom-Finanzwirt/in (FH)</b> und Übernahme ins Beamtenverhältnis auf Probe.</div><div class="tl-badge">Laufbahnprüfung · Diplom-Finanzwirt/in (FH)</div></div>
   </div>
   <div class="tl-step">
     <div class="tl-dot"><div class="tl-circle" style="background:#00c97b;color:#fff">5</div><div class="tl-line"></div></div>
@@ -1219,23 +1382,40 @@ function renderKarriere(a){
 </div>
 
 <div class="bsec" id="karriere-aemter">🗺️ Finanzverwaltung Berlin & Brandenburg – wo du arbeiten kannst</div>
-<div style="margin-bottom:8px;font-size:12px;font-weight:800;color:#888">BERLIN – 17 Regionalfinanzämter</div>
-<div class="finanzamt-grid" style="margin-bottom:12px">
-  ${['Charlottenburg','Friedrichshain-Kreuzberg','Lichtenberg','Marzahn-Hellersdorf','Mitte / Tiergarten','Neukölln','Pankow / Weißensee','Prenzlauer Berg','Reinickendorf','Schöneberg','Spandau','Steglitz','Tempelhof','Treptow-Köpenick','Wedding','Wilmersdorf','Zehlendorf'].map(n=>`<div class="fa-card"><span class="fai">🏛️</span>${n}</div>`).join('')}
+
+<div class="fa-acc-wrap" id="fa-wrap-berlin">
+  <button class="fa-acc-btn" onclick="toggleAmt('berlin')" aria-expanded="false">
+    <span class="fa-acc-left"><span class="fa-acc-icon">🏛️</span><span><span class="fa-acc-name">Berlin</span><span class="fa-acc-sub">17 Regional- + 6 Sonderfinanzämter</span></span></span>
+    <span class="fa-acc-arrow" id="fa-arr-berlin">▼</span>
+  </button>
+  <div class="fa-acc-body" id="fa-body-berlin" style="display:none">
+    <div class="fa-acc-label">17 Regionalfinanzämter</div>
+    <div class="finanzamt-grid" style="margin-bottom:12px">
+      ${['Charlottenburg','Friedrichshain-Kreuzberg','Lichtenberg','Marzahn-Hellersdorf','Mitte / Tiergarten','Neukölln','Pankow / Weißensee','Prenzlauer Berg','Reinickendorf','Schöneberg','Spandau','Steglitz','Tempelhof','Treptow-Köpenick','Wedding','Wilmersdorf','Zehlendorf'].map(n=>`<div class="fa-card"><span class="fai">🏛️</span>${n}</div>`).join('')}
+    </div>
+    <div class="fa-acc-label">Finanzämter mit zentraler Zuständigkeit</div>
+    <div class="finanzamt-grid">
+      <div class="fa-card" style="border:2px solid #c0d4ff;background:#eef3ff"><span class="fai">🏢</span><b>FA f. Körperschaften I</b><div style="font-size:10px;color:#666;margin-top:2px">GmbH, AG – Konzerne</div></div>
+      <div class="fa-card" style="border:2px solid #c0d4ff;background:#eef3ff"><span class="fai">🏢</span><b>FA f. Körperschaften II</b><div style="font-size:10px;color:#666;margin-top:2px">GmbH, AG</div></div>
+      <div class="fa-card" style="border:2px solid #c0d4ff;background:#eef3ff"><span class="fai">🏢</span><b>FA f. Körperschaften III</b><div style="font-size:10px;color:#666;margin-top:2px">GmbH, AG</div></div>
+      <div class="fa-card" style="border:2px solid #c0d4ff;background:#eef3ff"><span class="fai">🏢</span><b>FA f. Körperschaften IV</b><div style="font-size:10px;color:#666;margin-top:2px">GmbH & Co. KG – berlinweit</div></div>
+      <div class="fa-card" style="border:2px solid #ffd6a0;background:#fff5e8"><span class="fai">🔍</span><b>FA f. Fahndung & Strafsachen</b><div style="font-size:10px;color:#666;margin-top:2px">Steuerfahndung</div></div>
+      <div class="fa-card" style="border:2px solid #dde5f5;background:#f5f7ff"><span class="fai">💻</span><b>Technisches Finanzamt</b><div style="font-size:10px;color:#666;margin-top:2px">IT-Rechenzentrum</div></div>
+      <div class="fa-card" style="border:2px solid #b8e8ff;background:#e8f6ff"><span class="fai">🌍</span><b>FA Berlin International</b><div style="font-size:10px;color:#666;margin-top:2px">Internat. Unternehmen (seit 2023)</div></div>
+    </div>
+  </div>
 </div>
-<div style="margin-bottom:8px;font-size:12px;font-weight:800;color:#888">BERLIN – Finanzämter mit zentraler Zuständigkeit</div>
-<div class="finanzamt-grid" style="margin-bottom:14px">
-  <div class="fa-card" style="border:2px solid #c0d4ff;background:#eef3ff"><span class="fai">🏢</span><b>FA für Körperschaften I</b><div style="font-size:10px;color:#666;margin-top:2px">GmbH, AG u.a. – Konzerne</div></div>
-  <div class="fa-card" style="border:2px solid #c0d4ff;background:#eef3ff"><span class="fai">🏢</span><b>FA für Körperschaften II</b><div style="font-size:10px;color:#666;margin-top:2px">GmbH, AG u.a.</div></div>
-  <div class="fa-card" style="border:2px solid #c0d4ff;background:#eef3ff"><span class="fai">🏢</span><b>FA für Körperschaften III</b><div style="font-size:10px;color:#666;margin-top:2px">GmbH, AG u.a.</div></div>
-  <div class="fa-card" style="border:2px solid #c0d4ff;background:#eef3ff"><span class="fai">🏢</span><b>FA für Körperschaften IV</b><div style="font-size:10px;color:#666;margin-top:2px">GmbH & Co. KG u.a. – berlinweit</div></div>
-  <div class="fa-card" style="border:2px solid #ffd6a0;background:#fff5e8"><span class="fai">🔍</span><b>FA für Fahndung & Strafsachen</b><div style="font-size:10px;color:#666;margin-top:2px">Steuerfahndung, Strafsachen</div></div>
-  <div class="fa-card" style="border:2px solid #dde5f5;background:#f5f7ff"><span class="fai">💻</span><b>Technisches Finanzamt (TFA)</b><div style="font-size:10px;color:#666;margin-top:2px">IT-Rechenzentrum der Landesfinanzverwaltung</div></div>
-  <div class="fa-card" style="border:2px solid #b8e8ff;background:#e8f6ff"><span class="fai">🌍</span><b>FA Berlin International</b><div style="font-size:10px;color:#666;margin-top:2px">International tätige Unternehmen – zentral & bundesweit (seit 2023)</div></div>
-</div>
-<div style="margin-bottom:8px;font-size:12px;font-weight:800;color:#888">BRANDENBURG – 13 Finanzämter</div>
-<div class="finanzamt-grid">
-  ${['Cottbus','Eberswalde','Frankfurt (Oder)','Kyritz','Luckenwalde','Nauen','Neuruppin','Oranienburg','Potsdam','Strausberg','Königs Wusterhausen','Zossen','Senftenberg'].map(n=>`<div class="fa-card"><span class="fai">🏛️</span>${n}</div>`).join('')}
+
+<div class="fa-acc-wrap" id="fa-wrap-bb" style="margin-top:8px">
+  <button class="fa-acc-btn fa-acc-btn-bb" onclick="toggleAmt('bb')" aria-expanded="false">
+    <span class="fa-acc-left"><span class="fa-acc-icon">🌿</span><span><span class="fa-acc-name">Brandenburg</span><span class="fa-acc-sub">13 Finanzämter im ganzen Land</span></span></span>
+    <span class="fa-acc-arrow" id="fa-arr-bb">▼</span>
+  </button>
+  <div class="fa-acc-body" id="fa-body-bb" style="display:none">
+    <div class="finanzamt-grid">
+      ${['Cottbus','Eberswalde','Frankfurt (Oder)','Kyritz','Luckenwalde','Nauen','Neuruppin','Oranienburg','Potsdam','Strausberg','Königs Wusterhausen','Zossen','Senftenberg'].map(n=>`<div class="fa-card"><span class="fai">🏛️</span>${n}</div>`).join('')}
+    </div>
+  </div>
 </div>
 
 <div class="bsec" id="karriere-vorteile">🌟 Deine Vorteile als Finanzbeamter/in</div>
@@ -1254,7 +1434,86 @@ function renderKarriere(a){
   💡 <b>Kein Vorwissen nötig!</b> Du musst kein Steuerexperte oder Jurist sein, um dich zu bewerben. Alles Fachliche lernst du in der Ausbildung oder im Studium – von Grund auf, Schritt für Schritt. Mitbringen musst du: Motivation, Zuverlässigkeit, Freude am Lesen von Gesetzestexten und strukturiertes Denken. Großes Mathewissen ist ausdrücklich <b>nicht erforderlich</b> – das übernehmen die Computer.
 </div>
 
-<div class="bsec" style="margin-top:18px">🌐 Jetzt bewerben – offizielle Links</div>
+<div class="bsec" id="karriere-fristen" style="margin-top:20px">⏱️ Bewerbungsfristen & Einstellungstermine</div>
+<div id="karriere-countdown" style="margin-bottom:20px"></div>
+
+<div class="bsec" id="karriere-checkliste" style="margin-top:20px">📋 Bewerbungs-Checkliste – was du brauchst</div>
+<div style="background:var(--light);border:2px solid #dde5f5;border-radius:16px;padding:16px;margin-bottom:18px">
+  <div style="font-size:11px;font-weight:700;color:#888;margin-bottom:10px">Hake ab, was du schon bereit hast – wird lokal gespeichert!</div>
+  <div class="cl-progress"><div class="cl-prog-fill" id="cl-prog" style="width:0%"></div></div>
+  <div id="cl-count" style="font-size:10px;font-family:'Space Mono',monospace;color:#aaa;margin-bottom:14px">0 / 10 erledigt</div>
+
+  <!-- Pflichtunterlagen Online-Bewerbung -->
+  <div class="cl-section">
+    <div class="cl-title">🟦 Pflicht – Online-Bewerbung (sofort einreichen)</div>
+    <div class="cl-item" onclick="toggleCL(this)" id="cl0">
+      <div class="cl-box"></div>
+      <div><div class="cl-text">📄 Schulabschlusszeugnis (oder letztes Zeugnis, falls noch Schüler/in)</div>
+      <div class="cl-sub">Scan/PDF für Online-Bewerbung reicht zunächst · Beglaubigung erst nach Zusage nötig</div></div>
+    </div>
+    <div class="cl-item" onclick="toggleCL(this)" id="cl1">
+      <div class="cl-box"></div>
+      <div><div class="cl-text">📝 Online-Bewerbungsformular vollständig ausgefüllt</div>
+      <div class="cl-sub">Berlin: Karriereportal des Senats · Brandenburg: fhf.brandenburg.de</div></div>
+    </div>
+    <div class="cl-item" onclick="toggleCL(this)" id="cl2">
+      <div class="cl-box"></div>
+      <div><div class="cl-text">📬 Aktuelle E-Mail-Adresse angegeben</div>
+      <div class="cl-sub">Alle Mitteilungen (Testeinladung, Zusage, Einberufungsschreiben) kommen per E-Mail – regelmäßig prüfen!</div></div>
+    </div>
+  </div>
+
+  <!-- Nach bestandenem Auswahltest / vorläufiger Zusage -->
+  <div class="cl-section">
+    <div class="cl-title">🟧 Nach vorläufiger Zusage – persönliche Unterlagenabgabe</div>
+    <div class="cl-item" onclick="toggleCL(this)" id="cl3">
+      <div class="cl-box"></div>
+      <div><div class="cl-text">📜 Schulabschlusszeugnis im <b>Original oder beglaubigte Kopie</b></div>
+      <div class="cl-sub">Beglaubigung: Bürgeramt, Notar oder ausstellende Schule · Kostet ca. 5–10 € pro Kopie</div></div>
+    </div>
+    <div class="cl-item" onclick="toggleCL(this)" id="cl4">
+      <div class="cl-box"></div>
+      <div><div class="cl-text">🪪 Gültiger Personalausweis oder Reisepass</div>
+      <div class="cl-sub">Zur Identitätsprüfung bei der Unterlagenabgabe</div></div>
+    </div>
+    <div class="cl-item" onclick="toggleCL(this)" id="cl5">
+      <div class="cl-box"></div>
+      <div><div class="cl-text">📋 Führungszeugnis (zur Vorlage bei einer Behörde)</div>
+      <div class="cl-sub">Erst <b>nach Zusage beantragen</b> – darf bei Einstellung nicht älter als 6 Monate sein · Kosten: 13 € beim Einwohnermeldeamt · Dauert ca. 1–2 Wochen</div></div>
+    </div>
+    <div class="cl-item" onclick="toggleCL(this)" id="cl6">
+      <div class="cl-box"></div>
+      <div><div class="cl-text">🏥 Amtsärztliches Gesundheitszeugnis (Beamtentauglichkeit)</div>
+      <div class="cl-sub">Wird durch die Einstellungsbehörde veranlasst – du musst einen Termin wahrnehmen</div></div>
+    </div>
+    <div class="cl-item" onclick="toggleCL(this)" id="cl7">
+      <div class="cl-box"></div>
+      <div><div class="cl-text">📷 Lichtbild (aktuell, 35×45 mm)</div>
+      <div class="cl-sub">Für die Personalakte – ein modernes Passfoto</div></div>
+    </div>
+  </div>
+
+  <!-- Optional / je nach Situation -->
+  <div class="cl-section">
+    <div class="cl-title">🟩 Situationsabhängig (falls zutreffend)</div>
+    <div class="cl-item cl-optional" onclick="toggleCL(this)" id="cl8">
+      <div class="cl-box"></div>
+      <div><div class="cl-text">🌐 Amtliche Übersetzung (bei ausländischen Zeugnissen)<span class="cl-badge" style="background:#e8f5e9;color:#2e7d32">Optional</span></div>
+      <div class="cl-sub">Brandenburg: Anerkennung durch die Zeugnisanerkennungsstelle des Landesschulamtes Cottbus</div></div>
+    </div>
+    <div class="cl-item cl-optional" onclick="toggleCL(this)" id="cl9">
+      <div class="cl-box"></div>
+      <div><div class="cl-text">🎖️ Nachweis Schwerbehinderung / Registrierung Bundeswehr<span class="cl-badge" style="background:#e8f5e9;color:#2e7d32">Optional</span></div>
+      <div class="cl-sub">§ 10 SVG für Soldatinnen und Soldaten · Schwerbehinderte werden bei gleicher Eignung bevorzugt</div></div>
+    </div>
+  </div>
+
+  <div style="background:rgba(0,194,224,.08);border:1px solid rgba(0,194,224,.25);border-radius:9px;padding:10px 12px;font-size:11px;font-weight:700;color:#444;line-height:1.6;margin-top:4px">
+    💡 <b>Wichtig:</b> Die genaue Unterlagenliste erhältst du mit dem offiziellen <b>Einladungsschreiben nach bestandenem Test</b>. Diese Checkliste orientiert sich an den offiziellen Angaben von <b>Berlin (berlin.de)</b> und <b>Brandenburg (fhf.brandenburg.de)</b> und dient zur ersten Orientierung.
+  </div>
+</div>
+
+<div class="bsec" id="karriere-bewerben" style="margin-top:18px">🌐 Jetzt bewerben – offizielle Links</div>
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:8px">
   <a href="https://www.berlin.de/sen/finanzen/ueber-uns/karriere/ausbildung-duales-studium/steuerverwaltung/geht-auf-uns/landingpage.1352250.php" target="_blank" rel="noopener" style="text-decoration:none">
     <div style="background:linear-gradient(135deg,#001f3f,#003f7a);border:2px solid #4488cc;border-radius:14px;padding:16px 14px;text-align:center;transition:transform .2s,box-shadow .2s;cursor:pointer" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 10px 28px rgba(0,60,120,.45)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
@@ -1283,6 +1542,39 @@ function renderKarriere(a){
 </div>
 <p style="font-size:10px;color:#aaa;font-weight:600;text-align:center;margin-top:4px">↗ Links öffnen die offiziellen Bewerbungsseiten in einem neuen Tab</p>
 </div>`;
+  buildCountdown(document.getElementById('karriere-countdown'));
+  restoreCL();
+}
+
+// ==================== BEWERBUNGS-CHECKLISTE ====================
+const CL_KEY = 'bewerbung_checklist';
+function loadCL(){ try{return JSON.parse(localStorage.getItem(CL_KEY)||'[]');}catch(e){return[];} }
+function saveCL(arr){ localStorage.setItem(CL_KEY, JSON.stringify(arr)); }
+
+function toggleCL(el){
+  el.classList.toggle('done');
+  updateCLProgress();
+  const items = Array.from(document.querySelectorAll('.cl-item'));
+  saveCL(items.map(i=>i.classList.contains('done')));
+}
+
+function restoreCL(){
+  const saved = loadCL();
+  if(!saved.length) return;
+  document.querySelectorAll('.cl-item').forEach((el,i)=>{
+    if(saved[i]) el.classList.add('done');
+  });
+  updateCLProgress();
+}
+
+function updateCLProgress(){
+  const all = document.querySelectorAll('.cl-item');
+  const done = document.querySelectorAll('.cl-item.done');
+  const pct = all.length ? Math.round(done.length/all.length*100) : 0;
+  const prog = document.getElementById('cl-prog');
+  const cnt  = document.getElementById('cl-count');
+  if(prog) prog.style.width = pct+'%';
+  if(cnt)  cnt.textContent = done.length+' / '+all.length+' erledigt'+(pct===100?' 🎉 Alles bereit!':'');
 }
 
 // ==================== SHARED ====================
