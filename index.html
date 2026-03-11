@@ -2898,7 +2898,6 @@ function einstGoStep1(){
   if(el){ el.innerHTML = renderPara1Block(); el.scrollIntoView({behavior:'smooth',block:'start'}); }
 }
 function einstGoStep2(){
-  setEinstStep('para1');
   einstLaunched='step2';
   storyOpen = 'lohnzettel';
   mode = 'story';
@@ -2914,9 +2913,10 @@ function einstGoStep3(){
   _doSw('est');
 }
 function einstGoStep4(){
-  setEinstStep('mehr');
   const el = document.getElementById('sec-absetzen');
   if(el){ el.classList.add('open'); el.scrollIntoView({behavior:'smooth',block:'start'}); }
+  // Mark as done after 3 seconds of reading
+  setTimeout(()=>{ setEinstStep('mehr'); }, 3000);
 }
 
 function resetEinstProgress(){
