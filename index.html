@@ -27,7 +27,7 @@ header p{color:rgba(255,255,255,.55);font-size:13px}
 .score-divider{width:1px;height:36px;background:rgba(255,255,255,.1)}
 /* ===== MODE TABS (desktop) ===== */
 /* 4-col tab grid → 2 rows of 4 */
-.mode-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:16px}
+.mode-tabs{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:16px}
 .mode-tab{padding:9px 4px;border-radius:11px;border:2px solid rgba(255,255,255,.13);background:rgba(255,255,255,.05);color:rgba(255,255,255,.55);font-family:'Nunito',sans-serif;font-weight:700;font-size:10px;cursor:pointer;transition:all .2s;text-align:center;line-height:1.3}
 .mode-tab:hover{border-color:var(--cyan);color:#fff}
 .mode-tab.active{background:var(--blue);border-color:var(--cyan);color:#fff;box-shadow:0 0 16px rgba(0,194,224,.22)}
@@ -63,6 +63,7 @@ header p{color:rgba(255,255,255,.55);font-size:13px}
 .result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 .mode-select{display:none}
 .game-area{background:#fff;border-radius:22px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.game-area.etag-mode{background:linear-gradient(160deg,#08152e,#0d2b5e 60%,#09281a);padding:16px}
 /* sub-tabs */
 .sub-tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
 .sub-tab{flex:1;min-width:140px;padding:10px;border-radius:10px;border:2px solid #e0e8f5;background:var(--light);color:#666;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer;transition:all .2s;text-align:center}
@@ -627,6 +628,8 @@ header p{color:rgba(255,255,255,.55);font-size:13px}
 .entry-row{display:flex;gap:10px;margin-bottom:18px;align-items:stretch}
 .entry-quiz-btn{flex:0 0 90px;background:linear-gradient(135deg,var(--blue),var(--navy));border:2px solid rgba(255,255,255,.18);border-radius:16px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;text-align:center}
 .entry-quiz-btn:hover{border-color:var(--cyan);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,194,224,.25)}
+.entry-quiz-icon{font-size:22px;margin-bottom:3px}
+.entry-quiz-label{font-size:11px;font-weight:900;color:#fff;line-height:1.2}
 /* ===== LERNPFAD ===== */
 .lernpfad-hint{background:linear-gradient(135deg,rgba(26,58,143,.12),rgba(0,194,224,.08));border:2px solid rgba(0,194,224,.2);border-radius:16px;padding:14px 16px;margin-bottom:16px;display:flex;flex-direction:column;gap:10px}
 .lernpfad-steps{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
@@ -865,7 +868,7 @@ header p{color:rgba(255,255,255,.55);font-size:13px}
 
 
 /* ===== EINFÜHRUNGSTAG ===== */
-.etag-wrap{max-width:560px;margin:0 auto}
+.etag-wrap{max-width:560px;margin:0 auto;padding:4px 0 100px}
 .etag-phase-bar{display:flex;gap:4px;margin-bottom:16px}
 .etag-phase-dot{flex:1;height:5px;border-radius:100px;background:rgba(255,255,255,.15);transition:background .3s;cursor:pointer}
 .etag-phase-dot.done{background:var(--green)}
@@ -958,20 +961,30 @@ header p{color:rgba(255,255,255,.55);font-size:13px}
 .absetz-overlay-body p{font-size:13px;font-weight:700;color:#444;line-height:1.7;margin:0 0 8px}
 .absetz-overlay-close{float:right;background:rgba(255,255,255,.15);border:none;color:#fff;width:28px;height:28px;border-radius:50%;font-size:14px;cursor:pointer;font-weight:900;margin-top:-2px}
 
-/* ── Steueraufkommen Rategame ── */
-.aufk-game{background:#fff;border-radius:16px;border:2px solid #dde5f5;padding:16px;margin-bottom:14px}
-.aufk-label-pool{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
-.aufk-label{padding:5px 11px;border-radius:20px;font-size:11px;font-weight:800;cursor:grab;border:2px solid #dde5f5;background:#f0f4ff;color:var(--navy);transition:all .15s;user-select:none}
-.aufk-label.used{opacity:.35;cursor:default}
-.aufk-label.dragging{opacity:.6;transform:scale(1.05)}
-.aufk-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.aufk-bar-track{flex:1;height:26px;background:#f0f4ff;border-radius:8px;border:2px dashed #dde5f5;display:flex;align-items:center;padding:0 8px;min-width:0;transition:border-color .2s;cursor:pointer;position:relative}
-.aufk-bar-track.has-label{border-style:solid;border-color:var(--blue);background:#e8eeff}
-.aufk-bar-track .aufk-placed{font-size:11px;font-weight:800;color:var(--navy)}
-.aufk-bar-fill{height:18px;border-radius:5px;flex-shrink:0}
-.aufk-bar-pct{font-size:10px;font-weight:700;color:#aaa;font-family:'Space Mono',monospace;width:36px;text-align:right;flex-shrink:0}
-.aufk-result-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:11px;font-weight:700}
-.aufk-result-icon{width:16px;text-align:center}
+/* ── Steueraufkommen Rategame v2 ── */
+.aufk-game{background:#fff;border-radius:16px;border:2px solid #dde5f5;padding:18px;margin-bottom:14px}
+.aufk-total-box{background:linear-gradient(135deg,#0d2b5e,#1a4a8f);border-radius:14px;padding:18px;color:#fff;text-align:center;margin-bottom:16px}
+.aufk-total-num{font-size:32px;font-weight:900;font-family:'Space Mono',monospace;color:var(--yellow);text-shadow:0 0 20px rgba(255,217,74,.4)}
+.aufk-total-lbl{font-size:11px;color:rgba(255,255,255,.5);font-weight:700;margin-top:4px}
+.aufk-slider-wrap{margin-bottom:14px}
+.aufk-slider-q{font-size:13px;font-weight:900;color:var(--navy);margin-bottom:10px;line-height:1.5}
+.aufk-slider-row{display:flex;align-items:center;gap:10px}
+.aufk-slider{flex:1;-webkit-appearance:none;appearance:none;height:8px;border-radius:100px;background:linear-gradient(90deg,var(--cyan),var(--blue));outline:none;cursor:pointer}
+.aufk-slider::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:#fff;border:3px solid var(--blue);box-shadow:0 2px 8px rgba(0,0,0,.2);cursor:pointer}
+.aufk-slider-val{min-width:60px;text-align:right;font-family:'Space Mono',monospace;font-size:14px;font-weight:900;color:var(--navy)}
+.aufk-check-btn{width:100%;padding:12px;border-radius:11px;border:none;background:linear-gradient(135deg,var(--blue),#2255cc);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer;transition:all .2s;margin-top:6px}
+.aufk-check-btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(26,58,143,.35)}
+.aufk-check-btn:disabled{background:#c0cce8;cursor:not-allowed;transform:none;box-shadow:none}
+.aufk-reveal-bar{display:flex;align-items:center;gap:10px;margin-bottom:8px;transition:all .4s ease}
+.aufk-reveal-fill{height:28px;border-radius:8px;display:flex;align-items:center;padding:0 10px;min-width:30px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.aufk-reveal-label{font-size:11px;font-weight:900;color:#fff;white-space:nowrap;text-shadow:0 1px 2px rgba(0,0,0,.3)}
+.aufk-reveal-info{font-size:11px;font-weight:700;color:#666;font-family:'Space Mono',monospace;min-width:80px;text-align:right}
+.aufk-reveal-name{font-size:12px;font-weight:800;color:var(--navy);min-width:130px}
+.aufk-guess-result{border-radius:12px;padding:12px 14px;margin-bottom:12px;font-size:12px;font-weight:800;line-height:1.6}
+.aufk-guess-result.good{background:#eafff5;border:2px solid #b7f5dc;color:#005c36}
+.aufk-guess-result.ok{background:#fff8e1;border:2px solid var(--yellow);color:#7a5c00}
+.aufk-guess-result.off{background:#fff0f3;border:2px solid rgba(255,77,109,.3);color:#b0002a}
+.aufk-fun-fact{background:linear-gradient(135deg,rgba(255,217,74,.1),rgba(255,140,0,.06));border:2px solid rgba(255,180,0,.3);border-radius:12px;padding:12px 14px;margin-top:14px;font-size:12px;color:#6b4c00;font-weight:700;line-height:1.6}
 
 
 .lernbereiche-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
@@ -1006,10 +1019,10 @@ header p{color:rgba(255,255,255,.55);font-size:13px}
 .zve-content{flex:1;min-width:0}
 .zve-title{font-size:13px;font-weight:900;color:var(--navy);line-height:1.3}
 .zve-hint{font-size:10px;font-weight:700;color:#888;margin-top:2px;line-height:1.4}
-.zve-minus{font-size:11px;font-weight:700;color:#555;padding:4px 12px 4px 46px;line-height:1.5;border-left:2px solid #dde5f5;margin-left:22px}
-.zve-para{display:inline;font-size:10px;font-family:'Space Mono',monospace;color:var(--blue);font-weight:700;margin-left:4px}
-.zve-result-line{font-size:12px;font-weight:900;color:var(--navy);padding:5px 12px 5px 46px;margin-left:22px;background:#eef2ff;border-radius:8px;margin-bottom:6px;border-left:3px solid var(--blue)}
-.zve-result-line.zve-end{background:#e8fff4;border-left-color:var(--green);color:#005c36}
+.zve-minus{font-size:11px;font-weight:700;color:#444;padding:5px 12px 5px 14px;line-height:1.6;border-left:2px solid #dde5f5;margin:2px 0 2px 22px;background:#fafbff;border-radius:0 8px 8px 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px}
+.zve-para{display:inline-block;font-size:10px;font-family:'Space Mono',monospace;color:var(--blue);font-weight:700;background:#eef3ff;border-radius:4px;padding:1px 5px}
+.zve-result-line{font-size:12px;font-weight:900;color:var(--navy);padding:7px 12px 7px 46px;margin:6px 0;background:#eef2ff;border-radius:8px;border-left:4px solid var(--blue)}
+.zve-result-line.zve-end{background:#e8fff4;border-left-color:var(--green);color:#005c36;font-size:13px}
 
 
 /* ZvE v2 */
@@ -1038,15 +1051,27 @@ header p{color:rgba(255,255,255,.55);font-size:13px}
 
 
 /* Profi Lernbereiche List */
-.lb-list{display:flex;flex-direction:column;gap:0;border-radius:14px;overflow:hidden;border:2px solid rgba(255,255,255,.1);margin-bottom:8px}
-.lb-row{display:flex;align-items:center;gap:12px;padding:11px 14px;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer;transition:background .15s}
+.lb-list{display:flex;flex-direction:column;gap:0;border-radius:14px;overflow:hidden;border:2px solid #dde5f5;margin-bottom:8px}
+.lb-row{display:flex;align-items:center;gap:12px;padding:12px 14px;background:#f8faff;border-bottom:1px solid #eef2ff;cursor:pointer;transition:background .15s}
 .lb-row:last-child{border-bottom:none}
-.lb-row:hover{background:rgba(255,255,255,.12)}
+.lb-row:hover{background:#eef2ff}
 .lb-row-icon{font-size:20px;flex-shrink:0;width:26px;text-align:center}
 .lb-row-text{flex:1;min-width:0}
-.lb-row-title{font-size:13px;font-weight:900;color:#fff;line-height:1.2}
-.lb-row-sub{font-size:10px;color:rgba(255,255,255,.4);font-weight:700;margin-top:2px;font-family:'Space Mono',monospace}
-.lb-row-arr{font-size:16px;color:rgba(255,255,255,.2);flex-shrink:0}
+.lb-row-title{font-size:13px;font-weight:900;color:var(--navy);line-height:1.2}
+.lb-row-sub{font-size:10px;color:#888;font-weight:700;margin-top:2px;font-family:'Space Mono',monospace}
+.lb-row-arr{font-size:16px;color:#c0d4ff;flex-shrink:0}
+
+
+/* ── Lernszenarien story cards (Einsteiger) ── */
+.story-list{display:flex;flex-direction:column;gap:8px;margin-bottom:8px}
+.story-card{background:#f0f4ff;border-radius:14px;border:2px solid #c0d4ff;padding:14px;cursor:pointer;transition:all .2s}
+.story-card:hover{border-color:#7b9eff;transform:translateY(-1px);box-shadow:0 4px 16px rgba(26,58,143,.15);background:#e8eeff}
+.story-card.done{border-color:#b7f5dc;background:#f0fff8}
+.sc-top{display:flex;align-items:center;gap:12px}
+.sc-emoji{font-size:28px;flex-shrink:0;width:36px;text-align:center}
+.sc-info{flex:1;min-width:0}
+.sc-title{font-size:13px;font-weight:900;color:var(--navy);line-height:1.3}
+.sc-sub{font-size:10px;font-weight:700;color:#888;margin-top:3px;font-family:'Space Mono',monospace}
 
 </style>
 
@@ -1085,7 +1110,7 @@ header p{color:rgba(255,255,255,.55);font-size:13px}
   </header>
 
   <div class="score-bar">
-    <div class="score-item"><div class="label">Punkte</div><div class="value" id="totSc">0</div></div>
+    <div class="score-item"><div class="label" id="score-mode-label">Punkte</div><div class="value" id="totSc">0</div></div>
     <div class="score-divider"></div>
     <div class="score-item"><div class="label">Richtig</div><div class="value" style="color:var(--green)" id="corrCt">0</div></div>
     <div class="score-divider"></div>
@@ -1100,19 +1125,21 @@ header p{color:rgba(255,255,255,.55);font-size:13px}
   </div>
 
   <div class="mode-tabs">
+    <div style="grid-column:1/-1;font-size:8px;font-family:'Space Mono',monospace;letter-spacing:1.5px;color:rgba(255,255,255,.25);text-transform:uppercase;padding:0 2px">Steuerrecht</div>
     <button class="mode-tab active" onclick="sw('basics')" id="tab-basics"><span class="ti">📚</span>Basics</button>
-    <button class="mode-tab" onclick="sw('est')" id="tab-est"><span class="ti">💼</span>Einkommen&shy;steuer</button>
-    <button class="mode-tab" onclick="sw('ust')" id="tab-ust"><span class="ti">🛒</span>Umsatz&shy;steuer</button>
+    <button class="mode-tab" onclick="sw('est')" id="tab-est"><span class="ti">💼</span>ESt</button>
+    <button class="mode-tab" onclick="sw('ust')" id="tab-ust"><span class="ti">🛒</span>USt</button>
+    <button class="mode-tab" onclick="sw('ao')" id="tab-ao"><span class="ti">⚖️</span>AO</button>
     <button class="mode-tab" onclick="sw('bilanz')" id="tab-bilanz"><span class="ti">📋</span>Bilanz</button>
-    <button class="mode-tab" onclick="sw('ao')" id="tab-ao"><span class="ti">⚖️</span>Abgaben&shy;ordnung</button>
+    <button class="mode-tab" onclick="sw('recht')" id="tab-recht"><span class="ti">🏛️</span>Recht</button>
     <button class="mode-tab" onclick="sw('kurios')" id="tab-kurios"><span class="ti">🤯</span>Kurioses</button>
-    <button class="mode-tab" onclick="sw('recht')" id="tab-recht"><span class="ti">🏛️</span>Privat- &amp; Öff. Recht</button>
-    <button class="mode-tab" onclick="sw('speed')" id="tab-speed"><span class="ti">⚡</span>Gegen die Zeit</button>
-    <button class="mode-tab" onclick="sw('meinbereich')" id="tab-meinbereich"><span class="ti">⭐</span>Mein Bereich</button>
-    <button class="mode-tab" onclick="sw('karriere')" id="tab-karriere"><span class="ti">🎓</span>Karriere</button>
-    <button class="mode-tab" onclick="swEinfuehrung()" id="tab-einfuehrung"><span class="ti">📋</span>Einführungstag</button>
-    <button class="mode-tab" onclick="sw('flashcard')" id="tab-flashcard"><span class="ti">🃏</span>Lernkarten</button>
+    <div style="grid-column:1/-1;font-size:8px;font-family:'Space Mono',monospace;letter-spacing:1.5px;color:rgba(255,255,255,.25);text-transform:uppercase;padding:2px 2px 0">Lernmodi & Extras</div>
+    <button class="mode-tab" onclick="sw('speed')" id="tab-speed"><span class="ti">⚡</span>Speed</button>
+    <button class="mode-tab" onclick="sw('flashcard')" id="tab-flashcard"><span class="ti">🃏</span>Karten</button>
     <button class="mode-tab" onclick="sw('glossar')" id="tab-glossar"><span class="ti">📖</span>Glossar</button>
+    <button class="mode-tab" onclick="sw('meinbereich')" id="tab-meinbereich"><span class="ti">⭐</span>Ich</button>
+    <button class="mode-tab" onclick="sw('karriere')" id="tab-karriere"><span class="ti">🎓</span>Karriere</button>
+    <button class="mode-tab" onclick="swEinfuehrung()" id="tab-einfuehrung"><span class="ti">📋</span>E-Tag</button>
   </div>
   <!-- Level switch banner -->
   <div id="level-banner" style="display:none;align-items:center;justify-content:space-between;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.11);border-radius:12px;padding:8px 14px;margin-bottom:12px;gap:10px">
@@ -1131,9 +1158,21 @@ header p{color:rgba(255,255,255,.55);font-size:13px}
     <option value="glossar">📖 Glossar</option>
   </select>
 
-  <!-- Quiz Drawer backdrop + panel -->
-  <div class="quiz-drawer-backdrop" id="drawerBackdrop" onclick="closeDrawer()"></div>
-  <div class="quiz-drawer" id="quizDrawer">
+  <div id="einst-back-bar" style="display:none;margin-bottom:8px">
+    <button onclick="sw('basics')" style="display:flex;align-items:center;gap:8px;width:100%;padding:10px 16px;border-radius:12px;border:2px solid rgba(0,194,224,.3);background:linear-gradient(135deg,rgba(0,194,224,.08),rgba(0,194,224,.04));cursor:pointer;transition:all .2s;font-family:'Nunito',sans-serif" onmouseover="this.style.background='rgba(0,194,224,.15)';this.style.transform='translateY(-1px)'" onmouseout="this.style.background='linear-gradient(135deg,rgba(0,194,224,.08),rgba(0,194,224,.04))';this.style.transform=''">
+      <span style="font-size:16px">←</span>
+      <span style="font-size:12px;font-weight:900;color:var(--cyan)">Zurück zum Lernpfad</span>
+      <span style="margin-left:auto;font-size:10px;font-family:'Space Mono',monospace;color:rgba(0,194,224,.5)" id="einst-back-step"></span>
+    </button>
+  </div>
+  <div id="topic-header" style="display:none;padding:0 0 2px"></div>
+  <div class="game-area" id="ga"></div>
+</div>
+
+<!-- Fixed overlays moved OUTSIDE .wrapper to escape z-index:1 stacking context -->
+<!-- Quiz Drawer backdrop + panel -->
+<div class="quiz-drawer-backdrop" id="drawerBackdrop" onclick="closeDrawer()"></div>
+<div class="quiz-drawer" id="quizDrawer">
     <div class="drawer-handle" onclick="closeDrawer()"></div>
     <div class="drawer-title">🎯 Üben &amp; Lernen</div>
 
@@ -1166,21 +1205,17 @@ header p{color:rgba(255,255,255,.55);font-size:13px}
       </button>
     </div>
     </div><!-- /drawer-profi-section -->
-  </div>
+</div>
 
-  <nav class="mobile-nav" id="mobileNav">
+<nav class="mobile-nav" id="mobileNav">
     <div class="mobile-nav-inner">
       <button class="mnav-btn active" id="mnav-basics" onclick="sw('basics')"><span class="mni">📚</span>Basics</button>
-      <button class="mnav-btn" id="mnav-quiz" onclick="toggleDrawer()"><span class="mni">🎯</span>Üben</button>
+      <button class="mnav-btn" id="mnav-quiz" onclick="openQuiz()"><span class="mni">🎯</span>Üben</button>
       <button class="mnav-btn" id="mnav-fehler" onclick="sw('fehler')"><span class="mni">🔁</span>Fehler<span class="mnav-badge" id="fehler-nav-badge" style="display:none">0</span></button>
       <button class="mnav-btn" id="mnav-meinbereich" onclick="sw('meinbereich')"><span class="mni">⭐</span>Ich</button>
       <button class="mnav-btn" id="mnav-karriere" onclick="sw('karriere')"><span class="mni">🎓</span>Karriere</button>
     </div>
-  </nav>
-
-  <div id="topic-header" style="display:none;padding:0 0 2px"></div>
-  <div class="game-area" id="ga"></div>
-</div>
+</nav>
 <div class="cc" id="cc"></div>
 
 <!-- Mobile sticky feedback bar -->
@@ -1493,7 +1528,7 @@ const D_FC_EST = [
   {icon:'🏠',term:'§ 21 EStG – Vermietung & Verpachtung',sub:'6. Einkunftsart',answer:'Einkünfte aus Vermietung von Grundstücken, Gebäuden, beweglichen Gegenständen und Rechten.<br><b>Gewinnermittlung:</b> Überschussrechnung (Einnahmen minus Werbungskosten).<br><b>Wichtige Werbungskosten:</b> Schuldzinsen, Reparaturen, Verwaltung, Grundsteuer, AfA Gebäude (2 % p.a., § 7 Abs. 4 EStG).<br><b>Achtung:</b> Verbilligte Vermietung unter 66 % der ortsblüblichen Miete → WK nur anteilig abziehbar.<br><b>Liebhaberei-Risiko:</b> Dauerhafte Verluste → FA zweifelt an Einkunftserzielungsabsicht.',merkhilfe:'AfA-Beispiel: Gebäude 300.000 € × 2 % = 6.000 € AfA pro Jahr – ohne Geldabfluss! Das erklärt, warum viele Vermieter auf dem Papier Verluste haben und keine ESt zahlen.'},
   {icon:'🔖',term:'§ 22 EStG – Sonstige Einkünfte',sub:'7. Einkunftsart',answer:'<b>Auffangtatbestand</b> für alles, was nicht in §§ 13–21 EStG fällt:<br>① Renten aus ges. RV (§ 22 Nr. 1 EStG): Besteuerungsanteil nach Kohortenprinzip (Rentenbeginn 2040+ = 100 % steuerpflichtig)<br>② Leistungen (§ 22 Nr. 3): Finderlohn &gt; 256 €, Entschädigungen<br>③ Private Veräußerungsgeschäfte (§ 23 EStG):<br>• Krypto / Fremdwährungen: Verkauf &lt; 1 Jahr Haltedauer steuerpflichtig<br>• Grundstücke: Verkauf &lt; 10 Jahre (außer selbst genutzt &gt; 2 J.)<br>• Freigrenze: 600 € / Jahr (§ 23 Abs. 3 S. 5 EStG)',merkhilfe:'Krypto-Falle: Bitcoin nach 11 Monaten verkauft → voller pers. Steuersatz! Nach 12 Monaten → steuerfrei. Genau 1 Jahr + 1 Tag warten kann tausende Euro sparen. Freigrenze 600 € gilt jahresbezogen für ALLE privaten Verkaufsgewinne zusammen.'},
   {icon:'🧾',term:'§ 9 EStG – Werbungskosten',sub:'Abzüge bei Überschusseinkünften',answer:'Aufwendungen zur <b>Erwerbung, Sicherung und Erhaltung der Einnahmen</b> (§ 9 Abs. 1 EStG).<br>Gilt für: §§ 19, 20, 21, 22 EStG (sog. Überschusseinkünfte).<br>Pendant: Betriebsausgaben (§ 4 Abs. 4 EStG) bei Gewinneinkünften (§§ 13, 15, 18).<br><b>Wichtige Werbungskosten:</b><br>• Pendlerpauschale: 0,38 €/km ab km 1 (ab 2026)<br>• Arbeitsmittel (GWG bis 952 € inkl. USt sofort absetzbar)<br>• Fortbildungskosten, Homeoffice-Pauschale (6 €/Tag, max. 1.260 €)<br><b>Pauschbetrag § 9a EStG:</b> 1.230 € (automatisch bei § 19-Einkünften).',merkhilfe:'Werbungskosten (§ 9) = Überschusseinkünfte. Betriebsausgaben (§ 4 Abs. 4) = Gewinneinkünfte. Beide Konzepte mindern das zu versteuernde Einkommen – aber nur, was tatsächlich beruflich veranlasst ist!'},
-  {icon:'📊',term:'§ 32a EStG – Einkommensteuertarif',sub:'Steuersätze 2026',answer:'Progressiver Tarif:<br>0 % bis Grundfreibetrag (12.096 €)<br>14 % Eingangssteuersatz<br>42 % Spitzensteuersatz (ab 69.879 €)<br>45 % "Reichensteuer" (ab 279.512 €)',merkhilfe:'Progressiv = je mehr du verdienst, desto höher der GRENZ-Steuersatz. Aber: Nicht der Gesamtverdienst wird mit 42% besteuert – nur der Teil darüber!'},
+  {icon:'📊',term:'§ 32a EStG – Einkommensteuertarif',sub:'Steuersätze 2026',answer:'Progressiver Tarif:<br>0 % bis Grundfreibetrag (12.336 €)<br>14 % Eingangssteuersatz<br>42 % Spitzensteuersatz (ab 69.879 €)<br>45 % "Reichensteuer" (ab 279.512 €)',merkhilfe:'Progressiv = je mehr du verdienst, desto höher der GRENZ-Steuersatz. Aber: Nicht der Gesamtverdienst wird mit 42% besteuert – nur der Teil darüber!'},
   {icon:'🏠',term:'Homeoffice-Pauschale',sub:'§ 4 Abs. 5 Nr. 6b EStG',answer:'<b>6 € pro Tag</b> (reine Homeoffice-Tage)<br>Maximum: <b>210 Tage = 1.260 € / Jahr</b><br>Kein eigenes Arbeitszimmer nötig!',merkhilfe:'100 Homeoffice-Tage = 600 €. Einfach in der Steuererklärung eintragen – kein Nachweis der Kosten nötig!'},
 ];
 
@@ -1699,7 +1734,7 @@ const D_EXAM = [
 
 {cat:'est',lvl:1,q:'Was ist der Grundfreibetrag bei der Einkommensteuer (§ 32a EStG) – wozu dient er?',
  opts:['Mindestbetrag, der bei Abgabe einer Steuererklärung immer erstattet wird','Einkommensbetrag, bis zu dem keine Einkommensteuer anfällt – sichert das steuerliche Existenzminimum','Freibetrag nur für Rentner','Steuerfreier Betrag für Zinseinkünfte'],
- ans:1,explain:'Der <b>Grundfreibetrag</b> (2025: 12.084 €; 2026: 12.336 €) sichert das steuerliche Existenzminimum. Einkommen bis zu dieser Grenze bleibt steuerfrei. Ab dem ersten Euro darüber beginnt die Besteuerung mit dem Eingangssteuersatz von 14 %.'},
+ ans:1,explain:'Der <b>Grundfreibetrag</b> (2025: 12.096 €; 2026: 12.336 €) sichert das steuerliche Existenzminimum. Einkommen bis zu dieser Grenze bleibt steuerfrei. Ab dem ersten Euro darüber beginnt die Besteuerung mit dem Eingangssteuersatz von 14 %.'},
 
 {cat:'est',lvl:2,q:'Welches Prinzip liegt der Einkommensteuer zugrunde, wenn Steuerpflichtige mit gleichem Einkommen gleich viel Steuern zahlen?',
  opts:['Territorialprinzip','Welteinkommensprinzip','Horizontale Steuergerechtigkeit','Progressionsprinzip'],
@@ -2072,6 +2107,69 @@ const D_STORY = [
     }
   ],
   learned:['§ 18 EStG Freiberufler: eigenschöpferisch kreativ = kein Gewerbe','§ 19 UStG Kleinunternehmer: sinnvoll nur bei Privatkunden + geringen Investitionen','§ 15 UStG Vorsteuer: Investitionen werden günstiger','§ 14 UStG Rechnungspflicht: Steuernummer nicht vergessen!','§ 37 EStG Vorauszahlungen + 45 %-Rücklagenregel als Selbständiger']
+},
+{
+  id:'einspruch',
+  icon:'⚖️',
+  title:'Einspruch gegen den Bescheid',
+  protagonist:'Tom, 29 – Softwareentwickler, Angestellter, erster Steuerbescheid',
+  level:'Fortgeschritten',
+  duration:'9 Min.',
+  color:'#7b5ea7',
+  scenes:[
+    {
+      type:'info',
+      title:'Post vom Finanzamt',
+      narrative:'Tom hat zum ersten Mal eine Steuererklärung abgegeben. Er hat 2.400 € Fahrtkosten (30 km × 0,38 € × 210 Tage), einen neuen Laptop für 1.100 € und Fachliteratur für 280 € als Werbungskosten angegeben. Dann kommt der Einkommensteuerbescheid. Erstattung: nur 380 € statt der erwarteten 720 €. Tom versteht nicht warum – bis er auf Seite 2 liest: „Aufwendungen für Computer wurden nicht anerkannt."',
+      fact:{
+        title:'Der Steuerbescheid – ein Verwaltungsakt (§ 118 AO)',
+        content:'Jeder Steuerbescheid ist ein <b>Verwaltungsakt</b> (§ 118 AO). Er wird wirksam durch <b>Bekanntgabe</b> (§ 122 AO).<br><br><b>Was im Bescheid steht:</b><br>• Festgesetzte Steuer (§ 155 AO) und Nachzahlung/Erstattung<br>• Berechnungsgrundlagen und erklärte vs. anerkannte Beträge<br>• <b>Rechtsbehelfsbelehrung</b> (§ 356 AO) – fehlt sie, verlängert sich die Frist auf 1 Jahr!<br><br><b>Bekanntgabe-Fiktion (§ 122 Abs. 2 Nr. 1 AO):</b><br>Einfacher Brief gilt am <b>3. Tag nach Aufgabe zur Post</b> als zugegangen. Fällt dieser Tag auf Sa/So/Feiertag → nächster Werktag.',
+        norm:'§ 118, § 122, § 155, § 356 AO'
+      }
+    },
+    {
+      type:'choice',
+      title:'Was soll Tom jetzt tun?',
+      narrative:'Toms Kollege sagt: „Ruf doch einfach beim Finanzamt an, die korrigieren das." Sein Steuerberater-Freund mahnt: „Du musst offiziell Einspruch einlegen – und zwar innerhalb der Frist!" Der Bescheid wurde am Mittwoch, 12. März 2026 zur Post gegeben. Heute ist Donnerstag, 20. März.',
+      question:'Was ist der richtige nächste Schritt für Tom?',
+      opts:[
+        {
+          text:'📞 Beim Finanzamt anrufen und bitten, den Laptop noch aufzunehmen',
+          correct:false,
+          outcome:'Tom telefoniert – der Sachbearbeiter ist freundlich, kann aber nichts ändern.',
+          explain:'<b>Ein Anruf ist kein Rechtsbehelf!</b><br><br>Ein freundliches Telefonat ist okay, aber es hemmt <b>keine Fristen</b>. Der Steuerbescheid kann nur durch förmlichen <b>Einspruch (§ 347 AO)</b> angefochten werden. Wenn Tom nur anruft und die Frist verstreicht, ist der Bescheid <b>bestandskräftig</b> (§ 351 AO) – dann hilft kein Anruf mehr.<br><br><b>Bestandskraft</b> bedeutet: Der Bescheid ist endgültig, auch wenn er falsch ist. Nur in Ausnahmefällen (§ 173, § 175 AO: neue Tatsachen, rückwirkendes Ereignis) kann noch korrigiert werden.'
+        },
+        {
+          text:'📝 Schriftlich Einspruch einlegen beim zuständigen Finanzamt',
+          correct:true,
+          outcome:'Tom legt fristgerecht Einspruch ein. Das Rechtsbehelfsverfahren beginnt.',
+          explain:'<b>Richtig! Einspruch gem. § 347 Abs. 1 S. 1 AO ist der Weg.</b><br><br><b>Die Frist (§ 355 Abs. 1 AO):</b><br>• 1 Monat ab Bekanntgabe<br>• Aufgabe zur Post: 12.03.2026 (Mi) → Bekanntgabe-Fiktion: 15.03.2026 (Sa → Mo 17.03.2026)<br>• Fristende: <b>17.04.2026</b><br><br><b>Form (§ 357 AO):</b><br>• Schriftlich, elektronisch oder zur Niederschrift beim Finanzamt<br>• Muss erkennen lassen: wer, gegen was, warum<br>• Keine Begründungspflicht – aber dringend empfohlen!<br><br>Tom hat also bis zum 17. April Zeit. Er sollte den Kaufbeleg für den Laptop beilegen.'
+        },
+        {
+          text:'⏳ Erstmal abwarten – man hat bestimmt ein Jahr Zeit',
+          correct:false,
+          outcome:'Tom wartet – und verpasst die Einspruchsfrist.',
+          explain:'<b>Gefährlich! Die Einspruchsfrist beträgt nur 1 Monat (§ 355 Abs. 1 AO).</b><br><br>Ein Jahr Frist gilt <b>nur</b> wenn die Rechtsbehelfsbelehrung fehlt oder unrichtig ist (§ 356 Abs. 2 AO). In Toms Bescheid steht eine korrekte Belehrung → es gilt die reguläre Monatsfrist.<br><br>Nach Ablauf der Frist ist der Bescheid <b>bestandskräftig</b>. Die ca. 340 € Erstattungsdifferenz (Laptop-Werbungskosten) sind dann verloren – für immer.'
+        }
+      ],
+      fact:{
+        title:'Das Einspruchsverfahren auf einen Blick',
+        content:'<b>Ablauf nach § 347 ff. AO:</b><br><br><span style="color:var(--blue);font-weight:900">1.</span> Einspruch einlegen (§ 347 AO) – Frist: 1 Monat (§ 355 AO)<br><span style="color:var(--blue);font-weight:900">2.</span> Finanzamt prüft den gesamten Bescheid erneut (§ 367 Abs. 2 AO – <b>Verböserungsmöglichkeit!</b>)<br><span style="color:var(--blue);font-weight:900">3.</span> Mögliche Ergebnisse:<br>• <b>Abhilfe</b> (§ 367 Abs. 2 S. 3): FA gibt Tom recht → geänderter Bescheid<br>• <b>Teilabhilfe</b>: teilweise Korrektur<br>• <b>Einspruchsentscheidung</b> (§ 367 Abs. 1): FA weist Einspruch zurück → Tom kann innerhalb 1 Monat <b>Klage beim Finanzgericht</b> erheben (§ 47 FGO)<br>• <b>Rücknahme</b> (§ 362 AO): Tom zieht den Einspruch zurück<br><br>⚠️ <b>Verböserung (§ 367 Abs. 2 S. 2 AO):</b> Das FA darf den Bescheid zum Nachteil von Tom ändern! Vorher wird Tom angehört (§ 367 Abs. 2 S. 2 AO) – dann kann er zurücknehmen.',
+        norm:'§§ 347, 355, 357, 362, 367 AO · § 47 FGO'
+      }
+    },
+    {
+      type:'info',
+      title:'Der Ausgang – und was Tom daraus lernt',
+      narrative:'Tom legt am 28. März schriftlich Einspruch ein und legt den Kaufbeleg bei. Er formuliert: „Der Laptop wird zu 90 % beruflich genutzt (Softwareentwicklung, Home-Office). Er ist ein typisches Arbeitsmittel gem. § 9 Abs. 1 EStG." Drei Wochen später kommt ein geänderter Bescheid: Der Laptop wird zu 90 % anerkannt (990 €). Toms Erstattung steigt um 330 € auf 710 €.',
+      fact:{
+        title:'Praxistipps für Einsprüche',
+        content:'<b>Warum wurde der Laptop zuerst abgelehnt?</b><br>Häufigster Grund: Fehlende Nachweise. Das Finanzamt sieht einen Laptop und vermutet private Mitbenutzung. Ohne Beleg oder Erklärung wird der Abzug gestrichen.<br><br><b>So machst du es richtig:</b><br>• <b>Nachweis beifügen:</b> Kaufbeleg, Screenshot der beruflichen Nutzung<br>• <b>Berufliche Nutzung begründen:</b> „Programmierung erfordert leistungsstarke Hardware"<br>• <b>Aufteilung angeben:</b> bei Mischnutzung z.B. 90 % beruflich, 10 % privat (§ 12 Nr. 1 EStG, BFH-Urteil v. 21.09.2009)<br>• <b>GWG-Grenze beachten:</b> Netto ≤ 800 € (brutto 952 €) → sofort absetzbar. Darüber → AfA über 3 Jahre (§ 7 Abs. 1 EStG, § 6 Abs. 2 EStG)<br><br>Toms Laptop kostete 1.100 € brutto → liegt über der GWG-Grenze. Aber: Digitale Wirtschaftsgüter dürfen seit BMF-Schreiben 2021 auf 1 Jahr abgeschrieben werden (Nutzungsdauer 1 Jahr für „Computerhardware").',
+        norm:'§ 9, § 7, § 6 Abs. 2 EStG · § 347 ff. AO · BMF v. 22.02.2022'
+      }
+    }
+  ],
+  learned:['§ 347 AO: Einspruch ist der einzige Rechtsbehelf gegen Steuerbescheide','§ 355 AO: Frist = 1 Monat ab Bekanntgabe (3-Tages-Fiktion beachten!)','§ 367 Abs. 2 AO: Verböserungsgefahr – FA darf Bescheid auch verschlechtern','§ 357 AO: Schriftlich, elektronisch oder zur Niederschrift','Nachweise beifügen und berufliche Nutzung begründen']
 }
 ];
 
@@ -2264,8 +2362,9 @@ function renderStoryEnd(a, story){
       <div style="font-size:11px;color:rgba(255,255,255,.6);font-weight:700;margin-bottom:10px;line-height:1.6">Du hast die Story gelesen – prüfe sofort, ob du die Konzepte verstanden hast.</div>
       <button onclick="storyTestStart(storyOpen)" style="width:100%;padding:11px;border-radius:10px;border:none;background:rgba(255,255,255,.15);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer;border:1px solid rgba(255,255,255,.25)">⚡ Schnell-Quiz starten (5 Fragen)</button>
     </div>
-    <button onclick="storyOpen=null;sw('basics')" style="width:100%;padding:12px;border-radius:13px;border:none;background:linear-gradient(135deg,#1a3a8f,#0d2b5e);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer;margin-bottom:8px">← Zurück zu Basics</button>
-    <button onclick="sw('est')" style="width:100%;padding:10px;border-radius:11px;border:2px solid #dde5f5;background:#f0f4ff;color:var(--navy);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer;margin-bottom:90px">💼 Zum ESt-Quiz →</button>`;
+    <button onclick="storyOpen=null;sw('basics')" style="width:100%;padding:12px;border-radius:13px;border:none;background:${einstLaunched?'linear-gradient(135deg,#005c36,#00c97b)':'linear-gradient(135deg,#1a3a8f,#0d2b5e)'};color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer;margin-bottom:8px">${einstLaunched?'← Zurück zum Lernpfad':'← Zurück zu Basics'}</button>
+    ${einstLaunched?'':'<button onclick="sw(\'est\')" style="width:100%;padding:10px;border-radius:11px;border:2px solid #dde5f5;background:#f0f4ff;color:var(--navy);font-family:\'Nunito\',sans-serif;font-weight:800;font-size:12px;cursor:pointer;margin-bottom:90px">💼 Zum ESt-Quiz →</button>'}
+    <div style="height:90px"></div>`;
 }
 
 
@@ -2358,7 +2457,13 @@ function lgConfirm(){
   applyLevelUI();
   // First ever visit: show tour after a beat
   if(!localStorage.getItem(TOUR_KEY)) setTimeout(tourShow, 800);
-  sw('basics');
+  // Force re-render even if already on basics
+  mode='basics';
+  const ga=document.getElementById('ga');
+  if(ga) ga.classList.remove('etag-mode');
+  setTopicHeader('basics');
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 function showLevelGate(fromChip){
@@ -2530,6 +2635,8 @@ function renderPara1Block(){
 
 // ==================== STATE ====================
 let mode='basics', submode='einkunft', bilanzSub='zu';
+let scoreMode=null; // tracks which mode the current score belongs to
+let einstLaunched=null; // tracks if navigated from Einsteiger Lernpfad ('step2','step3')
 let idx=0;
 let sh_ein=[], sh_werb=[], sh_ust=[], sh_bzu=[], sh_buch=[], sh_ao=[], sh_kurios=[], sh_recht=[];
 let answered=false;
@@ -2589,18 +2696,42 @@ function updSc(ok){
   if(streak>=3){sc.classList.add('streak-hot');}else{sc.classList.remove('streak-hot');}
   checkBadges();
 }
-const MODE_ORDER = ['basics','meinbereich','est','ust','bilanz','ao','kurios','recht','flashcard','para','karriere','badges','glossar'];
+const MODE_ORDER = ['basics','meinbereich','est','ust','bilanz','ao','kurios','recht','flashcard','karriere','badges','glossar'];
 function resetScore(){
   totSc=0;corr=0;wrong=0;streak=0;
   document.getElementById('totSc').textContent=0;
   document.getElementById('corrCt').textContent=0;
   document.getElementById('wrongCt').textContent=0;
-  document.getElementById('streakCt').textContent=0;
+  document.getElementById('streakCt').textContent='0 🔥';
+  document.getElementById('streakCt').classList.remove('streak-hot');
+}
+const SCORE_LABELS={'est':'ESt','ust':'USt','bilanz':'Bilanz','ao':'AO','kurios':'Kurioses','recht':'Recht','speed':'Speed','flashcard':'Karten','pruefung':'Prüfung'};
+function updateScoreLabel(m){
+  const el=document.getElementById('score-mode-label');
+  if(!el) return;
+  const lbl=SCORE_LABELS[m];
+  el.textContent=lbl?'Punkte · '+lbl:'Punkte';
+}
+function updateEinstBackBar(step){
+  const bar=document.getElementById('einst-back-bar');
+  const lbl=document.getElementById('einst-back-step');
+  if(!bar) return;
+  if(step && userLevel==='einsteiger'){
+    bar.style.display='block';
+    const labels={step2:'Schritt 2/4',step3:'Schritt 3/4'};
+    if(lbl) lbl.textContent=labels[step]||'';
+  } else {
+    bar.style.display='none';
+    einstLaunched=null;
+  }
 }
 function toggleDrawer(){
   const d=document.getElementById('quizDrawer'),b=document.getElementById('drawerBackdrop');
   if(d.classList.contains('open')){closeDrawer();}
   else{d.classList.add('open');b.classList.add('open');document.getElementById('mnav-quiz').classList.add('active');}
+}
+function openQuiz(){
+  toggleDrawer();
 }
 function closeDrawer(){
   const d=document.getElementById('quizDrawer'),b=document.getElementById('drawerBackdrop');
@@ -2632,8 +2763,19 @@ function sw(m){
   _doSw(m);
 }
 function _doSw(m){
+  // Auto-reset score when switching between different quiz modes
+  const SCORE_MODES=['est','ust','bilanz','ao','kurios','recht','speed','flashcard','pruefung'];
+  if(SCORE_MODES.includes(m) && scoreMode!==m){
+    resetScore();
+    scoreMode=m;
+  } else if(!SCORE_MODES.includes(m)){
+    scoreMode=null;
+  }
+  updateScoreLabel(m);
   mode=m;idx=0;answered=false;
   closeDrawer();
+  // remove etag dark background when leaving einfuehrung
+  if(m!=='einfuehrung'){ const ga=document.getElementById('ga'); if(ga) ga.classList.remove('etag-mode'); }
   window.scrollTo({top:0,behavior:'smooth'});
   if(m==='est'){sh_ein=filtShuffle(D_EINKUNFT);sh_werb=filtShuffle(D_WERBUNG);}
   else if(m==='ust')sh_ust=filtShuffle(D_UST);
@@ -2644,7 +2786,7 @@ function _doSw(m){
   else if(m==='flashcard'){fcIdx=0;fcFlipped=false;fcKnown=[];}
   else if(m==='praxis'){ if(mode!=='praxis') praxisOpen=null; praxisStep=0; praxisAnswered=false; praxisScore=0; }
   else if(m==='meinbereich'){loadDailyData();updateStreakChip();}
-  else if(m==='speed'){ clearInterval(paraTimer); clearInterval(spTimer); }
+  else if(m==='speed'){ clearInterval(spTimer); }
   else if(m!=='pruefung'){ clearInterval(examTimerInterval); }
   if(!playedModes.includes(m)){playedModes.push(m);savePlayedModes();checkBadges();}
   document.querySelectorAll('.mode-tab').forEach(t=>t.classList.remove('active'));
@@ -2654,6 +2796,9 @@ function _doSw(m){
   const sel=document.getElementById('mobileSelect');
   if(sel)sel.value=m;
   setTopicHeader(m);
+  // Show/hide Einsteiger back bar
+  if(einstLaunched && m!=='basics') updateEinstBackBar(einstLaunched);
+  else updateEinstBackBar(null);
   render();
 }
 function swSub(s){submode=s;idx=0;answered=false;
@@ -2754,16 +2899,22 @@ function einstGoStep1(){
 }
 function einstGoStep2(){
   setEinstStep('para1');
+  einstLaunched='step2';
   storyOpen = 'lohnzettel';
   mode = 'story';
   document.querySelectorAll('.mode-tab').forEach(t=>t.classList.remove('active'));
   setTopicHeader('story');
+  updateEinstBackBar('step2');
   render();
 }
 function einstGoStep3(){
-  sw('est');
+  einstLaunched='step3';
+  // Skip intro modal for einsteiger - they have enough context from the page
+  if(!seenIntros.includes('est')) { seenIntros.push('est'); localStorage.setItem(SEEN_INTROS_KEY, JSON.stringify(seenIntros)); }
+  _doSw('est');
 }
 function einstGoStep4(){
+  setEinstStep('mehr');
   const el = document.getElementById('sec-absetzen');
   if(el){ el.classList.add('open'); el.scrollIntoView({behavior:'smooth',block:'start'}); }
 }
@@ -2784,12 +2935,33 @@ function renderBasicsEinsteiger(a){
   const pct = Math.round(stepsDone/4*100);
 
   const stepDefs = [
-    { icon:'⚖️', title:'Wer zahlt Steuern?', sub:'§ 1 EStG · ~5 Min.', done:!!p.para1,  fn:'einstGoStep1' },
-    { icon:'📄', title:'Lenas Lohnzettel',   sub:'Story · ~8 Min.',    done:!!(storyProgress['lohnzettel']&&storyProgress['lohnzettel'].done), fn:'einstGoStep2' },
-    { icon:'🎯', title:'ESt-Quiz',           sub:'Quiz · ~5 Min.',     done:!!p.quiz,   fn:'einstGoStep3' },
-    { icon:'💡', title:'Was kann ich absetzen?', sub:'Nachlesen · ~4 Min.', done:!!p.mehr, fn:'einstGoStep4' }
+    { icon:'⚖️', title:'Wer zahlt Steuern?', sub:'Interaktive Fälle · ~5 Min.', desc:'4 Personen – steuerpflichtig oder nicht?', done:!!p.para1,  fn:'einstGoStep1', color:'#1a3a8f' },
+    { icon:'📄', title:'Lenas Lohnzettel',   sub:'Story · ~8 Min.',             desc:'850 € brutto – was bleibt netto?',       done:!!(storyProgress['lohnzettel']&&storyProgress['lohnzettel'].done), fn:'einstGoStep2', color:'#005c36' },
+    { icon:'🎯', title:'ESt-Quiz',           sub:'Quiz · ~5 Min.',              desc:'Teste dein neues Wissen!',               done:!!p.quiz,   fn:'einstGoStep3', color:'#3d0a6b' },
+    { icon:'💡', title:'Was kann ich absetzen?', sub:'Übersicht · ~4 Min.',      desc:'Fahrtkosten, Laptop, Spenden & mehr',    done:!!p.mehr, fn:'einstGoStep4', color:'#8a4000' }
   ];
 
+  // Build step cards (new visual design)
+  const stepCards = stepDefs.map((s,i)=>{
+    const isNext = !s.done && stepDefs.slice(0,i).every(x=>x.done);
+    const locked = !s.done && !isNext;
+    const borderColor = s.done ? 'rgba(0,201,123,.5)' : isNext ? 'var(--cyan)' : 'rgba(255,255,255,.1)';
+    const bg = s.done ? 'rgba(0,201,123,.08)' : isNext ? 'rgba(0,194,224,.08)' : 'rgba(255,255,255,.03)';
+    const opacity = locked ? 'opacity:.5;' : '';
+    const glow = isNext ? 'box-shadow:0 0 20px rgba(0,194,224,.2);' : '';
+    return '<div onclick="'+s.fn+'()" style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;border:2px solid '+borderColor+';background:'+bg+';cursor:pointer;transition:all .2s;'+opacity+glow+'" '
+      +(locked?'':'onmouseover="this.style.transform=\'translateY(-2px)\'" onmouseout="this.style.transform=\'\'"')+'>'
+      +'<div style="width:40px;height:40px;border-radius:12px;background:'+(s.done?'var(--green)':isNext?'var(--cyan)':'rgba(255,255,255,.1)')+';display:flex;align-items:center;justify-content:center;font-size:'+(s.done?'18px':'20px')+';flex-shrink:0;color:'+(s.done||isNext?'#fff':'rgba(255,255,255,.3)')+';">'+(s.done?'✓':s.icon)+'</div>'
+      +'<div style="flex:1;min-width:0">'
+        +'<div style="font-size:13px;font-weight:900;color:'+(locked?'rgba(255,255,255,.4)':'#fff')+';line-height:1.2">'+s.title+'</div>'
+        +'<div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700;margin-top:2px">'+s.desc+'</div>'
+      +'</div>'
+      +'<div style="font-size:10px;font-family:\'Space Mono\',monospace;color:rgba(255,255,255,.3);font-weight:700;flex-shrink:0">'+s.sub.split('·')[1]+'</div>'
+      +(isNext?'<div style="font-size:14px;color:var(--cyan);flex-shrink:0">▶</div>':'')
+    +'</div>';
+  }).join('');
+
+  // Old timeline still needed for JS references
   const tlSteps = stepDefs.map((s,i)=>{
     const isNext = !s.done && stepDefs.slice(0,i).every(x=>x.done);
     return '<div class="tl-step'+(s.done?' done':isNext?' next':'')+'" onclick="'+s.fn+'()" title="'+s.title+'">'
@@ -2800,34 +2972,46 @@ function renderBasicsEinsteiger(a){
   }).join('');
 
   // Stories HTML
-  const storiesHtml = (window.D_STORY||[]).map(s=>{
+  const storiesHtml = (typeof D_STORY!=="undefined"?D_STORY:[]).map(s=>{
     const prog = storyProgress[s.id];
     const done = prog&&prog.done;
     return '<div class="story-card'+(done?' done':'')+'" onclick="storyOpen=\''+s.id+'\';mode=\'story\';render()">'
-      +'<div class="sc-top"><div class="sc-emoji">'+s.emoji+'</div><div class="sc-info"><div class="sc-title">'+s.title+'</div><div class="sc-sub">'+s.sub+'</div></div>'
+      +'<div class="sc-top"><div class="sc-emoji">'+s.icon+'</div><div class="sc-info"><div class="sc-title">'+s.title+'</div><div class="sc-sub">'+s.protagonist+'</div></div>'
       +(done?'<span style="font-size:11px;color:var(--green);font-weight:900">✓</span>':'')
       +'</div></div>';
   }).join('');
 
   a.innerHTML = `<div class="basics">
 
+<!-- LERNPFAD HERO – ganz oben -->
+<div style="background:linear-gradient(160deg,#06142e,#0d2b5e 50%,#0a3a2a);border-radius:20px;padding:20px 18px;margin-bottom:16px;position:relative;overflow:hidden">
+  <div style="position:absolute;right:-20px;bottom:-20px;font-size:120px;opacity:.04;line-height:1">🎯</div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+    <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase">📍 Dein Weg ins Steuerrecht</div>
+    <button onclick="resetEinstProgress()" title="Fortschritt zurücksetzen" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.3);border-radius:6px;padding:2px 7px;font-size:9px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer">↺</button>
+  </div>
+  <div style="font-size:18px;font-weight:900;color:#fff;line-height:1.2;margin-bottom:4px">4 Schritte zum Steuerprofi</div>
+  <div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:700;margin-bottom:14px">${stepsDone}/4 erledigt · ca. 22 Minuten gesamt</div>
+
+  <!-- Progress bar -->
+  <div style="height:6px;background:rgba(255,255,255,.1);border-radius:100px;margin-bottom:16px;overflow:hidden">
+    <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,var(--cyan),var(--green));border-radius:100px;transition:width .6s ease"></div>
+  </div>
+
+  <!-- Step cards -->
+  <div style="display:flex;flex-direction:column;gap:8px">
+    ${stepCards}
+  </div>
+</div>
+
 <!-- § 1 EINSTIEG -->
 <div style="background:linear-gradient(135deg,#06142e,#0d2b5e,#1a3a8f);border-radius:20px;padding:20px 18px 16px;margin-bottom:14px;position:relative;overflow:hidden">
   <div style="position:absolute;right:-15px;top:-10px;font-size:90px;opacity:.06;line-height:1">⚖️</div>
-  <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px">🟢 Dein Einstieg ins Steuerrecht</div>
+  <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px">Schritt 1 · Interaktiv</div>
   <div style="font-size:20px;font-weight:900;color:#fff;line-height:1.2;margin-bottom:6px">Wer muss in Deutschland<br>Steuern zahlen?</div>
   <div style="font-size:12px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.6">Tippe bei jedem Fall: Steuerpflichtig – Ja oder Nein?<br>Die Antworten überraschen oft.</div>
 </div>
 <div id="einst-content">${renderPara1Block()}</div>
-
-<!-- LERNPFAD TIMELINE -->
-<div class="einsteiger-hero" style="margin-top:16px;padding:14px 16px">
-  <div style="display:flex;align-items:center;margin-bottom:8px">
-    <span style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.5);font-weight:700;letter-spacing:2px;text-transform:uppercase">📍 Dein Weg ins Steuerrecht</span>
-    <button onclick="resetEinstProgress()" title="Fortschritt zurücksetzen" style="margin-left:auto;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.3);border-radius:6px;padding:2px 7px;font-size:9px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer">↺</button>
-  </div>
-  <div class="tl-wrap">${tlSteps}</div>
-</div>
 
 <!-- § 2 EStG EINKUNFTSARTEN -->
 <div class="bsec" style="margin-top:18px">📊 § 2 EStG – Die 7 Einkunftsarten</div>
@@ -2897,7 +3081,7 @@ function renderBasicsEinsteiger(a){
 <!-- STEUERAUFKOMMEN (CLOSED) -->
 <div class="einst-sec" id="sec-aufkommen">
 <button class="einst-sec-toggle" onclick="toggleSec('sec-aufkommen')">
-  <div class="bsec">📊 Wer zahlt wie viel? Das Ratespiel</div>
+  <div class="bsec">📊 Steueraufkommen – Wie viel nimmt Deutschland ein?</div>
   <span class="einst-sec-chevron">›</span>
 </button>
 <div class="einst-sec-body">
@@ -2962,18 +3146,29 @@ function renderBasicsEinsteiger(a){
 
 <!-- DAILY + STORIES -->
 <div class="bsec" style="margin-top:20px">🚀 Jetzt einsteigen</div>
-<div class="entry-row" style="margin-bottom:16px">
-  <div class="daily-teaser" onclick="sw('meinbereich')" style="flex:1;margin-bottom:0">
-    <div class="dt-icon">📅</div>
-    <div class="dt-body"><div class="dt-title">Daily Challenge</div><div class="dt-sub">7 Fragen · täglich neu</div><span class="dt-badge">Heute spielen 🔥</span></div>
-    <div style="font-size:20px;color:rgba(255,255,255,.3)">▶</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+  <div onclick="sw('meinbereich')" style="background:linear-gradient(135deg,#1a0530,#3d0a6b);border:2px solid rgba(139,92,246,.4);border-radius:16px;padding:16px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:6px" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(139,92,246,.3)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+    <div style="display:flex;align-items:center;gap:8px">
+      <span style="font-size:24px">📅</span>
+      <span style="font-size:9px;font-family:'Space Mono',monospace;letter-spacing:1.5px;color:rgba(255,255,255,.4);text-transform:uppercase">Daily Challenge</span>
+    </div>
+    <div style="font-size:14px;font-weight:900;color:#fff;line-height:1.3">7 Fragen · täglich neu</div>
+    <div style="font-size:10px;color:rgba(255,255,255,.45);font-weight:700">Heute spielen 🔥</div>
   </div>
-  <div class="entry-quiz-btn" onclick="sw('est')">
-    <div class="entry-quiz-icon">💼</div>
-    <div class="entry-quiz-label">ESt-Quiz</div>
+  <div onclick="einstGoStep3()" style="background:linear-gradient(135deg,#0d2b5e,#1a4a8f);border:2px solid rgba(0,194,224,.3);border-radius:16px;padding:16px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:6px" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(0,194,224,.25)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+    <div style="display:flex;align-items:center;gap:8px">
+      <span style="font-size:24px">💼</span>
+      <span style="font-size:9px;font-family:'Space Mono',monospace;letter-spacing:1.5px;color:rgba(255,255,255,.4);text-transform:uppercase">ESt-Quiz</span>
+    </div>
+    <div style="font-size:14px;font-weight:900;color:#fff;line-height:1.3">Einkommensteuer üben</div>
+    <div style="font-size:10px;color:rgba(255,255,255,.45);font-weight:700">Die 7 Einkunftsarten & mehr</div>
   </div>
 </div>
-<div class="bsec">📖 Lernszenarien</div>
+<div style="margin-top:8px;margin-bottom:10px;padding:12px 14px;background:linear-gradient(135deg,#0d2b5e,#1a4a8f);border-radius:14px;color:#fff">
+  <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px">📖 Lernszenarien</div>
+  <div style="font-size:14px;font-weight:900">Interaktive Geschichten</div>
+  <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700;margin-top:2px">Steuerrecht live erleben · ~8 Min. pro Szenario</div>
+</div>
 <div class="story-list">${storiesHtml}</div>
 <div style="height:90px"></div>
 </div>`;
@@ -3052,62 +3247,92 @@ function renderBasics(a){
   a.innerHTML=`<div class="basics">
 <div class="basics-hero-wow">
   <div class="bhw-glow"></div>
-  <div class="bhw-eyebrow">🏛️ Steuer-Basics · Stand 2026</div>
-  <div class="bhw-headline">Steuern in<br><span>Deutschland</span></div>
-  <div class="bhw-sub">935 Milliarden Euro jährlich. 40+ Steuerarten. ~650 Finanzämter. Alles Wissenswerte im Überblick.</div>
-  <div class="bhw-stats">
-    <div class="bhw-stat"><div class="bhw-stat-num" id="tax-animated-total">0</div><div class="bhw-stat-lbl">Mrd. €<br>Aufkommen 2024*</div></div>
-    <div class="bhw-stat"><div class="bhw-stat-num">40+</div><div class="bhw-stat-lbl">verschiedene<br>Steuerarten</div></div>
-    <div class="bhw-stat"><div class="bhw-stat-num">~650</div><div class="bhw-stat-lbl">Finanzämter<br>deutschlandweit</div></div>
-    <div class="bhw-stat"><div class="bhw-stat-num">~11.100</div><div class="bhw-stat-lbl">€ Steuern pro<br>Einwohner/Jahr</div></div>
-  </div>
-  <div class="bhw-disclaimer">* Schätzung Bundesministerium der Finanzen</div>
+  <div class="bhw-eyebrow">🏛️ Steuer-Lernspiel · Stand 2026</div>
+  <div class="bhw-headline">Dein Lern&shy;programm<br><span>Finanz&shy;verwaltung</span></div>
+  <div class="bhw-sub">14 Lernbereiche · 400+ Fragen · Prüfungsmodus · Interaktive Geschichten · Daily Challenge</div>
 </div>
 
 <div class="basics-anchor" id="b-quiz"></div>
-<div class="bsec" style="margin-top:4px">🎯 Lernbereiche</div>
-<div class="lb-list">
-  <div class="lb-row" onclick="sw('est')"><span class="lb-row-icon">💼</span><div class="lb-row-text"><div class="lb-row-title">Einkommensteuer</div><div class="lb-row-sub">§§ 1–120 EStG · Einkunftsarten, Tarif, Werbungskosten</div></div><span class="lb-row-arr">›</span></div>
-  <div class="lb-row" onclick="sw('ust')"><span class="lb-row-icon">🛒</span><div class="lb-row-text"><div class="lb-row-title">Umsatzsteuer</div><div class="lb-row-sub">§§ 1–29 UStG · 0 %, 7 %, 19 % · Vorsteuerabzug</div></div><span class="lb-row-arr">›</span></div>
-  <div class="lb-row" onclick="sw('ao')"><span class="lb-row-icon">⚖️</span><div class="lb-row-text"><div class="lb-row-title">Abgabenordnung</div><div class="lb-row-sub">§§ 1–415 AO · Fristen, Einspruch, Außenprüfung</div></div><span class="lb-row-arr">›</span></div>
-  <div class="lb-row" onclick="sw('bilanz')"><span class="lb-row-icon">📋</span><div class="lb-row-text"><div class="lb-row-title">Bilanz & Buchführung</div><div class="lb-row-sub">HGB / IFRS · Soll/Haben, AfA, Buchungssatz</div></div><span class="lb-row-arr">›</span></div>
-  <div class="lb-row" onclick="sw('recht')"><span class="lb-row-icon">🏛️</span><div class="lb-row-text"><div class="lb-row-title">Privat- & Öffentl. Recht</div><div class="lb-row-sub">BGB · GG · Finanzgericht · BFH</div></div><span class="lb-row-arr">›</span></div>
-  <div class="lb-row" onclick="sw('kurios')"><span class="lb-row-icon">🤯</span><div class="lb-row-text"><div class="lb-row-title">Kurioses Steuerrecht</div><div class="lb-row-sub">Wahr oder Falsch? · 40+ Steuerarten · Skurriles</div></div><span class="lb-row-arr">›</span></div>
+
+<div class="bsec" style="margin-top:4px">📝 Steuerrecht-Quiz</div>
+<div style="font-size:11px;color:#888;font-weight:700;margin:-8px 0 8px;padding-left:2px">Fragen beantworten · Punkte sammeln · Highscores knacken</div>
+<div class="lb-list" style="border-color:#c0d4ff">
+  <div class="lb-row" onclick="sw('est')" style="border-left:4px solid #1a3a8f"><span class="lb-row-icon">💼</span><div class="lb-row-text"><div class="lb-row-title">Einkommensteuer</div><div class="lb-row-sub">§§ 1–120 EStG · Einkunftsarten, Tarif, Werbungskosten</div></div><span class="lb-row-arr">›</span></div>
+  <div class="lb-row" onclick="sw('ust')" style="border-left:4px solid #ff8c42"><span class="lb-row-icon">🛒</span><div class="lb-row-text"><div class="lb-row-title">Umsatzsteuer</div><div class="lb-row-sub">§§ 1–29 UStG · 0 %, 7 %, 19 % · Vorsteuerabzug</div></div><span class="lb-row-arr">›</span></div>
+  <div class="lb-row" onclick="sw('ao')" style="border-left:4px solid #7b5ea7"><span class="lb-row-icon">⚖️</span><div class="lb-row-text"><div class="lb-row-title">Abgabenordnung</div><div class="lb-row-sub">§§ 1–415 AO · Fristen, Einspruch, Außenprüfung</div></div><span class="lb-row-arr">›</span></div>
+  <div class="lb-row" onclick="sw('bilanz')" style="border-left:4px solid #00bcd4"><span class="lb-row-icon">📋</span><div class="lb-row-text"><div class="lb-row-title">Bilanz & Buchführung</div><div class="lb-row-sub">HGB · Soll/Haben, AfA, Buchungssatz-Training</div></div><span class="lb-row-arr">›</span></div>
+  <div class="lb-row" onclick="sw('recht')" style="border-left:4px solid #005c36"><span class="lb-row-icon">🏛️</span><div class="lb-row-text"><div class="lb-row-title">Privat- & Öffentl. Recht</div><div class="lb-row-sub">BGB · GG · Finanzgericht · BFH</div></div><span class="lb-row-arr">›</span></div>
+  <div class="lb-row" onclick="sw('kurios')" style="border-left:4px solid #ff4d6d"><span class="lb-row-icon">🤯</span><div class="lb-row-text"><div class="lb-row-title">Kurioses Steuerrecht</div><div class="lb-row-sub">Wahr oder Falsch? · 40+ Steuerarten · Skurriles</div></div><span class="lb-row-arr">›</span></div>
+</div>
+
+<div class="bsec" style="margin-top:14px">🎓 Prüfungsvorbereitung</div>
+<div style="font-size:11px;color:#888;font-weight:700;margin:-8px 0 8px;padding-left:2px">Klausur-Simulation · Praxisfälle · Steuer-Stories</div>
+<div class="lb-list" style="border-color:#b7f5dc">
+  <div class="lb-row" onclick="sw('pruefung')" style="border-left:4px solid #005c36"><span class="lb-row-icon">🎓</span><div class="lb-row-text"><div class="lb-row-title">Prüfungsmodus</div><div class="lb-row-sub">Echte Klausur-Simulation mit Note 1–6 · Timer</div></div><span class="lb-row-arr">›</span></div>
+  <div class="lb-row" onclick="sw('praxis')" style="border-left:4px solid #1a3a8f"><span class="lb-row-icon">📋</span><div class="lb-row-text"><div class="lb-row-title">Praxisfälle</div><div class="lb-row-sub">Realistische 3-Schritte-Szenarien · AO, ESt, USt</div></div><span class="lb-row-arr">›</span></div>
+  <div class="lb-row" onclick="sw('story')" style="border-left:4px solid #7b5ea7"><span class="lb-row-icon">📖</span><div class="lb-row-text"><div class="lb-row-title">Interaktive Geschichten</div><div class="lb-row-sub">4 Alltagsstories · Lohnzettel, Schwarzarbeit, Selbständig, AO-Einspruch</div></div><span class="lb-row-arr">›</span></div>
+</div>
+
+<div class="bsec" style="margin-top:14px">🧰 Lernwerkzeuge</div>
+<div style="font-size:11px;color:#888;font-weight:700;margin:-8px 0 8px;padding-left:2px">Wiederholen · Nachschlagen · Gegen die Zeit trainieren</div>
+<div class="lb-list" style="border-color:#ffd6a0">
+  <div class="lb-row" onclick="sw('flashcard')" style="border-left:4px solid #ff8c42"><span class="lb-row-icon">🃏</span><div class="lb-row-text"><div class="lb-row-title">Lernkarten</div><div class="lb-row-sub">AO · ESt · Recht · Spaced-Repetition-Prinzip</div></div><span class="lb-row-arr">›</span></div>
+  <div class="lb-row" onclick="sw('speed')" style="border-left:4px solid #3d0a6b"><span class="lb-row-icon">⚡</span><div class="lb-row-text"><div class="lb-row-title">Speed-Quiz</div><div class="lb-row-sub">Gegen die Zeit · Buchungssätze & § Para-Sprint</div></div><span class="lb-row-arr">›</span></div>
+  <div class="lb-row" onclick="sw('glossar')" style="border-left:4px solid #1a3a8f"><span class="lb-row-icon">📖</span><div class="lb-row-text"><div class="lb-row-title">Glossar</div><div class="lb-row-sub">Alle Fachbegriffe · Norm · Beispiel · A–Z</div></div><span class="lb-row-arr">›</span></div>
+  <div class="lb-row" onclick="sw('fehler')" style="border-left:4px solid #ff4d6d"><span class="lb-row-icon">🔁</span><div class="lb-row-text"><div class="lb-row-title">Fehlerspeicher</div><div class="lb-row-sub">Falsch beantwortete Fragen gezielt wiederholen</div></div><span class="lb-row-arr">›</span></div>
 </div>
 
 <div class="bsec" style="margin-top:16px">⚡ Schnell starten</div>
-<div class="entry-row">
-  <div class="daily-teaser" onclick="sw('meinbereich')" style="flex:1;margin-bottom:0">
-    <div class="dt-eyebrow">Daily Challenge</div>
-    <div class="dt-title" id="b-dc-title">Lade...</div>
-    <div class="dt-sub" id="b-dc-sub">Täglich neue Frage</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px">
+  <div onclick="sw('meinbereich')" style="background:linear-gradient(135deg,#1a0530,#3d0a6b);border:2px solid rgba(139,92,246,.4);border-radius:16px;padding:16px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:6px" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(139,92,246,.3)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+    <div style="display:flex;align-items:center;gap:8px">
+      <span style="font-size:24px">📅</span>
+      <span style="font-size:9px;font-family:'Space Mono',monospace;letter-spacing:1.5px;color:rgba(255,255,255,.4);text-transform:uppercase">Daily Challenge</span>
+    </div>
+    <div style="font-size:14px;font-weight:900;color:#fff;line-height:1.3" id="b-dc-title">Lade...</div>
+    <div style="font-size:10px;color:rgba(255,255,255,.45);font-weight:700" id="b-dc-sub">Täglich neue Frage</div>
   </div>
-  <div class="entry-quiz-btn" onclick="sw('pruefung')" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-width:90px;padding:14px 12px;cursor:pointer;background:linear-gradient(135deg,rgba(26,58,143,.18),rgba(13,43,94,.28));border:2px solid rgba(0,194,224,.2);border-radius:16px">
-    <span style="font-size:22px">🎓</span>
-    <span style="font-size:11px;font-weight:900;color:rgba(255,255,255,.8)">Prüfungsmodus</span>
+  <div onclick="sw('pruefung')" style="background:linear-gradient(135deg,#0d2b5e,#1a4a8f);border:2px solid rgba(0,194,224,.3);border-radius:16px;padding:16px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:6px" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(0,194,224,.25)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+    <div style="display:flex;align-items:center;gap:8px">
+      <span style="font-size:24px">🎓</span>
+      <span style="font-size:9px;font-family:'Space Mono',monospace;letter-spacing:1.5px;color:rgba(255,255,255,.4);text-transform:uppercase">Prüfungsmodus</span>
+    </div>
+    <div style="font-size:14px;font-weight:900;color:#fff;line-height:1.3">Klausur starten</div>
+    <div style="font-size:10px;color:rgba(255,255,255,.45);font-weight:700">Timer · Themen wählen · Note 1–6</div>
   </div>
 </div>
 <!-- ZvE LÖSUNGSWEG -->
 <div class="bsec" style="margin-top:18px">🧮 Der Weg zum zu versteuernden Einkommen</div>
 <div style="background:#fff;border-radius:16px;border:2px solid #dde5f5;padding:16px;margin-bottom:10px">
-  <div style="font-size:10px;font-weight:700;color:#aaa;font-family:'Space Mono',monospace;margin-bottom:14px;letter-spacing:.5px">§§ 2 · 9 · 10 · 10a · 32a EStG · Prüfungsrelevante Schrittfolge</div>
+  <div style="font-size:10px;font-weight:700;color:#aaa;font-family:'Space Mono',monospace;margin-bottom:14px;letter-spacing:.5px">§ 2 Abs. 1–5 EStG · Prüfungsrelevante Schrittfolge</div>
 
   <div class="zve-step"><div class="zve-badge blue">①</div><div class="zve-content"><div class="zve-title">Einnahmen je Einkunftsart</div><div class="zve-hint">Summe aller Einnahmen aus den 7 Einkunftsarten (§ 2 Abs. 1 EStG)</div></div></div>
-  <div class="zve-minus">− Werbungskosten / Betriebsausgaben <span class="zve-para">§ 9 EStG · Pauschale 1.230 €</span></div>
-  <div class="zve-result-line">= <b>Einkünfte je Einkunftsart</b></div>
-  <div class="zve-minus">± Verlustausgleich zwischen Einkunftsarten <span class="zve-para">§ 2 Abs. 3 EStG</span></div>
-  <div class="zve-result-line">= <b>Summe der Einkünfte</b></div>
-  <div class="zve-minus">− Altersentlastungsbetrag / Entlastungsbetrag Alleinerziehende <span class="zve-para">§ 24a, § 24b EStG</span></div>
+  <div class="zve-minus">− Werbungskosten / Betriebsausgaben <span class="zve-para">§ 9 / § 4 Abs. 4 EStG · Pauschale 1.230 €</span></div>
+  <div class="zve-result-line">= <b>Einkünfte je Einkunftsart</b> <span class="zve-para">§ 2 Abs. 2 EStG</span></div>
+  <div class="zve-minus">± Verlustausgleich (horizontaler + vertikaler) <span class="zve-para">§ 2 Abs. 3 EStG</span></div>
+  <div class="zve-result-line">= <b>Summe der Einkünfte</b> <span class="zve-para">§ 2 Abs. 3 EStG</span></div>
+  <div class="zve-minus">− Altersentlastungsbetrag <span class="zve-para">§ 24a EStG</span></div>
+  <div class="zve-minus">− Entlastungsbetrag Alleinerziehende <span class="zve-para">§ 24b EStG</span></div>
+  <div class="zve-minus">− Freibetrag Land- & Forstwirtschaft <span class="zve-para">§ 13 Abs. 3 EStG</span></div>
 
-  <div class="zve-step" style="margin-top:8px"><div class="zve-badge purple">②</div><div class="zve-content"><div class="zve-title">Gesamtbetrag der Einkünfte (GdE)</div><div class="zve-hint">Zwischenergebnis – Ausgangspunkt für Sonderausgaben und agB</div></div></div>
-  <div class="zve-minus">− Sonderausgaben <span class="zve-para">§ 10 EStG: KV/PV, Spenden, Kirchensteuer</span></div>
-  <div class="zve-minus">− Außergewöhnliche Belastungen <span class="zve-para">§ 33 EStG: zumutbare Eigenbelastung beachten!</span></div>
-  <div class="zve-minus">− Kinderfreibetrag (Günstigerprüfung gg. Kindergeld) <span class="zve-para">§ 32 EStG</span></div>
+  <div class="zve-step" style="margin-top:8px"><div class="zve-badge purple">②</div><div class="zve-content"><div class="zve-title">Gesamtbetrag der Einkünfte (GdE)</div><div class="zve-hint">§ 2 Abs. 3 EStG – Ausgangspunkt für Verlustabzug und Sonderausgaben</div></div></div>
+  <div class="zve-minus">− Verlustabzug (Verlustrücktrag / Verlustvortrag) <span class="zve-para">§ 10d EStG</span></div>
+  <div class="zve-minus">− Sonderausgaben <span class="zve-para">§ 10, 10a, 10b, 10c EStG: KV/PV, Altersvorsorge, Spenden, Kirchensteuer</span></div>
+  <div class="zve-minus">− Außergewöhnliche Belastungen <span class="zve-para">§ 33, 33a, 33b EStG: zumutbare Eigenbelastung beachten!</span></div>
 
-  <div class="zve-step zve-final" style="margin-top:8px"><div class="zve-badge green">③</div><div class="zve-content"><div class="zve-title">zu versteuerndes Einkommen (zvE)</div><div class="zve-hint">Bemessungsgrundlage für § 32a EStG – Einkommensteuertarif</div></div></div>
-  <div class="zve-minus">× Steuertarif § 32a EStG (0 % bis 45 %)</div>
-  <div class="zve-minus">− Steuerermäßigungen <span class="zve-para">§ 35a Haushaltsnahe DL · § 34c Anrechnungsmethode</span></div>
-  <div class="zve-result-line zve-end">= <b>Festzusetzende Einkommensteuer</b> 💰</div>
+  <div class="zve-step" style="margin-top:8px"><div class="zve-badge" style="background:#b84a00">③</div><div class="zve-content"><div class="zve-title">Einkommen</div><div class="zve-hint">§ 2 Abs. 4 EStG – Zwischenschritt, oft in Klausuren gefragt!</div></div></div>
+  <div class="zve-minus">− Kinderfreibeträge (Günstigerprüfung gg. Kindergeld) <span class="zve-para">§ 31, § 32 Abs. 6 EStG</span></div>
+  <div class="zve-minus">− Härteausgleich <span class="zve-para">§ 46 Abs. 3, 5 EStG · § 70 EStDV</span></div>
+
+  <div class="zve-step zve-final" style="margin-top:8px"><div class="zve-badge green">④</div><div class="zve-content"><div class="zve-title">zu versteuerndes Einkommen (zvE)</div><div class="zve-hint">§ 2 Abs. 5 EStG – Bemessungsgrundlage für den Steuertarif</div></div></div>
+  <div class="zve-minus">× Steuertarif § 32a EStG (0 %→14 %→42 %→45 %)</div>
+  <div class="zve-result-line">= <b>tarifliche Einkommensteuer</b></div>
+  <div class="zve-minus">− Steuerermäßigungen <span class="zve-para">§ 35 GewSt-Anrechnung · § 35a Haushaltsnah · § 34c Anrechnung ausl. Steuern</span></div>
+  <div class="zve-result-line zve-end">= <b>festzusetzende Einkommensteuer</b> 💰</div>
+
+  <div style="background:#fffbea;border:2px solid #ffe082;border-radius:10px;padding:10px 12px;margin-top:12px;font-size:11px;font-weight:700;color:#7a5c00;line-height:1.6">
+    ⚡ <b>Klausurtipp:</b> Die Schritte §-genau abarbeiten! Häufigster Fehler: den Zwischenschritt „Einkommen" (§ 2 Abs. 4) überspringen und direkt vom GdE zum zvE gehen. Prüfer achten darauf.
+  </div>
 </div>
 
 <!-- GUTACHTENSTIL -->
@@ -3149,25 +3374,47 @@ function renderBasics(a){
     </div>
   </div>
 
-  <!-- Beispiel § 1 EStG -->
+  <!-- Beispiel A: § 1 EStG -->
   <div style="background:#f8faff;border-radius:12px;border:2px solid #dde5f5;padding:12px;margin-bottom:12px">
     <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--blue);letter-spacing:1px;margin-bottom:8px;text-transform:uppercase">Beispiel A: Unbeschränkte Steuerpflicht § 1 Abs. 1 EStG</div>
     <div style="font-size:11px;font-weight:700;line-height:1.9;color:#333">
       <div><span style="background:#0d2b5e;color:#fff;border-radius:4px;padding:1px 7px;font-size:9px;margin-right:6px;font-family:'Space Mono',monospace">O</span>Lena könnte gem. <b>§ 1 Abs. 1 EStG</b> unbeschränkt einkommensteuerpflichtig sein.</div>
-      <div style="margin-top:6px"><span style="background:#0a5c3a;color:#fff;border-radius:4px;padding:1px 7px;font-size:9px;margin-right:6px;font-family:'Space Mono',monospace">V</span>Voraussetzung: <b>natürliche Person</b> mit <b>Wohnsitz (§ 8 AO)</b> oder <b>gewöhnlichem Aufenthalt (§ 9 AO)</b> im Inland.</div>
-      <div style="margin-top:6px"><span style="background:#5c2d91;color:#fff;border-radius:4px;padding:1px 7px;font-size:9px;margin-right:6px;font-family:'Space Mono',monospace">S</span>Lena ist natürliche Person. Sie wohnt in Berlin (Wohnsitz i.S.d. <b>§ 8 AO</b>: Innehaben einer Wohnung unter Umständen, die auf Beibehaltung schließen lassen). Alle TBM erfüllt.</div>
-      <div style="margin-top:6px"><span style="background:#b84a00;color:#fff;border-radius:4px;padding:1px 7px;font-size:9px;margin-right:6px;font-family:'Space Mono',monospace">E</span>Lena ist gem. <b>§ 1 Abs. 1 EStG unbeschränkt einkommensteuerpflichtig</b>.</div>
+      <div style="margin-top:6px"><span style="background:#0a5c3a;color:#fff;border-radius:4px;padding:1px 7px;font-size:9px;margin-right:6px;font-family:'Space Mono',monospace">V</span>Voraussetzung: <b>(1)</b> natürliche Person, <b>(2)</b> Wohnsitz (§ 8 AO) oder gewöhnlicher Aufenthalt (§ 9 AO) <b>(3)</b> im Inland.</div>
+      <div style="margin-top:6px"><span style="background:#5c2d91;color:#fff;border-radius:4px;padding:1px 7px;font-size:9px;margin-right:6px;font-family:'Space Mono',monospace">S</span><b>(1)</b> Lena ist eine natürliche Person (keine juristische Person). <b>(2)</b> Sie bewohnt eine Wohnung in Berlin unter Umständen, die auf Beibehaltung schließen lassen (§ 8 AO – Wohnsitz). <b>(3)</b> Berlin liegt im Inland i.S.d. § 1 Abs. 1 EStG.</div>
+      <div style="margin-top:6px"><span style="background:#b84a00;color:#fff;border-radius:4px;padding:1px 7px;font-size:9px;margin-right:6px;font-family:'Space Mono',monospace">E</span>Alle TBM sind erfüllt. Lena ist gem. <b>§ 1 Abs. 1 EStG unbeschränkt einkommensteuerpflichtig</b>.</div>
     </div>
   </div>
 
-  <!-- Beispiel § 9 EStG -->
+  <!-- Beispiel B: § 9 EStG -->
   <div style="background:#f8faff;border-radius:12px;border:2px solid #dde5f5;padding:12px;margin-bottom:12px">
     <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--blue);letter-spacing:1px;margin-bottom:8px;text-transform:uppercase">Beispiel B: Werbungskosten § 9 Abs. 1 S. 1 EStG</div>
     <div style="font-size:11px;font-weight:700;line-height:1.9;color:#333">
       <div><span style="background:#0d2b5e;color:#fff;border-radius:4px;padding:1px 7px;font-size:9px;margin-right:6px;font-family:'Space Mono',monospace">O</span>Die Fahrtkosten könnten gem. <b>§ 9 Abs. 1 S. 1 EStG</b> als Werbungskosten abzugsfähig sein.</div>
       <div style="margin-top:6px"><span style="background:#0a5c3a;color:#fff;border-radius:4px;padding:1px 7px;font-size:9px;margin-right:6px;font-family:'Space Mono',monospace">V</span>TBM: <b>(1)</b> Aufwendungen, <b>(2)</b> zur Erwerbung, Sicherung oder Erhaltung, <b>(3)</b> von Einnahmen aus einer Überschusseinkunftsart.</div>
-      <div style="margin-top:6px"><span style="background:#5c2d91;color:#fff;border-radius:4px;padding:1px 7px;font-size:9px;margin-right:6px;font-family:'Space Mono',monospace">S</span><b>(1)</b> Fahrtkosten sind Aufwendungen (Vermögensabfluss). <b>(2)</b> Sie dienen der Erzielung von Arbeitslohn – Kausalzusammenhang gegeben. <b>(3)</b> Arbeitslohn = § 19 EStG = Überschusseinkunftsart.</div>
-      <div style="margin-top:6px"><span style="background:#b84a00;color:#fff;border-radius:4px;padding:1px 7px;font-size:9px;margin-right:6px;font-family:'Space Mono',monospace">E</span>Die Fahrtkosten sind als <b>Werbungskosten gem. § 9 Abs. 1 S. 1 i.V.m. Nr. 4 EStG abzugsfähig</b>.</div>
+      <div style="margin-top:6px"><span style="background:#5c2d91;color:#fff;border-radius:4px;padding:1px 7px;font-size:9px;margin-right:6px;font-family:'Space Mono',monospace">S</span><b>(1)</b> Fahrtkosten sind Aufwendungen (bewusster Vermögensabfluss). <b>(2)</b> Sie dienen der Erzielung von Arbeitslohn – berufliche Veranlassung gegeben. <b>(3)</b> Arbeitslohn = § 19 EStG = Überschusseinkunftsart.</div>
+      <div style="margin-top:6px"><span style="background:#b84a00;color:#fff;border-radius:4px;padding:1px 7px;font-size:9px;margin-right:6px;font-family:'Space Mono',monospace">E</span>Die Fahrtkosten sind als <b>Werbungskosten gem. § 9 Abs. 1 S. 1 i.V.m. Abs. 1 S. 3 Nr. 4 EStG abzugsfähig</b>. Konkret: Entfernungspauschale (einfache Strecke × 0,30 €, ab km 21: 0,38 €).</div>
+    </div>
+  </div>
+
+  <!-- Beispiel C: § 15 EStG – Einkünfte aus Gewerbebetrieb (NEU) -->
+  <div style="background:#f8faff;border-radius:12px;border:2px solid #dde5f5;padding:12px;margin-bottom:12px">
+    <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--blue);letter-spacing:1px;margin-bottom:8px;text-transform:uppercase">Beispiel C: Einkünfte aus Gewerbebetrieb § 15 Abs. 2 EStG</div>
+    <div style="font-size:11px;font-weight:700;line-height:1.9;color:#333">
+      <div><span style="background:#0d2b5e;color:#fff;border-radius:4px;padding:1px 7px;font-size:9px;margin-right:6px;font-family:'Space Mono',monospace">O</span>Herr Müller könnte gem. <b>§ 15 Abs. 2 S. 1 EStG</b> Einkünfte aus Gewerbebetrieb erzielen.</div>
+      <div style="margin-top:6px"><span style="background:#0a5c3a;color:#fff;border-radius:4px;padding:1px 7px;font-size:9px;margin-right:6px;font-family:'Space Mono',monospace">V</span>TBM gem. § 15 Abs. 2 S. 1 EStG: <b>(1)</b> selbständige, <b>(2)</b> nachhaltige <b>(3)</b> Betätigung, <b>(4)</b> mit Gewinnerzielungsabsicht, <b>(5)</b> Beteiligung am allg. wirtschaftlichen Verkehr, die <b>(6)</b> weder Land-/Forstwirtschaft noch selbständige Arbeit (§ 18) darstellt.</div>
+      <div style="margin-top:6px"><span style="background:#5c2d91;color:#fff;border-radius:4px;padding:1px 7px;font-size:9px;margin-right:6px;font-family:'Space Mono',monospace">S</span><b>(1)</b> Müller handelt auf eigene Rechnung und Risiko (selbständig). <b>(2)</b> Er betreibt den Laden seit 5 Jahren (nachhaltig, Wiederholungsabsicht). <b>(3)</b> Der Betrieb eines Ladens ist eine Betätigung. <b>(4)</b> Er strebt Überschüsse an (Gewinnerzielungsabsicht; kein Liebhaberei-Verdacht). <b>(5)</b> Der Laden steht jedermann offen (allg. wirtschaftl. Verkehr). <b>(6)</b> Einzelhandel ist kein Katalogberuf i.S.d. § 18 EStG und keine Land-/Forstwirtschaft.</div>
+      <div style="margin-top:6px"><span style="background:#b84a00;color:#fff;border-radius:4px;padding:1px 7px;font-size:9px;margin-right:6px;font-family:'Space Mono',monospace">E</span>Alle TBM sind erfüllt. Herr Müller erzielt <b>Einkünfte aus Gewerbebetrieb gem. § 15 Abs. 2 S. 1 EStG</b>. Folge: Gewinnermittlung nach § 4 Abs. 1 EStG, zusätzlich Gewerbesteuerpflicht (§ 2 GewStG).</div>
+    </div>
+  </div>
+
+  <!-- Beispiel D: § 118 AO – Verwaltungsakt (NEU) -->
+  <div style="background:#f8faff;border-radius:12px;border:2px solid #dde5f5;padding:12px;margin-bottom:12px">
+    <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--blue);letter-spacing:1px;margin-bottom:8px;text-transform:uppercase">Beispiel D: Verwaltungsakt § 118 AO – typische AO-Klausur</div>
+    <div style="font-size:11px;font-weight:700;line-height:1.9;color:#333">
+      <div><span style="background:#0d2b5e;color:#fff;border-radius:4px;padding:1px 7px;font-size:9px;margin-right:6px;font-family:'Space Mono',monospace">O</span>Der Einkommensteuerbescheid könnte ein Verwaltungsakt gem. <b>§ 118 S. 1 AO</b> sein.</div>
+      <div style="margin-top:6px"><span style="background:#0a5c3a;color:#fff;border-radius:4px;padding:1px 7px;font-size:9px;margin-right:6px;font-family:'Space Mono',monospace">V</span>TBM: <b>(1)</b> Maßnahme einer <b>(2)</b> Behörde, <b>(3)</b> zur Regelung <b>(4)</b> eines Einzelfalls, <b>(5)</b> auf dem Gebiet des öffentlichen Rechts, <b>(6)</b> mit unmittelbarer Rechtswirkung nach außen.</div>
+      <div style="margin-top:6px"><span style="background:#5c2d91;color:#fff;border-radius:4px;padding:1px 7px;font-size:9px;margin-right:6px;font-family:'Space Mono',monospace">S</span><b>(1)</b> Die Steuerfestsetzung ist eine hoheitliche Maßnahme (Willenserklärung mit Entscheidungscharakter). <b>(2)</b> Das Finanzamt ist eine Finanzbehörde i.S.d. § 6 Abs. 2 AO. <b>(3)</b> Der Bescheid legt die Steuerschuld verbindlich fest (Regelung). <b>(4)</b> Er richtet sich an den individuellen Steuerpflichtigen (Einzelfall). <b>(5)</b> Steuerrecht ist öffentliches Recht. <b>(6)</b> Der Bescheid begründet eine Zahlungspflicht (Außenwirkung).</div>
+      <div style="margin-top:6px"><span style="background:#b84a00;color:#fff;border-radius:4px;padding:1px 7px;font-size:9px;margin-right:6px;font-family:'Space Mono',monospace">E</span>Alle TBM sind erfüllt. Der Einkommensteuerbescheid ist ein <b>Verwaltungsakt i.S.d. § 118 S. 1 AO</b>. Rechtsfolge: Einspruchsmöglichkeit gem. § 347 Abs. 1 S. 1 AO, Frist: 1 Monat (§ 355 Abs. 1 AO).</div>
     </div>
   </div>
 
@@ -3177,10 +3424,11 @@ function renderBasics(a){
     <div style="font-size:11px;font-weight:700;color:#444;line-height:1.9">
       · <b>Abs. immer angeben:</b> „§ 1 <b>Abs. 1</b> EStG" – nicht nur „§ 1 EStG"<br>
       · <b>i.V.m. nutzen:</b> Mehrere Normen verbinden: „§ 9 Abs. 1 S. 1 <b>i.V.m.</b> Nr. 4 EStG"<br>
+      · <b>Legaldefinitionen:</b> Wohnsitz (§ 8 AO), gew. Aufenthalt (§ 9 AO), Verwaltungsakt (§ 118 AO), Steuern (§ 3 Abs. 1 AO)<br>
+      · <b>Zwischenergebnis:</b> Nach jedem TBM ein kurzes Zwischenergebnis formulieren<br>
       · <b>Negative Prüfung:</b> „X ist <b>nicht</b> steuerpflichtig, da TBM [Y] nicht erfüllt ist."<br>
-      · <b>Legaldefinitionen:</b> § 8 AO (Wohnsitz), § 9 AO (gew. Aufenthalt), § 14 AO (Unternehmen)<br>
-      · <b>Zwischenergebnis:</b> Nach jedem TBM-Block ein kurzes Zwischenergebnis formulieren<br>
-      · <b>Kein Urteilsstil:</b> Nicht „Lena ist steuerpflichtig, weil…" – sondern erst Prüfung, dann Ergebnis
+      · <b>Rechtsfolge nennen:</b> Ergebnis immer mit konkreter Rechtsfolge abschließen<br>
+      · <b>Kein Urteilsstil:</b> Nicht „Lena ist steuerpflichtig, weil…" – sondern erst prüfen, dann Ergebnis
     </div>
   </div>
 </div>
@@ -3632,13 +3880,288 @@ function extractMerkregel(explain, context){
 function nextQ(){
   idx++;answered=false;render();
 }
+// ==================== QUIZ RENDER FUNCTIONS ====================
+
+function _quizProgress(arr,i){
+  const total=arr.length, p=Math.round(i/total*100);
+  return `<div style="font-size:10px;font-family:'Space Mono',monospace;color:#aaa;margin-bottom:4px;display:flex;justify-content:space-between"><span>Frage ${i+1} / ${total}</span><span style="color:var(--green)">${corr} ✓</span></div><div class="prog-wrap" style="margin-bottom:14px"><div class="prog-fill" style="width:${p}%;background:var(--blue)"></div></div>`;
+}
+
+// ─── EINKOMMENSTEUER ───────────────────────────────────────────
+function renderEst(a){
+  const tabs=`<div style="display:flex;gap:6px;margin-bottom:12px">
+    <button onclick="swSub('einkunft')" style="flex:1;padding:9px;border-radius:10px;border:2px solid ${submode==='einkunft'?'#1a3a8f':'#dde5f5'};background:${submode==='einkunft'?'#1a3a8f':'#f0f4ff'};color:${submode==='einkunft'?'#fff':'#555'};font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer;transition:all .15s">📂 Einkunftsarten</button>
+    <button onclick="swSub('werbung')" style="flex:1;padding:9px;border-radius:10px;border:2px solid ${submode==='werbung'?'#1a3a8f':'#dde5f5'};background:${submode==='werbung'?'#1a3a8f':'#f0f4ff'};color:${submode==='werbung'?'#fff':'#555'};font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer;transition:all .15s">🧾 Werbungskosten</button>
+  </div>`;
+  if(submode==='einkunft') renderEstEinkunft(a, tabs);
+  else renderEstWerbung(a, tabs);
+}
+
+function renderEstEinkunft(a, tabs){
+  if(idx>=sh_ein.length){a.innerHTML='';renderResult2('ga','💼 Einkommensteuer',sh_ein.length);return;}
+  const q=sh_ein[idx];
+  const catsHtml=D_EINKATS.map(c=>`<button class="choice-btn" onclick="ansEinkunft(${c.id})" data-i="${c.id}" style="text-align:left"><span class="ct">${c.icon} ${c.name}<br><span style="font-size:9px;font-family:'Space Mono',monospace;opacity:.6">${c.sub}</span></span></button>`).join('');
+  a.innerHTML=`${tabs}${quizFilterBar()}${_quizProgress(sh_ein,idx)}
+    <div class="item-card"><span class="ii">${q.icon}</span><div><div class="in">${q.name}</div><div class="is">${q.sub}</div></div></div>
+    <div style="font-size:11px;color:#777;font-weight:700;margin-bottom:8px;font-family:'Space Mono',monospace">Welche Einkunftsart? Ordne zu:</div>
+    <div class="ao-grid">${catsHtml}</div>
+    <div class="fb" id="fb"></div>
+    <button class="next-btn" id="nb" onclick="nextQ()">Nächste Frage ➜</button>`;
+  answered=false;
+}
+
+function ansEinkunft(chosen){
+  if(answered)return; answered=true;
+  const q=sh_ein[idx]; const ok=(chosen===q.ans);
+  updSc(ok);
+  if(!ok) addFehler({...q,q:q.name,opts:D_EINKATS.map(c=>c.icon+' '+c.name),_qtype:'mc'},'est');
+  document.querySelectorAll('.choice-btn').forEach(b=>{
+    b.disabled=true;
+    const v=parseInt(b.dataset.i);
+    if(v===q.ans)b.classList.add('correct');
+    else if(v===chosen&&!ok)b.classList.add('wrong');
+  });
+  showFb(ok, q.explain, q.name);
+}
+
+function renderEstWerbung(a, tabs){
+  if(idx>=sh_werb.length){a.innerHTML='';renderResult2('ga','🧾 Werbungskosten',sh_werb.length);return;}
+  const q=sh_werb[idx];
+  a.innerHTML=`${tabs}${quizFilterBar()}${_quizProgress(sh_werb,idx)}
+    <div class="wk-card" style="background:#fff;border-radius:16px;border:2px solid #dde5f5;padding:16px;margin-bottom:14px;display:flex;align-items:flex-start;gap:12px">
+      <span style="font-size:32px">${q.icon}</span>
+      <div><div style="font-size:14px;font-weight:900;color:var(--navy)">${q.name}</div><div style="font-size:11px;color:#888;font-weight:700;margin-top:2px">${q.desc}</div></div>
+    </div>
+    <div class="wk-btns"><button class="wk-btn yb" onclick="ansWerbung(true)">✅ Ja, absetzbar!</button><button class="wk-btn nb" onclick="ansWerbung(false)">❌ Nein, nicht absetzbar</button></div>
+    <div class="fb" id="fb"></div>
+    <button class="next-btn" id="nb" onclick="nextQ()">Nächste Frage ➜</button>`;
+  answered=false;
+}
+
+function ansWerbung(chosen){
+  if(answered)return; answered=true;
+  const q=sh_werb[idx]; const ok=(chosen===q.ans);
+  updSc(ok);
+  if(!ok) addFehler({...q,_qtype:'wk'},'est');
+  document.querySelectorAll('.wk-btn').forEach(b=>b.disabled=true);
+  const cb=q.ans?document.querySelector('.yb'):document.querySelector('.nb');
+  if(cb)cb.classList.add('ca');
+  showFb(ok, q.explain, q.name);
+}
+
+// ─── UMSATZSTEUER ──────────────────────────────────────────────
+function renderUst(a){
+  if(idx>=sh_ust.length){a.innerHTML='';renderResult2('ga','🛒 Umsatzsteuer',sh_ust.length);return;}
+  const q=sh_ust[idx];
+  a.innerHTML=`${quizFilterBar()}${_quizProgress(sh_ust,idx)}
+    <div class="item-card"><span class="ii">${q.icon}</span><div><div class="in">${q.name}</div><div class="is">${q.desc}</div></div></div>
+    <div class="ust-choices">
+      <button class="ust-btn ust-btn-0" onclick="ansUst(0)" data-r="0">0 %<div class="ust-lbl">Steuerfrei</div></button>
+      <button class="ust-btn ust-btn-7" onclick="ansUst(7)" data-r="7">7 %<div class="ust-lbl">Ermäßigt</div></button>
+      <button class="ust-btn ust-btn-19" onclick="ansUst(19)" data-r="19">19 %<div class="ust-lbl">Regelsteuersatz</div></button>
+    </div>
+    <div class="fb" id="fb"></div>
+    <button class="next-btn" id="nb" onclick="nextQ()">Nächste Frage ➜</button>`;
+  answered=false;
+}
+
+function ansUst(chosen){
+  if(answered)return; answered=true;
+  const q=sh_ust[idx]; const ok=(chosen===q.ans);
+  updSc(ok);
+  if(!ok) addFehler({...q,_qtype:'ust'},'ust');
+  document.querySelectorAll('.ust-btn').forEach(b=>{b.disabled=true;if(parseInt(b.dataset.r)===q.ans)b.classList.add('ca');});
+  showFb(ok, q.explain, q.name);
+}
+
+// ─── ABGABENORDNUNG ────────────────────────────────────────────
+function renderAo(a){
+  if(idx>=sh_ao.length){a.innerHTML='';renderResult2('ga','⚖️ Abgabenordnung',sh_ao.length);return;}
+  const q=sh_ao[idx];
+  const optsHtml=q.opts.map((o,i)=>`<button class="choice-btn" onclick="ansAo(${i})" data-i="${i}"><span class="ct">${o}</span></button>`).join('');
+  a.innerHTML=`${quizFilterBar()}${_quizProgress(sh_ao,idx)}
+    <div style="background:#f4f7ff;border-radius:14px;padding:15px 16px;margin-bottom:14px;font-size:14px;font-weight:800;color:var(--navy);line-height:1.55;border-left:4px solid var(--blue)">${q.q}</div>
+    <div class="ao-grid">${optsHtml}</div>
+    <div class="fb" id="fb"></div>
+    <button class="next-btn" id="nb" onclick="nextQ()">Nächste Frage ➜</button>`;
+  answered=false;
+}
+
+function ansAo(chosen){
+  if(answered)return; answered=true;
+  const q=sh_ao[idx]; const ok=(chosen===q.ans);
+  updSc(ok);
+  if(!ok) addFehler({...q,_qtype:'mc'},'ao');
+  document.querySelectorAll('.choice-btn').forEach(b=>{b.disabled=true;const i=parseInt(b.dataset.i);if(i===q.ans)b.classList.add('correct');else if(i===chosen&&!ok)b.classList.add('wrong');});
+  showFb(ok, q.explain, q.q);
+}
+
+// ─── KURIOSES ──────────────────────────────────────────────────
+function renderKurios(a){
+  if(idx>=sh_kurios.length){a.innerHTML='';renderResult2('ga','🤯 Kurioses',sh_kurios.length);return;}
+  const q=sh_kurios[idx];
+  // Kurios may have opts (MC) or wahr/falsch (boolean ans)
+  const isMC = q.opts && q.opts.length > 0;
+  let answerHtml;
+  if(isMC){
+    answerHtml=`<div class="ao-grid">${q.opts.map((o,i)=>`<button class="choice-btn" onclick="ansKurios(${i})" data-i="${i}"><span class="ct">${o}</span></button>`).join('')}</div>`;
+  } else {
+    answerHtml=`<div class="wf-choices"><button class="wf-btn wf-wahr" onclick="ansKurios(true)" data-v="true">✅ Wahr</button><button class="wf-btn wf-falsch" onclick="ansKurios(false)" data-v="false">❌ Falsch</button></div>`;
+  }
+  a.innerHTML=`${quizFilterBar()}${_quizProgress(sh_kurios,idx)}
+    <div class="item-card"><span class="ii">${q.icon||'🤯'}</span><div><div class="in" style="font-size:14px;line-height:1.45">${q.q}</div></div></div>
+    ${answerHtml}
+    <div class="fb" id="fb"></div>
+    <button class="next-btn" id="nb" onclick="nextQ()">Nächste Frage ➜</button>`;
+  answered=false;
+}
+
+function ansKurios(chosen){
+  if(answered)return; answered=true;
+  const q=sh_kurios[idx]; const ok=(chosen===q.ans);
+  updSc(ok);
+  if(!ok) addFehler({...q,_qtype:q.opts?'mc':'kurios'},'kurios');
+  if(q.opts){
+    document.querySelectorAll('.choice-btn').forEach(b=>{b.disabled=true;const i=parseInt(b.dataset.i);if(i===q.ans)b.classList.add('correct');else if(i===chosen&&!ok)b.classList.add('wrong');});
+  } else {
+    document.querySelectorAll('.wf-btn').forEach(b=>{b.disabled=true;if((b.dataset.v==='true')===q.ans)b.classList.add('ca');});
+  }
+  showFb(ok, q.explain, q.q);
+}
+
+// ─── RECHT ─────────────────────────────────────────────────────
+function renderRecht(a){
+  if(idx>=sh_recht.length){a.innerHTML='';renderResult2('ga','🏛️ Privat- & Öff. Recht',sh_recht.length);return;}
+  const q=sh_recht[idx];
+  const optsHtml=q.opts.map((o,i)=>`<button class="choice-btn" onclick="ansRecht(${i})" data-i="${i}"><span class="ct">${o}</span></button>`).join('');
+  a.innerHTML=`${quizFilterBar()}${_quizProgress(sh_recht,idx)}
+    <div style="background:#f4f7ff;border-radius:14px;padding:15px 16px;margin-bottom:14px;font-size:14px;font-weight:800;color:var(--navy);line-height:1.55;border-left:4px solid #005c5c">${q.q}</div>
+    <div class="ao-grid">${optsHtml}</div>
+    <div class="fb" id="fb"></div>
+    <button class="next-btn" id="nb" onclick="nextQ()">Nächste Frage ➜</button>`;
+  answered=false;
+}
+
+function ansRecht(chosen){
+  if(answered)return; answered=true;
+  const q=sh_recht[idx]; const ok=(chosen===q.ans);
+  updSc(ok);
+  if(!ok) addFehler({...q,_qtype:'mc'},'recht');
+  document.querySelectorAll('.choice-btn').forEach(b=>{b.disabled=true;const i=parseInt(b.dataset.i);if(i===q.ans)b.classList.add('correct');else if(i===chosen&&!ok)b.classList.add('wrong');});
+  showFb(ok, q.explain, q.q);
+}
+
+// ─── BILANZ ────────────────────────────────────────────────────
+function renderBilanz(a){
+  const tabs=`<div style="display:flex;gap:6px;margin-bottom:12px">
+    <button onclick="swBilanz('zu')" style="flex:1;padding:9px;border-radius:10px;border:2px solid ${bilanzSub==='zu'?'#1a3a8f':'#dde5f5'};background:${bilanzSub==='zu'?'#1a3a8f':'#f0f4ff'};color:${bilanzSub==='zu'?'#fff':'#555'};font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer;transition:all .15s">📂 Zuordnung AV/UV</button>
+    <button onclick="swBilanz('buch')" style="flex:1;padding:9px;border-radius:10px;border:2px solid ${bilanzSub==='buch'?'#1a3a8f':'#dde5f5'};background:${bilanzSub==='buch'?'#1a3a8f':'#f0f4ff'};color:${bilanzSub==='buch'?'#fff':'#555'};font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer;transition:all .15s">📒 Buchungssätze</button>
+  </div>`;
+  if(bilanzSub==='zu') renderBilanzZu(a, tabs);
+  else renderBilanzBuch(a, tabs);
+}
+
+function renderBilanzZu(a, tabs){
+  if(idx>=sh_bzu.length){a.innerHTML='';renderResult2('ga','📋 Bilanz – Zuordnung',sh_bzu.length);return;}
+  const q=sh_bzu[idx];
+  a.innerHTML=`${tabs}${quizFilterBar()}${_quizProgress(sh_bzu,idx)}
+    <div class="item-card"><span class="ii">${q.icon}</span><div><div class="in">${q.name}</div><div class="is">${q.desc}</div></div></div>
+    <div class="wk-btns">
+      <button class="wk-btn" style="background:linear-gradient(135deg,#0d2b5e,#1a4a8f);color:#fff;border:none" onclick="ansBilanzZu('av')">🏗️ Anlagevermögen</button>
+      <button class="wk-btn" style="background:linear-gradient(135deg,#005c36,#007a5a);color:#fff;border:none" onclick="ansBilanzZu('uv')">💧 Umlaufvermögen</button>
+    </div>
+    <div class="fb" id="fb"></div>
+    <button class="next-btn" id="nb" onclick="nextQ()">Nächste Frage ➜</button>`;
+  answered=false;
+}
+
+function ansBilanzZu(chosen){
+  if(answered)return; answered=true;
+  const q=sh_bzu[idx]; const ok=(chosen===q.ans);
+  updSc(ok);
+  if(!ok) addFehler({...q,q:q.name,opts:['Anlagevermögen','Umlaufvermögen'],ans:q.ans==='av'?0:1,_qtype:'mc'},'bilanz');
+  document.querySelectorAll('.wk-btn').forEach(b=>b.disabled=true);
+  showFb(ok, `<b>${q.ansLabel}</b> – ${q.explain}`, q.name);
+}
+
+function renderBilanzBuch(a, tabs){
+  if(idx>=sh_buch.length){a.innerHTML='';renderResult2('ga','📒 Buchungssätze',sh_buch.length);return;}
+  const q=sh_buch[idx];
+  const shuffled=[...q.options].sort(()=>Math.random()-.5);
+  const optsHtml=shuffled.map((o,i)=>`<button class="choice-btn" onclick="ansBilanzBuch(${i},${o.correct})" data-correct="${o.correct}" style="text-align:left"><span class="ct">Soll: <b>${o.soll}</b><br>Haben: <b>${o.haben}</b></span></button>`).join('');
+  a.innerHTML=`${tabs}${quizFilterBar()}${_quizProgress(sh_buch,idx)}
+    <div class="item-card"><span class="ii">${q.icon}</span><div><div class="in">${q.name}</div><div class="is">${q.desc}</div></div></div>
+    <div style="font-size:11px;font-weight:800;color:#777;margin-bottom:8px;font-family:'Space Mono',monospace">Welcher Buchungssatz ist korrekt?</div>
+    <div class="ao-grid">${optsHtml}</div>
+    <div class="fb" id="fb"></div>
+    <button class="next-btn" id="nb" onclick="nextQ()">Nächste Frage ➜</button>`;
+  answered=false;
+}
+
+function ansBilanzBuch(chosenIdx, isCorrect){
+  if(answered)return; answered=true;
+  const q=sh_buch[idx]; const ok=isCorrect===true||isCorrect==='true';
+  updSc(ok);
+  if(!ok) addFehler({...q,q:q.name,opts:q.options.map(o=>o.soll+' / '+o.haben),ans:q.options.findIndex(o=>o.correct),_qtype:'mc'},'bilanz');
+  document.querySelectorAll('.choice-btn').forEach((b,i)=>{
+    b.disabled=true;
+    if(b.dataset.correct==='true')b.classList.add('correct');
+    else if(i===chosenIdx&&!ok)b.classList.add('wrong');
+  });
+  showFb(ok, q.explain, q.name);
+}
+
+// ─── LERNKARTEN (FLASHCARD) ────────────────────────────────────
+function renderFlashcard(a){
+  fcData=getFcData(fcMode);
+  if(fcIdx>=fcData.length){
+    const known=fcKnown.length, total=fcData.length;
+    a.innerHTML=`<div style="text-align:center;padding:32px 20px">
+      <div style="font-size:52px;margin-bottom:12px">${known===total?'🏆':'🎯'}</div>
+      <div style="font-size:20px;font-weight:900;color:#fff;margin-bottom:6px">${known===total?'Alle Karten gewusst!':'Stapel abgeschlossen'}</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.5);margin-bottom:24px">${known} / ${total} gewusst</div>
+      ${fcUnknown.length?`<button onclick="fcRestartUnknown()" style="width:100%;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,var(--orange),#e06000);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer;margin-bottom:10px">🔁 Unbekannte nochmal (${fcUnknown.length})</button>`:''}
+      <button onclick="fcRestart()" style="width:100%;padding:12px;border-radius:13px;border:2px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:rgba(255,255,255,.7);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">↺ Alle Karten nochmal</button>
+    </div>`;
+    return;
+  }
+  const card=fcData[fcIdx]; const total=fcData.length;
+  const modeTabsHtml=['ao','recht','est'].map(m=>`<button onclick="fcSwitchMode('${m}')" style="flex:1;padding:7px;border-radius:9px;border:2px solid ${fcMode===m?'var(--cyan)':'rgba(255,255,255,.15)'};background:${fcMode===m?'rgba(0,194,224,.12)':'rgba(255,255,255,.05)'};color:${fcMode===m?'#fff':'rgba(255,255,255,.5)'};font-family:'Nunito',sans-serif;font-weight:800;font-size:10px;cursor:pointer">${m==='ao'?'⚖️ AO':m==='recht'?'🏛️ Recht':'💼 ESt'}</button>`).join('');
+  a.innerHTML=`<div style="display:flex;gap:5px;margin-bottom:12px">${modeTabsHtml}</div>
+    <div style="font-size:10px;font-family:'Space Mono',monospace;color:#aaa;margin-bottom:10px;display:flex;justify-content:space-between"><span>Karte ${fcIdx+1} / ${total}</span><span style="color:var(--green)">${fcKnown.length} ✓ gewusst</span></div>
+    <div class="fc-card ${fcFlipped?'fc-card-back':'fc-card-front'}" onclick="fcFlip()" id="fc-card">
+      <div style="font-size:36px;margin-bottom:10px">${card.icon}</div>
+      ${fcFlipped
+        ? `<div style="font-size:10px;font-family:'Space Mono',monospace;opacity:.55;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">Antwort</div>
+           <div style="font-size:13px;font-weight:700;line-height:1.65">${card.answer}</div>
+           ${card.merkhilfe?`<div style="margin-top:12px;background:rgba(255,255,255,.1);border-radius:10px;padding:10px 12px;font-size:11px;font-weight:700;line-height:1.55">💡 ${card.merkhilfe}</div>`:''}` 
+        : `<div style="font-size:10px;font-family:'Space Mono',monospace;opacity:.55;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">${card.sub}</div>
+           <div style="font-size:18px;font-weight:900;line-height:1.35">${card.term}</div>
+           <div style="margin-top:16px;font-size:11px;opacity:.5">Tippe zum Aufdecken ↩</div>`}
+    </div>
+    ${fcFlipped?`<div style="display:flex;gap:8px;margin-top:10px">
+      <button onclick="fcAnswer(false)" style="flex:1;padding:12px;border-radius:12px;border:2px solid rgba(255,77,109,.4);background:rgba(255,77,109,.1);color:#ff6b8a;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">❌ Nochmal</button>
+      <button onclick="fcAnswer(true)" style="flex:1;padding:12px;border-radius:12px;border:2px solid rgba(0,201,123,.4);background:rgba(0,201,123,.1);color:#00c97b;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">✅ Gewusst</button>
+    </div>`:''}`;
+}
+
+function fcFlip(){ fcFlipped=!fcFlipped; renderFlashcard(document.getElementById('ga')); }
+function fcAnswer(known){
+  if(known) fcKnown.push(fcIdx); else fcUnknown.push(fcIdx);
+  fcIdx++; fcFlipped=false; renderFlashcard(document.getElementById('ga'));
+}
+function fcRestart(){ fcIdx=0; fcFlipped=false; fcKnown=[]; fcUnknown=[]; renderFlashcard(document.getElementById('ga')); }
+function fcRestartUnknown(){ const u=[...fcUnknown]; fcData=u.map(i=>getFcData(fcMode)[i]); fcIdx=0; fcFlipped=false; fcKnown=[]; fcUnknown=[]; renderFlashcard(document.getElementById('ga')); }
+function fcSwitchMode(m){ fcMode=m; fcIdx=0; fcFlipped=false; fcKnown=[]; fcUnknown=[]; fcData=getFcData(m); renderFlashcard(document.getElementById('ga')); }
+
+// ==================== END QUIZ FUNCTIONS ====================
 function renderResult2(containerId,name,total,direct=false){
   const ratio=corr/total;
   const pct=Math.round(ratio*100);
   const emoji=ratio>=.8?'🏆':ratio>=.5?'🎯':'📖';
   const msg=ratio>=.8?'Hervorragend! Du hast das Zeug zum Steuerprofi!':ratio>=.5?'Gut gemacht! Noch ein bisschen Übung!':'Guter Versuch! Probier es nochmal!';
   const nextMode=MODE_ORDER[(MODE_ORDER.indexOf(mode)+1)%MODE_ORDER.length];
-  const nextLabel={'basics':'📚 Basics','est':'💼 Einkommensteuer','ust':'🛒 Umsatzsteuer','bilanz':'📋 Bilanz','ao':'⚖️ Abgabenordnung','kurios':'🤯 Kurioses','recht':'🏛️ Privat- & Öff. Recht','flashcard':'🃏 Lernkarten','meinbereich':'⭐ Mein Bereich','karriere':'🎓 Karriere','badges':'🏅 Abzeichen'}[nextMode];
+  const nextLabel={'basics':'📚 Basics','est':'💼 Einkommensteuer','ust':'🛒 Umsatzsteuer','bilanz':'📋 Bilanz','ao':'⚖️ Abgabenordnung','kurios':'🤯 Kurioses','recht':'🏛️ Privat- & Öff. Recht','flashcard':'🃏 Lernkarten','meinbereich':'⭐ Mein Bereich','karriere':'🎓 Karriere','badges':'🏅 Abzeichen','glossar':'📖 Glossar','speed':'⚡ Gegen die Zeit','pruefung':'🎓 Prüfungsmodus','praxis':'📋 Praxisfälle','fehler':'🔁 Meine Fehler','story':'📖 Steuer-Stories','einfuehrung':'📋 Einführungstag'}[nextMode]||'Weiter';
   const ringColor=ratio>=.8?'var(--green)':ratio>=.5?'var(--cyan)':'var(--orange)';
   const ringGlow=ratio>=.8?'rgba(0,201,123,.35)':ratio>=.5?'rgba(0,194,224,.35)':'rgba(255,140,66,.35)';
   // save highscore
@@ -3648,6 +4171,8 @@ function renderResult2(containerId,name,total,direct=false){
   // trigger completion badges
   if(mode==='ao') triggerBadge('ao_done');
   if(mode==='kurios') triggerBadge('kurios_done');
+  // Mark Einsteiger step 3 (quiz) as done when completing EST quiz from Lernpfad
+  if(einstLaunched==='step3' && mode==='est') setEinstStep('quiz');
   const html=`<div class="result-sc show">
     <div class="result-trophy">${emoji}</div>
     <div class="result-score-ring" style="background:conic-gradient(${ringColor} ${pct*3.6}deg,rgba(255,255,255,.08) 0%);box-shadow:0 0 30px ${ringGlow}">
@@ -3658,7 +4183,7 @@ function renderResult2(containerId,name,total,direct=false){
     <div class="result-msg">${msg}<br><span style="font-family:'Space Mono',monospace;font-size:12px;color:${ringColor}">${pct} % richtig</span></div>
     <div class="result-actions">
       <button class="restart-btn" onclick="restart()">🔄 Nochmal</button>
-      <button class="restart-btn" style="background:linear-gradient(135deg,var(--blue),#2255cc);color:#fff" onclick="sw('${nextMode}')">Weiter: ${nextLabel} ➜</button>
+      ${einstLaunched?'<button class="restart-btn" style="background:linear-gradient(135deg,#005c36,#00c97b);color:#fff" onclick="sw(\'basics\')">← Zum Lernpfad</button>':'<button class="restart-btn" style="background:linear-gradient(135deg,var(--blue),#2255cc);color:#fff" onclick="sw(\''+nextMode+'\')">Weiter: '+nextLabel+' ➜</button>'}
     </div>
   </div>`;
   document.getElementById(containerId).innerHTML=html;
@@ -3783,154 +4308,6 @@ const D_PARA = [
   {quote:'Alle Menschen sind vor dem Gesetz gleich.',para:'Art. 3 GG',law:'GG',name:'Gleichheitsgrundsatz',icon:'⚖️',distractors:['Art. 1 GG','Art. 2 GG','Art. 20 GG']},
 ];
 
-let paraIdx=0, paraShuffled=[], paraAnswered=false, paraTimer=null, paraSeconds=0, paraScore=0, paraRound=0;
-const PARA_TOTAL = 10;
-const PARA_TIME = 20;
-
-function startParaGame(){
-  paraShuffled = [...D_PARA].sort(()=>Math.random()-.5).slice(0,PARA_TOTAL);
-  paraIdx=0; paraAnswered=false; paraScore=0; paraRound=0;
-  renderParaQuestion();
-}
-
-function renderPara(a){
-  a.innerHTML=`<div style="text-align:center;padding:30px 16px 10px">
-    <div style="font-size:52px;margin-bottom:12px">🔍</div>
-    <div style="font-size:21px;font-weight:900;color:var(--navy);margin-bottom:8px">§ Paragraph-Memory</div>
-    <div style="font-size:13px;color:#666;font-weight:700;margin-bottom:6px;line-height:1.6">Dir wird ein Zitat aus einem Gesetz gezeigt.<br>Finde den richtigen Paragraphen – so schnell wie möglich!</div>
-    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:14px 0 20px">
-      <div style="background:#eef3ff;border:2px solid #c0d4ff;border-radius:10px;padding:10px 16px;font-size:12px;font-weight:800;color:var(--navy)">⏱️ ${PARA_TIME} Sek. pro Frage</div>
-      <div style="background:#eafff5;border:2px solid #b7f5dc;border-radius:10px;padding:10px 16px;font-size:12px;font-weight:800;color:#005c36">📋 ${PARA_TOTAL} Fragen</div>
-      <div style="background:#fff8e1;border:2px solid var(--yellow);border-radius:10px;padding:10px 16px;font-size:12px;font-weight:800;color:#7a5c00">⚡ Schnelligkeit = Bonuspunkte</div>
-    </div>
-    <div style="font-size:11px;color:#aaa;font-weight:700;margin-bottom:16px">AO · EStG · UStG · GG – ${D_PARA.length} Paragraphen im Pool</div>
-    <button onclick="startParaGame()" style="padding:16px 40px;border-radius:100px;border:none;background:linear-gradient(135deg,var(--blue),#2255cc);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:16px;cursor:pointer;box-shadow:0 8px 24px rgba(26,58,143,.4);transition:all .2s" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform=''">🚀 Spiel starten</button>
-  </div>`;
-}
-
-function renderParaQuestion(){
-  const a = document.getElementById('ga');
-  if(paraIdx >= paraShuffled.length){ endParaGame(); return; }
-  const item = paraShuffled[paraIdx];
-  paraAnswered = false;
-  paraSeconds = PARA_TIME;
-  const allOptions = [
-    {para: item.para, law: item.law, name: item.name, correct: true},
-    ...item.distractors.map(d => {
-      const found = D_PARA.find(x=>x.para===d);
-      const lookupName = PARA_NAMES[d] || '';
-      return {para:d, law: d.includes('AO')?'AO':d.includes('EStG')?'EStG':d.includes('UStG')?'UStG':d.includes('GG')?'GG':d.includes('BGB')?'BGB':d.includes('GewSt')?'GewStG':d.includes('KSt')?'KStG':'', name: found?found.name:lookupName, correct:false};
-    })
-  ].sort(()=>Math.random()-.5);
-
-  const dots = paraShuffled.map((_,i)=>`<div class="para-streak-dot ${i<paraIdx?'done':i===paraIdx?'current':''}"></div>`).join('');
-  a.innerHTML=`<div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-      <div style="font-size:13px;font-weight:800;color:rgba(255,255,255,.6)">${item.icon} Frage ${paraIdx+1} / ${PARA_TOTAL}</div>
-      <div class="para-xp">max +${PARA_TIME*5} Pkt</div>
-    </div>
-    <div class="para-streak">${dots}</div>
-    <div class="para-timer" id="para-timer">⏱️ ${paraSeconds}s</div>
-    <div class="para-quote">
-      <div class="para-quote-label">📖 Gesetzeszitat – welcher Paragraph?</div>
-      <div class="para-quote-text">${item.quote}</div>
-      <div class="para-quote-hint">Gesetz: <b>${item.law}</b></div>
-    </div>
-    <div class="para-grid" id="para-options">
-      ${allOptions.map((o,i)=>`
-        <button class="para-card" onclick="answerPara(${i},${o.correct},this)" id="popt-${i}">
-          <div class="pc-para">${o.para}</div>
-          <div class="pc-law">${o.law}</div>
-          <div class="pc-name">${o.name}</div>
-        </button>`).join('')}
-    </div>
-    <div class="fb" id="fb" style="margin-top:4px"></div>
-    <button class="next-btn" id="nb" onclick="nextParaQ()" style="margin-top:12px">Weiter ➜</button>
-  </div>`;
-  startParaTimer();
-}
-
-function startParaTimer(){
-  clearInterval(paraTimer);
-  paraTimer = setInterval(()=>{
-    paraSeconds--;
-    const t=document.getElementById('para-timer');
-    if(!t){clearInterval(paraTimer);return;}
-    t.textContent=`⏱️ ${paraSeconds}s`;
-    if(paraSeconds<=5)t.classList.add('danger');
-    if(paraSeconds<=0){clearInterval(paraTimer);if(!paraAnswered)timeoutPara();}
-  },1000);
-}
-
-function answerPara(idx, correct, btn){
-  if(paraAnswered)return;
-  paraAnswered=true; clearInterval(paraTimer);
-  const pts=correct?Math.max(1,paraSeconds)*5:0;
-  if(correct){paraScore+=pts;totSc+=pts;corr++;streak++;}
-  else{wrong++;streak=0;}
-  document.getElementById('totSc').textContent=totSc;
-  document.getElementById('corrCt').textContent=corr;
-  document.getElementById('wrongCt').textContent=wrong;
-  const sc=document.getElementById('streakCt');
-  sc.textContent=streak+' 🔥';
-  if(streak>=3)sc.classList.add('streak-hot');else sc.classList.remove('streak-hot');
-  checkBadges();
-  document.querySelectorAll('.para-card').forEach(b=>b.disabled=true);
-  document.getElementById('popt-'+idx).classList.add(correct?'correct':'wrong');
-  if(!correct){
-    document.querySelectorAll('.para-card').forEach(b=>{
-      if(b.querySelector('.pc-para').textContent===paraShuffled[paraIdx].para)b.classList.add('correct');
-      else b.classList.add('dim');
-    });
-  } else conf(6);
-  const fb=document.getElementById('fb');
-  fb.className='fb show '+(correct?'correct':'wrong');
-  fb.innerHTML=correct
-    ?`✅ Richtig! <b>${paraShuffled[paraIdx].para} ${paraShuffled[paraIdx].law}</b> – ${paraShuffled[paraIdx].name}. <span class="para-xp">+${pts} Punkte</span>`
-    :`❌ Es war <b>${paraShuffled[paraIdx].para} ${paraShuffled[paraIdx].law}</b> – ${paraShuffled[paraIdx].name}.`;
-  document.getElementById('nb').classList.add('show');
-}
-
-function timeoutPara(){
-  paraAnswered=true; wrong++; streak=0;
-  document.getElementById('streakCt').textContent=streak+' 🔥';
-  document.getElementById('streakCt').classList.remove('streak-hot');
-  document.querySelectorAll('.para-card').forEach(b=>{
-    b.disabled=true;
-    if(b.querySelector('.pc-para').textContent===paraShuffled[paraIdx].para)b.classList.add('correct');
-    else b.classList.add('dim');
-  });
-  const fb=document.getElementById('fb');
-  fb.className='fb show wrong';
-  fb.innerHTML=`⏰ Zeit abgelaufen! Es war <b>${paraShuffled[paraIdx].para} – ${paraShuffled[paraIdx].name}</b>.`;
-  document.getElementById('nb').classList.add('show');
-}
-
-function nextParaQ(){paraIdx++;renderParaQuestion();}
-
-function endParaGame(){
-  clearInterval(paraTimer);
-  const a=document.getElementById('ga');
-  const maxPts=PARA_TOTAL*PARA_TIME*5;
-  const pct=Math.round(paraScore/maxPts*100);
-  const emoji=pct>=70?'🏆':pct>=40?'🎯':'📖';
-  const ringColor=pct>=70?'var(--green)':pct>=40?'var(--cyan)':'var(--orange)';
-  updateHighscore('para',paraScore,maxPts);
-  a.innerHTML=`<div class="result-sc show">
-    <div class="result-trophy">${emoji}</div>
-    <div class="result-score-ring" style="background:conic-gradient(${ringColor} ${Math.min(pct,100)*3.6}deg,rgba(255,255,255,.08) 0%);box-shadow:0 0 30px rgba(0,194,224,.3)">
-      <div class="result-score-inner">${paraScore}<small>Pkt</small></div>
-    </div>
-    <div class="result-title">§ Memory abgeschlossen!</div>
-    <div class="result-msg">${pct>=70?'Paragraphen-Profi! Du kennst deine Gesetze auswendig!':pct>=40?'Gut gemacht! Noch etwas Wiederholung!':'Weiter üben – die §§ kommen mit der Zeit!'}<br>
-    <span style="font-family:'Space Mono',monospace;font-size:11px;color:${ringColor}">${paraScore} von max. ${maxPts} Punkten (${pct} %)</span></div>
-    <div class="result-actions">
-      <button class="restart-btn" onclick="startParaGame()">🔄 Nochmal</button>
-      <button class="restart-btn" style="background:linear-gradient(135deg,var(--blue),#2255cc);color:#fff" onclick="sw('ao')">Weiter: ⚖️ AO ➜</button>
-    </div>
-  </div>`;
-  conf(30);
-}
 
 // ==================== ⚡ GEGEN DIE ZEIT ====================
 
@@ -5011,6 +5388,26 @@ function renderExamResult(a){
       <div class="exam-wrong-ans">${w.explain ? w.explain.replace(/<[^>]*>/g,'').slice(0,140)+'…' : ''}</div>
     </div>`).join('');
 
+  // Study recommendations
+  const weakCats = Object.entries(cats).filter(([k,v])=>Math.round(v.c/v.t*100)<60).sort((a,b)=>(a[1].c/a[1].t)-(b[1].c/b[1].t));
+  const strongCats = Object.entries(cats).filter(([k,v])=>Math.round(v.c/v.t*100)>=75);
+  const recoHtml = weakCats.length > 0
+    ? '<div style="background:#fff8ee;border:2px solid #ffd6a0;border-radius:14px;padding:14px 16px;margin-bottom:14px">'
+      +'<div style="font-size:11px;font-weight:900;color:#8a4000;font-family:\'Space Mono\',monospace;letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px">📌 Empfehlung: Diese Themen vertiefen</div>'
+      +weakCats.map(([k,v])=>{
+        const p=Math.round(v.c/v.t*100);
+        return '<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,180,0,.15)">'
+          +'<span style="font-size:12px;font-weight:800;color:var(--navy)">'+(catLabels[k]||k)+'</span>'
+          +'<span style="font-size:10px;color:var(--red);font-weight:900;font-family:\'Space Mono\',monospace">'+p+'%</span>'
+          +'<button onclick="sw(\''+k+'\')" style="margin-left:auto;background:linear-gradient(135deg,#1a3a8f,#0d2b5e);color:#fff;border:none;border-radius:8px;padding:5px 12px;font-size:10px;font-weight:900;font-family:\'Nunito\',sans-serif;cursor:pointer">Üben →</button>'
+          +'</div>';
+      }).join('')
+      +(strongCats.length>0?'<div style="margin-top:8px;font-size:11px;font-weight:700;color:#005c36">✅ Stark: '+strongCats.map(([k])=>catLabels[k]||k).join(', ')+'</div>':'')
+      +'</div>'
+    : (strongCats.length===Object.keys(cats).length
+      ? '<div style="background:#eafff5;border:2px solid #b7f5dc;border-radius:14px;padding:14px;text-align:center;margin-bottom:14px"><div style="font-size:16px;margin-bottom:4px">💪</div><div style="font-size:13px;font-weight:900;color:#005c36">Stark in allen Themen! Versuche die nächste Schwierigkeitsstufe.</div></div>'
+      : '');
+
   a.innerHTML = `
     <div class="exam-result-hero">
       <div class="exam-grade-circle" style="background:${grade.color}22;border-color:${grade.color}66;color:${grade.color}">${grade.note}</div>
@@ -5028,6 +5425,7 @@ function renderExamResult(a){
       <div style="font-size:11px;font-weight:900;color:#888;font-family:'Space Mono',monospace;letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px">Auswertung nach Thema</div>
       ${catHtml}
     </div>
+    ${recoHtml}
     ${wrong.length ? `<div style="background:#fff;border-radius:16px;border:2px solid #dde5f5;padding:16px;margin-bottom:14px">
       <div style="font-size:11px;font-weight:900;color:#888;font-family:'Space Mono',monospace;letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px">❌ Falsch beantwortet (${wrong.length} Fragen → im Fehlerspeicher)</div>
       ${wrongHtml}
@@ -5591,51 +5989,72 @@ const TOUR_KEY = 'tourDone_v4';
 
 const TOUR_SLIDES = [
   {
-    label: 'Schritt 1 / 7',
+    label: 'Schritt 1 / 10',
     title: '👋 Willkommen!',
-    text: 'Dieses Lernprogramm bereitet dich auf die Ausbildung & Prüfungen in der Finanzverwaltung vor. Wähle deinen Einstieg – Einsteiger bekommt einen geführten Lernpfad, Fortgeschrittene den vollen Zugriff.',
+    text: 'Dieses Lernprogramm bereitet dich auf die Ausbildung & Prüfungen in der Finanzverwaltung vor. Wähle deinen Einstieg – Einsteiger bekommt einen geführten 4-Schritte-Lernpfad, Fortgeschrittene sofort vollen Zugriff auf alle 14 Bereiche.',
     visual: 'basics',
     bg: 'linear-gradient(135deg,#0d2b5e,#1a4a8f)'
   },
   {
-    label: 'Schritt 2 / 7',
+    label: 'Schritt 2 / 10',
     title: '🟢 Einsteiger-Lernpfad',
-    text: 'Als Einsteiger bekommst du 4 geführte Schritte: § 1 EStG interaktiv, eine Alltagsstory, das ESt-Quiz und die Absetz-Übersicht. Alle Schritte sind jederzeit wiederholbar – ein ↺-Reset setzt alles zurück.',
+    text: 'Als Einsteiger startest du mit 4 geführten Schritten: (1) § 1 EStG interaktiv – wer ist steuerpflichtig? (2) Story: Lenas erster Lohnzettel. (3) ESt-Quiz. (4) Absetzen-Übersicht. Darunter: Steueraufkommen-Ratespiel, Finanzamt-Infos und Steuer-Mythen.',
     visual: 'basics',
     bg: 'linear-gradient(135deg,#003d1a,#00703a)'
   },
   {
-    label: 'Schritt 3 / 7',
-    title: '📖 Lernszenarien + Schnell-Quiz',
-    text: '3 Alltagsstories zeigen Steuerrecht in echten Situationen – Lenas erster Lohnzettel, Schwarzarbeit vs. § 35a EStG, Kai wird selbständig. Nach jeder Story startet ein 5-Fragen-Schnelltest, um das Gelernte zu festigen.',
+    label: 'Schritt 3 / 10',
+    title: '🎯 6 Quiz-Bereiche',
+    text: 'Einkommensteuer (Einkunftsarten + Werbungskosten), Umsatzsteuer (0/7/19%), Abgabenordnung, Bilanz & Buchführung (Zuordnung + Buchungssätze), Recht (Privatrecht vs. Öffentliches Recht) und Kurioses Steuerrecht. Über 200 Fragen in 3 Schwierigkeitsstufen.',
+    visual: 'quiz',
+    bg: 'linear-gradient(135deg,#0d2b5e,#1a3a8f)'
+  },
+  {
+    label: 'Schritt 4 / 10',
+    title: '📖 Interaktive Geschichten',
+    text: '4 Alltagsstories: Lenas erster Lohnzettel, Rechnung oder Schwarzarbeit? (§ 35a EStG), Kai wird selbständig, Toms Einspruch gegen den Steuerbescheid (AO). Jede Story hat Entscheidungsszenen – du wählst, siehst die Konsequenzen und lernst die Paragrafen dahinter. Danach: 5-Fragen-Schnelltest.',
     visual: 'quiz',
     bg: 'linear-gradient(135deg,#1a3a00,#2d6a00)'
   },
   {
-    label: 'Schritt 4 / 7',
-    title: '🎯 6 Quizbereiche · Praxisfälle · Prüfung',
-    text: 'Übe in ESt, USt, Bilanz, AO, Recht und Kurioses mit 200+ Fragen in 3 Schwierigkeiten. 7 realistische Praxisfälle trainieren dein Urteilsvermögen. Der Prüfungsmodus benotet dich mit einer echten Note 1–6.',
+    label: 'Schritt 5 / 10',
+    title: '📋 Praxisfälle & 🎓 Prüfungsmodus',
+    text: 'Praxisfälle: 7 realistische 3-Schritte-Szenarien (Betriebsprüfung, Einspruchsfrist, Homeoffice, Selbstanzeige u.a.). Prüfungsmodus: echte Klausur-Simulation mit Timer, wählbaren Themen & Schwierigkeiten – am Ende gibt es Note 1–6 mit Auswertung.',
     visual: 'quiz',
-    bg: 'linear-gradient(135deg,#1a3a00,#2d6a00)'
+    bg: 'linear-gradient(135deg,#1a0040,#4a0090)'
   },
   {
-    label: 'Schritt 5 / 7',
-    title: '📅 Daily Challenge & Mein Bereich',
-    text: '7 neue Fragen täglich aus allen Kategorien – dein Streak-Zähler belohnt Kontinuität. "Mein Bereich" zeigt Fortschritt pro Kategorie, deine gespeicherten Fehler und alle gesammelten Abzeichen.',
-    visual: 'meinbereich',
-    bg: 'linear-gradient(135deg,#0d2b5e,#1a4a8f,#0a3a2a)'
-  },
-  {
-    label: 'Schritt 6 / 7',
-    title: '🃏 Lernkarten · 📖 Glossar · ⚡ Speed-Quiz',
-    text: 'Lernkarten mit Spaced-Repetition für AO, Recht und ESt. Das Glossar erklärt alle Fachbegriffe mit Norm und Beispiel. Speed-Quiz: Steuersätze und Normen unter Zeitdruck. Das §-Lexikon erklärt jede AO-Norm sofort.',
+    label: 'Schritt 6 / 10',
+    title: '🃏 Lernkarten & 🔍 § Memory',
+    text: 'Lernkarten mit Gewusst/Nochmal-System für AO, Recht und ESt – unbekannte Karten werden wiederholt. § Memory ordnet Normen ihren Paragrafen zu (AO, EStG, UStG). Beide Bereiche trainieren das schnelle Abrufen von Definitionen.',
     visual: 'cards',
     bg: 'linear-gradient(135deg,#003028,#005c3a)'
   },
   {
-    label: 'Schritt 7 / 7',
+    label: 'Schritt 7 / 10',
+    title: '⚡ Speed-Quiz & 📖 Glossar',
+    text: 'Speed-Quiz: Buchungssätze (12 Sek.) oder § Para-Sprint (10 Sek.) – Combo-Bonus für Serien. Glossar: alle Fachbegriffe A–Z mit Norm und Praxisbeispiel, Suchfunktion und alphabetischem Register. Außerdem ein tägliches Merksatz-Feature.',
+    visual: 'cards',
+    bg: 'linear-gradient(135deg,#3a1a00,#7a3800)'
+  },
+  {
+    label: 'Schritt 8 / 10',
+    title: '📅 Daily Challenge & 🔁 Fehlerspeicher',
+    text: 'Täglich 7 neue Fragen aus allen Kategorien – dein Streak-Zähler belohnt Kontinuität. Der Fehlerspeicher sammelt alle falsch beantworteten Fragen und lässt dich sie gezielt aufarbeiten – bis zu 50 Fragen gespeichert.',
+    visual: 'meinbereich',
+    bg: 'linear-gradient(135deg,#0d2b5e,#1a4a8f,#0a3a2a)'
+  },
+  {
+    label: 'Schritt 9 / 10',
+    title: '⭐ Mein Bereich & 🏅 Abzeichen',
+    text: '"Mein Bereich" zeigt Gesamtpunkte, Streak, Fortschritt pro Kategorie und deine gespeicherten Fehler. Im Abzeichen-Bereich sammelst du Badges für Meilensteine (z. B. 50 richtige Antworten, alle Kategorien gespielt, 7 Tage Streak).',
+    visual: 'meinbereich',
+    bg: 'linear-gradient(135deg,#3a1800,#7a3200)'
+  },
+  {
+    label: 'Schritt 10 / 10',
     title: '🎓 Karriere in der Finanzverwaltung',
-    text: 'Infos zur Ausbildung in Berlin & Brandenburg: Bewerbungsfristen, Gehalt, Ausbildungsablauf und Einstiegsmöglichkeiten. Dein Weg ins Steuerrecht beginnt hier!',
+    text: 'Bewerbungsfristen, Gehalt (~1.100–1.300 €/Monat in der Ausbildung), Studienablauf und Einstiegsmöglichkeiten für Berlin & Brandenburg. Mit Bewerbungs-Checkliste, Zeitplan und direkten Links zu den offiziellen Bewerbungsseiten.',
     visual: 'karriere',
     bg: 'linear-gradient(135deg,#1a0530,#3d0a6b)'
   }
@@ -5849,7 +6268,7 @@ const GLOSSAR_DATA = [
   {term:'Festsetzungsverjährung', norm:'§ 169 AO', def:'Der Zeitraum, innerhalb dessen das Finanzamt eine Steuer noch festsetzen oder einen Bescheid ändern darf. Regulär 4 Jahre. Bei leichtfertiger Steuerverkürzung: 5 Jahre. Bei vorsätzlicher Steuerhinterziehung: 10 Jahre.', example:'Einkommensteuerbescheid für 2020, Erklärung abgegeben 2021 → reguläre Verjährung endet mit Ablauf 2025.'},
   {term:'Gewerbesteuer (GewSt)', norm:'§ 1 GewStG', def:'Kommunale Steuer auf den Gewerbeertrag von Gewerbebetrieben. Berechnung: Gewerbeertrag × Steuermesszahl (3,5 %) = Steuermessbetrag × gemeindlicher Hebesatz. Für Einzelunternehmen und Personengesellschaften gilt ein Freibetrag von 24.500 €.', example:'GmbH in Berlin (Hebesatz 410 %), Gewerbeertrag 100.000 €: 100.000 × 3,5 % × 410 % = 14.350 € GewSt.'},
   {term:'Grunderwerbsteuer (GrESt)', norm:'§ 1 GrEStG', def:'Steuer auf Rechtsvorgänge, die den Erwerb eines inländischen Grundstücks zum Gegenstand haben. Die Höhe ist Ländersache: von 3,5 % (Bayern, Sachsen) bis 6,5 % (z. B. Thüringen, NRW, Schleswig-Holstein).', example:'Wohnungskauf für 400.000 € in Berlin (GrESt-Satz 6,0 %) → 24.000 € Grunderwerbsteuer.'},
-  {term:'Grundfreibetrag', norm:'§ 32a Abs. 1 Nr. 1 EStG', def:'Der Teil des Einkommens, der steuerfrei bleibt und das steuerliche Existenzminimum sichert. 2026: 12.084 €. Erst auf den darüber hinausgehenden Betrag wird Einkommensteuer erhoben.', example:'Jahreseinkommen 11.000 € → keine Einkommensteuer, da das zvE unter dem Grundfreibetrag liegt.'},
+  {term:'Grundfreibetrag', norm:'§ 32a Abs. 1 Nr. 1 EStG', def:'Der Teil des Einkommens, der steuerfrei bleibt und das steuerliche Existenzminimum sichert. 2026: 12.336 €. Erst auf den darüber hinausgehenden Betrag wird Einkommensteuer erhoben.', example:'Jahreseinkommen 11.000 € → keine Einkommensteuer, da das zvE unter dem Grundfreibetrag liegt.'},
   {term:'Kirchensteuer', norm:'Landesrecht (z. B. KiStG Berlin)', def:'Steuer, die von Mitgliedern bestimmter Religionsgemeinschaften zusätzlich zur Einkommensteuer erhoben wird. Der Satz beträgt 8 % der Einkommensteuer in Bayern und Baden-Württemberg, 9 % in allen anderen Bundesländern.', example:'Einkommensteuer 5.000 €, Kirchenmitglied in Berlin (9 %) → 450 € Kirchensteuer, die der Arbeitgeber direkt einbehält.'},
   {term:'Körperschaftsteuer (KSt)', norm:'§ 1 KStG', def:'Ertragsteuer für juristische Personen (GmbH, AG u. a.). Einheitlicher Steuersatz von 15 % auf das zu versteuernde Einkommen, zuzüglich 5,5 % Solidaritätszuschlag auf die KSt. Hinzu kommt i. d. R. die Gewerbesteuer.', example:'GmbH mit 200.000 € zu versteuerndem Einkommen → 30.000 € KSt + 1.650 € Soli = 31.650 € (ohne GewSt).'},
   {term:'Lohnsteuer', norm:'§ 38 EStG', def:'Erhebungsform der Einkommensteuer für Arbeitnehmer – sie wird direkt an der Quelle einbehalten. Der Arbeitgeber zieht sie vom Bruttoarbeitslohn ab und führt sie ans Finanzamt ab. Sie wird im Rahmen der Veranlagung auf die Jahreseinkommensteuer angerechnet.', example:'Brutto 3.000 €, Steuerklasse I → ca. 340 € Lohnsteuer werden vom Arbeitgeber einbehalten und abgeführt.'},
@@ -5886,7 +6305,7 @@ const MERKSATZ_DATA = [
     {title:'Steuergeheimnis', norm:'§ 30 AO', rule:'Alle im Besteuerungsverfahren bekannt gewordenen Daten sind streng vertraulich. Weitergabe = Straftat.', hint:'Gilt auch für Mitarbeiter des Finanzamts gegenüber Dritten – inkl. Arbeitgeber.'},
   ]},
   {cat:'Einkommensteuer (ESt)', icon:'💶', color:'#2e8b57', rules:[
-    {title:'Grundfreibetrag', norm:'§ 32a EStG', rule:'2026: 12.084 €. Bis hierhin keine ESt. Sichert das Existenzminimum.', hint:'Progressiver Tarif: 14 % → 42 % (Spitze) → 45 % (Reiche ab ca. 278.000 €).'},
+    {title:'Grundfreibetrag', norm:'§ 32a EStG', rule:'2026: 12.336 €. Bis hierhin keine ESt. Sichert das Existenzminimum.', hint:'Progressiver Tarif: 14 % → 42 % (Spitze) → 45 % (Reiche ab ca. 278.000 €).'},
     {title:'7 Einkunftsarten', norm:'§§ 13–23 EStG', rule:'① LuF ② Gewerbebetrieb ③ Selbständige Arbeit ④ Nichtselbständige Arbeit ⑤ Kapitalvermögen ⑥ V+V ⑦ Sonstige', hint:'Gewinneinkünfte (① ② ③): Betriebsvermögensvergleich oder EÜR. Überschusseinkünfte (④–⑦): Einnahmen – Werbungskosten.'},
     {title:'Progressionsvorbehalt', norm:'§ 32b EStG', rule:'ALG, Elterngeld, Krankengeld: steuerfrei, aber erhöhen den Steuersatz auf das übrige zvE.', hint:'Wer Lohnersatzleistungen bezieht, muss oft eine Steuererklärung abgeben!'},
     {title:'Werbungskosten-Pauschbetrag', norm:'§ 9a EStG', rule:'2026: 1.230 € automatisch bei nichtselbständiger Arbeit. Höhere tatsächliche WK: Nachweis erforderlich.', hint:'Pendler, Homeoffice-Nutzer: tatsächliche Kosten oft höher als Pauschale!'},
@@ -6257,7 +6676,7 @@ render();
   </div>
 </div>
 
-<footer style="text-align:center;padding:20px 16px 28px;position:relative;z-index:1">
+<footer style="text-align:center;padding:20px 16px 100px;position:relative">
   <div style="display:inline-flex;align-items:center;gap:10px;font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.22)">
     <span>⚖️</span>
     <span>© 2026 Phil Jeremy Zeisler</span>
@@ -6427,13 +6846,14 @@ function etagShowLock(){
 
 function swEinfuehrung(){
   if(!etagIsUnlocked()){ etagShowLock(); return; }
-  // call the real sw directly
   mode='einfuehrung';
   closeDrawer();
   window.scrollTo({top:0,behavior:'smooth'});
   document.querySelectorAll('.mode-tab').forEach(t=>t.classList.remove('active'));
   const tab=document.getElementById('tab-einfuehrung');
   if(tab) tab.classList.add('active');
+  const ga=document.getElementById('ga');
+  if(ga){ ga.classList.add('etag-mode'); }
   setTopicHeader('einfuehrung');
   render();
 }
@@ -6459,104 +6879,155 @@ async function etagCheckPw(){
 // einfuehrung gating handled via swEinfuehrung()
 </script>
 <script>
-// ===== STEUERAUFKOMMEN RATESPIEL =====
+// ===== STEUERAUFKOMMEN RATESPIEL v2 =====
 const AUFK_ITEMS = [
-  { id:'ust',  label:'🛒 Umsatzsteuer',    pct:31.9, mrd:'302',  color:'#ff8c42' },
-  { id:'lst',  label:'💼 Lohnsteuer',       pct:26.3, mrd:'248,9',color:'#1a3a8f' },
-  { id:'gwst', label:'🏭 Gewerbesteuer',    pct:7.9,  mrd:'75,3', color:'#7b5ea7' },
-  { id:'est',  label:'📊 Einkommensteuer',  pct:7.8,  mrd:'74',   color:'#2196f3' },
-  { id:'kst',  label:'🏢 Körperschaftsteuer',pct:4.2, mrd:'40',   color:'#00bcd4' },
-  { id:'eng',  label:'⚡ Energiesteuer',    pct:3.7,  mrd:'35,1', color:'#4caf50' },
+  { id:'ust',  label:'Umsatzsteuer',       icon:'🛒', mrd:302.1, pct:31.9, color:'#ff8c42', info:'Jeder Einkauf im Supermarkt – 19% oder 7%' },
+  { id:'lst',  label:'Lohnsteuer',          icon:'💼', mrd:248.9, pct:26.3, color:'#1a3a8f', info:'Wird direkt vom Gehalt abgezogen' },
+  { id:'gwst', label:'Gewerbesteuer',       icon:'🏭', mrd:75.3,  pct:7.9,  color:'#7b5ea7', info:'Zahlen Unternehmen an die Gemeinde' },
+  { id:'est',  label:'Einkommensteuer',     icon:'📊', mrd:74.0,  pct:7.8,  color:'#2196f3', info:'Veranlagte ESt – Selbständige, Vermieter etc.' },
+  { id:'kst',  label:'Körperschaftsteuer',  icon:'🏢', mrd:40.0,  pct:4.2,  color:'#00bcd4', info:'Die „Einkommensteuer" für Kapitalgesellschaften' },
+  { id:'eng',  label:'Energiesteuer',       icon:'⚡', mrd:35.1,  pct:3.7,  color:'#4caf50', info:'Auf Benzin, Diesel, Erdgas, Heizöl' },
 ];
+const AUFK_TOTAL = 947.7; // Mrd. € (2024)
 
-let aufkGuesses = {}; // barIndex → itemId
-let aufkSelected = null; // currently selected label id
+let aufkStep = 0; // 0=schätzen, 1=ranking, 2=ergebnis
+let aufkTotalGuess = 500;
+let aufkRankGuesses = []; // user's ranking order (ids)
 let aufkDone = false;
 
 function renderAufkGame(){
-  const wrap = document.getElementById('aufk-game-wrap');
+  const wrap = document.getElementById('aufk-game-wrap') || document.getElementById('aufk-game-container');
   if(!wrap) return;
 
-  if(aufkDone){
-    const correct = AUFK_ITEMS.filter((it,i)=>aufkGuesses[i]===it.id).length;
-    wrap.innerHTML = '<div class="aufk-game">'
-      +'<div style="font-size:14px;font-weight:900;color:var(--navy);margin-bottom:10px">🎯 Ergebnis: '+correct+'/'+AUFK_ITEMS.length+' richtig</div>'
-      +AUFK_ITEMS.map((it,i)=>{
-        const ok = aufkGuesses[i]===it.id;
-        const guessedItem = AUFK_ITEMS.find(x=>x.id===aufkGuesses[i]);
-        return '<div class="aufk-result-row">'
-          +'<span class="aufk-result-icon">'+(ok?'✅':'❌')+'</span>'
-          +'<div style="flex:1;height:18px;border-radius:5px;overflow:hidden;background:#f0f4ff">'
-            +'<div style="height:100%;width:'+Math.round(it.pct/31.9*100)+'%;background:'+it.color+';border-radius:5px"></div>'
-          +'</div>'
-          +'<div style="min-width:140px;font-size:11px;font-weight:800;color:'+(ok?'#005c36':'var(--red)')+'">'+it.label+'</div>'
-          +'<div style="font-size:10px;font-weight:700;color:#aaa;font-family:Space Mono,monospace">'+it.mrd+' Mrd.</div>'
-        +'</div>';
-      }).join('')
-      +'<button onclick="aufkReset()" style="margin-top:10px;width:100%;padding:8px;border-radius:10px;border:2px solid #dde5f5;background:#f0f4ff;color:var(--navy);font-family:Nunito,sans-serif;font-weight:800;font-size:12px;cursor:pointer">↺ Nochmal</button>'
-      +'</div>';
-    return;
-  }
+  if(aufkStep === 0) renderAufkStep1(wrap);
+  else if(aufkStep === 1) renderAufkStep2(wrap);
+  else renderAufkResult(wrap);
+}
 
-  // Shuffle labels once per session
-  if(!window._aufkOrder){
-    window._aufkOrder = [...AUFK_ITEMS].sort(()=>Math.random()-.5).map(x=>x.id);
-  }
+// Step 1: Guess the total
+function renderAufkStep1(wrap){
+  wrap.innerHTML = `<div class="aufk-game">
+    <div style="font-size:13px;font-weight:900;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:6px">
+      🎮 Steueraufkommen-Quiz <span style="font-size:10px;font-family:'Space Mono',monospace;color:#888;font-weight:700">Schritt 1/2</span>
+    </div>
+    <div class="aufk-slider-wrap">
+      <div class="aufk-slider-q">💰 Wie viel Steuern nimmt Deutschland pro Jahr insgesamt ein? (in Mrd. €)</div>
+      <div class="aufk-slider-row">
+        <span style="font-size:10px;color:#aaa;font-family:'Space Mono',monospace">100</span>
+        <input type="range" class="aufk-slider" min="100" max="1500" step="10" value="${aufkTotalGuess}" oninput="aufkTotalGuess=+this.value;document.getElementById('aufk-val-disp').textContent=this.value+' Mrd. €'">
+        <span id="aufk-val-disp" class="aufk-slider-val">${aufkTotalGuess} Mrd. €</span>
+        <span style="font-size:10px;color:#aaa;font-family:'Space Mono',monospace">1.500</span>
+      </div>
+      <div style="font-size:10px;color:#bbb;font-weight:700;text-align:center;margin-top:6px">Schiebe den Regler auf deine Schätzung</div>
+    </div>
+    <button class="aufk-check-btn" onclick="aufkStep=1;renderAufkGame()">Meine Schätzung abgeben →</button>
+  </div>`;
+}
 
-  const labels = window._aufkOrder.map(id=>{
+// Step 2: Rank the top 3
+function renderAufkStep2(wrap){
+  if(!aufkRankGuesses.length) aufkRankGuesses = [];
+  const remaining = AUFK_ITEMS.filter(it=>!aufkRankGuesses.includes(it.id));
+  const placed = aufkRankGuesses.map((id,i)=>{
     const it = AUFK_ITEMS.find(x=>x.id===id);
-    const used = Object.values(aufkGuesses).includes(id);
-    const sel = aufkSelected===id;
-    return '<button class="aufk-label'+(used?' used':'')+(sel?' dragging':'')+'" onclick="aufkSelectLabel(\''+id+'\')" '+(used?'disabled':'')+'>'+it.label+'</button>';
+    return `<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;background:rgba(26,58,143,.06);border:1.5px solid rgba(26,58,143,.15);margin-bottom:6px">
+      <span style="font-size:14px;font-weight:900;color:var(--blue);font-family:'Space Mono',monospace;min-width:22px">${i+1}.</span>
+      <span style="font-size:13px;font-weight:800;color:var(--navy)">${it.icon} ${it.label}</span>
+      <button onclick="aufkRemoveRank(${i})" style="margin-left:auto;background:rgba(255,77,109,.1);border:1px solid rgba(255,77,109,.25);color:var(--red);border-radius:6px;padding:2px 8px;font-size:10px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer">✕</button>
+    </div>`;
   }).join('');
 
-  const bars = AUFK_ITEMS.map((it,i)=>{
-    const width = Math.round(it.pct/31.9*100);
-    const placed = aufkGuesses[i];
-    const placedItem = placed ? AUFK_ITEMS.find(x=>x.id===placed) : null;
-    return '<div class="aufk-bar-row">'
-      +'<div class="aufk-bar-track'+(placedItem?' has-label':'')+'" onclick="aufkPlaceBar('+i+')" style="'+(placedItem?'border-color:'+placedItem.color:'')+';">'
-        +'<div class="aufk-bar-fill" style="width:'+width+'px;max-width:'+width+'%;background:'+(placedItem?placedItem.color:'#dde5f5')+'"></div>'
-        +(placedItem?'<span class="aufk-placed" style="margin-left:6px;color:'+placedItem.color+'">'+placedItem.label+'</span>':'<span style="font-size:10px;color:#ccc;font-family:Space Mono,monospace">← Tippe Label, dann Balken</span>')
-      +'</div>'
-    +'</div>';
+  const pool = remaining.map(it=>{
+    return `<button onclick="aufkAddRank('${it.id}')" style="padding:8px 12px;border-radius:10px;border:2px solid #dde5f5;background:#f8faff;color:var(--navy);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:6px" onmouseover="this.style.borderColor='var(--cyan)'" onmouseout="this.style.borderColor='#dde5f5'">${it.icon} ${it.label}</button>`;
   }).join('');
 
-  const allPlaced = Object.keys(aufkGuesses).length === AUFK_ITEMS.length;
+  const allPlaced = aufkRankGuesses.length === AUFK_ITEMS.length;
 
-  wrap.innerHTML = '<div class="aufk-game">'
-    +'<div style="font-size:13px;font-weight:900;color:var(--navy);margin-bottom:4px">🎮 Ordne zu: Welche Steuer gehört zu welchem Balken?</div>'
-    +'<div style="font-size:11px;font-weight:700;color:#888;margin-bottom:10px">1. Label antippen · 2. Balken antippen · Größter Balken = höchstes Aufkommen</div>'
-    +'<div class="aufk-label-pool">'+labels+'</div>'
-    +bars
-    +(allPlaced?'<button onclick="aufkCheck()" style="margin-top:8px;width:100%;padding:10px;border-radius:11px;border:none;background:linear-gradient(135deg,#1a3a8f,#0d2b5e);color:#fff;font-family:Nunito,sans-serif;font-weight:900;font-size:13px;cursor:pointer">Auswerten →</button>':'')
-    +'</div>';
+  wrap.innerHTML = `<div class="aufk-game">
+    <div style="font-size:13px;font-weight:900;color:var(--navy);margin-bottom:4px;display:flex;align-items:center;gap:6px">
+      📊 Sortiere nach Aufkommen <span style="font-size:10px;font-family:'Space Mono',monospace;color:#888;font-weight:700">Schritt 2/2</span>
+    </div>
+    <div style="font-size:11px;color:#888;font-weight:700;margin-bottom:12px">Tippe die Steuerarten in der Reihenfolge von höchstem zu niedrigstem Aufkommen</div>
+    <div style="margin-bottom:12px">${placed || '<div style="padding:10px;text-align:center;font-size:11px;color:#ccc;font-weight:700;border:2px dashed #e0e8f5;border-radius:10px">Tippe unten auf eine Steuerart für Platz 1</div>'}</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px">${pool}</div>
+    ${allPlaced ? '<button class="aufk-check-btn" onclick="aufkStep=2;renderAufkGame()">Auswerten →</button>' : ''}
+  </div>`;
 }
 
-function aufkSelectLabel(id){
-  aufkSelected = (aufkSelected===id) ? null : id;
+function aufkAddRank(id){
+  if(!aufkRankGuesses.includes(id)) aufkRankGuesses.push(id);
+  renderAufkGame();
+}
+function aufkRemoveRank(i){
+  aufkRankGuesses.splice(i,1);
   renderAufkGame();
 }
 
-function aufkPlaceBar(i){
-  if(!aufkSelected) return;
-  // Remove from other bars
-  for(const k in aufkGuesses){ if(aufkGuesses[k]===aufkSelected) delete aufkGuesses[k]; }
-  aufkGuesses[i] = aufkSelected;
-  aufkSelected = null;
-  renderAufkGame();
-}
-
-function aufkCheck(){
+// Step 3: Result – show everything
+function renderAufkResult(wrap){
   aufkDone = true;
-  renderAufkGame();
+  const diff = Math.abs(aufkTotalGuess - AUFK_TOTAL);
+  const diffPct = Math.round(diff / AUFK_TOTAL * 100);
+  const cls = diffPct <= 10 ? 'good' : diffPct <= 25 ? 'ok' : 'off';
+  const emoji = diffPct <= 10 ? '🎯' : diffPct <= 25 ? '👍' : '😮';
+  const msg = diffPct <= 10
+    ? `Nur ${Math.round(diff)} Mrd. daneben – du hast ein gutes Gefühl für Staatsfinanzen!`
+    : diffPct <= 25
+    ? `${Math.round(diff)} Mrd. € daneben – gar nicht schlecht für eine Schätzung!`
+    : `${Math.round(diff)} Mrd. € daneben – die Zahl überrascht die meisten!`;
+
+  // Ranking score
+  const correctOrder = [...AUFK_ITEMS].sort((a,b)=>b.mrd-a.mrd).map(x=>x.id);
+  let rankScore = 0;
+  aufkRankGuesses.forEach((id,i)=>{ if(id === correctOrder[i]) rankScore++; });
+
+  const maxW = AUFK_ITEMS[0].mrd; // largest for scaling
+  const bars = [...AUFK_ITEMS].sort((a,b)=>b.mrd-a.mrd).map((it,i)=>{
+    const w = Math.round(it.mrd / maxW * 100);
+    const userPos = aufkRankGuesses.indexOf(it.id);
+    const posOk = userPos === i;
+    return `<div class="aufk-reveal-bar">
+      <span style="font-size:12px;min-width:20px;text-align:center;font-weight:900;color:${posOk?'var(--green)':'var(--red)'};font-family:'Space Mono',monospace">${posOk?'✓':'✗'}</span>
+      <span class="aufk-reveal-name">${it.icon} ${it.label}</span>
+      <div style="flex:1;position:relative;height:28px;background:#f0f4ff;border-radius:8px;overflow:hidden">
+        <div class="aufk-reveal-fill" style="width:${w}%;background:${it.color};position:absolute;inset:0;border-radius:8px">
+          <span class="aufk-reveal-label">${it.mrd.toLocaleString('de-DE')} Mrd. €</span>
+        </div>
+      </div>
+      <span class="aufk-reveal-info">${it.pct} %</span>
+    </div>`;
+  }).join('');
+
+  wrap.innerHTML = `<div class="aufk-game">
+    <div class="aufk-total-box">
+      <div style="font-size:10px;font-family:'Space Mono',monospace;letter-spacing:2px;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:6px">Gesamtes Steueraufkommen 2024</div>
+      <div class="aufk-total-num">${AUFK_TOTAL.toLocaleString('de-DE')} Mrd. €</div>
+      <div class="aufk-total-lbl">Quelle: Statistisches Bundesamt</div>
+    </div>
+
+    <div class="aufk-guess-result ${cls}">
+      ${emoji} <b>Deine Schätzung: ${aufkTotalGuess} Mrd. €</b> – ${msg}
+    </div>
+
+    <div style="font-size:13px;font-weight:900;color:var(--navy);margin-bottom:4px">📊 Verteilung der wichtigsten Steuerarten</div>
+    <div style="font-size:11px;color:#888;font-weight:700;margin-bottom:12px">Dein Ranking: ${rankScore}/${AUFK_ITEMS.length} richtig sortiert</div>
+    ${bars}
+
+    <div class="aufk-fun-fact">
+      💡 <b>Wusstest du?</b> Allein Lohn- und Umsatzsteuer machen zusammen über <b>58 %</b> aller Steuereinnahmen aus – das sind <b>551 Mrd. €</b>.
+      Fast jeder Einkauf und jedes Gehalt finanziert direkt den Staatshaushalt.
+      Die restlichen ~42 % verteilen sich auf über 40 weitere Steuerarten.
+    </div>
+
+    <button onclick="aufkReset()" style="margin-top:14px;width:100%;padding:10px;border-radius:11px;border:2px solid #dde5f5;background:#f8faff;color:var(--navy);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='var(--cyan)'" onmouseout="this.style.borderColor='#dde5f5'">↺ Nochmal spielen</button>
+  </div>`;
 }
 
 function aufkReset(){
-  aufkGuesses = {};
-  aufkSelected = null;
+  aufkStep = 0;
+  aufkTotalGuess = 500;
+  aufkRankGuesses = [];
   aufkDone = false;
-  window._aufkOrder = null;
   renderAufkGame();
 }
 
@@ -6594,7 +7065,7 @@ const ETAG_PHASES = [
   <h3>🏛️ Was euch heute erwartet</h3>
   <p>In den nächsten 60 Minuten bekommt ihr einen echten Einblick in das deutsche Steuersystem – und in den Beruf der Finanzverwaltung.</p>
   <p>Ihr werdet selbst aktiv: Es gibt interaktive Szenarien, ein Gruppenquiz und echte Zahlen aus dem Berufsalltag.</p>
-  <div class="hl">💡 <b>Der Staat braucht Steuern.</b> 935 Milliarden Euro im Jahr – für Schulen, Straßen, Soziales, Verteidigung. Jemand muss das organisieren. Das ist die Finanzverwaltung.</div>
+  <div class="hl">💡 <b>Der Staat braucht Steuern.</b> 948 Milliarden Euro im Jahr – für Schulen, Straßen, Soziales, Verteidigung. Jemand muss das organisieren. Das ist die Finanzverwaltung.</div>
 </div>
 <div class="etag-card">
   <h3>📊 Deutschland in Zahlen</h3>
@@ -6605,21 +7076,36 @@ const ETAG_PHASES = [
     Berlin: <b>23 Finanzämter</b>, über <b>6.100</b> Mitarbeitende
   </p>
   <div class="hl">🔢 Allein die Lohnsteuer bringt dem Staat <b>249 Milliarden €</b> pro Jahr – das ist mehr als der gesamte Bundesverteidigungshaushalt.</div>
-</div>`
+</div>
+<div class="etag-card">
+  <h3>✋ Kurze Umfrage – tippt mit!</h3>
+  <p><b>Wie viel Prozent eures Einkommens geht an Steuern & Abgaben, wenn ihr 3.000 € brutto verdient?</b></p>
+  <div id="etag-poll-1" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px"></div>
+</div>`,
+    onShow: `(function(){
+      const el=document.getElementById('etag-poll-1');
+      if(!el||el.dataset.done) return;
+      const opts=[{v:'10 %',pct:10},{v:'20 %',pct:20},{v:'35 %',pct:35},{v:'50 %',pct:50}];
+      el.innerHTML=opts.map(o=>'<button onclick="etagPoll1Pick(this,'+o.pct+')" style="flex:1;min-width:60px;padding:12px 8px;border-radius:12px;border:2px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:#fff;font-family:Nunito,sans-serif;font-weight:900;font-size:15px;cursor:pointer;transition:all .2s">'+o.v+'</button>').join('');
+    })()`
   },
   {
     id:'steuern', num:2, title:'Was sind Steuern?', icon:'⚖️', duration:10,
     color:'linear-gradient(135deg,#0a2040,#1a3a8f)',
-    sub:'10 Min · § 1 EStG interaktiv',
+    sub:'10 Min · Wer muss Steuern zahlen?',
     moderator:{
       text:'Geht die 4 Szenarien gemeinsam durch. Lasst die Schüler erst selbst tippen, dann diskutiert die Antworten.',
-      punkte:['❓ Fragt zuerst: „Wer glaubt, das Antwort Ja ist?"','💬 Nach jedem Szenario: Warum ist das so?','📖 § 1 EStG: Der erste Paragraph des Einkommensteuergesetzes regelt genau das','🎯 Kernaussage: Wohnsitz in DE = Steuerpflicht – unabhängig von Nationalität']
+      punkte:['❓ Fragt zuerst: „Wer glaubt, die Antwort ist Ja?"','✋ Handzeichen – dann auflösen','💬 Nach jedem Szenario: „Warum ist das so?"','🎯 Kernaussage: Wer in Deutschland wohnt = Steuerpflicht']
     },
     content: `
 <div class="etag-card">
-  <h3>💡 Steuern – die Grunddefinition</h3>
-  <p><b>§ 3 Abs. 1 AO:</b> Steuern sind Geldleistungen ohne direkte Gegenleistung. Du zahlst nicht für eine konkrete Leistung – du finanzierst das Gemeinwesen.</p>
-  <div class="hl">⚖️ <b>§ 1 EStG</b> regelt: Wer in Deutschland <b>wohnt</b> oder sich gewöhnlich hier aufhält, ist steuerpflichtig – egal welche Nationalität, egal wie alt, egal wie hoch das Einkommen.</div>
+  <h3>💡 Was sind Steuern eigentlich?</h3>
+  <p>Steuern sind <b>Geld, das jeder an den Staat zahlt</b> – ohne dafür direkt etwas zu bekommen. Kein Tauschgeschäft. Stattdessen finanzieren Steuern alles, wovon alle profitieren: Schulen, Straßen, Polizei, Krankenhäuser.</p>
+  <div class="hl">⚖️ <b>Die Grundregel:</b> Wer in Deutschland <b>wohnt</b>, muss Steuern zahlen – egal welche Nationalität, egal wie alt, egal wie viel man verdient. Das steht im Gesetz (§ 1 EStG). Aber: Wer wenig verdient, zahlt auch wenig oder gar nichts.</div>
+</div>
+<div class="etag-card">
+  <h3>🤔 Wer ist steuerpflichtig? – Tippt mit!</h3>
+  <p>Für jeden der folgenden Fälle: Muss die Person in Deutschland Steuern zahlen? Tippt auf Ja oder Nein!</p>
 </div>
 <div id="etag-para1-block"></div>`,
     onShow: 'renderEtagPara1()'
@@ -6627,39 +7113,60 @@ const ETAG_PHASES = [
   {
     id:'fall', num:3, title:'Ein echter Steuerfall', icon:'🧾', duration:15,
     color:'linear-gradient(135deg,#0d2b5e,#0a3a2a)',
-    sub:'15 Min · Lenas erster Lohnzettel',
+    sub:'15 Min · Lenas erster Lohnzettel + Selbstrechner',
     moderator:{
-      text:'Dieser Praxisfall zeigt, wie Steuern im Alltag funktionieren. Lest ihn gemeinsam – oder lasst einen Schüler vorlesen.',
-      punkte:['📖 Lest die Situation laut vor','🤔 Fragt: „Was passiert hier steuerlich?"','💡 Erklärung Lohnsteuer: Arbeitgeber zieht ab und führt ab','🔄 Steuererklärung: Wie bekommt man Geld zurück?']
+      text:'Dieser Praxisfall zeigt, wie Steuern im Alltag funktionieren. Lest ihn gemeinsam – dann lässt die Schüler ihren eigenen Schulweg eingeben.',
+      punkte:['📖 Lest Lenas Situation laut vor – oder lasst einen Schüler vorlesen','🤔 Fragt: „Wo sind die 177 € geblieben?"','🧮 Schulweg-Rechner: Jeder tippt seine Kilometer ein','📬 Diskussion: Muss Lena eine Steuererklärung machen?']
     },
     content: `
 <div class="etag-card">
   <h3>👩‍🎓 Lena, 18 Jahre, erste Ausbildungsstelle</h3>
   <p>Lena fängt ihre Ausbildung an. Ihr Bruttolohn: <b>850 €/Monat</b>. Auf ihrer ersten Lohnabrechnung steht: Netto <b>673 €</b>.</p>
   <p>Lena ist verwirrt: <em>„Ich verdiene 850 € – warum bekomme ich nur 673 €?"</em></p>
-  <div class="hl">🧮 <b>Was passiert:</b> 177 € werden direkt abgezogen:<br>
-  <b>Lohnsteuer</b> ~0 € (unter Grundfreibetrag) + <b>Sozialversicherung</b> ~177 €<br>
-  (KV 8,15 % + RV 9,3 % + PV 1,8 % + AV 1,3 % = 20,55 % × 850 €)</div>
+  <div class="hl">🧮 <b>Was passiert mit den 177 €?</b><br>
+  Sie gehen an die <b>Sozialversicherung</b> – das ist wie eine Pflicht-Versicherung für alle Arbeitnehmer:<br>
+  · <b>Krankenversicherung</b> – damit du zum Arzt kannst<br>
+  · <b>Rentenversicherung</b> – damit du im Alter Geld bekommst<br>
+  · <b>Pflegeversicherung</b> – falls du mal gepflegt werden musst<br>
+  · <b>Arbeitslosenversicherung</b> – falls du mal den Job verlierst<br><br>
+  Zusammen sind das ca. 20 % vom Bruttolohn. <b>Lohnsteuer zahlt Lena noch keine</b> – denn wer wenig verdient, muss keine Einkommensteuer zahlen.</div>
+</div>
+<div class="etag-card">
+  <h3>🧮 Rechne selbst! Was wäre dein Schulweg wert?</h3>
+  <p>Wusstest du: Wenn du später arbeitest, kannst du deinen <b>Arbeitsweg von der Steuer absetzen</b> – das heißt, du bekommst einen Teil davon zurück. Wie weit wäre dein Schulweg?</p>
+  <div style="display:flex;align-items:center;gap:10px;margin:12px 0">
+    <label style="font-size:13px;font-weight:800;color:#fff;white-space:nowrap">Dein Schulweg:</label>
+    <input type="number" id="etag-km-input" min="1" max="200" value="15" style="width:70px;padding:10px 8px;border-radius:10px;border:2px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;font-family:'Space Mono',monospace;font-size:16px;text-align:center;outline:none" oninput="etagCalcFahrt()">
+    <span style="font-size:13px;font-weight:800;color:rgba(255,255,255,.5)">km (einfach)</span>
+  </div>
+  <div id="etag-fahrt-result" style="background:rgba(0,201,123,.1);border:2px solid rgba(0,201,123,.25);border-radius:12px;padding:14px;margin-top:8px"></div>
 </div>
 <div class="etag-card">
   <h3>📬 Was ist eine Steuererklärung?</h3>
-  <p>Lena fährt täglich <b>15 km</b> zur Ausbildungsstätte. Das sind <b>0,38 € × 15 km × 210 Tage = 1.197 €</b> Fahrtkosten – fast so viel wie die Werbungskosten-Pauschale von 1.230 €.</p>
-  <p>Wenn Lena dazu noch Arbeitsmittel (Laptop 300 €, Fachbücher 80 €) kauft, übersteigt sie die Pauschale und bekommt <b>Steuern erstattet</b>.</p>
-  <div class="hl">💡 <b>Merksatz § 38 EStG:</b> Der Arbeitgeber ist der „Steuereinbehalter" – er haftet für die korrekte Abführung der Lohnsteuer ans Finanzamt. Das nennt man <b>Quellensteuer-Prinzip</b>.</div>
+  <p>Eine Steuererklärung ist wie eine <b>Abrechnung mit dem Staat</b>: Du sagst dem Finanzamt, was du verdient hast und welche Ausgaben du hattest. Oft bekommst du danach <b>Geld zurück</b> – im Schnitt ca. 1.000 € pro Jahr!</p>
+  <div class="hl">💡 <b>Wer zieht die Steuer ab?</b> Nicht du – sondern dein <b>Arbeitgeber</b>. Er rechnet dein Gehalt aus, zieht Steuern und Sozialversicherung ab und überweist beides: Dein Netto an dich, den Rest ans Finanzamt. Du musst dich um nichts kümmern.</div>
 </div>
 <div class="etag-card">
   <h3>🎯 Diskussionsfrage für die Gruppe</h3>
   <p><b>Muss Lena eine Steuererklärung abgeben?</b></p>
-  <p>Antwort: <em>Nein – sie muss nicht.</em> Aber sie <em>sollte</em>, weil sie wahrscheinlich Geld zurückbekommt. Die freiwillige Abgabe ist bis zu <b>4 Jahre rückwirkend</b> möglich (§ 46 EStG).</p>
-</div>`
+  <div id="etag-lena-vote" style="display:flex;gap:10px;margin:10px 0"></div>
+  <div id="etag-lena-answer" style="display:none"></div>
+</div>`,
+    onShow: `(function(){
+      etagCalcFahrt();
+      var v=document.getElementById('etag-lena-vote');
+      if(v&&!v.dataset.done){
+        v.innerHTML='<button onclick="etagLenaVote(true)" style="flex:1;padding:14px;border-radius:12px;border:2px solid rgba(255,77,109,.3);background:rgba(255,77,109,.08);color:#ff4d6d;font-family:Nunito,sans-serif;font-weight:900;font-size:15px;cursor:pointer">Ja, sie muss</button><button onclick="etagLenaVote(false)" style="flex:1;padding:14px;border-radius:12px;border:2px solid rgba(0,201,123,.3);background:rgba(0,201,123,.08);color:#00c97b;font-family:Nunito,sans-serif;font-weight:900;font-size:15px;cursor:pointer">Nein, freiwillig</button>';
+      }
+    })()`
   },
   {
     id:'quiz', num:4, title:'Gruppenquiz', icon:'🎯', duration:10,
     color:'linear-gradient(135deg,#1a0530,#3d0a6b)',
-    sub:'10 Min · 5 Fragen · Auflösung mit Erklärung',
+    sub:'10 Min · 8 Fragen · Alle tippen gleichzeitig!',
     moderator:{
-      text:'Alle tippen gleichzeitig, dann Auflösung und kurze Diskussion pro Frage.',
-      punkte:['▶ "Jetzt alle gleichzeitig antworten"','⏸ Nach jeder Frage: Kurz erklären warum','💬 Wer hat gewusst, warum...?','🏆 Am Ende: Wer hat alle 5 richtig?']
+      text:'Jetzt wird es lustig! Alle tippen gleichzeitig – nicht abgucken. Nach jeder Frage: Auflösung und kurze Erklärung.',
+      punkte:['▶ „Alle gleichzeitig antworten – 3, 2, 1, los!"','⏸ Nach jeder Frage: Kurz erklären','✋ „Hände hoch, wer hatte richtig!"','🏆 Am Ende: Wer hat die meisten? Applaus!']
     },
     content:'<div id="etag-quiz-block"></div>',
     onShow:'renderEtagQuiz()'
@@ -6669,8 +7176,8 @@ const ETAG_PHASES = [
     color:'linear-gradient(135deg,#1a0530,#0d2b5e)',
     sub:'10 Min · Ausbildung, Alltag, Perspektiven',
     moderator:{
-      text:'Zeigt die konkreten Fakten – Gehalt, Ausbildungsdauer, Aufstiegsmöglichkeiten. Beantwortet Fragen.',
-      punkte:['💶 Gehalt in der Ausbildung: ca. 1.100–1.300 €/Monat','📅 Bewerbungsfristen Berlin: meist Oktober–Dezember','🎓 Abschluss: Diplom-Finanzwirt(in) FH (Bachelor-äquivalent)','📈 Aufstieg: Sachbearbeiter → Teamleiter → Amtsleiter']
+      text:'Zeigt die konkreten Fakten – Gehalt, Ausbildungsdauer, Aufstiegsmöglichkeiten. Lasst die Schüler das Vorurteile-Quiz machen.',
+      punkte:['💶 Gehalt in der Ausbildung: ca. 1.100–1.300 €/Monat','📅 Bewerbungsfristen Berlin: meist Oktober–Dezember','🎓 Abschluss: Diplom-Finanzwirt(in) FH (Bachelor-äquivalent)','📈 Aufstieg: Sachbearbeiter → Teamleiter → Amtsleiter','🎮 Vorurteile-Quiz: Alle mitmachen!']
     },
     content: `
 <div class="etag-karriere-grid">
@@ -6687,17 +7194,23 @@ const ETAG_PHASES = [
   <div class="hl">💡 <b>Was viele nicht wissen:</b> Finanzbeamte sind keine reinen Sachbearbeiter. Sie klären Steuerfragen mit Anwälten, Steuerberatern und internationalen Unternehmen – das ist anspruchsvolle Rechtsarbeit.</div>
 </div>
 <div class="etag-card">
+  <h3>🤔 Stimmt das? – Vorurteile-Check</h3>
+  <p>Tippt auf eure Antwort – mal sehen, was ihr über das Finanzamt denkt!</p>
+  <div id="etag-mythen-block"></div>
+</div>
+<div class="etag-card">
   <h3>🌐 Brandenburg</h3>
   <p>Landesamt für Finanzen Brandenburg · Finanzämter in Cottbus, Frankfurt/Oder, Potsdam u.a. Ähnliche Ausbildungsstruktur, enger Kontakt zur Berliner Verwaltung.</p>
-</div>`
+</div>`,
+    onShow: 'renderEtagMythen()'
   },
   {
     id:'abschluss', num:6, title:'Deine nächsten Schritte', icon:'🚀', duration:10,
     color:'linear-gradient(135deg,#003d1a,#007a3a)',
-    sub:'10 Min · Bewerbung, Fragen, Ausblick',
+    sub:'10 Min · Bewerbung, Fragen, Feedback',
     moderator:{
-      text:'Abschluss des Einführungstags. Fasst zusammen, was heute gelernt wurde. Beantwortet offene Fragen.',
-      punkte:['✅ Zusammenfassung: Was haben wir heute gesehen?','❓ Offene Fragen der Gruppe','📱 QR-Code zur Bewerbungsseite zeigen','🎁 Evtl. Infomaterial verteilen']
+      text:'Abschluss des Einführungstags. Fasst zusammen, was heute gelernt wurde. Lasst die Schüler Feedback geben.',
+      punkte:['✅ Zusammenfassung: Was haben wir heute gesehen?','❓ Offene Fragen der Gruppe','📱 QR-Code zur Bewerbungsseite zeigen','⭐ Feedback-Runde: Wie fandet ihr es?','🎁 Evtl. Infomaterial verteilen']
     },
     content: `
 <div class="etag-progress-summary" id="etag-final-summary">
@@ -6708,10 +7221,18 @@ const ETAG_PHASES = [
 </div>
 <div class="etag-card">
   <h3>📋 Das Wichtigste in Kürze</h3>
-  <p>✅ Steuern = Pflichtabgaben ohne direkte Gegenleistung (§ 3 AO)<br>
-  ✅ Steuerpflicht = Wohnsitz in Deutschland (§ 1 EStG)<br>
-  ✅ Lohnsteuer = Quellensteuer, vom Arbeitgeber abgeführt (§ 38 EStG)<br>
-  ✅ Steuererklärung kann Geld zurückbringen – freiwillig bis 4 Jahre rückwirkend</p>
+  <p>✅ <b>Steuern</b> sind Geld, das alle an den Staat zahlen – für Schulen, Straßen, Polizei<br>
+  ✅ Wer in Deutschland <b>wohnt</b>, ist steuerpflichtig – egal wie alt oder woher<br>
+  ✅ Dein <b>Arbeitgeber</b> zieht Steuern & Sozialabgaben direkt vom Gehalt ab<br>
+  ✅ In jedem Preis steckt <b>Mehrwertsteuer</b> – 7 % oder 19 %<br>
+  ✅ Eine <b>Steuererklärung</b> bringt im Schnitt ca. 1.000 € zurück<br>
+  ✅ Im Finanzamt arbeiten <b>110.000 Menschen</b> – und suchen Nachwuchs!</p>
+</div>
+<div class="etag-card">
+  <h3>⭐ Schnelles Feedback – wie fandet ihr es?</h3>
+  <p>Tippt auf den Daumen, der am besten passt:</p>
+  <div id="etag-feedback-block" style="display:flex;gap:10px;margin:12px 0;flex-wrap:wrap"></div>
+  <div id="etag-feedback-msg" style="display:none"></div>
 </div>
 <div class="etag-card">
   <h3>🚀 Nächste Schritte – wenn ihr euch bewerben wollt</h3>
@@ -6719,7 +7240,8 @@ const ETAG_PHASES = [
   <b>Brandenburg:</b> Ministerium der Finanzen · <em>mdf.brandenburg.de</em><br>
   <b>Frist:</b> Meist Oktober bis Dezember für Ausbildungsbeginn im nächsten August</p>
   <div class="hl">💡 <b>Diese App:</b> Alle Inhalte des heutigen Tages – und viel mehr – findest du jederzeit hier. Ideal für die Vorbereitung auf die Eignungsprüfung.</div>
-</div>`
+</div>`,
+    onShow: 'initEtagFeedback()'
   }
 ];
 
@@ -6733,12 +7255,139 @@ let etagPara1Answers = {};
 
 // 5 curated easy questions for the group quiz
 const ETAG_QUIZ = [
-  { q:'Deutschland erhebt über wie viele verschiedene Steuerarten?', opts:['Etwa 10','Über 40','Genau 19','Weniger als 5'], correct:1, explain:'Deutschland hat über 40 Steuerarten – von der Einkommensteuer bis zur Biersteuer und Hundesteuer.' },
-  { q:'Was bedeutet der Grundfreibetrag bei der Einkommensteuer?', opts:['Jeder zahlt pauschal diesen Betrag','Einkommen bis zu diesem Betrag bleibt steuerfrei','Es ist der Mindeststeuersatz','Der Betrag wird vom Steuerbescheid abgezogen'], correct:1, explain:'Der Grundfreibetrag (2026: 12.336 €/Jahr) schützt das Existenzminimum. Wer darunter liegt, zahlt keine Einkommensteuer.' },
-  { q:'Lohnsteuer ist technisch gesehen...', opts:['Eine separate Steuer zusätzlich zur Einkommensteuer','Eine Vorauszahlung auf die Einkommensteuer','Eine Sozialabgabe','Eine kommunale Steuer'], correct:1, explain:'Lohnsteuer (§ 38 EStG) ist keine eigene Steuer, sondern eine Erhebungsform der Einkommensteuer – einbehalten vom Arbeitgeber.' },
-  { q:'Wer zahlt die Lohnsteuer technisch ans Finanzamt?', opts:['Der Arbeitnehmer selbst','Das Finanzgericht','Der Arbeitgeber','Die Rentenversicherung'], correct:2, explain:'Der Arbeitgeber behält die Lohnsteuer ein und führt sie ans Finanzamt ab (§ 38 Abs. 3 EStG). Er haftet für korrekte Abführung.' },
-  { q:'Wie lange kann man eine freiwillige Steuererklärung rückwirkend einreichen?', opts:['6 Monate','1 Jahr','4 Jahre','10 Jahre'], correct:2, explain:'§ 46 EStG: Freiwillige Abgabe der Einkommensteuererklärung ist bis zu 4 Jahre rückwirkend möglich – viele lassen so Erstattungen liegen.' }
+  { q:'Wenn du im Supermarkt eine Tafel Schokolade für 1,29 € kaufst – zahlst du dabei Steuern?', opts:['Nein, Steuern zahlt man nur beim Gehalt','Ja – im Preis stecken 7 % Mehrwertsteuer','Ja – im Preis stecken 19 % Mehrwertsteuer','Nur wenn man über 18 ist'], correct:1, explain:'In fast jedem Preis steckt Mehrwertsteuer (Umsatzsteuer). Lebensmittel: 7 %. Elektronik, Kleidung etc.: 19 %. Du zahlst sie automatisch mit – ohne es zu merken!' },
+  { q:'Wie viele verschiedene Steuerarten gibt es in Deutschland ungefähr?', opts:['Etwa 10','Über 40','Genau 3','Weniger als 5'], correct:1, explain:'Deutschland hat über 40 Steuerarten! Von der Einkommensteuer über die Hundesteuer bis zur Sektsteuer (die gibt es wirklich seit 1902 – wegen einer Kriegsflotte).' },
+  { q:'Du verdienst 850 € brutto im Monat. Was landet auf deinem Konto?', opts:['850 € – Steuern zahlt man erst ab 2.000 €','Ca. 673 € – der Rest geht an Sozialversicherung','Ca. 425 € – die Hälfte geht an den Staat','Kommt drauf an, ob man will'], correct:1, explain:'Vom Bruttolohn gehen ca. 20 % an die Sozialversicherung (Krankenkasse, Rente, Pflege, Arbeitslosigkeit). Bei 850 € sind das ca. 177 €. Steuern fallen bei diesem Gehalt noch keine an.' },
+  { q:'Wer überweist deine Steuern ans Finanzamt?', opts:['Du selbst, jeden Monat','Dein Arbeitgeber – automatisch','Die Bank','Die Krankenkasse'], correct:1, explain:'Dein Arbeitgeber rechnet alles aus, zieht Steuern und Sozialabgaben ab und überweist beides: Dein Nettolohn geht an dich, der Rest ans Finanzamt und die Kassen.' },
+  { q:'Wofür verwendet der Staat Steuereinnahmen?', opts:['Nur für Politiker-Gehälter','Für Schulen, Straßen, Polizei, Krankenhäuser und vieles mehr','Nur für das Militär','Der Staat spart das Geld'], correct:1, explain:'Steuern finanzieren fast alles, was der Staat macht: Schulen, Universitäten, Straßen, Polizei, Feuerwehr, Krankenhäuser, Sozialleistungen, Verteidigung und vieles mehr.' },
+  { q:'Cappuccino im Café: Zum Mitnehmen oder am Tisch sitzen – macht das steuerlich einen Unterschied?', opts:['Nein, Kaffee ist Kaffee','Ja! Mitnehmen = 7 % Steuer, Hinsetzen = 19 %','Ja, aber andersrum: Hinsetzen ist billiger','Kaffee ist steuerfrei'], correct:1, explain:'Klingt verrückt, stimmt aber: Kaffee zum Mitnehmen gilt als Lebensmittel (7 % Mehrwertsteuer). Wer sich hinsetzt, nutzt eine „Dienstleistung" – und die kostet 19 %.' },
+  { q:'Steuererklärung machen – bringt das jungen Leuten überhaupt was?', opts:['Nein, lohnt sich erst ab 50.000 € Gehalt','Ja – im Schnitt bekommt man ca. 1.000 € zurück','Nur wenn man verheiratet ist','Nur wenn man ein Haus hat'], correct:1, explain:'Im Durchschnitt bekommen Arbeitnehmer ca. 1.000 € vom Finanzamt zurück. Gerade Berufseinsteiger mit Fahrtkosten und Arbeitsmitteln profitieren oft stark – und man hat 4 Jahre Zeit dafür!' },
+  { q:'Wie viele Finanzämter gibt es allein in Berlin?', opts:['3','12','23','50'], correct:2, explain:'Berlin hat 23 Finanzämter mit über 6.100 Mitarbeitenden. Jeder Berliner ist einem bestimmten Finanzamt zugeordnet, je nachdem wo man wohnt.' }
 ];
+
+// ── Phase 1: Quick poll ──
+function etagPoll1Pick(btn, pct){
+  const el = document.getElementById('etag-poll-1');
+  if(!el || el.dataset.done) return;
+  el.dataset.done = '1';
+  el.querySelectorAll('button').forEach(b=>{
+    b.disabled = true;
+    b.style.opacity = '0.4';
+    b.style.cursor = 'default';
+  });
+  btn.style.opacity = '1';
+  btn.style.border = '3px solid var(--cyan)';
+  btn.style.background = 'rgba(0,194,224,.2)';
+  const answer = pct === 35
+    ? '🎯 Genau! Bei 3.000 € brutto gehen ca. 35 % an Steuern & Sozialabgaben (Lohnsteuer + KV + RV + PV + AV). Netto bleiben rund 1.950 €.'
+    : pct < 35
+    ? '📊 Tatsächlich sind es mehr! Bei 3.000 € brutto gehen ca. <b>35 %</b> an Steuern & Sozialabgaben ab. Netto bleiben rund 1.950 €.'
+    : '📊 Fast! Bei 3.000 € brutto gehen ca. <b>35 %</b> an Steuern & Sozialabgaben. Erst ab ~5.000 € brutto nähert man sich 40 %+.';
+  const msg = document.createElement('div');
+  msg.style.cssText = 'margin-top:12px;padding:12px 14px;border-radius:12px;background:rgba(0,194,224,.12);border:2px solid rgba(0,194,224,.25);font-size:12px;font-weight:700;color:#fff;line-height:1.6;animation:fu .3s ease';
+  msg.innerHTML = answer;
+  el.parentNode.appendChild(msg);
+}
+
+// ── Phase 3: Fahrtkosten-Rechner ──
+function etagCalcFahrt(){
+  const inp = document.getElementById('etag-km-input');
+  const res = document.getElementById('etag-fahrt-result');
+  if(!inp || !res) return;
+  const km = Math.max(1, Math.min(200, parseInt(inp.value)||15));
+  const tage = 210;
+  const satz = 0.38;
+  const fahrt = Math.round(km * satz * tage * 100) / 100;
+  const erstattung = Math.round(fahrt * 0.25); // grobe Schätzung bei niedrigem Steuersatz
+  res.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">'
+    +'<span style="font-size:12px;font-weight:800;color:#fff">Dein Arbeitsweg wäre wert:</span>'
+    +'<span style="font-size:18px;font-weight:900;color:var(--yellow);font-family:Space Mono,monospace">'+fahrt.toLocaleString('de-DE')+' €/Jahr</span>'
+    +'</div>'
+    +'<div style="font-size:11px;color:rgba(255,255,255,.65);font-weight:700;line-height:1.6">'
+    +km+' km × 0,38 € × '+tage+' Arbeitstage = <b>'+fahrt.toLocaleString('de-DE')+' €</b><br>'
+    +'<span style="color:var(--green)">💰 Das könntest du dir als Arbeitnehmer vom Finanzamt zurückholen – geschätzt ca. <b>'+erstattung+' €</b> Erstattung pro Jahr!</span>'
+    +'</div>';
+}
+
+// ── Phase 3: Lena vote ──
+function etagLenaVote(ja){
+  const v = document.getElementById('etag-lena-vote');
+  const a = document.getElementById('etag-lena-answer');
+  if(!v || !a) return;
+  v.dataset.done = '1';
+  v.querySelectorAll('button').forEach(b=>{ b.disabled=true; b.style.opacity='.4'; b.style.cursor='default'; });
+  if(!ja) { v.children[1].style.opacity='1'; v.children[1].style.border='3px solid #00c97b'; }
+  else { v.children[0].style.opacity='1'; v.children[0].style.border='3px solid #ff4d6d'; }
+  a.style.display = 'block';
+  a.style.cssText = 'display:block;margin-top:10px;padding:12px 14px;border-radius:12px;font-size:12px;font-weight:700;line-height:1.6;animation:fu .3s ease;'
+    + (ja ? 'background:rgba(255,77,109,.1);border:2px solid rgba(255,77,109,.25);color:#ff4d6d' : 'background:rgba(0,201,123,.1);border:2px solid rgba(0,201,123,.25);color:#00c97b');
+  a.innerHTML = ja
+    ? '❌ Nein – Lena <em>muss nicht</em>. Als Angestellte ohne besondere Einkünfte ist die Steuererklärung <b>freiwillig</b>. Aber sie <em>sollte</em> eine machen – sie bekommt wahrscheinlich Geld zurück! Und das Beste: Man kann die Erklärung bis zu <b>4 Jahre rückwirkend</b> abgeben.'
+    : '✅ Richtig! Lena muss nicht – aber sie sollte. Wer eine freiwillige Steuererklärung abgibt, bekommt im Schnitt ca. <b>1.000 € zurück</b>. Und man hat dafür bis zu <b>4 Jahre Zeit</b> – also kein Stress!';
+}
+
+// ── Phase 5: Vorurteile-Quiz ──
+const ETAG_MYTHEN = [
+  { claim:'Finanzbeamte stempeln den ganzen Tag nur Akten.', truth:false, explain:'Finanzbeamte lösen komplexe Rechtsfragen – mit Steuerberatern, Anwälten und internationalen Unternehmen. Die Arbeit ist juristisch anspruchsvoll.' },
+  { claim:'Man verdient in der Ausbildung bei der Finanzverwaltung nichts.', truth:false, explain:'Anwärter bekommen ca. 1.100–1.300 € netto/Monat – deutlich mehr als in vielen anderen Ausbildungen, und das bei 30 Tagen Urlaub.' },
+  { claim:'Man muss Mathe-Ass sein, um beim Finanzamt zu arbeiten.', truth:false, explain:'Grundrechenarten reichen. Viel wichtiger sind logisches Denken, Textverständnis und die Fähigkeit, Gesetze anzuwenden.' },
+  { claim:'Nach der Ausbildung ist man verbeamtet und hat einen sicheren Job.', truth:true, explain:'Stimmt! Bei guten Leistungen führt die Ausbildung zur Verbeamtung auf Lebenszeit – mit allen Vorteilen (Pension, Beihilfe, Unkündbarkeit).' },
+  { claim:'Als Finanzbeamter kann man nie aufsteigen.', truth:false, explain:'Es gibt klare Aufstiegswege: Sachbearbeiter → Teamleiter → Sachgebietsleiter → Amtsleiter. Auch Wechsel in Ministerien oder Finanzgerichte sind möglich.' }
+];
+let etagMythenAnswers = {};
+
+function renderEtagMythen(){
+  const el = document.getElementById('etag-mythen-block');
+  if(!el) return;
+  el.innerHTML = ETAG_MYTHEN.map((m,i)=>{
+    const ans = etagMythenAnswers[i];
+    const answered = ans !== undefined;
+    const ok = answered && ans === m.truth;
+    return '<div style="margin-bottom:10px">'
+      +'<div style="font-size:12px;font-weight:800;color:#fff;margin-bottom:6px;line-height:1.5">„'+m.claim+'"</div>'
+      +(!answered
+        ? '<div style="display:flex;gap:8px">'
+          +'<button onclick="etagMythenAns('+i+',true)" style="flex:1;padding:10px;border-radius:10px;border:2px solid rgba(0,201,123,.3);background:rgba(0,201,123,.08);color:#00c97b;font-family:Nunito,sans-serif;font-weight:900;font-size:13px;cursor:pointer">✓ Stimmt</button>'
+          +'<button onclick="etagMythenAns('+i+',false)" style="flex:1;padding:10px;border-radius:10px;border:2px solid rgba(255,77,109,.3);background:rgba(255,77,109,.08);color:#ff4d6d;font-family:Nunito,sans-serif;font-weight:900;font-size:13px;cursor:pointer">✗ Stimmt nicht</button>'
+          +'</div>'
+        : '<div style="padding:10px 12px;border-radius:10px;font-size:11px;font-weight:700;line-height:1.6;animation:fu .3s ease;'
+          +'background:'+(ok?'rgba(0,201,123,.1)':'rgba(255,77,109,.08)')+';'
+          +'border:2px solid '+(ok?'rgba(0,201,123,.3)':'rgba(255,77,109,.25)')+';'
+          +'color:'+(ok?'#00c97b':'#ff4d6d')+'">'
+          +(ok?'✅ Richtig! ':'❌ Leider falsch! ')+m.explain
+          +'</div>')
+      +'</div>';
+  }).join('');
+}
+
+function etagMythenAns(i, ans){
+  etagMythenAnswers[i] = ans;
+  renderEtagMythen();
+}
+
+// ── Phase 6: Feedback ──
+function initEtagFeedback(){
+  var fb=document.getElementById('etag-feedback-block');
+  if(!fb||fb.dataset.done) return;
+  var opts=[{e:'🤩',l:'Super!'},{e:'😊',l:'Gut'},{e:'😐',l:'Ok'},{e:'😕',l:'Meh'}];
+  fb.innerHTML=opts.map(function(o){
+    return '<button onclick="etagFeedback(this,\''+o.l+'\')" style="flex:1;min-width:60px;padding:14px 8px;border-radius:14px;border:2px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:#fff;font-family:Nunito,sans-serif;cursor:pointer;transition:all .2s;text-align:center"><span style="font-size:28px;display:block">'+o.e+'</span><span style="font-size:10px;font-weight:800;opacity:.6">'+o.l+'</span></button>';
+  }).join('');
+}
+
+function etagFeedback(btn, label){
+  const fb = document.getElementById('etag-feedback-block');
+  const msg = document.getElementById('etag-feedback-msg');
+  if(!fb || !msg) return;
+  fb.dataset.done = '1';
+  fb.querySelectorAll('button').forEach(b=>{ b.style.opacity='.3'; b.style.cursor='default'; b.disabled=true; });
+  btn.style.opacity = '1';
+  btn.style.border = '3px solid var(--cyan)';
+  btn.style.background = 'rgba(0,194,224,.2)';
+  msg.style.display = 'block';
+  msg.style.cssText = 'display:block;margin-top:10px;padding:12px;border-radius:12px;background:rgba(0,194,224,.1);border:2px solid rgba(0,194,224,.25);font-size:12px;font-weight:700;color:#fff;line-height:1.5;animation:fu .3s ease';
+  msg.innerHTML = '✅ Danke für dein Feedback! Deine Meinung hilft uns, den Einführungstag noch besser zu machen.';
+}
 
 function renderEinfuehrung(a){
   const phase = ETAG_PHASES[etagPhase];
@@ -6856,10 +7505,10 @@ function etagFinish(){
 
 // Phase 2: § 1 EStG mini-interactive
 const ETAG_PARA1 = [
-  { avatar:'👨‍💼', name:'Ahmed, 22', desc:'Ägyptischer Student in Berlin, WG', q:'Muss Ahmed in Deutschland Steuern zahlen?', answer:'ja', explain:'✅ Ja – sein Wohnsitz ist in Deutschland (§ 8 AO). § 1 Abs. 1 EStG gilt unabhängig von Nationalität.' },
-  { avatar:'👩‍💻', name:'Sofia, 28', desc:'Deutschen Pass, arbeitet in Amsterdam, Wohnung gekündigt', q:'Ist Sofia noch in Deutschland steuerpflichtig?', answer:'nein', explain:'✅ Nein – ohne Wohnsitz oder gewöhnlichen Aufenthalt in DE entfällt die unbeschränkte Steuerpflicht (§ 1 Abs. 1 EStG). Aber: inländische Einkünfte bleiben steuerpflichtig (§ 1 Abs. 4).' },
-  { avatar:'👶', name:'Mia, 8 Monate', desc:'Neugeborene, lebt bei ihren Eltern in München', q:'Ist Mia steuerpflichtig?', answer:'ja', explain:'✅ Ja – § 1 EStG kennt keine Altersgrenze. Wer Wohnsitz in DE hat, ist steuerpflichtig. Ob Steuern anfallen, hängt vom Einkommen ab – bei Mia: kein Einkommen, keine Steuer. Aber die Pflicht besteht.' },
-  { avatar:'👴', name:'Hans, 74', desc:'Rentner, lebt 6 Monate in Thailand, 6 Monate in Stuttgart', q:'Ist Hans in Deutschland steuerpflichtig?', answer:'ja', explain:'✅ Ja – Hans behält seinen Wohnsitz in Stuttgart (§ 8 AO). Seine Rente wird in Deutschland besteuert. 6 Monate im Ausland ändert nichts, solange die Wohnung in DE gehalten wird.' }
+  { avatar:'👨‍💼', name:'Ahmed, 22', desc:'Ägyptischer Student in Berlin, WG', q:'Muss Ahmed in Deutschland Steuern zahlen?', answer:'ja', explain:'✅ Ja – Ahmed <b>wohnt</b> in Deutschland. Das reicht! Nationalität spielt keine Rolle. Wer hier lebt, ist steuerpflichtig.' },
+  { avatar:'👩‍💻', name:'Sofia, 28', desc:'Deutschen Pass, arbeitet in Amsterdam, Wohnung gekündigt', q:'Ist Sofia noch in Deutschland steuerpflichtig?', answer:'nein', explain:'✅ Nein – Sofia hat ihre Wohnung in DE aufgegeben und lebt jetzt in den Niederlanden. Ohne Wohnsitz in Deutschland: keine deutsche Steuerpflicht. Auch ein deutscher Pass ändert daran nichts!' },
+  { avatar:'👶', name:'Mia, 8 Monate', desc:'Neugeborene, lebt bei ihren Eltern in München', q:'Ist Mia steuerpflichtig?', answer:'ja', explain:'✅ Überraschung: Ja! Es gibt <b>keine Altersgrenze</b>. Auch ein Baby ist grundsätzlich steuerpflichtig, wenn es in Deutschland wohnt. Aber keine Sorge: Mia hat kein Einkommen, also zahlt sie auch keine Steuer.' },
+  { avatar:'👴', name:'Hans, 74', desc:'Rentner, lebt 6 Monate in Thailand, 6 Monate in Stuttgart', q:'Ist Hans in Deutschland steuerpflichtig?', answer:'ja', explain:'✅ Ja – Hans hat immer noch seine Wohnung in Stuttgart. Solange er eine Wohnung in Deutschland hält, bleibt er steuerpflichtig – egal wie viel Zeit er im Ausland verbringt. Seine Rente wird in Deutschland versteuert.' }
 ];
 
 function renderEtagPara1(){
@@ -6867,7 +7516,7 @@ function renderEtagPara1(){
   if(!el) return;
   const all = Object.keys(etagPara1Answers).length >= ETAG_PARA1.length;
   if(all){
-    el.innerHTML = '<div style="background:rgba(0,201,123,.1);border:2px solid rgba(0,201,123,.3);border-radius:14px;padding:14px;text-align:center"><div style="font-size:18px;font-weight:900;color:#00c97b">✓ Alle Szenarien beantwortet!</div><div style="font-size:11px;font-weight:700;color:#555;margin-top:4px">Merksatz: Wohnsitz in DE = Steuerpflicht · § 1 Abs. 1 EStG</div></div>';
+    el.innerHTML = '<div style="background:rgba(0,201,123,.1);border:2px solid rgba(0,201,123,.3);border-radius:14px;padding:14px;text-align:center"><div style="font-size:18px;font-weight:900;color:#00c97b">✓ Alle Szenarien beantwortet!</div><div style="font-size:12px;font-weight:700;color:#555;margin-top:6px">Die Grundregel: <b>Wer in Deutschland wohnt, ist steuerpflichtig.</b><br>Nationalität, Alter und Einkommen spielen keine Rolle.</div></div>';
     return;
   }
   const casesHtml = ETAG_PARA1.map((c,i)=>{
