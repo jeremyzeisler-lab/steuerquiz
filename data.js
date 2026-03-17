@@ -2300,88 +2300,122 @@ const PARA1_CASES = [
   }
 ];
 
+// ── para1 state: 0=rating, 1=revealed ──
+let para1Phase = 0; // 0 = still rating, 1 = all revealed
+
 function para1Answer(caseIdx, ans){
   if(para1Answers[caseIdx] !== undefined) return;
   para1Answers[caseIdx] = ans;
-
-  // Update the quiz block in place
-  const el = document.getElementById('einst-content');
+  // Re-render in place
+  const el = document.getElementById('para1-block');
   if(el) el.innerHTML = renderPara1Block();
-
-  const allDone = Object.keys(para1Answers).length >= PARA1_CASES.length;
-  if(allDone){
-    setEinstStep('para1');
-    // Re-render the full page so timeline updates cleanly
-    const a = document.getElementById('ga');
-    if(a) renderBasicsEinsteiger(a);
-    // Restore scroll to quiz area
-    setTimeout(()=>{
-      const c = document.getElementById('einst-content');
-      if(c) c.scrollIntoView({behavior:'smooth', block:'start'});
-    }, 80);
-  } else {
-    setTimeout(()=>{
-      const res = document.getElementById('para1-result-'+caseIdx);
-      if(res) res.scrollIntoView({behavior:'smooth', block:'nearest'});
-    }, 80);
-  }
 }
 
+function para1Reveal(){
+  para1Phase = 1;
+  setEinstStep('para1');
+  const el = document.getElementById('para1-block');
+  if(el) el.innerHTML = renderPara1Block();
+  setTimeout(()=>{ if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); }, 60);
+}
+
+function para1Reset(){
+  para1Answers = {};
+  para1Phase = 0;
+  const el = document.getElementById('para1-block');
+  if(el) el.innerHTML = renderPara1Block();
+  setTimeout(()=>{ if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); }, 60);
+}
 
 function renderPara1Block(){
-  const allAnswered = Object.keys(para1Answers).length >= PARA1_CASES.length;
+  const answered = Object.keys(para1Answers).length;
+  const total    = PARA1_CASES.length;
+  const allRated = answered >= total;
 
-  // ── Collapsed summary after all answered ──
-  if(allAnswered){
-    return `<div class="para1-summary-card">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:11px">
-        <span style="font-size:20px">✅</span>
-        <div style="flex:1">
-          <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:1.5px;text-transform:uppercase">§ 1 EStG · Abgeschlossen</div>
-          <div style="font-size:15px;font-weight:900;color:#fff">Wer muss Steuern zahlen?</div>
+  // ── Phase 1: Revealed ──────────────────────────────────────────
+  if(para1Phase === 1){
+    const correct = PARA1_CASES.filter((_,i)=>para1Answers[i]===PARA1_CASES[i].answer).length;
+    const scoreColor = correct === total ? '#00c97b' : correct >= total/2 ? 'var(--cyan)' : '#ff8c42';
+
+    const casesHtml = PARA1_CASES.map((pc,i)=>{
+      const given   = para1Answers[i];
+      const isRight = given === pc.answer;
+      const bg      = isRight ? 'rgba(0,201,123,.1)' : 'rgba(255,77,109,.08)';
+      const border  = isRight ? 'rgba(0,201,123,.35)' : 'rgba(255,77,109,.3)';
+      return `<div style="background:${bg};border:1.5px solid ${border};border-radius:14px;padding:14px;margin-bottom:8px">
+        <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:8px">
+          <div style="font-size:26px;flex-shrink:0">${pc.avatar}</div>
+          <div style="flex:1">
+            <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:2px">${pc.name}</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.55);font-weight:700">${pc.desc}</div>
+          </div>
+          <div style="flex-shrink:0;font-size:18px">${isRight ? '✅' : '❌'}</div>
         </div>
-        <button onclick="para1Answers={};const el=document.getElementById('einst-content');if(el){el.innerHTML=renderPara1Block();el.scrollIntoView({behavior:'smooth',block:'start'})}" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.7);border-radius:8px;padding:4px 11px;font-size:10px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer">↺ Nochmal</button>
+        <div style="font-size:11px;color:rgba(255,255,255,.7);font-weight:700;line-height:1.65;background:rgba(255,255,255,.05);border-radius:10px;padding:10px">
+          ${isRight ? pc.correct_explain : pc.wrong_explain}
+        </div>
+      </div>`;
+    }).join('');
+
+    return `<div>
+      <div style="background:rgba(255,255,255,.05);border-radius:14px;padding:14px;margin-bottom:12px;text-align:center">
+        <div style="font-size:28px;margin-bottom:6px">${correct===total?'🏆':correct>=total/2?'👍':'📖'}</div>
+        <div style="font-size:18px;font-weight:900;color:${scoreColor};font-family:'Space Mono',monospace;margin-bottom:3px">${correct} / ${total} richtig</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);font-weight:700">${correct===total?'Perfekt! Du kennst §1 EStG schon gut.':'Lies die Erklärungen unten – dann klappt es beim nächsten Mal!'}</div>
       </div>
-      <div style="background:rgba(255,255,255,.07);border-radius:12px;padding:13px 14px">
-        <div style="font-size:11px;font-weight:900;color:rgba(255,255,255,.9);margin-bottom:9px">§ 1 EStG – Die Steuerpflicht in Deutschland</div>
+      ${casesHtml}
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:14px;margin-bottom:10px">
+        <div style="font-size:11px;font-weight:900;color:rgba(255,255,255,.9);margin-bottom:8px">§ 1 EStG – Steuerpflicht auf einen Blick</div>
         <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.65);line-height:1.8">
-          <b class="u-cyan">Unbeschränkte Steuerpflicht (§ 1 Abs. 1 EStG):</b><br>
-          Wer einen <b>Wohnsitz (§ 8 AO)</b> oder seinen <b>gewöhnlichen Aufenthalt (§ 9 AO)</b> in Deutschland hat, ist unbeschränkt steuerpflichtig. Das gesamte <b>Welteinkommen</b> wird erfasst – unabhängig von Nationalität oder Alter.<br><br>
-          <b class="u-cyan">Beschränkte Steuerpflicht (§ 1 Abs. 4 EStG):</b><br>
-          Kein Wohnsitz in DE, aber <b>inländische Einkünfte</b> (z.B. Rente aus DE, Miete aus deutschem Grundbesitz) → nur diese werden besteuert.<br><br>
-          <b class="u-cyan">Fiktive unbeschränkte Steuerpflicht (§ 1 Abs. 3 EStG):</b><br>
-          Grenzpendler ohne deutschen Wohnsitz können auf Antrag wie Inländer behandelt werden, wenn ≥ 90 % ihrer Einkünfte aus Deutschland stammen.
+          <span style="color:var(--cyan);font-weight:900">Unbeschränkt (§ 1 Abs. 1 EStG):</span> Natürliche Person mit <b>Wohnsitz (§ 8 AO)</b> oder <b>gewöhnlichem Aufenthalt (§ 9 AO)</b> in DE → gesamtes <b>Welteinkommen</b> steuerpflichtig.<br><br>
+          <span style="color:#ff8c42;font-weight:900">Beschränkt (§ 1 Abs. 4 EStG):</span> Kein Wohnsitz in DE, aber <b>inländische Einkünfte (§ 49 EStG)</b> → nur diese werden in DE besteuert (Quellenprinzip).<br><br>
+          <span style="color:#ffd94a;font-weight:900">Fiktiv unbeschränkt (§ 1 Abs. 3 EStG):</span> Grenzpendler ohne DE-Wohnsitz können auf Antrag wie Inländer behandelt werden, wenn ≥ 90 % der Einkünfte aus DE stammen.
         </div>
-        <div style="margin-top:8px;font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.3)">§ 1 Abs. 1, 3, 4 EStG · § 8 AO · § 9 AO</div>
+        <div style="margin-top:8px;font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.25)">§ 1 Abs. 1, 3, 4 EStG · § 8 AO · § 9 AO · § 49 EStG · Nur für natürliche Personen – juristische Personen: KStG</div>
       </div>
-      <button onclick="einstGoStep2()" style="margin-top:12px;width:100%;padding:12px;border-radius:12px;border:none;background:linear-gradient(135deg,#0a8a5c,#00c97b);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Weiter: Lenas erster Lohnzettel →</button>
+      <div style="display:flex;gap:8px">
+        <button onclick="para1Reset()" style="flex:1;padding:11px;border-radius:11px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:rgba(255,255,255,.7);font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">↺ Nochmal</button>
+        <button onclick="einstGoStep2()" style="flex:2;padding:11px;border-radius:11px;border:none;background:linear-gradient(135deg,#0a8a5c,#00c97b);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Weiter: Lenas Lohnzettel →</button>
+      </div>
     </div>`;
   }
 
-  // ── Active quiz ──
-  const casesHtml = PARA1_CASES.map((c,i)=>{
-    const answered = para1Answers[i] !== undefined;
-    const correct  = para1Answers[i] === c.answer;
-    const resultHtml = answered
-      ? '<div id="para1-result-'+i+'" class="para1-result show '+(correct?'correct':'wrong')+'">'+(correct ? c.correct_explain : c.wrong_explain)+'</div>'
-      : '<div id="para1-result-'+i+'" class="para1-result"></div>';
-    return '<div class="para1-scene">'
-      +'<div class="para1-person"><div class="para1-avatar">'+c.avatar+'</div><div class="para1-desc"><b>'+c.name+'</b> – '+c.desc+'</div></div>'
-      +'<div class="para1-q">'+c.question+'</div>'
-      +(answered ? '' : '<div class="para1-btn-row"><button class="para1-btn" onclick="para1Answer('+i+',\'ja\')">Ja</button><button class="para1-btn" onclick="para1Answer('+i+',\'nein\')">Nein</button></div>')
-      +resultHtml
-      +'</div>';
+  // ── Phase 0: Rating ────────────────────────────────────────────
+  const casesHtml = PARA1_CASES.map((pc,i)=>{
+    const given = para1Answers[i];
+    const selected_ja   = given==='ja';
+    const selected_nein = given==='nein';
+    return `<div style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;margin-bottom:8px">
+      <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:10px">
+        <div style="font-size:26px;flex-shrink:0">${pc.avatar}</div>
+        <div style="flex:1">
+          <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:2px">${pc.name}</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.55);font-weight:700">${pc.desc}</div>
+        </div>
+        ${given ? `<div style="font-size:18px;flex-shrink:0">${selected_ja?'✔️':'✖️'}</div>` : ''}
+      </div>
+      <div style="font-size:12px;font-weight:800;color:rgba(255,255,255,.75);margin-bottom:8px">${pc.question}</div>
+      <div style="display:flex;gap:8px">
+        <button onclick="para1Answer(${i},'ja')" style="flex:1;padding:10px;border-radius:10px;border:2px solid ${selected_ja?'var(--cyan)':'rgba(255,255,255,.15)'};background:${selected_ja?'rgba(0,194,224,.2)':'rgba(255,255,255,.06)'};color:${selected_ja?'var(--cyan)':'rgba(255,255,255,.7)'};font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer;transition:all .15s">Ja</button>
+        <button onclick="para1Answer(${i},'nein')" style="flex:1;padding:10px;border-radius:10px;border:2px solid ${selected_nein?'#ff4d6d':'rgba(255,255,255,.15)'};background:${selected_nein?'rgba(255,77,109,.2)':'rgba(255,255,255,.06)'};color:${selected_nein?'#ff4d6d':'rgba(255,255,255,.7)'};font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer;transition:all .15s">Nein</button>
+      </div>
+    </div>`;
   }).join('');
 
-  return '<div style="margin-top:4px">'
-    +'<div style="background:linear-gradient(135deg,#0a1a3a,#1a3a8f);border-radius:18px;padding:16px 18px 12px;margin-bottom:14px">'
-      +'<div style="font-size:9px;font-family:Space Mono,monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px">Schritt 1 · § 1 EStG</div>'
-      +'<div style="font-size:17px;font-weight:900;color:#fff;margin-bottom:3px">Wer muss Steuern zahlen?</div>'
-      +'<div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:700">'+Object.keys(para1Answers).length+' / '+PARA1_CASES.length+' beantwortet · Ja oder Nein?</div>'
-    +'</div>'
-    + casesHtml
-    +'</div>';
+  return `<div>
+    <div style="background:linear-gradient(135deg,#0a1a3a,#1a3a8f);border-radius:16px;padding:14px 16px 12px;margin-bottom:12px">
+      <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px">Schritt 1 · § 1 EStG</div>
+      <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:3px">Wer muss Steuern zahlen?</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:700">Erst alle 4 einschätzen – dann kommt die Auflösung</div>
+    </div>
+    ${casesHtml}
+    ${allRated
+      ? `<button onclick="para1Reveal()" style="width:100%;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer;margin-top:4px">🔍 Auflösung anzeigen</button>`
+      : `<div style="text-align:center;padding:10px;font-size:11px;color:rgba(255,255,255,.35);font-weight:700;font-family:'Space Mono',monospace">${answered} / ${total} beantwortet</div>`
+    }
+  </div>`;
 }
+
 
 
 
@@ -2899,6 +2933,11 @@ function renderBasicsEinsteiger(a){
       <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:2px">Krankheitskosten</div>
       <div style="font-size:9px;color:var(--cyan);font-family:'Space Mono',monospace;font-weight:700">§ 33 EStG</div>
     </div>
+    <div onclick="absetzOv('kleidung')" style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:12px;cursor:pointer;transition:all .2s" onmouseover="this.style.background='rgba(255,255,255,.09)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
+      <div style="font-size:26px;margin-bottom:6px">👔</div>
+      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:2px">Arbeitskleidung</div>
+      <div style="font-size:9px;color:var(--cyan);font-family:'Space Mono',monospace;font-weight:700">§ 9 Abs.1 Nr.6 EStG</div>
+    </div>
   </div>
 </div>
 
@@ -2908,16 +2947,16 @@ function renderBasicsEinsteiger(a){
   <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;overflow:hidden">
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr">
       <div style="padding:12px;border-right:1px solid rgba(255,255,255,.08)">
-        <div style="font-size:9px;font-weight:900;color:var(--cyan);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Werbungskosten § 9</div>
-        <div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.55">Beruflich veranlasst. Mindern direkt das <b style="color:#fff">Einkommen</b>.<br><br>✓ Fahrtkosten<br>✓ Laptop beruflich<br>✓ Homeoffice<br>✓ Fachliteratur</div>
+        <div style="font-size:9px;font-weight:900;color:var(--cyan);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Werbungskosten · § 9 Abs. 1 EStG</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.55"><b style="color:#fff">Definition:</b> Aufwendungen zur Erwerbung, Sicherung und Erhaltung der Einnahmen. Berufliche Veranlassung muss auf Nachfrage nachgewiesen werden.<br><br>Mindern die <b style="color:var(--cyan)">einzelnen Einkünfte</b> (z.B. Einnahmen aus nsa. Arbeit).<br><br>✓ Fahrtkosten<br>✓ Arbeitsmittel<br>✓ Homeoffice<br>✓ Berufskleidung<br>✓ Fortbildung</div>
       </div>
       <div style="padding:12px;border-right:1px solid rgba(255,255,255,.08)">
-        <div style="font-size:9px;font-weight:900;color:#ffd94a;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Sonderausgaben §§ 10–10b</div>
-        <div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.55">Privat, gesetzlich anerkannt. Mindern das <b style="color:#fff">zu versteuernde Einkommen</b>.<br><br>✓ Spenden<br>✓ Krankenversicherung<br>✓ Altersvorsorge<br>✓ Kirchensteuer</div>
+        <div style="font-size:9px;font-weight:900;color:#ffd94a;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Sonderausgaben · §§ 10–10b EStG</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.55"><b style="color:#fff">Definition:</b> Weder WK/BA noch AuBe, aber gesetzlich ausdrücklich zum Abzug zugelassen (abschließende Aufzählung!).<br><br>Mindern den <b style="color:#ffd94a">Gesamtbetrag der Einkünfte</b>.<br><br>✓ Kranken-/Rentenversicherung<br>✓ Kirchensteuer<br>✓ Spenden (§ 10b)<br>✓ Unterhalt (§ 10 Abs.1 Nr.5)<br>✓ Erstausbildung (§ 10 Abs.1 Nr.7)</div>
       </div>
       <div style="padding:12px">
-        <div style="font-size:9px;font-weight:900;color:#ff8c42;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Außergew. Belast. § 33</div>
-        <div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.55">Zwangsläufig & ungewöhnlich. Nur über der <b style="color:#fff">zumutbaren Belastung</b> absetzbar.<br><br>✓ Arzt/Zahnarzt<br>✓ Pflege<br>✓ Behinderung<br>✓ Kurkosten</div>
+        <div style="font-size:9px;font-weight:900;color:#ff8c42;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Außergewöhnl. Belastungen · § 33 EStG</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.55"><b style="color:#fff">Definition:</b> Zwangsläufige Aufwendungen, die dem Grunde und der Höhe nach außergewöhnlich sind. Nur soweit sie die <b style="color:#ff8c42">zumutbare Belastung</b> (§ 33 Abs. 3 EStG: 1–7 % des GdE) übersteigen.<br><br>✓ Krankheitskosten<br>✓ Zahnarzt/Brille<br>✓ Pflegeaufwendungen<br>✓ Kurkosten m. ärztl. Attest</div>
       </div>
     </div>
     <div style="background:rgba(255,255,255,.04);padding:10px 12px;font-size:10px;color:rgba(255,255,255,.4);font-weight:700;line-height:1.6;border-top:1px solid rgba(255,255,255,.07)">
@@ -2958,17 +2997,53 @@ function renderBasicsEinsteiger(a){
     <div style="background:rgba(0,194,224,.08);border:1px solid rgba(0,194,224,.2);border-radius:12px;padding:12px">
       <div style="font-size:9px;font-weight:900;color:var(--cyan);margin-bottom:5px;text-transform:uppercase;letter-spacing:1px">Mittlerer Dienst</div>
       <div style="font-size:13px;font-weight:900;color:#fff;margin-bottom:4px">Ausbildung · 2 Jahre</div>
-      <div style="font-size:10px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.55">Anwärterbezüge ca. <b style="color:#fff">1.350 € brutto/Monat</b><br>Abschluss: Steuersekretär/in<br>Einstieg Besoldung: <b style="color:var(--cyan)">A 7</b></div>
+      <div style="font-size:10px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.6">Anwärterbezüge Berlin: <b style="color:#fff">1.467 €</b> · BB: <b style="color:#fff">1.518 €</b> brutto/Monat<br>Abschluss: Steuersekretär/in (mD)<br>Einstieg: <b style="color:var(--cyan)">A 7</b> · Steuersekretär</div>
     </div>
     <div style="background:rgba(0,201,123,.08);border:1px solid rgba(0,201,123,.2);border-radius:12px;padding:12px">
       <div style="font-size:9px;font-weight:900;color:#00c97b;margin-bottom:5px;text-transform:uppercase;letter-spacing:1px">Gehobener Dienst</div>
       <div style="font-size:13px;font-weight:900;color:#fff;margin-bottom:4px">Studium FHF · 3 Jahre</div>
-      <div style="font-size:10px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.55">Anwärterbezüge ca. <b style="color:#fff">1.550 € brutto/Monat</b><br>Abschluss: Dipl.-Finanzwirt(in) FH<br>Einstieg Besoldung: <b style="color:#00c97b">A 9</b></div>
+      <div style="font-size:10px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.6">Anwärterbezüge Berlin: <b style="color:#fff">1.527 €</b> · BB: <b style="color:#fff">1.571 €</b> brutto/Monat<br>Abschluss: Dipl.-Finanzwirt(in) (FH)<br>Einstieg: <b style="color:#00c97b">A 9</b> · Steuerinspektor/in</div>
     </div>
   </div>
-  <div style="background:rgba(255,255,255,.04);border-left:3px solid rgba(255,255,255,.15);padding:8px 12px;border-radius:0 8px 8px 0;margin-bottom:12px;font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.65">
-    💡 <b style="color:rgba(255,255,255,.75)">Anwärterbezüge</b> sind die Bezüge während der Ausbildung/des Studiums (§ 59 BBesG). Kein normales Ausbildungsgehalt – sondern Beamtenbezüge als <b style="color:rgba(255,255,255,.75)">Beamter auf Widerruf</b>. Nach erfolgreichem Abschluss folgt Beamter auf Probe → Beamter auf Lebenszeit (Verbeamtung).
+  <div style="background:rgba(255,255,255,.04);border-left:3px solid rgba(255,255,255,.12);padding:9px 12px;border-radius:0 8px 8px 0;margin-bottom:12px;font-size:10px;color:rgba(255,255,255,.45);font-weight:700;line-height:1.65">
+    💡 <b style="color:rgba(255,255,255,.7)">Anwärterbezüge (§ 59 BBesG)</b> sind keine Ausbildungsvergütung sondern Beamtenbezüge während der Ausbildung/des Studiums als <b style="color:rgba(255,255,255,.7)">Beamter auf Widerruf</b>. Davon werden keine Sozialversicherungsbeiträge abgezogen – der Nettobetrag ist daher vergleichsweise hoch. Die Bezüge von mD und gD liegen nah beieinander; der langfristige Unterschied zeigt sich erst in der Laufbahnentwicklung und Aufstiegsmöglichkeiten.
   </div>
+
+  <!-- Beamte vs. Angestellte -->
+  <div style="margin-bottom:12px">
+    <div style="font-size:10px;font-weight:900;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">⚖️ Beamter oder Angestellter – was ist der Unterschied?</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+      <div style="background:rgba(0,194,224,.08);border:1px solid rgba(0,194,224,.18);border-radius:10px;padding:10px">
+        <div style="font-size:11px;font-weight:900;color:var(--cyan);margin-bottom:6px">🏛️ Beamter</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.65">
+          ✓ Öffentlich-rechtl. Dienstverhältnis<br>
+          ✓ Keine Sozialversicherung (KV, RV, PV, ALV)<br>
+          ✓ Beihilfe statt GKV (Krankheitskosten z.T. erstattet)<br>
+          ✓ Pension statt gesetzl. Rente (höher)<br>
+          ✓ Unkündbar nach Verbeamtung<br>
+          ✓ Alimentationsprinzip: Staat muss angemessen versorgen<br>
+          ✗ Kein Streikrecht<br>
+          ✗ Besondere Treuepflicht
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px">
+        <div style="font-size:11px;font-weight:900;color:rgba(255,255,255,.7);margin-bottom:6px">📋 Angestellter (TVöD)</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.65">
+          ✓ Privatrechtl. Arbeitsverhältnis<br>
+          ✓ Tarifvertrag öff. Dienst (TVöD)<br>
+          ✓ Volle Sozialversicherung<br>
+          ✓ Streikrecht<br>
+          ✗ Gesetzliche Rente (geringer als Pension)<br>
+          ✗ Kündigung möglich<br>
+          ✗ Keine Beihilfe im Krankheitsfall
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:6px;padding:8px 10px;background:rgba(255,217,74,.06);border:1px solid rgba(255,217,74,.15);border-radius:8px;font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.6">
+      💰 <b style="color:rgba(255,255,255,.7)">Netto-Vergleich:</b> Beamte zahlen keine ~20 % Sozialversicherung → ihr Nettobezug ist bei gleichem Bruttogehalt deutlich höher als bei Angestellten. Dafür bauen sie keine gesetzliche Rente auf – sondern erwerben Pensionsansprüche (i.d.R. bis 71,75 % des letzten Bruttogehalts nach max. 40 Dienstjahren).
+    </div>
+  </div>
+
   <button onclick="sw('karriere')" style="width:100%;padding:12px;border-radius:12px;border:none;background:linear-gradient(135deg,#00c97b,#005c36);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Karriere entdecken → Ausbildung, Studium, Karriere-Test</button>
 </div>
 
@@ -2987,60 +3062,72 @@ function renderBasicsEinsteiger(a){
 // ── Absetz Overlay ────────────────────────────────────────────────────────
 const ABSETZ_OV = {
   fahrt:{
-    icon:'🚗', title:'Fahrten zur Arbeit (Entfernungspauschale)',
-    norm:'§ 9 Abs. 1 Satz 3 Nr. 4 EStG · Steueränderungsgesetz 2025',
-    recht:`<b>Rechtliche Grundlage:</b> Arbeitnehmer können für Wege zwischen Wohnung und erster Tätigkeitsstätte die Entfernungspauschale als Werbungskosten (§ 9 EStG) abziehen.<br><br>
-<b>Ab VZ 2026 (StÄndG 2025):</b> Einheitlich <b>0,38 € je Entfernungskilometer ab dem 1. km</b> – die frühere Staffelung (0,30 € für km 1–20, 0,38 € ab km 21) entfällt.<br><br>
-<b>Wichtig:</b> Nur die einfache Strecke zählt (nicht Hin- und Rückfahrt). Maximal 4.500 €/Jahr (außer bei PKW-Nutzung: dann unbegrenzt). Gilt nicht für Tage mit Homeoffice-Pauschale (§ 4 Abs. 5 Nr. 6b EStG).`,
-    example:'Azubi Lena fährt 22 km zur Ausbildung, an 180 Tagen im Jahr. Abzug: 180 × 22 km × 0,38 € = <b>1.504,80 €</b> Werbungskosten.',
+    icon:'🚗', title:'Entfernungspauschale – Fahrten zur Arbeit',
+    norm:'§ 9 Abs. 1 Satz 3 Nr. 4 EStG · StÄndG 2025 · R 9.10 LStR',
+    recht:`<b>Voraussetzung – berufliche Veranlassung (§ 9 Abs. 1 Satz 1 EStG):</b> Werbungskosten sind Aufwendungen zur Erwerbung, Sicherung und Erhaltung der Einnahmen. Der berufliche Veranlassungszusammenhang ist auf Nachfrage gegenüber dem Finanzamt nachzuweisen (R 9.1 LStR).<br><br>
+<b>Entfernungspauschale ab VZ 2026 (StÄndG 2025):</b> Einheitlich <b>0,38 €/km ab dem 1. km</b> (einfache Strecke Wohnung ↔ erste Tätigkeitsstätte). Die frühere Staffelung (0,30 € bis km 20) entfällt. Gilt für alle Verkehrsmittel; bei tatsächlich höheren ÖPNV-Kosten können diese alternativ angesetzt werden.<br><br>
+<b>Begrenzung:</b> Grds. max. 4.500 €/Jahr – Ausnahme: PKW eigener oder zur Nutzung überlassener (dann unbegrenzt, aber Nachweis durch Fahrtenbuch o.Ä.).<br><br>
+<b>Ausschluss:</b> Kein gleichzeitiger Ansatz mit der Homeoffice-Pauschale für denselben Kalendertag (§ 9 Abs. 1 Nr. 4 Satz 3 EStG).`,
+    example:'Azubi Lena (22 km zur Ausbildungsstätte, 180 Arbeitstage): 180 × 22 × 0,38 € = <b>1.504,80 €</b> WK. Übersteigt den AN-Pauschbetrag (1.230 € · § 9a Nr. 1a EStG) → Steuererklärung lohnt sich.',
     calc:true
   },
   laptop:{
-    icon:'💻', title:'Laptop, PC, Tablet & Handy',
-    norm:'§ 9 Abs. 1 EStG · § 6 Abs. 2 EStG · BMF-Schreiben 22.02.2022',
-    recht:`<b>Rechtliche Grundlage:</b> Arbeitsmittel (§ 9 Abs. 1 Satz 3 Nr. 6 EStG) die beruflich genutzt werden, sind als Werbungskosten absetzbar.<br><br>
-<b>GWG-Grenze (§ 6 Abs. 2 EStG):</b> Bis 800 € netto (= 952 € brutto für Arbeitnehmer ohne Vorsteuerabzug) → Sofortabschreibung im Anschaffungsjahr.<br><br>
-<b>Über 800 € netto:</b> Abschreibung über die betriebsgewöhnliche Nutzungsdauer. Für Computer und Peripherie: laut BMF-Schreiben vom 22.02.2022 gilt eine <b>Nutzungsdauer von 1 Jahr</b> → faktisch immer Sofortabschreibung möglich.<br><br>
-<b>Privatanteil:</b> Bei gemischter Nutzung muss der Privatanteil herausgerechnet werden. 60 % beruflich → 60 % absetzbar.`,
-    example:'Student Jonas kauft einen Laptop für 1.190 € brutto (1.000 € netto). Nutzung 80 % beruflich. Absetzbar: 80 % × 1.190 € = <b>952 €</b> (Arbeitnehmer = kein Vorsteuerabzug, daher Bruttobetrag).'
+    icon:'💻', title:'Arbeitsmittel – Laptop, PC, Tablet, Handy',
+    norm:'§ 9 Abs. 1 Satz 3 Nr. 6 EStG · § 6 Abs. 2 EStG · BMF-Schreiben v. 22.02.2022',
+    recht:`<b>Arbeitsmittel (§ 9 Abs. 1 Satz 3 Nr. 6 EStG):</b> Wirtschaftsgüter, die typischerweise beruflich genutzt werden. Berufliche Veranlassung ist Voraussetzung und auf Anforderung nachzuweisen.<br><br>
+<b>GWG-Sofortabschreibung (§ 6 Abs. 2 EStG):</b> Anschaffungskosten bis 800 € (netto, ohne USt). Da Arbeitnehmer keinen Vorsteuerabzug haben, gilt für sie der Bruttokaufpreis als Anschaffungskosten → Grenze: <b>952 € brutto</b> (800 € × 1,19).<br><br>
+<b>Wahlrecht 1-Jahres-Nutzungsdauer (BMF-Schreiben v. 22.02.2022):</b> Für Computer-Hardware (Notebook, Tablet, Desktop, externe Monitore, Maus, Tastatur etc.) und -Software kann einheitlich eine <b>Nutzungsdauer von 1 Jahr</b> angesetzt werden. Dies ist ein <b>Wahlrecht</b> – keine Pflicht. Alternativ weiterhin Abschreibung über tatsächliche Nutzungsdauer möglich (i.d.R. 3 Jahre). Gilt ab VZ 2021.<br><br>
+<b>Gemischte Nutzung:</b> Anteilig nach beruflichem Nutzungsanteil. Bei < 10 % beruflicher Nutzung: kein Abzug. Privatanteil ist glaubhaft zu machen, das FA kann Nachweis verlangen.`,
+    example:'AN Jonas kauft Notebook für 1.190 € brutto (1.000 € netto). 70 % berufliche Nutzung. Mit Wahlrecht BMF 2022 (1 Jahr ND): 70 % × 1.190 € = <b>833 € WK im Anschaffungsjahr</b>. Ohne Wahlrecht: 833 €/3 Jahre = 278 €/Jahr.'
   },
   home:{
     icon:'🏠', title:'Homeoffice-Pauschale',
-    norm:'§ 4 Abs. 5 Satz 1 Nr. 6b EStG (auch i.V.m. § 9 Abs. 5 EStG)',
-    recht:`<b>Rechtliche Grundlage:</b> Seit VZ 2023 dauerhaft: Für jeden Tag an dem ausschließlich zu Hause gearbeitet wird, kann ein Pauschbetrag abgezogen werden.<br><br>
-<b>Höhe:</b> <b>6 € pro Homeoffice-Tag</b>, maximal <b>210 Tage = 1.260 €/Jahr</b>.<br><br>
-<b>Kein abgetrenntes Arbeitszimmer nötig</b> – auch Küchentisch, Sofa, Wohnzimmer zählen.<br><br>
-<b>Achtung Doppelnutzung:</b> Für denselben Tag kann nicht sowohl die Homeoffice-Pauschale als auch die Entfernungspauschale geltend gemacht werden (§ 4 Abs. 5 Nr. 6b Satz 4 EStG).`,
-    example:'Lehrerin Andrea arbeitet an 120 Tagen im Jahr von zu Hause. Absetzbar: 120 × 6 € = <b>720 €</b> Werbungskosten – ohne Nachweis, ohne Arbeitszimmer.'
+    norm:'§ 4 Abs. 5 Satz 1 Nr. 6b EStG i.V.m. § 9 Abs. 5 EStG',
+    recht:`<b>Rechtliche Grundlage:</b> Seit VZ 2023 dauerhaft als Vereinfachungsregelung: Für jeden Kalendertag, an dem die Tätigkeit <b>überwiegend in der häuslichen Wohnung</b> ausgeübt wird und keine Tätigkeitsstätte außerhalb der Wohnung aufgesucht wird, kann die Pauschale abgezogen werden.<br><br>
+<b>Höhe:</b> <b>6 € pro Homeoffice-Tag</b>, maximal <b>210 Tage = 1.260 €/Jahr</b>. Kein Nachweis, kein abgetrenntes Arbeitszimmer erforderlich.<br><br>
+<b>Ausschluss Doppelnutzung:</b> Für denselben Kalendertag kann nicht gleichzeitig die Entfernungspauschale geltend gemacht werden.<br><br>
+<b>Abgrenzung Arbeitszimmer (§ 4 Abs. 5 Nr. 6b EStG):</b> Wer ein <b>häusliches Arbeitszimmer</b> als Mittelpunkt der gesamten Tätigkeit hat, kann alternativ die tatsächlichen Kosten (anteilige Miete, Strom, etc.) unbegrenzt absetzen – oder weiterhin die Pauschale wählen.`,
+    example:'Lehrerin Andrea, 120 Homeoffice-Tage: 120 × 6 € = <b>720 € WK</b>. Zusammen mit anderen WK (Fahrt, Fachliteratur) ggf. über AN-Pauschbetrag 1.230 € → Erklärung lohnend.'
   },
   fortbild:{
     icon:'📚', title:'Fort- und Weiterbildungskosten',
-    norm:'§ 9 Abs. 1 Satz 3 Nr. 6 EStG · § 9 Abs. 6 EStG',
-    recht:`<b>Rechtliche Grundlage:</b> Aufwendungen für Berufsausbildung oder Weiterbildung in einem bereits ausgeübten Beruf sind Werbungskosten (§ 9 Abs. 1 Nr. 6 EStG) bzw. Betriebsausgaben.<br><br>
-<b>Absetzbar:</b> Kursgebühren, Prüfungsgebühren, Fachliteratur, Fahrtkosten zur Bildungseinrichtung, anteilige Internetkosten.<br><br>
-<b>Erstausbildung (§ 9 Abs. 6 EStG):</b> Kosten der ersten Berufsausbildung / des Erststudiums sind nur als <b>Sonderausgaben</b> (§ 10 Abs. 1 Nr. 7 EStG) absetzbar, max. 6.000 €/Jahr – nicht als Werbungskosten.<br><br>
-<b>Zweitausbildung / Fortbildung:</b> Unbegrenzt als Werbungskosten, auch wenn man noch kein Einkommen hat (Verlustvortrag § 10d EStG).`,
-    example:'Azubi Kai macht nach der Ausbildung einen Finanzkurs: 450 € Kursgebühr + 120 € Fachliteratur + 80 € Fahrtkosten = <b>650 €</b> Werbungskosten.'
+    norm:'§ 9 Abs. 1 Satz 3 Nr. 6 EStG · § 9 Abs. 6 EStG · § 10 Abs. 1 Nr. 7 EStG',
+    recht:`<b>Weiterbildung im ausgeübten Beruf:</b> Aufwendungen für berufliche Fort- und Weiterbildung sind unbegrenzt als Werbungskosten abziehbar, wenn ein unmittelbarer Zusammenhang mit der ausgeübten Tätigkeit besteht. Absetzbar: Kursgebühren, Prüfungsgebühren, Fachliteratur, Fahrtkosten (0,38 €/km), Verpflegungspauschalen bei mehrtägigen Seminaren.<br><br>
+<b>Erstausbildung / Erststudium (§ 9 Abs. 6 EStG):</b> Kosten der ersten Berufsausbildung ohne vorangehende Berufsausbildung sind <b>keine</b> Werbungskosten, sondern nur <b>Sonderausgaben (§ 10 Abs. 1 Nr. 7 EStG)</b>, max. 6.000 €/Jahr.<br><br>
+<b>Zweitstudium / Zweitausbildung:</b> Vollständig als Werbungskosten absetzbar – auch wenn noch kein Einkommen erzielt wird (vorweggenommene WK, Verlustvortrag § 10d EStG).`,
+    example:'Azubi Kai besucht nach der Ausbildung einen Steuerfachkurs: 450 € Kursgebühr + 120 € Literatur + 80 € Fahrt = <b>650 € WK</b>. Berufliche Veranlassung: Kurs dient der Vertiefung steuerlicher Kenntnisse.'
   },
   spende:{
-    icon:'🎁', title:'Spenden (Sonderausgaben)',
-    norm:'§ 10b EStG · § 50 EStDV',
-    recht:`<b>Rechtliche Grundlage:</b> Zuwendungen an steuerbegünstigte Körperschaften (§ 5 Abs. 1 Nr. 9 KStG) können als Sonderausgaben abgezogen werden.<br><br>
-<b>Höchstbetrag:</b> Bis zu <b>20 % des Gesamtbetrags der Einkünfte</b> oder alternativ 4 ‰ der Summe aus Umsätzen und Lohn- und Gehaltsaufwendungen.<br><br>
-<b>Nachweis:</b> Bei Spenden bis 300 € genügt der Kontoauszug. Darüber ist eine <b>Zuwendungsbestätigung</b> (Spendenquittung) nach amtlichem Muster erforderlich (§ 50 EStDV).<br><br>
-<b>Parteispenden (§ 34g EStG):</b> Gesonderte Regelung – direkte Steuerermäßigung (kein Abzug vom Einkommen), max. 825 € pro Person.`,
-    example:'Maria verdient 40.000 € und spendet 3.000 € an eine anerkannte Hilfsorganisation. Absetzbar: 3.000 € (< 20 % von 40.000 € = 8.000 €). Steuerersparnis bei 30 % Grenzsteuersatz: ca. <b>900 €</b>.'
+    icon:'🎁', title:'Spenden – Sonderausgaben',
+    norm:'§ 10b EStG · § 50 EStDV · § 63 AO',
+    recht:`<b>Sonderausgaben (§§ 10–10b EStG):</b> Sonderausgaben sind Aufwendungen, die weder WK/BA noch außergewöhnliche Belastungen sind, aber vom Gesetz ausdrücklich zum Abzug zugelassen werden. Sie mindern den <b>Gesamtbetrag der Einkünfte</b>.<br><br>
+<b>Zuwendungen / Spenden (§ 10b EStG):</b> Geld- oder Sachzuwendungen an gemeinnützige, mildtätige oder kirchliche Körperschaften (§§ 52–54 AO), die vom Finanzamt als steuerbegünstigt anerkannt sind.<br><br>
+<b>Höchstbetrag:</b> 20 % des Gesamtbetrags der Einkünfte oder 4 ‰ der Summe aus Umsatz + Löhnen/Gehältern. Übersteigender Betrag: Spendenübertrag in Folgejahre (§ 10b Abs. 1 Satz 9 EStG).<br><br>
+<b>Nachweispflicht (§ 50 EStDV):</b> Bis 300 € genügt Kontoauszug mit Empfänger. Ab 300 € zwingend amtliche Zuwendungsbestätigung.`,
+    example:'Max (30.000 € GdE) spendet 4.500 € an Rotes Kreuz. Höchstbetrag: 20 % × 30.000 € = 6.000 € → voll absetzbar. Bei 25 % Grenzsteuersatz: Steuerersparnis ca. <b>1.125 €</b>.'
   },
   krank:{
-    icon:'🩺', title:'Außergewöhnliche Belastungen (Krankheitskosten)',
-    norm:'§ 33 EStG · § 33a EStG · R 33.1–33.4 EStR',
-    recht:`<b>Rechtliche Grundlage:</b> Aufwendungen die zwangsläufig anfallen und außergewöhnlich sind, können nach § 33 EStG abgezogen werden – jedoch nur soweit sie die <b>zumutbare Belastung</b> übersteigen.<br><br>
-<b>Zumutbare Belastung (§ 33 Abs. 3 EStG):</b> Je nach Einkommen und Familienstand 1–7 % des Gesamtbetrags der Einkünfte. Erst was darüber liegt, wird anerkannt.<br><br>
-<b>Typische Fälle:</b> Zahnersatz (soweit nicht von KV erstattet), Brille/Kontaktlinsen, rezeptpflichtige Medikamente, Kurkosten (mit ärztlichem Attest), Pflegeaufwendungen.<br><br>
-<b>Ohne Abzug der zumutbaren Belastung:</b> Behinderten-Pauschbetrag (§ 33b EStG) – der kann zusätzlich geltend gemacht werden.`,
-    example:'Karl (ledig, 35.000 € Einkommen) hatte 2.400 € Zahnarztkosten. Zumutbare Belastung: ca. 1.050 € (3 % × 35.000 €). Abziehbar: 2.400 – 1.050 = <b>1.350 €</b>.'
+    icon:'🩺', title:'Außergewöhnliche Belastungen – Krankheitskosten',
+    norm:'§ 33 EStG · § 33a EStG · § 33b EStG · R 33.1–33.4 EStR',
+    recht:`<b>Außergewöhnliche Belastungen (§ 33 EStG):</b> Aufwendungen, die (1) <b>außergewöhnlich</b> (dem Grunde und der Höhe nach verglichen mit Gleichstehenden), (2) <b>zwangsläufig</b> (aus rechtlichen, tatsächlichen oder sittlichen Gründen unvermeidbar) und (3) <b>notwendig und angemessen</b> sind. Mindern den Gesamtbetrag der Einkünfte.<br><br>
+<b>Zumutbare Belastung (§ 33 Abs. 3 EStG):</b> Eigenanteil je nach Einkommen und Familienstand: 1–7 % des GdE. Nur was darüber liegt, wird steuerlich anerkannt. Die zumutbare Belastung ist <b>stufenweise</b> zu berechnen (BFH-Urt. v. 19.01.2017, VI R 75/14).<br><br>
+<b>Typische Fälle:</b> Zuzahlungen Zahnarzt/Brille, Medikamente (Rezept), Kuraufenthalte (ärztliche Verordnung!), Pflegekosten.<br><br>
+<b>Behinderten-Pauschbetrag (§ 33b EStG):</b> Wird alternativ gewährt – ohne Nachweis einzelner Kosten, ohne Abzug der zumutbaren Belastung.`,
+    example:'Ledig, 35.000 € GdE, Zahnarzt 2.400 €. Zumutbare Belastung: 35.000 × 3 % = 1.050 €. Abziehbar: 2.400 − 1.050 = <b>1.350 €</b> AuBe.'
+  },
+  kleidung:{
+    icon:'👔', title:'Arbeitskleidung – typische Berufskleidung',
+    norm:'§ 9 Abs. 1 Satz 3 Nr. 6 EStG · R 9.12 LStR · BFH-Rspr.',
+    recht:`<b>Nur typische Berufskleidung absetzbar:</b> Arbeitsmittel sind Kleidungsstücke, die nach ihrer Beschaffenheit und Bestimmung nahezu ausschließlich für die berufliche Nutzung geeignet sind. Drei anerkannte Kategorien:<br><br>
+(1) <b>Schutzkleidung</b> (Sicherheitsschuhe, Helm, Warnweste)<br>
+(2) <b>Uniformen und Amtskleidung</b> (Polizei, Feuerwehr, Richterrobe, Arztkleidung mit Institutionskennzeichen)<br>
+(3) <b>Kleidung mit beruflichem Kennzeichen</b> – z.B. Dienstkleidung mit <b>aufgenähtem Firmenlogo</b> oder -badge, das eine private Nutzung unzumutbar erscheinen lässt<br><br>
+<b>Nicht absetzbar – Alltagskleidung:</b> Dunkle Anzüge, schwarze Kleidung, Business-Kleidung und andere handelsübliche Kleidung sind auch dann <b>nicht</b> absetzbar, wenn sie ausschließlich zur Arbeit getragen werden (BFH v. 13.11.1987; ständige Rspr.). Maßgeblich: objektive Eignung zur privaten Mitbenutzung.<br><br>
+<b>Reinigungskosten:</b> Kosten für Reinigung, Pflege und Reparatur von anerkannter Berufskleidung sind ebenfalls absetzbar.`,
+    example:'Azubi am Finanzamt trägt Dienstkleidung mit Behördenlogo – absetzbar. Ein Anwalt kauft sich teure schwarze Anzüge nur für die Arbeit – nicht absetzbar (BFH), da privat nutzbar. Rettungssanitäter: Schutzkleidung → absetzbar.'
   }
 };
+
 
 function absetzOv(id){
   const d = ABSETZ_OV[id];
