@@ -3259,65 +3259,74 @@ function toggleAbsetz(id){
 
 // ==================== BASICS ====================
 function renderBasics(a){
-  a.innerHTML=`<div class="basics">
-<div class="basics-hero-wow">
-  <div class="bhw-glow"></div>
-  <div class="bhw-eyebrow">🏛️ Steuer-Lernspiel · Stand 2026</div>
-  <div class="bhw-headline">Dein Lern&shy;programm<br><span>Finanz&shy;verwaltung</span></div>
-  <div class="bhw-sub">14 Lernbereiche · 400+ Fragen · Prüfungsmodus · Interaktive Geschichten · Daily Challenge</div>
-  <button onclick="localStorage.removeItem(TOUR_KEY);tourShow()" style="background:rgba(0,194,224,.12);border:1px solid rgba(0,194,224,.3);color:var(--cyan);border-radius:100px;padding:5px 14px;font-size:10px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer;transition:all .2s" onmouseover="this.style.background='rgba(0,194,224,.25)'" onmouseout="this.style.background='rgba(0,194,224,.12)'">🔍 Rundgang starten</button>
-</div>
+  a.classList.remove('basics-dark-mode');
+  a.classList.remove('etag-mode');
 
-<div class="basics-anchor" id="b-quiz"></div>
+  // ── Live stats from catStats ──────────────────────────────────────
+  const catDef = [
+    {key:'est',   icon:'💼', label:'ESt',       mode:'est',         color:'#1a3a8f'},
+    {key:'ust',   icon:'🛒', label:'USt',       mode:'ust',         color:'#ff8c42'},
+    {key:'ao',    icon:'⚖️', label:'AO',        mode:'ao',          color:'#7b5ea7'},
+    {key:'bilanz',icon:'📋', label:'Bilanz',    mode:'bilanz',      color:'#00bcd4'},
+    {key:'recht', icon:'🏛️', label:'Recht',     mode:'recht',       color:'#005c36'},
+    {key:'gewst', icon:'🏭', label:'GewSt',     mode:'gewst',       color:'#4a7a00'},
+    {key:'kurios',icon:'🤯', label:'Kurioses',  mode:'kurios',      color:'#b84a00'},
+    {key:'gesellschaft',icon:'🏢',label:'Gesellschaft',mode:'gesellschaft',color:'#5c1a8f'},
+  ];
 
-<div class="bsec" style="margin-top:4px">📝 Steuerrecht-Quiz</div>
-<div style="font-size:11px;color:#888;font-weight:700;margin:-8px 0 8px;padding-left:2px">Fragen beantworten · Punkte sammeln · Highscores knacken</div>
-<div id="tour-quiz" class="lb-list" style="border-color:#c0d4ff">
-  <div class="lb-row" onclick="sw('est')" style="border-left:4px solid #1a3a8f"><span class="lb-row-icon">💼</span><div class="lb-row-text"><div class="lb-row-title">Einkommensteuer</div><div class="lb-row-sub">§§ 1–120 EStG · Einkunftsarten, Tarif, Werbungskosten</div></div><span class="lb-row-arr">›</span></div>
-  <div class="lb-row" onclick="sw('ust')" style="border-left:4px solid #ff8c42"><span class="lb-row-icon">🛒</span><div class="lb-row-text"><div class="lb-row-title">Umsatzsteuer</div><div class="lb-row-sub">§§ 1–29 UStG · 0 %, 7 %, 19 % · Vorsteuerabzug</div></div><span class="lb-row-arr">›</span></div>
-  <div class="lb-row" onclick="sw('ao')" style="border-left:4px solid #7b5ea7"><span class="lb-row-icon">⚖️</span><div class="lb-row-text"><div class="lb-row-title">Abgabenordnung</div><div class="lb-row-sub">§§ 1–415 AO · Fristen, Einspruch, Außenprüfung</div></div><span class="lb-row-arr">›</span></div>
-  <div class="lb-row" onclick="sw('bilanz')" style="border-left:4px solid #00bcd4"><span class="lb-row-icon">📋</span><div class="lb-row-text"><div class="lb-row-title">Bilanz & Buchführung</div><div class="lb-row-sub">HGB · Soll/Haben, AfA, Buchungssatz-Training</div></div><span class="lb-row-arr">›</span></div>
-  <div class="lb-row" onclick="sw('recht')" style="border-left:4px solid #005c36"><span class="lb-row-icon">🏛️</span><div class="lb-row-text"><div class="lb-row-title">Privat- & Öffentl. Recht</div><div class="lb-row-sub">BGB · GG · Finanzgericht · BFH</div></div><span class="lb-row-arr">›</span></div>
-  <div class="lb-row" onclick="sw('kurios')" style="border-left:4px solid #ff4d6d"><span class="lb-row-icon">🤯</span><div class="lb-row-text"><div class="lb-row-title">Kurioses Steuerrecht</div><div class="lb-row-sub">Wahr oder Falsch? · 40+ Steuerarten · Skurriles</div></div><span class="lb-row-arr">›</span></div>
-</div>
+  const totalQ = catDef.reduce((s,ct)=>{ const st=catStats[ct.key]; return s+(st?st.t:0); },0);
+  const totalC = catDef.reduce((s,ct)=>{ const st=catStats[ct.key]; return s+(st?st.c:0); },0);
+  const ovPct  = totalQ>0 ? Math.round(totalC/totalQ*100) : 0;
 
-<div class="bsec" style="margin-top:14px">🎓 Prüfungsvorbereitung</div>
-<div style="font-size:11px;color:#888;font-weight:700;margin:-8px 0 8px;padding-left:2px">Klausur-Simulation · Praxisfälle · Steuer-Stories</div>
-<div class="lb-list" style="border-color:#b7f5dc">
-  <div class="lb-row" onclick="sw('pruefung')" style="border-left:4px solid #005c36"><span class="lb-row-icon">🎓</span><div class="lb-row-text"><div class="lb-row-title">Prüfungsmodus</div><div class="lb-row-sub">Echte Klausur-Simulation mit Note 1–6 · Timer</div></div><span class="lb-row-arr">›</span></div>
-  <div class="lb-row" onclick="sw('praxis')" style="border-left:4px solid #1a3a8f"><span class="lb-row-icon">📋</span><div class="lb-row-text"><div class="lb-row-title">Praxisfälle</div><div class="lb-row-sub">Realistische 3-Schritte-Szenarien · AO, ESt, USt</div></div><span class="lb-row-arr">›</span></div>
-  <div class="lb-row" onclick="sw('story')" style="border-left:4px solid #7b5ea7"><span class="lb-row-icon">📖</span><div class="lb-row-text"><div class="lb-row-title">Interaktive Geschichten</div><div class="lb-row-sub">8 Steuer-Stories · Lernpfad · USt · Einspruch · Betriebsprüfung</div></div><span class="lb-row-arr">›</span></div>
-</div>
+  // Quiz kacheln with per-topic stats
+  const quizKacheln = catDef.map(ct=>{
+    const st  = catStats[ct.key];
+    const pct = st&&st.t>0 ? Math.round(st.c/st.t*100) : -1;
+    const hs  = highscores[ct.mode];
+    const col = pct<0?'rgba(255,255,255,.25)':pct>=80?'#00c97b':pct>=50?'var(--cyan)':'#ff8c42';
+    const bar = pct<0?0:pct;
+    return `<div onclick="sw('${ct.mode}')" style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:11px 12px;cursor:pointer;transition:all .18s;position:relative;overflow:hidden" onmouseover="this.style.background='rgba(255,255,255,.09)';this.style.borderColor='${ct.color}66'" onmouseout="this.style.background='rgba(255,255,255,.05)';this.style.borderColor='rgba(255,255,255,.1)'">
+      <div style="position:absolute;bottom:0;left:0;height:3px;width:${bar}%;background:${col};transition:width .4s"></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
+        <span style="font-size:18px">${ct.icon}</span>
+        <span style="font-size:12px;font-weight:900;color:#fff;flex:1">${ct.label}</span>
+        <span style="font-size:10px;font-weight:900;color:${col};font-family:'Space Mono',monospace">${pct<0?'–':pct+'%'}</span>
+      </div>
+      <div style="font-size:9px;color:rgba(255,255,255,.35);font-weight:700;font-family:'Space Mono',monospace">${st&&st.t>0?st.c+'/'+st.t+' richtig':'Noch nicht gespielt'}${hs?' · Best: '+hs.score+'/'+hs.total:''}</div>
+    </div>`;
+  }).join('');
 
-<div class="bsec" style="margin-top:14px">🧰 Lernwerkzeuge</div>
-<div style="font-size:11px;color:#888;font-weight:700;margin:-8px 0 8px;padding-left:2px">Wiederholen · Nachschlagen · Gegen die Zeit trainieren</div>
-<div class="lb-list" style="border-color:#ffd6a0">
-  <div class="lb-row" onclick="sw('flashcard')" style="border-left:4px solid #ff8c42"><span class="lb-row-icon">🃏</span><div class="lb-row-text"><div class="lb-row-title">Lernkarten</div><div class="lb-row-sub">AO · ESt · Recht · Spaced-Repetition-Prinzip</div></div><span class="lb-row-arr">›</span></div>
-  <div class="lb-row" onclick="sw('speed')" style="border-left:4px solid #3d0a6b"><span class="lb-row-icon">⚡</span><div class="lb-row-text"><div class="lb-row-title">Speed-Quiz</div><div class="lb-row-sub">Gegen die Zeit · Buchungssätze & § Para-Sprint</div></div><span class="lb-row-arr">›</span></div>
-  <div class="lb-row" onclick="sw('glossar')" style="border-left:4px solid #1a3a8f"><span class="lb-row-icon">📖</span><div class="lb-row-text"><div class="lb-row-title">Glossar</div><div class="lb-row-sub">Alle Fachbegriffe · Norm · Beispiel · A–Z</div></div><span class="lb-row-arr">›</span></div>
-  <div class="lb-row" onclick="sw('fehler')" style="border-left:4px solid #ff4d6d"><span class="lb-row-icon">🔁</span><div class="lb-row-text"><div class="lb-row-title">Fehlerspeicher</div><div class="lb-row-sub">Falsch beantwortete Fragen gezielt wiederholen</div></div><span class="lb-row-arr">›</span></div>
-</div>
+  a.innerHTML = `<div class="basics" style="color:#fff">
 
-<div class="bsec" style="margin-top:16px">⚡ Schnell starten</div>
-<div id="tour-schnell" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px">
-  <div onclick="sw('meinbereich')" style="background:linear-gradient(135deg,#1a0530,#3d0a6b);border:2px solid rgba(139,92,246,.4);border-radius:16px;padding:16px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:6px" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(139,92,246,.3)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-    <div style="display:flex;align-items:center;gap:8px">
-      <span style="font-size:24px">📅</span>
-      <span style="font-size:9px;font-family:'Space Mono',monospace;letter-spacing:1.5px;color:rgba(255,255,255,.4);text-transform:uppercase">Daily Challenge</span>
-    </div>
-    <div style="font-size:14px;font-weight:900;color:#fff;line-height:1.3" id="b-dc-title">Lade...</div>
-    <div style="font-size:10px;color:rgba(255,255,255,.45);font-weight:700" id="b-dc-sub">Täglich neue Frage</div>
+<!-- ══ DASHBOARD HERO ════════════════════════════════════════════════ -->
+<div style="background:linear-gradient(145deg,#060f22,#0d2b5e 55%,#1a0060);border-radius:22px;padding:20px 18px;margin-bottom:14px;position:relative;overflow:hidden">
+  <div style="position:absolute;right:-10px;top:-10px;font-size:100px;opacity:.04;line-height:1">📊</div>
+  <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:6px">Dein Lernstand · Fortgeschritten</div>
+  <div style="font-size:20px;font-weight:900;color:#fff;margin-bottom:12px">
+    ${totalQ===0 ? 'Bereit? Starte mit einem Thema ↓' : ovPct>=80 ? '🏆 Sehr guter Stand – weiter so!' : ovPct>=50 ? '📈 Guter Fortschritt – dran bleiben' : '🎯 Noch Luft nach oben – übe weiter'}
   </div>
-  <div onclick="sw('pruefung')" style="background:linear-gradient(135deg,#0d2b5e,#1a4a8f);border:2px solid rgba(0,194,224,.3);border-radius:16px;padding:16px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:6px" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(0,194,224,.25)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-    <div style="display:flex;align-items:center;gap:8px">
-      <span style="font-size:24px">🎓</span>
-      <span style="font-size:9px;font-family:'Space Mono',monospace;letter-spacing:1.5px;color:rgba(255,255,255,.4);text-transform:uppercase">Prüfungsmodus</span>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">
+    <div style="background:rgba(255,255,255,.08);border-radius:12px;padding:10px 8px;text-align:center">
+      <div style="font-size:20px;font-weight:900;color:var(--cyan);font-family:'Space Mono',monospace">${totalQ}</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700;margin-top:2px">Fragen gespielt</div>
     </div>
-    <div style="font-size:14px;font-weight:900;color:#fff;line-height:1.3">Klausur starten</div>
-    <div style="font-size:10px;color:rgba(255,255,255,.45);font-weight:700">Timer · Themen wählen · Note 1–6</div>
+    <div style="background:rgba(255,255,255,.08);border-radius:12px;padding:10px 8px;text-align:center">
+      <div style="font-size:20px;font-weight:900;color:${ovPct>=80?'#00c97b':ovPct>=50?'var(--cyan)':'#ff8c42'};font-family:'Space Mono',monospace">${totalQ>0?ovPct+'%':'–'}</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700;margin-top:2px">Richtigquote</div>
+    </div>
+    <div style="background:rgba(255,255,255,.08);border-radius:12px;padding:10px 8px;text-align:center">
+      <div style="font-size:20px;font-weight:900;color:#ffd94a;font-family:'Space Mono',monospace">${catDef.filter(ct=>{const s=catStats[ct.key];return s&&s.t>0&&s.c/s.t>=0.8;}).length}</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700;margin-top:2px">Themen ≥80%</div>
+    </div>
+  </div>
+  <div style="display:flex;gap:8px">
+    <button onclick="sw('meinbereich')" style="flex:1;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">📊 Mein Bereich</button>
+    <button onclick="sw('daily')" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,217,74,.3);background:rgba(255,217,74,.08);color:#ffd94a;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">📅 Daily</button>
   </div>
 </div>
-<!-- ZvE LÖSUNGSWEG -->
+
+<!-- ══ ZVE-SCHEMA ════════════════════════════════════════════════════ -->
+<!-- ZVE -->
 <div class="bsec" style="margin-top:18px">🧮 Der Weg zum zu versteuernden Einkommen</div>
 <div id="tour-zve" style="background:#fff;border-radius:16px;border:2px solid #dde5f5;padding:16px;margin-bottom:10px">
   <div style="font-size:10px;font-weight:700;color:#aaa;font-family:'Space Mono',monospace;margin-bottom:14px;letter-spacing:.5px">§ 2 Abs. 1–5 EStG · Prüfungsrelevante Schrittfolge</div>
@@ -3450,18 +3459,65 @@ function renderBasics(a){
 </div>
 
 <div style="height:90px"></div>
+
+<!-- ══ QUIZ-KACHELN ═════════════════════════════════════════════════ -->
+<div style="margin-bottom:14px">
+  <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">📝 Quiz-Themen · Dein Fortschritt</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    ${quizKacheln}
+  </div>
+</div>
+
+<!-- ══ PRÜFUNGS-WERKZEUGKISTE ════════════════════════════════════════ -->
+<div style="background:linear-gradient(135deg,rgba(0,40,20,.8),rgba(0,80,40,.4));border:1.5px solid rgba(0,201,123,.2);border-radius:18px;padding:16px;margin-bottom:14px">
+  <div style="font-size:9px;font-family:'Space Mono',monospace;color:#00c97b;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">🎓 Prüfungs-Werkzeugkiste</div>
+  <div style="font-size:15px;font-weight:900;color:#fff;margin-bottom:10px">Alles für die nächste Klausur</div>
+  <div style="display:flex;flex-direction:column;gap:7px">
+    <div onclick="sw('pruefung')" style="background:rgba(255,255,255,.06);border:1.5px solid rgba(0,201,123,.25);border-radius:12px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:all .18s" onmouseover="this.style.background='rgba(0,201,123,.1)'" onmouseout="this.style.background='rgba(255,255,255,.06)'">
+      <span style="font-size:24px">🎓</span>
+      <div style="flex:1"><div style="font-size:13px;font-weight:900;color:#fff">Prüfungsmodus</div><div style="font-size:10px;color:rgba(255,255,255,.45);font-weight:700">Echte Klausur-Simulation · Timer · Note 1–6 · alle Themen</div></div>
+      <span style="color:rgba(255,255,255,.2)">›</span>
+    </div>
+    <div onclick="sw('pruefung')" style="background:rgba(255,255,255,.06);border:1.5px solid rgba(255,77,109,.2);border-radius:12px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:all .18s" onmouseover="this.style.background='rgba(255,77,109,.08)'" onmouseout="this.style.background='rgba(255,255,255,.06)'">
+      <span style="font-size:24px">🔁</span>
+      <div style="flex:1"><div style="font-size:13px;font-weight:900;color:#fff">Fehler üben</div><div style="font-size:10px;color:rgba(255,255,255,.45);font-weight:700">Falsch beantwortete Fragen gezielt wiederholen · ${fehlerQueue?fehlerQueue.length:0} Fragen gespeichert</div></div>
+      <span style="color:rgba(255,255,255,.2)">›</span>
+    </div>
+    <div onclick="sw('speed')" style="background:rgba(255,255,255,.06);border:1.5px solid rgba(139,92,246,.2);border-radius:12px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:all .18s" onmouseover="this.style.background='rgba(139,92,246,.08)'" onmouseout="this.style.background='rgba(255,255,255,.06)'">
+      <span style="font-size:24px">⚡</span>
+      <div style="flex:1"><div style="font-size:13px;font-weight:900;color:#fff">Speed-Quiz</div><div style="font-size:10px;color:rgba(255,255,255,.45);font-weight:700">Gegen die Uhr · Reaktion schärfen · Paragraphen festigen</div></div>
+      <span style="color:rgba(255,255,255,.2)">›</span>
+    </div>
+    <div onclick="sw('praxis')" style="background:rgba(255,255,255,.06);border:1.5px solid rgba(0,194,224,.2);border-radius:12px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:all .18s" onmouseover="this.style.background='rgba(0,194,224,.08)'" onmouseout="this.style.background='rgba(255,255,255,.06)'">
+      <span style="font-size:24px">📁</span>
+      <div style="flex:1"><div style="font-size:13px;font-weight:900;color:#fff">Praxisfälle</div><div style="font-size:10px;color:rgba(255,255,255,.45);font-weight:700">9 realistische Szenarien in 3 Schritten · AO · ESt · USt</div></div>
+      <span style="color:rgba(255,255,255,.2)">›</span>
+    </div>
+    <div onclick="sw('flashcard')" style="background:rgba(255,255,255,.06);border:1.5px solid rgba(255,140,66,.2);border-radius:12px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:all .18s" onmouseover="this.style.background='rgba(255,140,66,.08)'" onmouseout="this.style.background='rgba(255,255,255,.06)'">
+      <span style="font-size:24px">🃏</span>
+      <div style="flex:1"><div style="font-size:13px;font-weight:900;color:#fff">Lernkarten</div><div style="font-size:10px;color:rgba(255,255,255,.45);font-weight:700">44 Sets · AO · ESt · Recht · GewSt · Gesellschaft</div></div>
+      <span style="color:rgba(255,255,255,.2)">›</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCHNELL-LINKS ══════════════════════════════════════════════════ -->
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:90px">
+  <div onclick="sw('glossar')" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px;cursor:pointer;text-align:center;transition:all .18s" onmouseover="this.style.background='rgba(255,255,255,.09)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
+    <div style="font-size:22px;margin-bottom:4px">📖</div>
+    <div style="font-size:12px;font-weight:900;color:#fff">Glossar</div>
+    <div style="font-size:9px;color:rgba(255,255,255,.35);font-weight:700">44 Fachbegriffe</div>
+  </div>
+  <div onclick="sw('story')" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px;cursor:pointer;text-align:center;transition:all .18s" onmouseover="this.style.background='rgba(255,255,255,.09)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
+    <div style="font-size:22px;margin-bottom:4px">📖</div>
+    <div style="font-size:12px;font-weight:900;color:#fff">Stories</div>
+    <div style="font-size:9px;color:rgba(255,255,255,.35);font-weight:700">6 Fortgeschritten-Szenarien</div>
+  </div>
+</div>
+
 </div>`;
-  requestAnimationFrame(startTaxAnimations);
-  setTimeout(()=>{
-    try{
-      const dc=getDailyChallenge();
-      const t=document.getElementById('b-dc-title');
-      const s=document.getElementById('b-dc-sub');
-      if(t&&dc)t.textContent=dc.q.length>55?dc.q.slice(0,55)+'…':dc.q;
-      if(s&&dc)s.textContent='Kategorie: '+{est:'ESt',ust:'USt',ao:'AO',bilanz:'Bilanz',recht:'Recht',kurios:'Kurioses'}[dc.cat]||'Quiz';
-    }catch(e){}
-  },100);
 }
+
 
 function renderKarriere(a){
   a.classList.add('karriere-mode');
