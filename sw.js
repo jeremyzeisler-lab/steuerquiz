@@ -1,4 +1,4 @@
-const CACHE = 'steuer-lernspiel-v2';
+const CACHE = 'steuer-lernspiel-v3';
 const FILES = [
   './',
   './index.html',
