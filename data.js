@@ -2535,7 +2535,7 @@ function _doSw(m){
   // remove etag dark background when leaving einfuehrung
   if(m!=='einfuehrung'){ const ga=document.getElementById('ga'); if(ga) ga.classList.remove('etag-mode'); }
   if(m!=='karriere'){ const ga=document.getElementById('ga'); if(ga) ga.classList.remove('karriere-mode'); }
-  if(m!=='ao_basics'&&m!=='recht_basics'&&m!=='ust_basics'&&m!=='bilanz_basics'&&m!=='est_basics'){ const ga=document.getElementById('ga'); if(ga) ga.classList.remove('basics-dark-mode'); }
+  if(m!=='ao_basics'&&m!=='recht_basics'&&m!=='ust_basics'&&m!=='bilanz_basics'&&m!=='est_basics'&&m!=='basics'){ const ga=document.getElementById('ga'); if(ga) ga.classList.remove('basics-dark-mode'); }
   window.scrollTo({top:0,behavior:'smooth'});
   if(m==='est'){sh_ein=filtShuffle(D_EINKUNFT);sh_werb=filtShuffle(D_WERBUNG);}
   else if(m==='ust')sh_ust=filtShuffle(D_UST);
@@ -2738,6 +2738,7 @@ function resetEinstProgress(){
 }
 
 function renderBasicsEinsteiger(a){
+  a.classList.add('basics-dark-mode');
   const p = getEinstProgress();
   const stepsDone = ['para1','story','quiz','mehr'].filter(k=>!!p[k]).length;
   const pct = Math.round(stepsDone/4*100);
