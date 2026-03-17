@@ -1901,6 +1901,132 @@ const D_BUCHUNG = [
     ],
     explain:'Privatentnahme: <b>Soll: Privatentnahmen</b> (Eigenkapital ↓) / <b>Haben: Kasse</b> (Geld ↓). Das Eigenkapitalkonto wird am Jahresende durch Privatentnahmen gemindert. Kein Aufwand – daher kein Gewinneinfluss direkt.'
   },
+  {
+    icon:'📦',name:'Wareneinkauf auf Ziel',desc:'Das Unternehmen kauft Waren für 3.000 € auf Rechnung (ohne USt zur Vereinfachung).',
+    options:[
+      {soll:'Wareneingang / Einkauf',haben:'Verbindlichkeiten aus L+L',correct:true},
+      {soll:'Verbindlichkeiten aus L+L',haben:'Wareneingang',correct:false},
+      {soll:'Wareneingang',haben:'Bank',correct:false},
+    ],
+    explain:'Wareneinkauf auf Ziel: <b>Soll: Wareneingang</b> (Aufwand ↑ → Gewinn ↓) / <b>Haben: Verbindlichkeiten aus L+L</b> (Schulden ↑). Der Kauf auf Ziel bedeutet: Ware da, Geld noch nicht geflossen.'
+  },
+  {
+    icon:'💰',name:'Warenverkauf auf Ziel',desc:'Das Unternehmen verkauft Waren für 4.800 € auf Rechnung.',
+    options:[
+      {soll:'Forderungen aus L+L',haben:'Umsatzerlöse',correct:true},
+      {soll:'Umsatzerlöse',haben:'Forderungen aus L+L',correct:false},
+      {soll:'Bank',haben:'Umsatzerlöse',correct:false},
+    ],
+    explain:'Warenverkauf auf Ziel: <b>Soll: Forderungen aus L+L</b> (Geld steht noch aus ↑) / <b>Haben: Umsatzerlöse</b> (Ertrag ↑ → Gewinn ↑). Erst wenn der Kunde zahlt, folgt: Bank an Forderungen.'
+  },
+  {
+    icon:'🏦',name:'Tilgung eines Bankdarlehens',desc:'Das Unternehmen überweist 2.000 € Tilgung auf ein langfristiges Bankdarlehen.',
+    options:[
+      {soll:'Verbindlichkeiten gegenüber Kreditinstituten',haben:'Bank',correct:true},
+      {soll:'Bank',haben:'Verbindlichkeiten gegenüber Kreditinstituten',correct:false},
+      {soll:'Zinsaufwand',haben:'Bank',correct:false},
+    ],
+    explain:'Darlehenstilgung: <b>Soll: Verbindlichkeiten ggü. Kreditinstituten</b> (Schulden ↓) / <b>Haben: Bank</b> (Geld ↓). Reine Tilgung – kein Aufwand! Die Zinsen werden separat als Zinsaufwand gebucht.'
+  },
+  {
+    icon:'💸',name:'Zinszahlung auf Bankdarlehen',desc:'Das Unternehmen zahlt 240 € Zinsen für das Bankdarlehen per Überweisung.',
+    options:[
+      {soll:'Zinsaufwand',haben:'Bank',correct:true},
+      {soll:'Bank',haben:'Zinsaufwand',correct:false},
+      {soll:'Verbindlichkeiten ggü. Kreditinstituten',haben:'Zinsaufwand',correct:false},
+    ],
+    explain:'Zinszahlung: <b>Soll: Zinsaufwand</b> (Aufwand ↑ → Gewinn ↓) / <b>Haben: Bank</b> (Geld ↓). Zinsen sind Aufwand, keine Tilgung. Tipp: Tilgung und Zinsen immer trennen!'
+  },
+  {
+    icon:'🏢',name:'Mietzahlung für Büro',desc:'Das Unternehmen überweist die Monatsmiete von 1.500 € für Büroräume.',
+    options:[
+      {soll:'Mietaufwand',haben:'Bank',correct:true},
+      {soll:'Bank',haben:'Mietaufwand',correct:false},
+      {soll:'Mietaufwand',haben:'Verbindlichkeiten',correct:false},
+    ],
+    explain:'Mietzahlung: <b>Soll: Mietaufwand</b> (Aufwand ↑) / <b>Haben: Bank</b> (Geld ↓). Klassischer Aufwandsfall. Merke: Aufwandskonten stehen immer im Soll, Ertragskonten im Haben.'
+  },
+  {
+    icon:'🧾',name:'Umsatzsteuer-Buchung bei Verkauf',desc:'Warenverkauf 1.000 € netto + 190 € USt (19 %) auf Rechnung.',
+    options:[
+      {soll:'Forderungen aus L+L 1.190 €',haben:'Umsatzerlöse 1.000 € + Umsatzsteuer 190 €',correct:true},
+      {soll:'Umsatzerlöse 1.190 €',haben:'Forderungen aus L+L 1.190 €',correct:false},
+      {soll:'Forderungen 1.000 €',haben:'Umsatzsteuer 190 €',correct:false},
+    ],
+    explain:'<b>Soll: Forderungen 1.190 €</b> / <b>Haben: Umsatzerlöse 1.000 € + Umsatzsteuer 190 €</b>. Die USt ist durchlaufender Posten – sie steht auf der Passivseite bis zur Abführung ans FA. Nettoerlös = 1.000 €, die 190 € sind keine Einnahme des Unternehmens!'
+  },
+  {
+    icon:'📋',name:'Vorsteuer beim Wareneinkauf',desc:'Wareneinkauf 2.000 € netto + 380 € Vorsteuer (19 %) auf Rechnung.',
+    options:[
+      {soll:'Wareneingang 2.000 € + Vorsteuer 380 €',haben:'Verbindlichkeiten aus L+L 2.380 €',correct:true},
+      {soll:'Wareneingang 2.380 €',haben:'Verbindlichkeiten 2.380 €',correct:false},
+      {soll:'Vorsteuer 380 €',haben:'Wareneingang 2.000 €',correct:false},
+    ],
+    explain:'<b>Soll: Wareneingang 2.000 € + Vorsteuer 380 €</b> / <b>Haben: Verbindlichkeiten 2.380 €</b>. Die Vorsteuer ist ein Aktivposten (Forderung gegen das FA) – kein Aufwand! Die 2.000 € sind der tatsächliche Aufwand.'
+  },
+  {
+    icon:'🖨️',name:'Geringwertiges Wirtschaftsgut (GWG)',desc:'Kauf eines Druckers für 600 € netto (zzgl. 114 € USt), Zahlung per Bank.',
+    options:[
+      {soll:'GWG-Aufwand 600 € + Vorsteuer 114 €',haben:'Bank 714 €',correct:true},
+      {soll:'Büroausstattung 600 €',haben:'Bank 600 €',correct:false},
+      {soll:'GWG 714 €',haben:'Bank 714 €',correct:false},
+    ],
+    explain:'GWG bis 800 € netto (§ 6 Abs. 2 EStG): <b>Soll: GWG-Aufwand 600 € + Vorsteuer 114 €</b> / <b>Haben: Bank 714 €</b>. Sofortabschreibung! Der Drucker wird nicht aktiviert, sondern direkt als Aufwand erfasst. Wichtig: Grenze bezieht sich immer auf den Nettobetrag.'
+  },
+  {
+    icon:'📉',name:'Abschreibung auf Maschine (AfA)',desc:'Jahresabschreibung auf eine Maschine (Anschaffung 24.000 €, Nutzungsdauer 8 Jahre): 3.000 €.',
+    options:[
+      {soll:'Abschreibung auf Sachanlagen',haben:'Maschinen (kumulierte AfA)',correct:true},
+      {soll:'Maschinen',haben:'Abschreibung',correct:false},
+      {soll:'Abschreibung',haben:'Bank',correct:false},
+    ],
+    explain:'AfA-Buchung: <b>Soll: Abschreibung auf Sachanlagen</b> (Aufwand 3.000 €) / <b>Haben: Maschinen</b> (Buchwert ↓). Kein Geldfluss! AfA ist ein nicht-zahlungswirksamer Aufwand. 24.000 € / 8 Jahre = 3.000 € p.a. (lineare AfA § 7 Abs. 1 EStG).'
+  },
+  {
+    icon:'📬',name:'Zahlung an Lieferant',desc:'Das Unternehmen begleicht eine offene Lieferantenrechnung von 2.380 € per Überweisung.',
+    options:[
+      {soll:'Verbindlichkeiten aus L+L',haben:'Bank',correct:true},
+      {soll:'Bank',haben:'Verbindlichkeiten aus L+L',correct:false},
+      {soll:'Aufwand',haben:'Bank',correct:false},
+    ],
+    explain:'Zahlungsausgang an Lieferant: <b>Soll: Verbindlichkeiten aus L+L</b> (Schulden ↓) / <b>Haben: Bank</b> (Geld ↓). Reine Bilanzverkürzung – kein Aufwand, da dieser bereits beim Einkauf gebucht wurde!'
+  },
+  {
+    icon:'🔄',name:'Rückstellung für ungewisse Verbindlichkeit',desc:'Rückstellung für drohende Steuernachzahlung in Höhe von 5.000 €.',
+    options:[
+      {soll:'Steueraufwand / Rückstellungsaufwand',haben:'Steuerrückstellungen',correct:true},
+      {soll:'Steuerrückstellungen',haben:'Bank',correct:false},
+      {soll:'Bank',haben:'Steuerrückstellungen',correct:false},
+    ],
+    explain:'Rückstellung (§ 249 HGB): <b>Soll: Steueraufwand 5.000 €</b> / <b>Haben: Steuerrückstellungen 5.000 €</b>. Rückstellungen sind Passivposten für wahrscheinliche, aber noch ungewisse Verpflichtungen. Kein Geldfluss! Folgt das Imparitätsprinzip: Verluste erfassen, bevor sie sicher sind.'
+  },
+  {
+    icon:'🎁',name:'Einlage des Gesellschafters',desc:'Ein Gesellschafter legt 10.000 € in die GmbH ein (Bareinlage auf Bankkonto).',
+    options:[
+      {soll:'Bank',haben:'Gezeichnetes Kapital / Stammkapital',correct:true},
+      {soll:'Stammkapital',haben:'Bank',correct:false},
+      {soll:'Bank',haben:'Verbindlichkeiten ggü. Gesellschafter',correct:false},
+    ],
+    explain:'Kapitaleinlage: <b>Soll: Bank</b> (Geld ↑) / <b>Haben: Gezeichnetes Kapital</b> (Eigenkapital ↑). Aktivmehrung + Passivmehrung (Bilanzverlängerung). Das gezeichnete Kapital ist das satzungsmäßige Stammkapital der GmbH – es steht immer im Haben des Eigenkapitalkontos.'
+  },
+  {
+    icon:'📋',name:'Auflösung einer Rückstellung (zu hoch)',desc:'Die Steuerrückstellung über 5.000 € wird aufgelöst – tatsächliche Nachzahlung: nur 3.200 €.',
+    options:[
+      {soll:'Steuerrückstellungen 5.000 €',haben:'Bank 3.200 € + sonstiger Ertrag 1.800 €',correct:true},
+      {soll:'Bank 5.000 €',haben:'Steuerrückstellungen 5.000 €',correct:false},
+      {soll:'Steuerrückstellungen 3.200 €',haben:'Bank 3.200 €',correct:false},
+    ],
+    explain:'Rückstellungsauflösung: <b>Soll: Steuerrückstellungen 5.000 €</b> / <b>Haben: Bank 3.200 € + sonstiger Ertrag 1.800 €</b>. Zu hoch angesetzte Rückstellungen werden gewinnerhöhend aufgelöst (Ertrag). Der Mehrbetrag (1.800 €) war zu viel zurückgestellt.'
+  },
+  {
+    icon:'💡',name:'Aktive Rechnungsabgrenzung (ARAP)',desc:'Im Dezember wird die Kfz-Versicherung für Jan–Dez des nächsten Jahres vorab gezahlt: 1.200 €.',
+    options:[
+      {soll:'Aktive Rechnungsabgrenzung (ARAP)',haben:'Bank',correct:true},
+      {soll:'Versicherungsaufwand',haben:'Bank',correct:false},
+      {soll:'Bank',haben:'Aktive Rechnungsabgrenzung',correct:false},
+    ],
+    explain:'ARAP (§ 250 Abs. 1 HGB): <b>Soll: Aktive Rechnungsabgrenzung 1.200 €</b> / <b>Haben: Bank 1.200 €</b>. Zahlung im Dezember für das Folgejahr: der Aufwand gehört noch nicht ins laufende Jahr! ARAP sichert die periodengerechte Abgrenzung. Im Folgejahr: Versicherungsaufwand an ARAP.'
+  },
 ];
 
 const D_AO = [
@@ -6110,7 +6236,7 @@ let examSkipped = 0;
 let examTimerInterval = null;
 let examTimeLeft = 0;
 let examTotalTime = 0;
-let examSetup = { topics: ['est','ust','ao','bilanz','recht'], diff: 0, count: 20 };
+let examSetup = { topics: ['est','ust','ao','bilanz','recht','gewst','gesellschaft'], diff: 0, count: 20 };
 
 const EXAM_TOPICS = [
   {id:'est',        label:'💼 Einkommensteuer'},
@@ -7811,9 +7937,13 @@ render();
         <div style="font-size:11px;font-weight:900;color:#004d28;margin-bottom:4px">📄 Nutzungsbedingungen</div>
         Die Nutzung ist für persönliche Lern- und Bildungszwecke <strong>kostenlos gestattet</strong>. Kommerzielle Vervielfältigung oder Einbindung in andere Produkte ist ohne schriftliche Zustimmung des Urhebers nicht gestattet. Hinweise auf Fehler oder veraltete Inhalte sind ausdrücklich erwünscht.
       </div>
-      <div style="background:#fffbf0;border-radius:12px;padding:12px 14px">
+      <div style="background:#fffbf0;border-radius:12px;padding:12px 14px;margin-bottom:12px">
         <div style="font-size:11px;font-weight:900;color:#5a3000;margin-bottom:4px">ℹ️ Technisches</div>
         Version 2.0 · Stand März 2026 · Steuerrecht 2026 · Steueränderungsgesetz 2025. Alle Lerndaten werden ausschließlich lokal im Browser gespeichert – keine Übertragung an Server.
+      </div>
+      <div style="background:#f4f0ff;border-radius:12px;padding:12px 14px">
+        <div style="font-size:11px;font-weight:900;color:#3a0080;margin-bottom:4px">✉️ Kontakt</div>
+        Für Feedback, Fehlermeldungen oder Kooperationsanfragen: <a href="mailto:jeremy.zeisler@googlemail.com" style="color:#5c2db8;font-weight:800;text-decoration:none">jeremy.zeisler@googlemail.com</a>
       </div>
     </div>
     <button onclick="document.getElementById('impressum-modal').style.display='none'" style="width:100%;margin-top:18px;padding:13px;border-radius:14px;border:none;background:linear-gradient(135deg,#1a3a8f,#2255cc);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Schließen</button>
