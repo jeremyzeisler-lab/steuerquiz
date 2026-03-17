@@ -1,4 +1,4 @@
-const CACHE = 'steuer-lernspiel-v1';
+const CACHE = 'steuer-lernspiel-v2';
 const FILES = [
   './',
   './index.html',
@@ -8,14 +8,12 @@ const FILES = [
   './manifest.json'
 ];
 
-// Install: cache all files
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting())
   );
 });
 
-// Activate: delete old caches
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys().then(keys =>
@@ -24,7 +22,6 @@ self.addEventListener('activate', e => {
   );
 });
 
-// Fetch: cache-first, fall back to network
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   e.respondWith(
