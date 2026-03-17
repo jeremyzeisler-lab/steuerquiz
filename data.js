@@ -871,7 +871,51 @@ const D_PRAXIS = [
        merker:'Merke: Änderungsbescheid = neuer Verwaltungsakt = neue 1-Monats-Einspruchsfrist. Das gilt für jeden Änderungsbescheid, egal auf welcher Grundlage er erlassen wurde.'},
     ]
   }
+  ,
+  {
+    id:'p8', icon:'🔧', cat:'USt', title:'Werklieferung oder Werkleistung?',
+    intro:'Tischler Thomas fertigt und montiert Einbaumöbel. Drei Aufträge kommen rein – jeder unterscheidet sich in einem entscheidenden Detail.',
+    steps:[
+      {nr:1, situation:'Auftrag A: Thomas baut einen Einbauschrank aus eigenem Holz (Materialwert: 800 €, Arbeitslohn: 400 €) beim Kunden in dessen Wohnung ein.',
+       frage:'Wie ist dieser Umsatz umsatzsteuerlich zu qualifizieren?',
+       opts:['Werkleistung – Thomas arbeitet beim Kunden','Werklieferung (§ 3 Abs. 4 UStG) – eigene Stoffe überwiegen; Behandlung wie Lieferung','Gemischte Leistung – kein eindeutiger Fall','Steuerfreie Lieferung, da Einbau beim Kunden'],
+       ans:1, explain:'<b>Werklieferung (§ 3 Abs. 4 UStG):</b> Thomas verarbeitet überwiegend <b>eigene Stoffe</b> (800 € Material > 400 € Lohn). Das qualifiziert als Werklieferung = Behandlung wie eine Lieferung. Leistungsort: Ort des Einbaus (§ 3 Abs. 7 UStG). USt-Satz: 19 %. Maßgeblich ist WEM das Hauptmaterial gehört, nicht wer arbeitet.',
+       merker:'Werklieferung = eigene Stoffe überwiegen → wie Lieferung. Leistungsort = Einbauort.'},
+      {nr:2, situation:'Auftrag B: Thomas repariert einen vorhandenen Schrank des Kunden. Er verwendet das Holz des Kunden (Wert: 50 €). Sein Arbeitslohn beträgt 350 €.',
+       frage:'Wie ändert sich die Qualifikation, wenn Thomas mit Kundenmaterial arbeitet?',
+       opts:['Werklieferung bleibt – Thomas führt immer Werklieferungen aus','Werkleistung (§ 3 Abs. 9 UStG) – fremde Stoffe; Leistungsort B2B: Sitz des Leistungsempfängers','Steuerfreie Instandhaltung','Werklieferung, da der Schrank körperlich bearbeitet wird'],
+       ans:1, explain:'<b>Werkleistung (§ 3 Abs. 9 UStG):</b> Thomas verwendet <b>fremde Stoffe</b> (Kundenmaterial: 50 €, Arbeit: 350 €). Damit liegt eine Werkleistung vor = sonstige Leistung. Leistungsort B2B: Sitz des Leistungsempfängers (§ 3a Abs. 2 UStG). Leistungsort B2C: Ort der Tätigkeit (§ 3a Abs. 1 UStG).',
+       merker:'Werkleistung = fremde Stoffe → wie sonstige Leistung. Leistungsort B2B = Sitz Empfänger.'},
+      {nr:3, situation:'Auftrag C: Thomas fertigt denselben Schrank wie in Auftrag A (eigene Stoffe, Wert 800 €) und baut ihn in Zürich (Schweiz) ein.',
+       frage:'Unterliegt dieser Umsatz der deutschen Umsatzsteuer?',
+       opts:['Ja – Thomas ist in Deutschland ansässig, daher immer deutsche USt','Nein – Leistungsort ist Zürich (Werklieferung = Einbauort § 3 Abs. 7 UStG); in Deutschland nicht steuerbar','Ja – Lieferung in die Schweiz ist als Ausfuhr steuerfrei (mit 0 %)','Nein – Schweiz ist kein EU-Staat, daher generell steuerbefreit'],
+       ans:1, explain:'<b>Werklieferung → Leistungsort = Einbauort:</b> Da der Einbau in Zürich stattfindet, ist der Umsatz in der Schweiz steuerbar, nicht in Deutschland (§ 3 Abs. 7 UStG). In Deutschland ist er <b>nicht steuerbar</b>. Thomas muss die Schweizer USt-Regelungen beachten und sich ggf. dort registrieren. Hinweis: Anders wäre es bei einer Ausfuhrlieferung ohne Einbau – dort wäre der Umsatz steuerbar aber steuerfrei.',
+       merker:'Werklieferung = Lieferung. Lieferort = Einbauort. Einbau Schweiz = schweizer Steuerrecht gilt.'},
+    ]
+  },
+  {
+    id:'p9', icon:'🔗', cat:'USt', title:'Reihengeschäft: Wer schuldet was?',
+    intro:'Großhändlerin Gabi (Deutschland) kauft Elektrogeräte bei Hersteller A (Polen) und verkauft sie weiter an Endkunde C (Frankreich). Die Ware geht direkt von Polen nach Frankreich.',
+    steps:[
+      {nr:1, situation:'A (Polen) → B/Gabi (Deutschland) → C (Frankreich). Gabi beauftragt die Spedition und tritt gegenüber A mit ihrer deutschen USt-ID auf.',
+       frage:'Welche der beiden Lieferungen im Reihengeschäft ist die bewegte Lieferung?',
+       opts:['Lieferung A→B (Polen→Deutschland) – weil A der Hersteller ist','Lieferung B→C (Deutschland→Frankreich) – weil B (Gabi) den Transport beauftragt und gegenüber A die USt-ID des Abgangslandes verwendet','Beide Lieferungen sind gleich – die Ware geht von A nach C','Keine – bei einem Reihengeschäft gibt es keine bewegte Lieferung'],
+       ans:1, explain:'<b>§ 3 Abs. 6 Satz 5 UStG:</b> Wenn der Mittelsmann (B) den Transport beauftragt und gegenüber seinem Lieferanten (A) die USt-ID des <b>Abgangslandes</b> (hier: deutsche ID) verwendet, wird die Warenbewegung der <b>Lieferung B→C zugeordnet</b>. Lieferung A→B ist dann die unbewegte Lieferung – ihr Ort liegt im Abgangsland Polen.',
+       merker:'B beauftragt Transport + nutzt USt-ID Abgangsland → bewegte Lieferung = B→C.'},
+      {nr:2, situation:'Gabi ändert ihre Vorgehensweise und tritt gegenüber A nun mit ihrer französischen USt-ID (Bestimmungsland) auf.',
+       frage:'Wie ändert sich die Zuordnung der bewegten Lieferung?',
+       opts:['Keine Änderung – die physische Warenbewegung bestimmt alles','Die bewegte Lieferung wechselt zu A→B, weil B die USt-ID des Bestimmungslandes (Frankreich) verwendet (§ 3 Abs. 6 Satz 6 UStG)','Die bewegte Lieferung entfällt, da Gabi nun im Bestimmungsland registriert ist','B→C bleibt die bewegte Lieferung, da Gabi den Transport beauftragt'],
+       ans:1, explain:'<b>§ 3 Abs. 6 Satz 6 UStG – Ausnahme:</b> Verwendet der Mittelsmann die USt-ID des <b>Bestimmungslandes</b>, wechselt die bewegte Lieferung zu <b>A→B</b>. Lieferung B→C ist dann die unbewegte Lieferung im Bestimmungsland Frankreich. Konsequenz: A muss jetzt die innergemeinschaftliche Lieferung deklarieren; B schuldet in Frankreich den innergemeinschaftlichen Erwerb.',
+       merker:'B nutzt USt-ID Bestimmungsland → bewegte Lieferung = A→B. Zuordnung dreht sich um.'},
+      {nr:3, situation:'Im ursprünglichen Fall (deutscheUSt-ID bei A): Die Lieferung B→C ist die bewegte, eine innergemeinschaftliche Lieferung von Deutschland nach Frankreich.',
+       frage:'Welche umsatzsteuerlichen Pflichten hat Gabi für die Lieferung B→C?',
+       opts:['Gabi stellt eine Rechnung mit 19 % deutsche USt aus','Steuerfreie innergemeinschaftliche Lieferung (§ 4 Nr. 1b, § 6a UStG): Gabi stellt Nettorechnung aus und meldet die Lieferung in der ZM (Zusammenfassende Meldung)','Gabi zahlt 20 % französische USt direkt ans französische Finanzamt','Keine Pflichten – Reihengeschäfte sind automatisch steuerbefreit'],
+       ans:1, explain:'<b>Innergemeinschaftliche Lieferung B→C:</b> Steuerfrei nach § 4 Nr. 1b UStG i.V.m. § 6a UStG. Voraussetzungen: C hat gültige ausländische USt-ID, Ware gelangt in anderen EU-Staat, Nachweis durch Gelangensbestätigung. Gabi meldet die Lieferung in der <b>Zusammenfassenden Meldung (ZM)</b>. C schuldet in Frankreich den innergemeinschaftlichen Erwerb.',
+       merker:'Ig. Lieferung = steuerfrei + Nettorechnung + ZM-Meldung. C schuldet Erwerb in Frankreich.'},
+    ]
+  },
 ];
+;
 
 
 // ==================== PRÜFUNGSFRAGEN (D_EXAM) ====================
@@ -1600,6 +1644,10 @@ let storyOpen = null;   // story id
 let storyScene = 0;     // current scene index
 let storyChosen = null; // chosen option index for choice scene, or null
 
+function openStoryDirect(id){
+  storyOpen=id;
+  _doSw('story');
+}
 function startStory(id, resume){
   storyOpen = id;
   if(resume && storyProgress[id] && !storyProgress[id].done){
@@ -2281,7 +2329,7 @@ function _doSw(m){
   else if(m==='recht')sh_recht=filtShuffle(D_RECHT);
   else if(m==='gewst')sh_gewst=filtShuffle(D_GEWST);
   else if(m==='gesellschaft')sh_gesellschaft=filtShuffle(D_GESELLSCHAFT);
-  else if(m==='story'){ storyOpen=null; }
+  else if(m==='story'){ /* storyOpen set by openStory() or caller */ }
   else if(m==='flashcard'){fcIdx=0;fcFlipped=false;fcKnown=[];}
   else if(m==='praxis'){ if(mode!=='praxis') praxisOpen=null; praxisStep=0; praxisAnswered=false; praxisScore=0; }
   else if(m==='meinbereich'){loadDailyData();updateStreakChip();}
@@ -2368,6 +2416,10 @@ const TOPIC_CFG = {
             desc:'KSt-Satz, Trennungsprinzip, verdeckte Gewinnausschüttung, Organschaft und Teileinkünfteverfahren – Unternehmensbesteuerung im Überblick.',
             chips:['§ 23 KSt 15 %','vGA § 8 KStG','Teileinkünfteverfahren','Organschaft §§ 14 ff.'],
             bg:'linear-gradient(135deg,#1a0a3a,#2e1260)' },
+  story:  { icon:'📖', title:'Steuer-Stories', sub:'Interaktive Alltagsszenarien',
+            desc:'Lerne Steuerrecht durch echte Geschichten – Lohnzettel, Betriebsprüfung, Reihengeschäft und mehr.',
+            chips:['Einsteiger','Fortgeschritten','USt · AO · ESt','8 Stories'],
+            bg:'linear-gradient(135deg,#1a0a5e,#3a1a8f)' },
 };
 
 function setTopicHeader(m){
@@ -2444,11 +2496,8 @@ function einstGoStep1(){
 function einstGoStep2(){
   einstLaunched='step2';
   storyOpen = 'lohnzettel';
-  mode = 'story';
-  document.querySelectorAll('.mode-tab').forEach(t=>t.classList.remove('active'));
-  setTopicHeader('story');
   updateEinstBackBar('step2');
-  render();
+  _doSw('story');
 }
 function einstGoStep3(){
   einstLaunched='step3';
@@ -2518,7 +2567,10 @@ function renderBasicsEinsteiger(a){
   const storiesHtml = (typeof D_STORY!=="undefined"?D_STORY:[]).map(s=>{
     const prog = storyProgress[s.id];
     const done = prog&&prog.done;
-    return '<div class="story-card'+(done?' done':'')+'" onclick="storyOpen=\''+s.id+'\';mode=\'story\';render()">'
+    return '<div class="story-card'+(done?' done':'')+'" onclick="openStoryDirect(\''+s.id+'\')">'
+      +'<div class="sc-top"><div class="sc-emoji">'+s.icon+'</div><div class="sc-info"><div class="sc-title">'+s.title+'</div><div class="sc-sub">'+s.protagonist+'</div></div>'
+      +(done?'<span style="font-size:11px;color:var(--green);font-weight:900">✓</span>':'')
+      +'</div></div>';
       +'<div class="sc-top"><div class="sc-emoji">'+s.icon+'</div><div class="sc-info"><div class="sc-title">'+s.title+'</div><div class="sc-sub">'+s.protagonist+'</div></div>'
       +(done?'<span style="font-size:11px;color:var(--green);font-weight:900">✓</span>':'')
       +'</div></div>';
@@ -2842,7 +2894,7 @@ function renderBasics(a){
 <div class="lb-list" style="border-color:#b7f5dc">
   <div class="lb-row" onclick="sw('pruefung')" style="border-left:4px solid #005c36"><span class="lb-row-icon">🎓</span><div class="lb-row-text"><div class="lb-row-title">Prüfungsmodus</div><div class="lb-row-sub">Echte Klausur-Simulation mit Note 1–6 · Timer</div></div><span class="lb-row-arr">›</span></div>
   <div class="lb-row" onclick="sw('praxis')" style="border-left:4px solid #1a3a8f"><span class="lb-row-icon">📋</span><div class="lb-row-text"><div class="lb-row-title">Praxisfälle</div><div class="lb-row-sub">Realistische 3-Schritte-Szenarien · AO, ESt, USt</div></div><span class="lb-row-arr">›</span></div>
-  <div class="lb-row" onclick="sw('story')" style="border-left:4px solid #7b5ea7"><span class="lb-row-icon">📖</span><div class="lb-row-text"><div class="lb-row-title">Interaktive Geschichten</div><div class="lb-row-sub">4 Alltagsstories · Lohnzettel, Schwarzarbeit, Selbständig, AO-Einspruch</div></div><span class="lb-row-arr">›</span></div>
+  <div class="lb-row" onclick="sw('story')" style="border-left:4px solid #7b5ea7"><span class="lb-row-icon">📖</span><div class="lb-row-text"><div class="lb-row-title">Interaktive Geschichten</div><div class="lb-row-sub">8 Steuer-Stories · Lernpfad · USt · Einspruch · Betriebsprüfung</div></div><span class="lb-row-arr">›</span></div>
 </div>
 
 <div class="bsec" style="margin-top:14px">🧰 Lernwerkzeuge</div>
