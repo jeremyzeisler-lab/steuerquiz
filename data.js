@@ -1383,6 +1383,7 @@ const D_STORY = [
 {
   id:'nebenjob',
   icon:'💰',
+  learned:['Grundfreibetrag 2026: 12.336 € (§ 32a EStG) – darunter keine ESt','Schwarzarbeit ist auch strafbar wenn keine Steuer anfällt (§ 370 AO)','Schüler können freiwillig Steuererklärung abgeben – 4 Jahre rückwirkend','520 € = Minijob-Grenze (SV), nicht ESt-Grenze','Gelegentliche Gefälligkeit ≠ Gewerbetätigkeit'],
   title:'Nebenjob oder Schwarzarbeit?',
   protagonist:'Leon, 17 – Schüler, verdient Geld mit Nachhilfe und Rasenmähen',
   level:'Einstieg',
@@ -1432,6 +1433,7 @@ const D_STORY = [
 {
   id:'betriebspruefung',
   icon:'🔍',
+  learned:['Prüfungsanordnung (§ 196 AO) ist ein Verwaltungsakt – Frist von 2+ Wochen','Mitwirkungspflicht (§ 90 AO): Unterlagen vorlegen, Auskünfte geben','Schätzung (§ 162 AO) fällt i.d.R. zum Nachteil des Steuerpflichtigen aus','Schlussbesprechung (§ 201 AO): letzte Chance für Einwände','§ 147 AO: 10 Jahre Aufbewahrungspflicht für Buchführungsunterlagen'],
   title:'Die Betriebsprüfung',
   protagonist:'Familie Müller – kleiner Imbiss in Berlin, 3. Generation',
   level:'Fortgeschritten',
@@ -1483,6 +1485,7 @@ const D_STORY = [
 {
   id:'werklieferung',
   icon:'🔧',
+  learned:['Werklieferung (§ 3 Abs. 4 UStG): eigene Stoffe überwiegen → Behandlung wie Lieferung','Werkleistung (§ 3 Abs. 9 UStG): fremde Stoffe → Behandlung wie sonstige Leistung','Leistungsort Werklieferung: Ort des Einbaus (§ 3 Abs. 7 UStG)','Leistungsort Werkleistung B2B: Sitz des Empfängers (§ 3a Abs. 2 UStG)','Merksatz: Wessen Werkstoff → Werklieferung oder Werkleistung?'],
   title:'Werklieferung oder Werkleistung?',
   protagonist:'Steuerberater Klaus – erklärt seinen Azubis die USt-Grundlagen',
   level:'Fortgeschritten',
@@ -1542,6 +1545,7 @@ const D_STORY = [
 {
   id:'reihengeschaeft',
   icon:'🔗',
+  learned:['Im Reihengeschäft gibt es immer nur eine bewegte Lieferung','Bewegte Lieferung = die Lieferung der der Transport zugeordnet wird (§ 3 Abs. 6 S. 5 UStG)','Verwendet Mittelsmann USt-ID des Bestimmungslandes: Bewegung wechselt zu A→B','Dreiecksgeschäft § 25b UStG: Vereinfachung für A→B→C in drei EU-Ländern','Prüfreihenfolge: Wer transportiert? Welche USt-ID? Bewegte/unbewegte Lieferung?'],
   title:'Das Reihengeschäft – wer liefert was?',
   protagonist:'Großhändler Gabi – kauft in China, verkauft in Polen',
   level:'Fortgeschritten',
