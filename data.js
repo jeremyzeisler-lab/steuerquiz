@@ -1375,7 +1375,7 @@ const D_STORY = [
       narrative:'Tom hat zum ersten Mal eine Steuererklärung abgegeben. Er hat 2.400 € Fahrtkosten (30 km × 0,38 € × 210 Tage), einen neuen Laptop für 1.100 € und Fachliteratur für 280 € als Werbungskosten angegeben. Dann kommt der Einkommensteuerbescheid. Erstattung: nur 380 € statt der erwarteten 720 €. Tom versteht nicht warum – bis er auf Seite 2 liest: „Aufwendungen für Computer wurden nicht anerkannt."',
       fact:{
         title:'Der Steuerbescheid – ein Verwaltungsakt (§ 118 AO)',
-        content:'Jeder Steuerbescheid ist ein <b>Verwaltungsakt</b> (§ 118 AO). Er wird wirksam durch <b>Bekanntgabe</b> (§ 122 AO).<br><br><b>Was im Bescheid steht:</b><br>• Festgesetzte Steuer (§ 155 AO) und Nachzahlung/Erstattung<br>• Berechnungsgrundlagen und erklärte vs. anerkannte Beträge<br>• <b>Rechtsbehelfsbelehrung</b> (§ 356 AO) – fehlt sie, verlängert sich die Frist auf 1 Jahr!<br><br><b>Bekanntgabe-Fiktion (§ 122 Abs. 2 Nr. 1 AO):</b><br>Einfacher Brief gilt am <b>3. Tag nach Aufgabe zur Post</b> als zugegangen. Fällt dieser Tag auf Sa/So/Feiertag → nächster Werktag.',
+        content:'Jeder Steuerbescheid ist ein <b>Verwaltungsakt</b> (§ 118 AO). Er wird wirksam durch <b>Bekanntgabe</b> (§ 122 AO).<br><br><b>Was im Bescheid steht:</b><br>• Festgesetzte Steuer (§ 155 AO) und Nachzahlung/Erstattung<br>• Berechnungsgrundlagen und erklärte vs. anerkannte Beträge<br>• <b>Rechtsbehelfsbelehrung</b> (§ 356 AO) – fehlt sie, verlängert sich die Frist auf 1 Jahr!<br><br><b>Bekanntgabe-Fiktion (§ 122 Abs. 2 Nr. 1 AO, JStG 2022 ab 01.01.2023):</b><br>Einfacher Brief gilt am <b>4. Tag nach Aufgabe zur Post</b> als zugegangen. Fällt dieser Tag auf Sa/So/Feiertag → nächster Werktag.',
         norm:'§ 118, § 122, § 155, § 356 AO'
       }
     },
@@ -1395,7 +1395,7 @@ const D_STORY = [
           text:'📝 Schriftlich Einspruch einlegen beim zuständigen Finanzamt',
           correct:true,
           outcome:'Tom legt fristgerecht Einspruch ein. Das Rechtsbehelfsverfahren beginnt.',
-          explain:'<b>Richtig! Einspruch gem. § 347 Abs. 1 S. 1 AO ist der Weg.</b><br><br><b>Die Frist (§ 355 Abs. 1 AO):</b><br>• 1 Monat ab Bekanntgabe<br>• Aufgabe zur Post: 12.03.2026 (Mi) → Bekanntgabe-Fiktion: 15.03.2026 (Sa → Mo 17.03.2026)<br>• Fristende: <b>17.04.2026</b><br><br><b>Form (§ 357 AO):</b><br>• Schriftlich, elektronisch oder zur Niederschrift beim Finanzamt<br>• Muss erkennen lassen: wer, gegen was, warum<br>• Keine Begründungspflicht – aber dringend empfohlen!<br><br>Tom hat also bis zum 17. April Zeit. Er sollte den Kaufbeleg für den Laptop beilegen.'
+          explain:'<b>Richtig! Einspruch gem. § 347 Abs. 1 S. 1 AO ist der Weg.</b><br><br><b>Die Frist (§ 355 Abs. 1 AO):</b><br>• 1 Monat ab Bekanntgabe<br>• Aufgabe zur Post: 12.03.2026 (Mi) → Bekanntgabe-Fiktion: 16.03.2026 (Mo)<br>• Fristende: <b>16.04.2026</b><br><br><b>Form (§ 357 AO):</b><br>• Schriftlich, elektronisch oder zur Niederschrift beim Finanzamt<br>• Muss erkennen lassen: wer, gegen was, warum<br>• Keine Begründungspflicht – aber dringend empfohlen!<br><br>Tom hat also bis zum 17. April Zeit. Er sollte den Kaufbeleg für den Laptop beilegen.'
         },
         {
           text:'⏳ Erstmal abwarten – man hat bestimmt ein Jahr Zeit',
@@ -1427,7 +1427,7 @@ const D_STORY = [
 {
   id:'nebenjob',
   icon:'💰',
-  learned:['Grundfreibetrag 2026: 12.336 € (§ 32a EStG) – darunter keine ESt','Schwarzarbeit ist auch strafbar wenn keine Steuer anfällt (§ 370 AO)','Schüler können freiwillig Steuererklärung abgeben – 4 Jahre rückwirkend','520 € = Minijob-Grenze (SV), nicht ESt-Grenze','Gelegentliche Gefälligkeit ≠ Gewerbetätigkeit'],
+  learned:['Grundfreibetrag 2026: 12.336 € (§ 32a EStG) – darunter keine ESt','Schwarzarbeit ist auch strafbar wenn keine Steuer anfällt (§ 370 AO)','Schüler können freiwillig Steuererklärung abgeben – 4 Jahre rückwirkend','556 € = aktuelle Minijob-Grenze 2026 (SV), kein ESt-Freibetrag','Gelegentliche Gefälligkeit ≠ Gewerbetätigkeit'],
   title:'Nebenjob oder Schwarzarbeit?',
   protagonist:'Leon, 17 – Schüler, verdient Geld mit Nachhilfe und Rasenmähen',
   level:'Einstieg',
@@ -1445,7 +1445,7 @@ const D_STORY = [
       question:'Was rät Leon seine Mutter?',
       context:'Leons Mutter ist Steuerassistentin und kennt die Regeln.',
       choices:[
-        {text:'„Unter 520 €/Monat ist alles steuerfrei – mach dir keine Sorgen."', correct:false, feedback:'Nicht ganz richtig. 520 € ist die Grenze für Minijobs (sozialversicherungsrechtlich), aber steuerlich gibt es kein automatisches Freibetragsmodell für Schüler.'},
+        {text:'„Unter 556 €/Monat ist alles steuerfrei – mach dir keine Sorgen."', correct:false, feedback:'Nicht ganz richtig. 556 € ist die aktuelle Minijob-Grenze 2026 (SV), aber steuerlich gibt es kein automatisches Freibetragsmodell für Schüler.'},
         {text:'„Bis 12.336 € Jahreseinkommen fällt keine Einkommensteuer an – du bist weit darunter. Aber du solltest Einnahmen trotzdem korrekt angeben."', correct:true, feedback:'Genau! Der Grundfreibetrag (§ 32a EStG) schützt Leons Einkommen vor Steuer. Schwarzarbeit – also bewusstes Verschweigen – ist aber trotzdem strafbar (§ 370 AO), selbst wenn am Ende keine Steuer anfällt.'},
         {text:'„Meld dich als Unternehmer an – dann läuft alles legal."', correct:false, feedback:'Eine Gewerbeanmeldung wäre bei diesem Umfang übertrieben. Gelegentliche Gefälligkeiten fallen nicht automatisch unter Gewerbe.'},
       ]
@@ -1463,7 +1463,7 @@ const D_STORY = [
       choices:[
         {text:'Ja – jeder Schüler mit Einkommen muss eine Erklärung abgeben', correct:false, feedback:'Nicht automatisch. Die Abgabepflicht hängt vom Einkommen ab.'},
         {text:'Nein – 4.800 € liegt unter dem Grundfreibetrag (12.336 €), keine Abgabepflicht, keine Steuer', correct:true, feedback:'Richtig! 4.800 € < 12.336 € Grundfreibetrag → keine Steuer, keine Pflicht zur Erklärung. Aber: Leon kann freiwillig eine Erklärung abgeben (bis zu 4 Jahre rückwirkend) – das schadet nicht.'},
-        {text:'Nur wenn er mehr als 520 € pro Monat verdient', correct:false, feedback:'520 € ist die Minijob-Grenze (Sozialversicherung), kein ESt-Freibetrag.'},
+        {text:'Nur wenn er mehr als 556 € pro Monat verdient', correct:false, feedback:'556 € ist die Minijob-Grenze 2026 (SV), kein ESt-Freibetrag.'},
       ]
     },
     {
@@ -1599,13 +1599,13 @@ const D_STORY = [
     {
       type:'info',
       title:'Was ist ein Reihengeschäft?',
-      narrative:'A (China) → B (Deutschland, Gabi) → C (Polen). Gabi kauft Elektrogeräte bei A und verkauft sie sofort an C weiter. Aber: Die Ware geht direkt von A in China nach C in Polen – ohne Umweg über Gabis Lager. Das nennt sich Reihengeschäft (§ 3 Abs. 6 Satz 5 UStG): Eine einzige Warenbewegung, aber zwei Lieferungen.',
+      narrative:'A (China) → B (Deutschland, Gabi) → C (Polen). Gabi kauft Elektrogeräte bei A und verkauft sie sofort an C weiter. Aber: Die Ware geht direkt von A in China nach C in Polen – ohne Umweg über Gabis Lager. Das nennt sich Reihengeschäft (§ 3 Abs. 6a UStG): Eine einzige Warenbewegung, aber zwei Lieferungen.',
       hint:'Im Reihengeschäft gibt es immer genau eine bewegte Lieferung (die Ware reist physisch) und eine oder mehrere unbewegte Lieferungen (nur auf dem Papier).'
     },
     {
       type:'choice',
       question:'A liefert aus China direkt an C in Polen. B (Gabi) ist der Mittelsmann. Wer ist der Transporteur – B beauftragt die Spedition. Welche Lieferung ist die bewegte?',
-      context:'Grundregel § 3 Abs. 6 Satz 5 UStG: Die bewegte Lieferung ist die Lieferung, der der Transport zugeordnet wird.',
+      context:'Grundregel § 3 Abs. 6a S. 1 UStG: Die bewegte Lieferung ist die Lieferung, der der Transport zugeordnet wird.',
       choices:[
         {text:'Die Lieferung A→B ist die bewegte Lieferung, da A den Transport veranlasst', correct:false, feedback:'Nicht ganz. Wenn B (der Mittelsmann) den Transport beauftragt, kommt es auf die USt-ID an, die B gegenüber A verwendet.'},
         {text:'Die Lieferung B→C ist die bewegte Lieferung, weil B den Transport beauftragt und B gegenüber A mit einer deutschen USt-ID auftritt', correct:true, feedback:'Richtig! Wenn der mittlere Unternehmer (B) den Transport veranlasst und gegenüber seinem Lieferanten (A) mit der USt-ID des Abgangslandes auftritt, wird die Bewegung der Lieferung B→C zugeordnet. Die Lieferung A→B ist dann unbewegt – ruhende Lieferung im Abgangsland China.'},
@@ -1621,10 +1621,10 @@ const D_STORY = [
     {
       type:'choice',
       question:'B (Gabi) tritt gegenüber A mit einer POLNISCHEN USt-ID auf (statt der deutschen). Ändert sich dadurch die Zuordnung der bewegten Lieferung?',
-      context:'§ 3 Abs. 6 Satz 6 UStG: Besondere Regel wenn der Mittelsmann die USt-ID des Bestimmungslandes verwendet.',
+      context:'§ 3 Abs. 6a S. 2 UStG: Besondere Regel wenn der Mittelsmann die USt-ID des Bestimmungslandes verwendet.',
       choices:[
         {text:'Nein – die USt-ID ändert nichts an der physischen Warenbewegung', correct:false, feedback:'Die physische Bewegung bleibt gleich – aber die steuerliche Zuordnung ändert sich nach dem Gesetz.'},
-        {text:'Ja – die bewegte Lieferung wechselt zu A→B, da B mit polnischer USt-ID agiert (Bestimmungsland)', correct:true, feedback:'Richtig! § 3 Abs. 6 Satz 6 UStG: Verwendet der Mittelsmann die USt-ID des Bestimmungslandes, wird die Bewegung der Lieferung A→B zugeordnet. B→C ist dann die unbewegte Lieferung im Bestimmungsland Polen. Das hat erhebliche steuerliche Konsequenzen für A!'},
+        {text:'Ja – die bewegte Lieferung wechselt zu A→B, da B mit polnischer USt-ID agiert (Bestimmungsland)', correct:true, feedback:'Richtig! § 3 Abs. 6a S. 2 UStG: Verwendet der Mittelsmann die USt-ID des Bestimmungslandes, wird die Bewegung der Lieferung A→B zugeordnet. B→C ist dann die unbewegte Lieferung im Bestimmungsland Polen. Das hat erhebliche steuerliche Konsequenzen für A!'},
         {text:'Teilweise – nur die Mehrwertsteuer ändert sich, nicht die Zuordnung', correct:false, feedback:'Nein – es ändert sich die komplette steuerliche Zuordnung der bewegten vs. unbewegten Lieferung.'},
       ]
     },
@@ -1633,6 +1633,222 @@ const D_STORY = [
       title:'Dreiecksgeschäft als Vereinfachung',
       narrative:'Für den Fall A (EU-Land 1) → B (EU-Land 2) → C (EU-Land 3) gibt es die Vereinfachungsregelung § 25b UStG: B muss sich nicht im Land von C registrieren, wenn er C darüber informiert und die Steuer auf C überträgt. C schuldet dann die Erwerbsteuer. Das spart B eine aufwändige Auslandsregistrierung.',
       hint:'Prüfungsreihenfolge Reihengeschäft: (1) Wer transportiert? (2) Welche USt-ID verwendet der Mittelsmann? (3) Bewegte oder unbewegte Lieferung? (4) Leistungsort bestimmen.'
+    },
+  ]
+}
+
+
+,
+{
+  id:'doener',
+  icon:'🥙',
+  title:'Was steckt in 8 €?',
+  protagonist:'Jede Person die jemals einen Döner gekauft hat',
+  level:'Einstieg',
+  duration:'5 Min.',
+  color:'#c05800',
+  learned:['In jedem Preis steckt Mehrwertsteuer – meistens 19 %','Der Staat nimmt an jedem Kauf automatisch teil','Mehrwertsteuer zahlt immer der Endkäufer – unsichtbar im Preis','19 % bedeutet: von 100 € gehen ~16 € ans Finanzamt','Steuern finanzieren Schulen, Straßen, Feuerwehr, Krankenhäuser'],
+  scenes:[
+    {
+      type:'info',
+      title:'8,00 € – aber wem gehören sie wirklich?',
+      narrative:'Du kaufst einen Döner. 8,00 €. Du gibst dem Imbissbesitzer Ali einen 10-Euro-Schein, er gibt dir 2 Euro zurück.\n\nAber weißt du was? Einer sitzt unsichtbar mit am Tisch.\n\nDer Staat.',
+      hint:'Von jedem Einkauf in Deutschland bekommt der Staat automatisch einen Anteil. Das nennt sich Mehrwertsteuer oder Umsatzsteuer.'
+    },
+    {
+      type:'choice',
+      question:'Ali verkauft den Döner für 8,00 € brutto. Darin sind 19 % Mehrwertsteuer enthalten. Wie viel davon gehört dem Staat?',
+      context:'19 % Mehrwertsteuer ist in fast allen Preisen in Deutschland enthalten – unsichtbar, aber immer da.',
+      choices:[
+        {text:'0 € – der Preis gehört komplett Ali', correct:false, feedback:'Leider nein. Der Staat nimmt bei jedem Einkauf automatisch mit. Ali muss einen Teil abführen.'},
+        {text:'Ca. 1,28 € – das Finanzamt bekommt automatisch seinen Anteil', correct:true, feedback:'Genau! 8,00 € ÷ 1,19 × 0,19 = ca. 1,28 €. Das klingt wenig – aber bei 200 Döner pro Tag sind das 144 € täglich, die Ali ans Finanzamt überweist. Pro Jahr über 50.000 €!'},
+        {text:'Ca. 0,86 € – 19 % von 8,00 €', correct:false, feedback:'Fast! Aber 19 % VON 8,00 € wäre der Aufschlag – die Steuer ist bereits IM Preis enthalten (sog. Bruttobetrag). Die richtige Formel: 8,00 × 19/119 = 1,28 €.'},
+      ]
+    },
+    {
+      type:'info',
+      title:'Warte mal – ich zahle Steuern ohne es zu merken?',
+      narrative:'Ja. Genau das.\n\nJedes Mal wenn du etwas kaufst:\n🛍️ T-Shirt für 29,99 € → ~4,79 € Steuer\n📱 App für 0,99 € → ~0,16 € Steuer\n🎟️ Kinokarte 12 € → ~1,92 € Steuer\n\nDu hast noch nie einen Steuerzettel ausgefüllt. Und trotzdem zahlst du täglich Steuern.\n\nDas nennt sich indirekte Steuer – weil sie unsichtbar im Preis steckt.',
+      hint:'Indirekte Steuer = im Preis enthalten. Direkte Steuer = du zahlst direkt ans Finanzamt (z.B. Einkommensteuer auf dein Gehalt).'
+    },
+    {
+      type:'choice',
+      question:'Für welche Produkte gilt in Deutschland nur 7 % Mehrwertsteuer (ermäßigter Satz)?',
+      context:'Nicht alle Produkte haben 19 %. Der Staat hat für bestimmte Dinge einen niedrigeren Satz festgelegt.',
+      choices:[
+        {text:'Elektronik und Kleidung – weil die wichtig fürs Leben sind', correct:false, feedback:'Nein – Elektronik und Kleidung haben 19 %. Der ermäßigte Satz ist für andere Dinge gedacht.'},
+        {text:'Lebensmittel, Bücher und Zeitungen – Grundbedürfnisse sollen günstiger bleiben', correct:true, feedback:'Richtig! Brot, Gemüse, Bücher, Zeitungen: 7 %. Der Gedanke: Grundbedürfnisse sollen für alle bezahlbar bleiben. Deshalb zahlt man auf eine Zeitung weniger Steuer als auf einen Flachbildschirm.'},
+        {text:'Alles unter 10 € – kleine Beträge sind steuerfrei', correct:false, feedback:'Das wäre schön, aber es gibt keine Preisgrenze. Selbst für 0,10 € Kaugummi zahlt man 19 % Mehrwertsteuer.'},
+      ]
+    },
+    {
+      type:'info',
+      title:'Und wohin geht das Geld?',
+      narrative:'Stell dir vor: Alle 84 Millionen Menschen in Deutschland kaufen täglich Dinge. Die Mehrwertsteuer läuft zusammen zu über 300 Milliarden Euro pro Jahr.\n\nDavon werden bezahlt:\n🏫 Schulen und Lehrer\n🚒 Feuerwehr und Polizei  \n🏥 Krankenhäuser\n🛣️ Straßen und Brücken\n🚊 Bus und Bahn\n\nJedes Mal wenn du einen Döner kaufst, trägst du dazu bei. 0,72 € von dir. Multipliziert mit Millionen Menschen.\n\nSteuern sind nicht der Staat der dein Geld nimmt. Steuern sind dein Beitrag zu dem was wir alle zusammen nutzen.',
+      hint:'Deutschland nimmt ca. 947 Milliarden € Steuern pro Jahr ein. Das sind über 11.000 € pro Person – vom Neugeborenen bis zum Rentner gerechnet.'
+    },
+  ]
+},
+{
+  id:'lohnschock',
+  icon:'😱',
+  title:'Der Lohnschock',
+  protagonist:'Leon, 16 – sein allererstes Gehalt als Minijobber',
+  level:'Einstieg',
+  duration:'5 Min.',
+  color:'#0d5e2a',
+  learned:['Brutto ≠ Netto – vom Bruttogehalt werden Steuern und Sozialabgaben abgezogen','Minijob bis 556 €/Monat (2026): Arbeitnehmer zahlt keine Lohnsteuer','Sozialversicherung = Rente, Krankenversicherung, Pflege, Arbeitslosigkeit','Lohnsteuer ist eine Vorauszahlung auf die Einkommensteuer','Der Staat gibt vieles zurück: Bildung, Gesundheit, Sicherheit'],
+  scenes:[
+    {
+      type:'info',
+      title:'600 € – und dann?',
+      narrative:'Leon ist 16. Er jobbt seit 3 Wochen samstags in einer Bäckerei. Vereinbart: 12 € pro Stunde, jeden Samstag 8 Stunden. Das macht 96 € pro Woche, ungefähr 384 € im Monat.\n\nErste Gehaltsabrechnung kommt. Leon öffnet den Umschlag.\n\n„Hier stimmt was nicht."',
+      hint:'Das Gefühl kennen fast alle beim ersten Gehalt: Warum kommt weniger an als vereinbart?'
+    },
+    {
+      type:'choice',
+      question:'Leon hat eine Vereinbarung über ca. 384 € brutto. Auf dem Überweisungszettel steht 384,00 €. Er hat einen Minijob (unter 556 €/Monat). Was passiert mit dem Geld?',
+      context:'Ein Minijob ist eine besondere Beschäftigung – die Regeln sind anders als bei Vollzeit.',
+      choices:[
+        {text:'Er bekommt weniger – der Chef behält einen Teil als Steuer ein', correct:false, feedback:'Beim Minijob bis 556 € trägt der Arbeitgeber die pauschalen Abgaben (ca. 30 % auf den Bruttolohn). Leon selbst zahlt in der Regel keine Steuern vom Netto.'},
+        {text:'Er bekommt die vollen 384 € – beim Minijob zahlt der Arbeitnehmer keine Lohnsteuer', correct:true, feedback:'Richtig! Beim Minijob bis 556 € Monatsgrenze zahlt Leon keine Steuern. Sein Chef zahlt pauschal ca. 30 % (Kranken-, Rentenversicherung + Steuerpauschale) direkt ans Finanzamt. Leon merkt nichts davon. Sein Netto = Brutto.'},
+        {text:'Er bekommt 307 € – 20 % Steuer werden immer abgezogen', correct:false, feedback:'Das wäre bei einem normalen Arbeitsverhältnis möglich. Aber beim Minijob gelten Sonderregeln.'},
+      ]
+    },
+    {
+      type:'info',
+      title:'Was wäre wenn Leon 2.000 € verdienen würde?',
+      narrative:'Stell dir vor Leon wächst, macht seinen Abschluss und bekommt eine Ausbildungsstelle mit 1.200 € Brutto.\n\nJetzt sieht die Abrechnung anders aus:\n\n💰 Brutto: 1.200 €\n➖ Krankenversicherung: ~84 €\n➖ Rentenversicherung: ~112 €\n➖ Pflegeversicherung: ~20 €\n➖ Arbeitslosenversicherung: ~14 €\n➖ Lohnsteuer: ~0–50 € (je nach Klasse)\n\n✅ Netto: ~920–950 €\n\nFast ein Viertel bleibt weg. Wo geht das hin?',
+      hint:'Sozialversicherung ≠ Steuer. Krankenversicherung, Rente und Co. kommen zurück – als Arztbesuch, als Rente, als Arbeitslosengeld wenn du mal keine Stelle findest.'
+    },
+    {
+      type:'choice',
+      question:'Rentenversicherung: Leon zahlt jeden Monat seinen Anteil ein. Was bekommt er dafür?',
+      context:'Die gesetzliche Rente ist ein Solidarsystem – die Jungen zahlen für die Alten.',
+      choices:[
+        {text:'Nichts – das Geld ist weg und wird für aktuelle Rentner verwendet', correct:false, feedback:'Nicht ganz. Es stimmt dass das Geld für aktuelle Rentner verwendet wird (Umlageverfahren). Aber Leon sammelt Rentenpunkte – und wenn er in Rente geht, zahlen die dann arbeitenden Menschen für ihn.'},
+        {text:'Rentenpunkte – wenn Leon selbst in Rente geht, finanzieren jüngere Arbeitnehmer seine Rente', correct:true, feedback:'Genau! Das Solidarsystem: Die Jungen zahlen für die Alten. Wenn Leon in 50 Jahren Rentner ist, zahlt die dann arbeitende Generation für ihn. Deshalb ist es wichtig dass genug junge Menschen arbeiten und in die Kasse einzahlen.'},
+        {text:'Ein eigenes Rentenkonto bei der Bank das Zinsen bringt', correct:false, feedback:'Das wäre die private Rentenversicherung. Die gesetzliche Rente funktioniert anders – kein Sparkonto, sondern direkter Transfer von Jung zu Alt.'},
+      ]
+    },
+    {
+      type:'info',
+      title:'Der Deal mit dem Staat',
+      narrative:'Also hier ist der Deal:\n\nDu zahlst Steuern und Abgaben.\n\nDafür bekommst du:\n🏥 Krankenversicherung (Arztbesuch kostet dich fast nichts)\n👴 Rentenanspruch (wenn du alt bist)\n🎓 Kostenlose Schule und bezuschusstes Studium\n🚑 Notaufnahme ohne Vorkasse\n⚖️ Rechtssystem und Polizei\n\nKein perfektes System. Aber eines der besten der Welt.\n\nDas ist die Kurzzusammenfassung von Steuern und Sozialabgaben. Alles was danach kommt – Paragrafen, Steuererklärungen, Absetzbarkeit – ist nur die Detailarbeit.',
+      hint:'Deutschland gibt ca. 35 % des Bruttoinlandsprodukts für Sozialleistungen aus. Das ist einer der höchsten Werte weltweit.'
+    },
+  ]
+},
+{
+  id:'steuerwofuer',
+  icon:'🏗️',
+  title:'Wofür zahlen wir eigentlich?',
+  protagonist:'Eine Reise durch einen Tag in Deutschland',
+  level:'Einstieg',
+  duration:'4 Min.',
+  color:'#5c2db8',
+  learned:['Steuern finanzieren Dinge die wir täglich nutzen ohne es zu merken','Deutschland nimmt ca. 947 Milliarden € Steuern pro Jahr ein','Bildung, Gesundheit, Infrastruktur, Sicherheit – alles steuerfinanziert','Ohne Steuern müsste jeder Schul-, Straßen- und Feuerwehrnutzung separat zahlen','Steuern sind das Solidarsystem: alle zahlen ein, alle profitieren'],
+  scenes:[
+    {
+      type:'info',
+      title:'7:00 Uhr – du stehst auf',
+      narrative:'Dein Wecker klingelt. 7 Uhr morgens.\n\nDu weißt es nicht, aber in den nächsten 10 Minuten nutzt du schon Dinge die durch Steuern bezahlt wurden:\n\n💧 Wasser aus dem Hahn? Städtische Wasserversorgung.\n🚿 Dusche warm? Energienetz – teils reguliert, teils subventioniert.\n🪟 Straßenlicht draußen noch an? Steuerfinanziert.\n\nUnd du hast noch nicht mal gefrühstückt.',
+      hint:'Die meisten Dinge die wir täglich nutzen existieren weil alle gemeinsam einzahlen – durch Steuern.'
+    },
+    {
+      type:'choice',
+      question:'Du fährst mit dem Bus zur Schule. Das Ticket kostet 2,50 €. Der tatsächliche Kostenbetrieb des Busses pro Fahrgast liegt aber bei ca. 6–8 €. Wer zahlt die Differenz?',
+      context:'Öffentlicher Nahverkehr wäre ohne Subventionen für die meisten Menschen unerschwinglich.',
+      choices:[
+        {text:'Der Busfahrer zahlt die Differenz aus eigenem Gehalt', correct:false, feedback:'Der Busfahrer bekommt ein normales Gehalt. Die Differenz trägt nicht er.'},
+        {text:'Das Busunternehmen macht Verlust und schließt irgendwann', correct:false, feedback:'In der Praxis werden Busse und Bahnen staatlich subventioniert – sonst würde ein Ticket 8 € statt 2,50 € kosten.'},
+        {text:'Bund, Länder und Kommunen subventionieren den ÖPNV – mit Steuergeldern', correct:true, feedback:'Genau! Der öffentliche Nahverkehr wird massiv subventioniert. In Deutschland fließen ca. 17 Milliarden € Steuergelder pro Jahr in Bus und Bahn. Ohne Steuern: Ticket 8 €+. Deshalb ist das 9-Euro-Ticket oder das Deutschlandticket (49 €) nur durch Steuermittel möglich.'},
+      ]
+    },
+    {
+      type:'info',
+      title:'8:00 Uhr – du bist in der Schule',
+      narrative:'Dein Unterricht beginnt.\n\nDie Lehrerin vor dir verdient ca. 60.000 € pro Jahr (brutto, mit Erfahrung).\nDas Schulgebäude wurde für Millionen Euro gebaut.\nDie Heizung läuft. Internet ist da. Bücher hat der Staat bestellt.\n\nDu zahlst: 0 €.\n\nIn vielen Ländern der Welt ist das nicht selbstverständlich. In den USA zahlen Eltern für gute Schulen Tausende Dollar pro Jahr – oder die Schule ist schlechter.\n\nIn Deutschland: kostenlos. Finanziert durch Steuern.',
+      hint:'Bildungsausgaben in Deutschland: ca. 170 Milliarden € pro Jahr. Das entspricht ca. 2.000 € pro Schüler pro Jahr – bezahlt durch Steuergelder.'
+    },
+    {
+      type:'choice',
+      question:'Auf dem Schulweg siehst du einen Unfall. Die Feuerwehr kommt in 4 Minuten. Was hättest du ohne Steuern zahlen müssen?',
+      context:'In manchen US-Bundesstaaten ist Feuerwehr privat – und kommt nur wenn du bezahlt hast.',
+      choices:[
+        {text:'Nichts – Feuerwehr ist immer kostenlos, das ist ein Grundrecht', correct:false, feedback:'In Deutschland ja – aber das ist keine Naturgewalt, sondern das Ergebnis eines politischen Entscheids. Wir haben uns als Gesellschaft darauf geeinigt, Feuerwehr aus Steuern zu finanzieren.'},
+        {text:'Möglicherweise hunderte oder tausende Euro – in vielen Ländern gibt es kostenpflichtige Feuerwehr', correct:true, feedback:'Kein Scherz: In manchen US-Bundesstaaten gibt es private Feuerwehren. Wer nicht zahlt, schaut zu wie das Haus brennt. Das klingt absurd – aber es zeigt wie viel der Steuer-Solidarvertrag wert ist.'},
+        {text:'50 € Selbstbeteiligung wie bei der Krankenkasse', correct:false, feedback:'Das ist eine interessante Vorstellung, aber so funktioniert es in Deutschland (zum Glück) nicht.'},
+      ]
+    },
+    {
+      type:'info',
+      title:'Der Solidarvertrag',
+      narrative:'Steuern sind kein Raub.\nSteuern sind ein Vertrag.\n\nDer Vertrag lautet:\n„Wir alle zahlen ein bisschen ein – damit wir alle viel bekommen."\n\nDu fragst dich nicht ob der Richter der deinen Fall verhandelt heute gut gelaunt ist.\nDu fragst nicht ob die Feuerwehr heute Dienst hat.\nDu gibst deinen Kindern in die Schule ohne Prüfung ob sie die zahlen können.\n\nAll das ist der unsichtbare Wert von Steuern.\n\nUnd der erste Schritt um das System wirklich zu verstehen – und aktiv mitzugestalten – ist genau das: zu wissen wie es funktioniert.',
+      hint:'Jetzt weißt du wofür Steuern da sind. In den nächsten Stories lernst du wie sie berechnet werden – und wie du im System gut navigierst.'
+    },
+  ]
+}
+
+
+,
+{
+  id:'influencer',
+  icon:'📸',
+  title:'Gratis-Produkte, echter Stress',
+  protagonist:'Sofia, 19 – wächst als Lifestyle-Influencerin auf TikTok und Instagram',
+  level:'Einstieg',
+  duration:'6 Min.',
+  color:'#8b1a8b',
+  learned:['Gratis-Produkte von Unternehmen sind steuerpflichtiges Einkommen (§ 22 Nr. 3 EStG)','Sachzuwendungen werden mit dem Marktwert bewertet','Wer regelmäßig Geld verdient muss ein Gewerbe anmelden','Influencer zahlen Einkommensteuer + ggf. Gewerbesteuer + Umsatzsteuer','Belege aufbewahren: Kamera, Licht, Studio als Betriebsausgaben absetzbar'],
+  scenes:[
+    {
+      type:'info',
+      title:'Das Paket',
+      narrative:'Sofia öffnet ihr Postfach. Ein riesiges Paket von einer Kosmetikmarke. Serum, Parfüm, Lippenstifte – Gesamtwert laut Preisliste: 340 €.\n\nKommentar darunter von @steuerfee_official: „Nicht vergessen – das ist steuerpflichtiges Einkommen 😬"\n\nSofia lacht. Steuerpflichtiges Einkommen? Das ist doch nur ein Gratis-Paket?',
+      hint:'Wer Dinge im Wert von Geld erhält – egal ob als Zahlung oder als Produkt – hat in den Augen des Steuerrechts Einkommen erzielt.'
+    },
+    {
+      type:'choice',
+      question:'Sofia bekommt Produkte im Wert von 340 € kostenlos zugeschickt und postet darüber. Ist das steuerpflichtiges Einkommen?',
+      context:'Das Steuerrecht unterscheidet nicht zwischen Geld und Sachleistungen.',
+      choices:[
+        {text:'Nein – sie hat kein Geld bekommen, nur Produkte', correct:false, feedback:'Das Finanzamt sieht das anders. Sachzuwendungen (Produkte, Reisen, Tickets) zählen genauso wie Geld – bewertet mit dem Marktpreis. Sofia hat 340 € Einkommen erzielt, nur eben nicht in Euro sondern in Serum.'},
+        {text:'Ja – Sachzuwendungen sind steuerpflichtiges Einkommen (§ 22 Nr. 3 EStG), bewertet mit dem Marktpreis', correct:true, feedback:'Genau! § 22 Nr. 3 EStG: Einkünfte aus sonstigen Leistungen umfassen auch Sachzuwendungen. Das Finanzamt nimmt den Marktwert: 340 €. Wenn Sofia im Jahr mehr als 256 € an Produkten bekommt, muss sie das versteuern. Die Freigrenze ist schnell überschritten.'},
+        {text:'Nur wenn sie das Produkt in einem Sponsored Post kenntlich macht', correct:false, feedback:'Die Kennzeichnungspflicht (Werberecht) und die Steuerpflicht sind zwei verschiedene Dinge. Auch nicht gekennzeichnete Werbung bleibt steuerpflichtig – und umgekehrt ist auch gekennzeichnete Werbung selbstverständlich steuerpflichtig.'},
+      ]
+    },
+    {
+      type:'info',
+      title:'Das Jahr läuft gut',
+      narrative:'Sofia wächst. 180.000 Follower. Marken schicken mehr. Manchmal kommt auch Geld:\n\n📦 Produktpakete über das Jahr: ~4.200 € Marktwert\n💸 Paid Posts und Kooperationen: ~6.800 €\n✈️ Einladung zu einem Event in Mailand (Flug + Hotel bezahlt): ~900 €\n\nTotal: ~11.900 €\n\nSofia hat nie ein Formular ausgefüllt. Sie hat keinen Steuerberater. Sie weiß nicht einmal dass sie eins braucht.',
+      hint:'Viele Influencer wissen nicht: Wer mehr als 12.336 € pro Jahr (2026) verdient – inklusive Sachleistungen – muss Einkommensteuer zahlen und eine Steuererklärung abgeben.'
+    },
+    {
+      type:'choice',
+      question:'Sofia verdient 11.900 € (Geld + Sachleistungen). Sie hat kein Gewerbe angemeldet. Was riskiert sie?',
+      context:'Ab einem bestimmten Umfang wird Influencing als Gewerbetätigkeit eingestuft.',
+      choices:[
+        {text:'Gar nichts – unter 22.000 € gilt die Kleinunternehmerregelung', correct:false, feedback:'Die Kleinunternehmerregelung bezieht sich auf die Umsatzsteuer – nicht auf die Einkommensteuer. Sofia muss trotzdem Einkommensteuer zahlen, wenn ihr Einkommen über dem Grundfreibetrag liegt. Und das Gewerbe müsste angemeldet sein.'},
+        {text:'Steuernachzahlung + Verspätungszuschläge + mögliche Ordnungsstrafe wegen nicht angemeldetem Gewerbe', correct:true, feedback:'Richtig. Drei Probleme gleichzeitig: (1) Einkommensteuer war fällig aber nicht gezahlt → Nachzahlung + 5 % Verspätungszinsen. (2) Gewerbe nicht angemeldet → Bußgeld bis 1.000 €. (3) Keine Umsatzsteuer abgeführt wenn Umsatz > 25.000 €. Das Finanzamt entdeckt das oft über Instagram-Werbeanzeigen oder Banktransaktionen.'},
+        {text:'Sie muss nur die Produktpakete zurückschicken', correct:false, feedback:'Leider so einfach ist es nicht. Einmal erhaltene Leistungen können steuerlich nicht einfach „zurückgegeben" werden.'},
+      ]
+    },
+    {
+      type:'info',
+      title:'Was Sofia jetzt tut',
+      narrative:'Sofia googelt. Findet einen Steuerberater der auf Creator spezialisiert ist. Ein Gespräch später ist vieles klarer:\n\n✅ Gewerbeanmeldung beim Ordnungsamt (kostet ca. 20 €, dauert 15 Minuten)\n✅ Steuernummer beim Finanzamt beantragen\n✅ Belege sammeln: Kamera (1.200 €), Ringlicht (89 €), Schreibtisch (350 €), Adobe-Abo (240 €/Jahr) → alles Betriebsausgaben\n\nDas Wichtigste was sie lernt:\n„Ich muss nicht alles selber wissen. Ich muss nur wissen, dass ich es herausfinden muss."',
+      hint:'Betriebsausgaben senken den Gewinn – und damit die Steuer. Kamera, Equipment, Software, Handy (anteilig): alles kann abgesetzt werden. Gute Buchführung zahlt sich aus.'
+    },
+    {
+      type:'choice',
+      question:'Sofia kauft für 1.200 € eine neue Kamera – ausschließlich für ihre Creator-Arbeit. Wie wirkt sich das steuerlich aus?',
+      context:'Betriebsausgaben reduzieren den zu versteuernden Gewinn.',
+      choices:[
+        {text:'Gar nicht – private Käufe sind nicht absetzbar', correct:false, feedback:'Die Kamera ist nicht privat – sie ist ausschließlich für das Gewerbe. Betriebslich genutzte Gegenstände können abgesetzt werden.'},
+        {text:'Die 1.200 € mindern den Gewinn → Sofia zahlt Steuern nur auf 10.700 € statt 11.900 €', correct:true, feedback:'Genau! Betriebsausgaben (§ 4 Abs. 4 EStG) mindern den Gewinn. 11.900 € Einnahmen – 1.200 € Kamera = 10.700 € Gewinn. Dazu kommen weitere absetzbare Kosten: Software, Licht, Daten-Abo, anteiliger Handyvertrag. Der tatsächlich zu versteuernde Betrag kann deutlich sinken.'},
+        {text:'Sie bekommt 1.200 € vom Finanzamt zurück', correct:false, feedback:'Das wäre schön – aber das Finanzamt erstattet keine Ausgaben direkt. Betriebsausgaben mindern den Gewinn, und damit die Steuer. Bei 25 % Steuersatz spart sie ca. 300 € Steuern – nicht 1.200 €.'},
+      ]
     },
   ]
 }
@@ -2526,281 +2742,148 @@ function renderBasicsEinsteiger(a){
   const stepsDone = ['para1','story','quiz','mehr'].filter(k=>!!p[k]).length;
   const pct = Math.round(stepsDone/4*100);
 
+  // Stories for beginners (level: Einstieg)
+  const einstiegStories = (typeof D_STORY!=="undefined"?D_STORY:[]).filter(s=>s.level==='Einstieg');
+  const storiesHtml = einstiegStories.map(s=>{
+    const prog = storyProgress[s.id];
+    const done = prog&&prog.done;
+    const inProg = prog&&!prog.done&&(prog.scene||0)>0;
+    const btnLabel = done ? '↺ Nochmal' : inProg ? '▶ Weiterlesen' : '▶ Story starten';
+    const btnBg = done ? 'rgba(255,255,255,.15)' : 'rgba(255,255,255,.15)';
+    const firstScene = s.scenes&&s.scenes[0] ? s.scenes[0].title : '';
+    const hook = s.scenes&&s.scenes[0]&&s.scenes[0].narrative ? s.scenes[0].narrative.replace(/\\n/g,' ').substring(0,80)+'…' : '';
+    const doneBadge = done ? '<div style="position:absolute;top:10px;right:10px;background:rgba(0,201,123,.25);color:#00c97b;font-size:9px;font-weight:900;padding:2px 8px;border-radius:100px;border:1px solid rgba(0,201,123,.4)">✓ Fertig</div>' : inProg ? '<div style="position:absolute;top:10px;right:10px;background:rgba(255,217,74,.2);color:#c08000;font-size:9px;font-weight:900;padding:2px 8px;border-radius:100px;border:1px solid rgba(255,217,74,.35)">⏸ Läuft</div>' : '';
+    return `<div onclick="openStoryDirect('${s.id}')" style="background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:18px;overflow:hidden;cursor:pointer;transition:all .2s;position:relative" onmouseover="this.style.borderColor='${s.color}88';this.style.transform='translateY(-2px)';this.style.background='rgba(255,255,255,.09)'" onmouseout="this.style.borderColor='rgba(255,255,255,.1)';this.style.transform='';this.style.background='rgba(255,255,255,.06)'">
+      <div style="height:4px;background:${s.color};width:100%"></div>
+      ${doneBadge}
+      <div style="padding:14px 16px">
+        <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:8px">
+          <div style="font-size:36px;line-height:1;flex-shrink:0;margin-top:2px">${s.icon}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:15px;font-weight:900;color:#fff;margin-bottom:3px;line-height:1.25">${s.title}</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700;font-family:'Space Mono',monospace">⏱ ${s.duration}</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.55;margin-bottom:12px">${hook}</div>
+        <button onclick="event.stopPropagation();openStoryDirect('${s.id}')" style="width:100%;padding:10px;border-radius:10px;border:none;background:${s.color};color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">${btnLabel}</button>
+      </div>
+    </div>`;
+  }).join('');
+
   const stepDefs = [
     { icon:'⚖️', title:'Wer zahlt Steuern?', sub:'Interaktive Fälle · ~5 Min.', desc:'4 Personen – steuerpflichtig oder nicht?', done:!!p.para1,  fn:'einstGoStep1', color:'#1a3a8f' },
     { icon:'📄', title:'Lenas Lohnzettel',   sub:'Story · ~8 Min.',             desc:'850 € brutto – was bleibt netto?',       done:!!(storyProgress['lohnzettel']&&storyProgress['lohnzettel'].done), fn:'einstGoStep2', color:'#005c36' },
     { icon:'🎯', title:'ESt-Quiz',           sub:'Quiz · ~5 Min.',              desc:'Teste dein neues Wissen!',               done:!!p.quiz,   fn:'einstGoStep3', color:'#3d0a6b' },
     { icon:'💡', title:'Was kann ich absetzen?', sub:'Übersicht · ~4 Min.',      desc:'Fahrtkosten, Laptop, Spenden & mehr',    done:!!p.mehr, fn:'einstGoStep4', color:'#8a4000' }
   ];
-
-  // Build step cards (new visual design)
   const stepCards = stepDefs.map((s,i)=>{
-    const isNext = !s.done && stepDefs.slice(0,i).every(x=>x.done);
-    const locked = !s.done && !isNext;
-    const borderColor = s.done ? 'rgba(0,201,123,.5)' : isNext ? 'var(--cyan)' : 'rgba(255,255,255,.1)';
-    const bg = s.done ? 'rgba(0,201,123,.08)' : isNext ? 'rgba(0,194,224,.08)' : 'rgba(255,255,255,.03)';
-    const opacity = locked ? 'opacity:.5;' : '';
-    const glow = isNext ? 'box-shadow:0 0 20px rgba(0,194,224,.2);' : '';
-    return '<div onclick="'+s.fn+'()" style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;border:2px solid '+borderColor+';background:'+bg+';cursor:pointer;transition:all .2s;'+opacity+glow+'" '
-      +(locked?'':'onmouseover="this.style.transform=\'translateY(-2px)\'" onmouseout="this.style.transform=\'\'"')+'>'
-      +'<div style="width:40px;height:40px;border-radius:12px;background:'+(s.done?'var(--green)':isNext?'var(--cyan)':'rgba(255,255,255,.1)')+';display:flex;align-items:center;justify-content:center;font-size:'+(s.done?'18px':'20px')+';flex-shrink:0;color:'+(s.done||isNext?'#fff':'rgba(255,255,255,.3)')+';">'+(s.done?'✓':s.icon)+'</div>'
-      +'<div class="u-flex-min">'
-        +'<div style="font-size:13px;font-weight:900;color:'+(locked?'rgba(255,255,255,.4)':'#fff')+';line-height:1.2">'+s.title+'</div>'
-        +'<div class="u-meta">'+s.desc+'</div>'
-      +'</div>'
-      +'<div style="font-size:10px;font-family:\'Space Mono\',monospace;color:rgba(255,255,255,.3);font-weight:700;flex-shrink:0">'+s.sub.split('·')[1]+'</div>'
-      +(isNext?'<div style="font-size:14px;color:var(--cyan);flex-shrink:0">▶</div>':'')
-    +'</div>';
-  }).join('');
-
-  // Old timeline still needed for JS references
-  const tlSteps = stepDefs.map((s,i)=>{
-    const isNext = !s.done && stepDefs.slice(0,i).every(x=>x.done);
-    return '<div class="tl-step'+(s.done?' done':isNext?' next':'')+'" onclick="'+s.fn+'()" title="'+s.title+'">'
-      +'<div class="tl-node">'+(s.done?'✓':(isNext?s.icon:(i+1)))+'</div>'
-      +'<div class="tl-label">'+s.title+'</div>'
-      +'</div>'
-      +(i<3?'<div class="tl-line'+(s.done?' done':'')+'"></div>':'');
-  }).join('');
-
-  // Stories HTML
-  const storiesHtml = (typeof D_STORY!=="undefined"?D_STORY:[]).map(s=>{
-    const prog = storyProgress[s.id];
-    const done = prog&&prog.done;
-    return '<div class="story-card'+(done?' done':'')+'" onclick="openStoryDirect(\''+s.id+'\')">'
-      +'<div class="sc-top"><div class="sc-emoji">'+s.icon+'</div><div class="sc-info"><div class="sc-title">'+s.title+'</div><div class="sc-sub">'+s.protagonist+'</div></div>'
-      +(done?'<span style="font-size:11px;color:var(--green);font-weight:900">✓</span>':'')
-      +'</div></div>';
-      +'<div class="sc-top"><div class="sc-emoji">'+s.icon+'</div><div class="sc-info"><div class="sc-title">'+s.title+'</div><div class="sc-sub">'+s.protagonist+'</div></div>'
-      +(done?'<span style="font-size:11px;color:var(--green);font-weight:900">✓</span>':'')
-      +'</div></div>';
+    const num = i+1;
+    const active = !s.done && stepDefs.slice(0,i).every(x=>x.done);
+    const locked = !s.done && !active;
+    const bg = s.done ? 'rgba(0,201,123,.18)' : active ? `${s.color}55` : 'rgba(255,255,255,.04)';
+    const border = s.done ? 'rgba(0,201,123,.4)' : active ? `${s.color}99` : 'rgba(255,255,255,.08)';
+    const opacity = locked ? '0.45' : '1';
+    return `<div onclick="${locked?'':s.fn+'()'}" style="background:${bg};border:1.5px solid ${border};border-radius:14px;padding:13px 14px;cursor:${locked?'default':'pointer'};transition:all .2s;opacity:${opacity};display:flex;align-items:center;gap:12px" ${locked?'':''}>
+      <div style="width:30px;height:30px;border-radius:50%;background:${s.done?'#00c97b':active?s.color:'rgba(255,255,255,.15)'};display:flex;align-items:center;justify-content:center;font-size:${s.done?'14px':'13px'};flex-shrink:0;font-weight:900;color:#fff">${s.done?'✓':num}</div>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:900;color:${locked?'rgba(255,255,255,.4)':'#fff'}">${s.title}</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700;font-family:'Space Mono',monospace">${s.sub}</div>
+      </div>
+      ${active ? '<div style="font-size:11px;background:rgba(255,255,255,.15);color:#fff;padding:3px 9px;border-radius:100px;font-weight:800;flex-shrink:0">Starten →</div>' : ''}
+      ${s.done ? '<div style="font-size:11px;color:#00c97b;font-weight:900;flex-shrink:0">✓</div>' : ''}
+    </div>`;
   }).join('');
 
   a.innerHTML = `<div class="basics">
 
-<!-- LERNPFAD HERO – ganz oben -->
-<div id="spot-lernpfad" style="background:linear-gradient(160deg,#06142e,#0d2b5e 50%,#0a3a2a);border-radius:20px;padding:20px 18px;margin-bottom:16px;position:relative;overflow:hidden">
-  <div style="position:absolute;right:-20px;bottom:-20px;font-size:120px;opacity:.04;line-height:1">🎯</div>
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-    <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase">📍 Dein Weg ins Steuerrecht</div>
-    <div style="display:flex;gap:6px">
-      <button onclick="localStorage.removeItem(SPOT_KEY);spotStart()" title="Tour nochmal" style="background:rgba(0,194,224,.1);border:1px solid rgba(0,194,224,.25);color:var(--cyan);border-radius:6px;padding:2px 9px;font-size:9px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer">🔍 Tour</button>
-      <button onclick="resetEinstProgress()" title="Fortschritt zurücksetzen" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.3);border-radius:6px;padding:2px 7px;font-size:9px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer">↺</button>
+<!-- HERO: Schock-Hook -->
+<div style="background:linear-gradient(145deg,#0a1628,#0d2b5e 60%,#1a0a5e);border-radius:22px;padding:22px 18px 20px;margin-bottom:14px;position:relative;overflow:hidden">
+  <div style="position:absolute;right:-15px;top:-15px;font-size:100px;opacity:.05;line-height:1;transform:rotate(15deg)">🧾</div>
+
+  <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:10px">📍 Willkommen im Steuerrecht</div>
+
+  <div style="font-size:21px;font-weight:900;color:#fff;line-height:1.25;margin-bottom:8px">Du zahlst täglich Steuern –<br>ohne es zu merken 🤯</div>
+
+  <div style="font-size:12px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.6;margin-bottom:16px">Vom Döner bis zum Konzertticket: Überall steckt Steuer drin. Lerne in 20 Minuten was das bedeutet – und was du damit machst.</div>
+
+  <!-- Shock stats row -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px">
+    <div style="background:rgba(255,255,255,.08);border-radius:12px;padding:10px 8px;text-align:center">
+      <div style="font-size:18px;font-weight:900;color:var(--cyan);font-family:'Space Mono',monospace">1,28€</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.45);font-weight:700;margin-top:2px">Steuer im Döner</div>
+    </div>
+    <div style="background:rgba(255,255,255,.08);border-radius:12px;padding:10px 8px;text-align:center">
+      <div style="font-size:18px;font-weight:900;color:#ffd94a;font-family:'Space Mono',monospace">19%</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.45);font-weight:700;margin-top:2px">auf fast alles</div>
+    </div>
+    <div style="background:rgba(255,255,255,.08);border-radius:12px;padding:10px 8px;text-align:center">
+      <div style="font-size:16px;font-weight:900;color:#00c97b;font-family:'Space Mono',monospace">947Mrd</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.45);font-weight:700;margin-top:2px">€ pro Jahr DE</div>
     </div>
   </div>
-  <div style="font-size:18px;font-weight:900;color:#fff;line-height:1.2;margin-bottom:4px">4 Schritte zum Steuerprofi</div>
-  <div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:700;margin-bottom:14px">${stepsDone}/4 erledigt · ca. 22 Minuten gesamt</div>
-  <div style="height:6px;background:rgba(255,255,255,.1);border-radius:100px;margin-bottom:16px;overflow:hidden">
-    <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,var(--cyan),var(--green));border-radius:100px;transition:width .6s ease"></div>
+
+  <!-- Progress bar -->
+  ${pct > 0 ? `<div style="margin-bottom:10px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
+      <span style="font-size:10px;color:rgba(255,255,255,.45);font-weight:700">Dein Fortschritt</span>
+      <span style="font-size:10px;color:var(--cyan);font-weight:900;font-family:'Space Mono',monospace">${stepsDone}/4 Schritte</span>
+    </div>
+    <div style="height:5px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden">
+      <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,var(--cyan),#00c97b);border-radius:100px;transition:width .6s ease"></div>
+    </div>
+  </div>` : ''}
+
+  <div style="display:flex;gap:8px">
+    <button onclick="einstGoStep1()" style="flex:1;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer;transition:all .2s">
+      ${pct > 0 ? '▶ Weiter lernen' : '🚀 Jetzt starten'}
+    </button>
+    ${pct > 0 ? '<button onclick="resetEinstProgress()" style="padding:13px 14px;border-radius:13px;border:1.5px solid rgba(255,255,255,.12);background:transparent;color:rgba(255,255,255,.35);font-family:\'Nunito\',sans-serif;font-weight:800;font-size:12px;cursor:pointer">↺</button>' : ''}
   </div>
+</div>
+
+<!-- STORIES: Primärer Inhalt -->
+<div style="margin-bottom:14px">
+  <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">📖 Steuer-Stories – lerne durch echte Situationen</div>
+  <div style="display:flex;flex-direction:column;gap:8px">
+    ${storiesHtml}
+  </div>
+</div>
+
+<!-- LERNPFAD: Steps -->
+<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:16px;margin-bottom:14px">
+  <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px">🎯 Lernpfad – 4 Schritte</div>
   <div style="display:flex;flex-direction:column;gap:8px">
     ${stepCards}
   </div>
 </div>
 
-<!-- SCHRITT 1: Wer zahlt Steuern? (aufklappbar) -->
-<div id="spot-szenarien" class="einst-sec" style="margin-bottom:8px">
-  <button class="einst-sec-toggle" onclick="toggleSec('spot-szenarien')">
-    <div class="bsec">⚖️ Schritt 1 · Wer muss Steuern zahlen?${p.para1?' <span style=color:var(--green);font-size:11px>✓ erledigt</span>':''}</div>
-    <span class="einst-sec-chevron">›</span>
-  </button>
-  <div class="einst-sec-body">
-    <div style="background:linear-gradient(135deg,#06142e,#0d2b5e,#1a3a8f);border-radius:16px;padding:16px 14px;margin-bottom:10px">
-      <div style="font-size:12px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.6">Tippe bei jedem Fall: Steuerpflichtig – <b style="color:#fff">Ja</b> oder <b style="color:#fff">Nein</b>? Die Antworten überraschen!</div>
-    </div>
-    <div id="einst-content">${renderPara1Block()}</div>
+<!-- QUICK QUIZ: Teaser -->
+<div onclick="einstGoStep3()" style="background:linear-gradient(135deg,#1a0a5e,#3d0a6b);border:1.5px solid rgba(139,92,246,.3);border-radius:16px;padding:15px;cursor:pointer;display:flex;align-items:center;gap:14px;margin-bottom:14px;transition:all .2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+  <div style="font-size:32px">⚡</div>
+  <div>
+    <div style="font-size:14px;font-weight:900;color:#fff;margin-bottom:2px">Schnell-Quiz: Was weißt du schon?</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:700">5 Fragen · 3 Minuten · sofort Ergebnis</div>
   </div>
+  <div style="margin-left:auto;font-size:20px;color:rgba(255,255,255,.25)">›</div>
 </div>
 
-<!-- SCHRITT 2+3: Quick-Links -->
-<div id="spot-einkunft" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
-  <div onclick="einstGoStep2()" style="background:linear-gradient(135deg,#003d1a,#005c36);border:2px solid rgba(0,201,123,.3);border-radius:16px;padding:14px;cursor:pointer;transition:all .2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
-    <div style="font-size:22px;margin-bottom:6px">📄</div>
-    <div style="font-size:12px;font-weight:900;color:#fff">Schritt 2</div>
-    <div style="font-size:11px;color:rgba(255,255,255,.55);font-weight:700">Lenas Lohnzettel</div>
-    ${storyProgress['lohnzettel']&&storyProgress['lohnzettel'].done?'<div style="font-size:10px;color:var(--green);font-weight:900;margin-top:4px">✓ erledigt</div>':'<div style="font-size:10px;color:var(--cyan);font-weight:700;margin-top:4px">~8 Min. ▶</div>'}
+<!-- CAREER TEASER -->
+<div onclick="sw('karriere')" style="background:linear-gradient(135deg,rgba(0,80,40,.6),rgba(0,150,80,.3));border:1.5px solid rgba(0,201,123,.25);border-radius:16px;padding:15px;cursor:pointer;display:flex;align-items:center;gap:14px;margin-bottom:90px;transition:all .2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+  <div style="font-size:32px">🎓</div>
+  <div>
+    <div style="font-size:14px;font-weight:900;color:#fff;margin-bottom:2px">Karriere bei der Finanzverwaltung?</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:700">Ausbildung · Studium · Bewerbung · Karriere-Test</div>
   </div>
-  <div onclick="einstGoStep3()" style="background:linear-gradient(135deg,#1a0530,#3d0a6b);border:2px solid rgba(139,92,246,.3);border-radius:16px;padding:14px;cursor:pointer;transition:all .2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
-    <div style="font-size:22px;margin-bottom:6px">🎯</div>
-    <div style="font-size:12px;font-weight:900;color:#fff">Schritt 3</div>
-    <div style="font-size:11px;color:rgba(255,255,255,.55);font-weight:700">ESt-Quiz</div>
-    ${p.quiz?'<div style="font-size:10px;color:var(--green);font-weight:900;margin-top:4px">✓ erledigt</div>':'<div style="font-size:10px;color:var(--cyan);font-weight:700;margin-top:4px">~5 Min. ▶</div>'}
-  </div>
+  <div style="margin-left:auto;font-size:20px;color:rgba(255,255,255,.25)">›</div>
 </div>
 
-<!-- WISSEN VERTIEFEN (alles zugeklappt) -->
-<div class="bsec" style="margin-top:14px;margin-bottom:8px">📚 Wissen vertiefen</div>
-
-<div class="einst-sec" id="sec-einkunft-wrap" style="margin-bottom:4px">
-  <button class="einst-sec-toggle" onclick="toggleSec('sec-einkunft-wrap')">
-    <div class="bsec" style="font-size:12px">📊 Die 7 Einkunftsarten</div>
-    <span class="einst-sec-chevron">›</span>
-  </button>
-  <div class="einst-sec-body">
-    <div style="background:#fff;border-radius:14px;border:2px solid #dde5f5;padding:14px;margin-bottom:4px">
-      <div style="font-size:11px;font-weight:700;color:#666;margin-bottom:10px">Diese Einnahmen unterliegen der Einkommensteuer. Lottogewinn & Erbschaft zählen <b>nicht</b> dazu!</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
-        <div style="background:#eef3ff;border-radius:9px;padding:8px 9px;border:1px solid #c0d4ff"><div class="u-fs-sm-mb">💼</div><div style="font-size:10px;font-weight:900;color:#1a3a8f">Nichtselbst. Arbeit</div><div class="u-mono-sm">§ 19 EStG</div></div>
-        <div style="background:#e8fff4;border-radius:9px;padding:8px 9px;border:1px solid #b7f5dc"><div class="u-fs-sm-mb">🏭</div><div style="font-size:10px;font-weight:900;color:#005c36">Gewerbebetrieb</div><div class="u-mono-sm">§ 15 EStG</div></div>
-        <div style="background:#fef9e7;border-radius:9px;padding:8px 9px;border:1px solid #ffd6a0"><div class="u-fs-sm-mb">✏️</div><div style="font-size:10px;font-weight:900;color:#8a4000">Selbst. Arbeit</div><div class="u-mono-sm">§ 18 EStG</div></div>
-        <div style="background:#f5f0ff;border-radius:9px;padding:8px 9px;border:1px solid #d4b8ff"><div class="u-fs-sm-mb">🏠</div><div style="font-size:10px;font-weight:900;color:#5c2d91">V&V</div><div class="u-mono-sm">§ 21 EStG</div></div>
-        <div style="background:#e3f8ff;border-radius:9px;padding:8px 9px;border:1px solid #9be6ff"><div class="u-fs-sm-mb">💹</div><div style="font-size:10px;font-weight:900;color:#006080">Kapitalvermögen</div><div class="u-mono-sm">§ 20 EStG</div></div>
-        <div style="background:#f0ffe8;border-radius:9px;padding:8px 9px;border:1px solid #c8f0a0"><div class="u-fs-sm-mb">🌾</div><div style="font-size:10px;font-weight:900;color:#2a5c00">Land & Forst</div><div class="u-mono-sm">§ 13 EStG</div></div>
-      </div>
-      <div style="margin-top:8px;font-size:9px;font-weight:700;color:#e55;background:#fff5f5;border-radius:6px;padding:6px 8px;border:1px solid #ffd0d0">🎰 Lottogewinn · 💰 Erbschaft → <b>keine Einkunftsart</b></div>
-    </div>
-  </div>
-</div>
-
-<div class="einst-sec" id="sec-absetzen" style="margin-bottom:4px">
-<button class="einst-sec-toggle" onclick="toggleSec('sec-absetzen');if(!getEinstProgress().mehr)setTimeout(function(){setEinstStep('mehr')},3000)">
-  <div class="bsec" style="font-size:12px">💡 Schritt 4 · Was kann ich absetzen?${p.mehr?' <span style=color:var(--green);font-size:11px>✓</span>':''}</div>
-  <span class="einst-sec-chevron">›</span>
-</button>
-<div class="einst-sec-body">
-<div style="font-size:11px;color:#999;font-weight:700;margin-bottom:12px">Tippe auf eine Kachel für alle Details.</div>
-<div class="bsec" style="font-size:11px">💼 Werbungskosten</div>
-<div style="font-size:10px;color:#999;font-weight:700;margin-bottom:8px">§ 9 EStG · Kosten rund um deinen Job</div>
-<div class="absetz-grid">
-  ${absetzTile('fahrt','🚗','Fahrtkosten','§ 9 Abs. 1 Nr. 4','<b>Pendlerpauschale:</b> 0,38 €/km × einfache Strecke × Arbeitstage (2026).<br><br>Gilt für jedes Verkehrsmittel. Nur die einfache Strecke (nicht hin und zurück!).<br><br><b>Beispiel:</b> 20 km × 0,38 € × 220 Tage = <b>1.672 €</b> – bereits über der Pauschale von 1.230 €.<br><br>Unfallkosten auf dem Arbeitsweg ebenfalls absetzbar (§ 9 Abs. 1 Nr. 4 S. 5).')}
-  ${absetzTile('buecher','📚','Fachbücher & Fortbildung','§ 9 Abs. 1 Nr. 6','Fachliteratur, Kurse und Seminare mit <b>beruflichem Bezug</b> sind vollständig absetzbar.<br><br>Allgemeinbildende Kurse ohne Berufsbezug fallen nicht darunter. <b>Fortbildung ≠ Ausbildung</b> – Erstausbildungskosten sind nur Sonderausgaben bis 6.000 €.<br><br>Belege aufheben – der volle Betrag ist abzugsfähig.')}
-  ${absetzTile('homeoffice','🏠','Homeoffice','§ 4 Abs. 5 Nr. 6b','<b>6 €/Tag</b> Homeoffice-Pauschale, max. 210 Tage = <b>1.260 €/Jahr</b> (seit 2023).<br><br>Kein separates Arbeitszimmer nötig – gilt auch am Küchentisch.<br><br><b>Echtes Arbeitszimmer</b> (separater Raum, ausschließlich beruflich, kein anderer Arbeitsplatz): anteilige Raumkosten vollständig absetzbar.')}
-  ${absetzTile('arbeitsmittel','🖥️','Arbeitsmittel','§ 9 Abs. 1 Nr. 6','Laptop, Drucker, Headset, Bürostuhl – wenn <b>überwiegend beruflich genutzt (&gt; 90 %)</b>.<br><br><b>Bis 952 € netto (GWG-Grenze):</b> Sofortabzug im Kaufjahr.<br><b>Über 952 € netto:</b> Abschreibung über Nutzungsdauer (Laptop: 3 Jahre).')}
-</div>
-<div class="bsec" style="font-size:11px;margin-top:12px">🏦 Sonderausgaben</div>
-<div style="font-size:10px;color:#999;font-weight:700;margin-bottom:8px">§ 10 EStG · Persönliche Ausgaben</div>
-<div class="absetz-grid">
-  ${absetzTile('kv','🏥','Kranken- & Pflegeversicherung','§ 10 Abs. 1 Nr. 3','<b>Vollständig absetzbar</b> – Beiträge zur gesetzlichen KV + PV für Basisschutz.<br><br>Arbeitnehmer: eigener Anteil (~8,4 % KV + 1,8 % PV) gilt automatisch. Bei PKV: Belege einreichen.<br><br><b>Wichtig:</b> Beitragsrückerstattungen der Kasse mindern den abzugsfähigen Betrag im Erstattungsjahr.')}
-  ${absetzTile('spenden','💛','Spenden & Kirchensteuer','§ 10b EStG','<b>Spenden:</b> bis 20 % des Gesamtbetrags der Einkünfte absetzbar. Überschuss → Vortrag ins Folgejahr.<br><b>Kirchensteuer:</b> vollständig absetzbar – erscheint auf der Lohnabrechnung.<br><br>Nachweis: Zuwendungsbestätigung (bis 300 € genügt Kontoauszug).')}
-  ${absetzTile('ausbildung','🎓','Ausbildungskosten','§ 10 Abs. 1 Nr. 7','<b>Erststudium/Erstausbildung:</b> bis 6.000 €/Jahr als Sonderausgaben.<br><b>Zweitstudium/Fortbildung:</b> unbegrenzt als Werbungskosten (§ 9 EStG).<br><br><b>Tipp:</b> Im Erststudium unter Grundfreibetrag? Verlustfeststellung (§ 10d EStG) für Verrechnung mit späteren Einkünften beantragen!')}
-</div>
-<div class="bsec" style="font-size:11px;margin-top:12px">🏥 Außergewöhnliche Belastungen</div>
-<div style="font-size:10px;color:#999;font-weight:700;margin-bottom:8px">§ 33 EStG · Unvermeidliche Kosten</div>
-<div class="absetz-grid">
-  ${absetzTile('arzt','💊','Arzt & Medikamente','§ 33 EStG','Krankheitskosten, die nicht von der Kasse erstattet wurden (z.B. Zuzahlungen, Sehhilfen).<br><br><b>Wichtig: Zumutbare Eigenbelastung!</b> Je nach Einkommen und Familienstand werden 1–7 % des Gesamtbetrags der Einkünfte abgezogen – nur der darüber liegende Betrag ist absetzbar.<br><br>Nachweis: Ärztliche Verordnung oder Kassenbon aufbewahren.')}
-  ${absetzTile('pflege','👵','Pflegekosten','§ 33 EStG','Kosten für die Pflege eines nahen Angehörigen (oder eigene Pflege) – nach Abzug der zumutbaren Eigenbelastung absetzbar.<br><br>Ambulante Pflege zu Hause: Nachweise über Pflegegrad und Ausgaben. Heimunterbringung: Anteilig nach Heimkostenaufteilung.<br><br>Alternativ: Pflegepauschbetrag (§ 33b EStG) wenn keine Vergütung für Pflege erhalten.')}
-</div>
-</div>
-</div>
-
-<!-- WAS SIND STEUERN (CLOSED) -->
-<div class="einst-sec" id="sec-steuern">
-<button class="einst-sec-toggle" onclick="toggleSec('sec-steuern')">
-  <div class="bsec">🏛️ Was sind Steuern eigentlich?</div>
-  <span class="einst-sec-chevron">›</span>
-</button>
-<div class="einst-sec-body">
-<div class="intro-box">
-  <div class="intro-box-title">Die gesetzliche Definition</div>
-  <div class="intro-box-text">Steuern sind <b>Geldleistungen ohne Anspruch auf Gegenleistung</b> (§ 3 Abs. 1 AO). Du bekommst kein direktes Äquivalent – stattdessen finanzieren Steuern Schulen, Straßen, Krankenhäuser und Polizei. Alle profitieren, niemand hat einen Direktanspruch.</div>
-</div>
-<div class="intro-box">
-  <div class="intro-box-title">Steuern vs. Gebühren vs. Beiträge</div>
-  <div class="intro-box-text"><b>Steuer:</b> Keine Gegenleistung (Einkommensteuer).<br><b>Gebühr:</b> Direkte Gegenleistung (Personalausweis, Müllabfuhr).<br><b>Beitrag:</b> Mögliche Gegenleistung (GEZ, Sozialversicherung).</div>
-</div>
-</div>
-</div>
-
-<!-- STEUERAUFKOMMEN (CLOSED) -->
-<div class="einst-sec" id="sec-aufkommen">
-<button class="einst-sec-toggle" onclick="toggleSec('sec-aufkommen')">
-  <div class="bsec">📊 Steueraufkommen – Wie viel nimmt Deutschland ein?</div>
-  <span class="einst-sec-chevron">›</span>
-</button>
-<div class="einst-sec-body">
-<div id="aufk-game-container"></div>
-</div>
-</div>
-
-<!-- FINANZAMT (CLOSED) -->
-<div class="einst-sec" id="sec-finanzamt">
-<button class="einst-sec-toggle" onclick="toggleSec('sec-finanzamt')">
-  <div class="bsec">🏢 Das Finanzamt – wer steckt dahinter?</div>
-  <span class="einst-sec-chevron">›</span>
-</button>
-<div class="einst-sec-body">
-<div class="intro-box">
-  <div class="intro-box-title">Organisation der Finanzverwaltung</div>
-  <div class="intro-box-text">Deutschland hat rund <b>650 Finanzämter</b> in den 16 Bundesländern. Zuständig nach Wohnsitz (§ 19 AO). Die Finanzämter verwalten ESt, USt, KSt – aber nicht die Gewerbesteuer (die kassieren die Gemeinden).</div>
-</div>
-<div class="intro-box">
-  <div class="intro-box-title">Was macht das Finanzamt?</div>
-  <div class="intro-box-text">Steuererklärungen bearbeiten, Steuerbescheide erlassen, Außenprüfungen (§ 193 AO) durchführen, Mahnungen versenden und Vollstreckungen einleiten (§ 249 AO). Alle Entscheidungen sind durch <b>Einspruch (§ 347 AO)</b> anfechtbar.</div>
-</div>
-</div>
-</div>
-
-<!-- KURIOSES (CLOSED) -->
-<div class="einst-sec" id="sec-kurioses">
-<button class="einst-sec-toggle" onclick="toggleSec('sec-kurioses')">
-  <div class="bsec">🤯 Wusstest du schon?</div>
-  <span class="einst-sec-chevron">›</span>
-</button>
-<div class="einst-sec-body">
-<div style="font-size:11px;color:#999;font-weight:700;margin-bottom:10px">Steuern haben überraschende Seiten.</div>
-<div class="kurios-mini-strip">
-  <div class="kms-card"><div class="kms-emoji">🍾</div><div class="kms-body"><div class="kms-title">Die Sektsteuer gibt es seit 1902 – wegen einer Kriegsflotte</div><div class="kms-text">Kaiser Wilhelm II. wollte Schlachtschiffe finanzieren. Die Flotte ist Geschichte – die Steuer kassiert bis heute <b>1,02 €</b> pro Flasche.</div><div class="kms-tag">§ 1 SchaumwStG</div></div></div>
-  <div class="kms-card"><div class="kms-emoji">☕</div><div class="kms-body"><div class="kms-title">Cappuccino: 7 % oder 19 % – je nach Bestuhlung</div><div class="kms-text">Zum Mitnehmen: <b>7 %</b>. Am Tisch sitzen: <b>19 %</b>. Das Besteck gilt als steuerliche Dienstleistung.</div><div class="kms-tag">§ 12 UStG</div></div></div>
-  <div class="kms-card"><div class="kms-emoji">🐕</div><div class="kms-body"><div class="kms-title">Hunde werden besteuert – Katzen nicht</div><div class="kms-text">~16,7 Mio. Katzen, ~10,6 Mio. Hunde. Nur Hundesteuer: 50–200 €/Jahr. Gemeinden nehmen damit 350+ Mio. € ein.</div><div class="kms-tag">Kommunalsteuer</div></div></div>
-</div>
-<div class="kurios-bridge" style="margin-bottom:4px">
-  <span class="kb-icon">🤯</span><div class="kb-title">Noch mehr Kurioses!</div>
-  <div class="kb-sub">Im Kurioses-Quiz warten 20+ weitere Steuer-Absurditäten.</div>
-  <button class="kb-btn" onclick="sw('kurios')">Kurioses Quiz starten →</button>
-</div>
-</div>
-</div>
-
-<!-- MYTHEN -->
-<div class="einst-sec" id="sec-mythen">
-<button class="einst-sec-toggle" onclick="toggleSec('sec-mythen')">
-  <div class="bsec">🚫 Steuer-Mythen</div>
-  <span class="einst-sec-chevron">›</span>
-</button>
-<div class="einst-sec-body">
-<div style="font-size:11px;color:#999;font-weight:700;margin-bottom:10px">Klappe auf – stimmt das wirklich?</div>
-<div class="mythen-list">
-  <details class="mythos-card"><summary class="mythos-summary"><span class="mythos-badge">Mythos</span><span class="mythos-claim">„Eine Gehaltserhöhung lohnt sich nicht – man zahlt mehr Steuern als man bekommt."</span><span class="mythos-chevron">›</span></summary><div class="mythos-body"><div class="mythos-verdict"><span class="mythos-verdict-label">❌ FALSCH</span><span class="mythos-verdict-text">Nur der Mehrbetrag wird höher besteuert – das Nettoeinkommen steigt immer.</span></div><p style="font-size:12px;color:#555;font-weight:700;line-height:1.65;margin:8px 0">Progressiver Tarif § 32a EStG: Wer von 40.000 € auf 41.000 € steigt, zahlt mehr Steuern nur auf die 1.000 € Erhöhung – nie auf das gesamte Einkommen.</p><span class="mythos-norm">§ 32a EStG</span></div></details>
-  <details class="mythos-card"><summary class="mythos-summary"><span class="mythos-badge">Mythos</span><span class="mythos-claim">„Steuererklärung lohnt sich nur für Gutverdiener."</span><span class="mythos-chevron">›</span></summary><div class="mythos-body"><div class="mythos-verdict"><span class="mythos-verdict-label">❌ FALSCH</span><span class="mythos-verdict-text">Gerade Azubis und Berufseinsteiger profitieren oft überdurchschnittlich.</span></div><p style="font-size:12px;color:#555;font-weight:700;line-height:1.65;margin:8px 0">Beispiel: 20 km Fahrtweg × 0,38 € × 220 Tage = 1.672 € – über der Pauschale (1.230 €). Bundesschnitt Erstattung: ca. 1.000 €. Freiwillige Abgabe bis 4 Jahre rückwirkend (§ 46 EStG).</p><span class="mythos-norm">§ 9, § 46 EStG</span></div></details>
-  <details class="mythos-card"><summary class="mythos-summary"><span class="mythos-badge">Mythos</span><span class="mythos-claim">„Wer im Ausland lebt, zahlt keine deutschen Steuern mehr."</span><span class="mythos-chevron">›</span></summary><div class="mythos-body"><div class="mythos-verdict"><span class="mythos-verdict-label">❌ FALSCH</span><span class="mythos-verdict-text">Beschränkte Steuerpflicht bleibt für inländische Einkünfte.</span></div><p style="font-size:12px;color:#555;font-weight:700;line-height:1.65;margin:8px 0">§ 1 Abs. 4 EStG: Wer keinen Wohnsitz mehr in DE hat, aber z.B. deutsche Rente oder Mieteinnahmen bezieht, bleibt beschränkt steuerpflichtig.</p><span class="mythos-norm">§ 1 Abs. 1, 4 EStG</span></div></details>
-</div>
-</div>
-</div>
-
-<!-- DAILY + STORIES -->
-<div class="bsec" style="margin-top:20px">🚀 Jetzt einsteigen</div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
-  <div onclick="sw('meinbereich')" style="background:linear-gradient(135deg,#1a0530,#3d0a6b);border:2px solid rgba(139,92,246,.4);border-radius:16px;padding:16px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:6px" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(139,92,246,.3)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-    <div style="display:flex;align-items:center;gap:8px">
-      <span style="font-size:24px">📅</span>
-      <span style="font-size:9px;font-family:'Space Mono',monospace;letter-spacing:1.5px;color:rgba(255,255,255,.4);text-transform:uppercase">Daily Challenge</span>
-    </div>
-    <div style="font-size:14px;font-weight:900;color:#fff;line-height:1.3">7 Fragen · täglich neu</div>
-    <div style="font-size:10px;color:rgba(255,255,255,.45);font-weight:700">Heute spielen 🔥</div>
-  </div>
-  <div onclick="einstGoStep3()" style="background:linear-gradient(135deg,#0d2b5e,#1a4a8f);border:2px solid rgba(0,194,224,.3);border-radius:16px;padding:16px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:6px" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(0,194,224,.25)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-    <div style="display:flex;align-items:center;gap:8px">
-      <span style="font-size:24px">💼</span>
-      <span style="font-size:9px;font-family:'Space Mono',monospace;letter-spacing:1.5px;color:rgba(255,255,255,.4);text-transform:uppercase">ESt-Quiz</span>
-    </div>
-    <div style="font-size:14px;font-weight:900;color:#fff;line-height:1.3">Einkommensteuer üben</div>
-    <div style="font-size:10px;color:rgba(255,255,255,.45);font-weight:700">Die 7 Einkunftsarten & mehr</div>
-  </div>
-</div>
-<div style="margin-top:8px;margin-bottom:10px;padding:12px 14px;background:linear-gradient(135deg,#0d2b5e,#1a4a8f);border-radius:14px;color:#fff">
-  <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px">📖 Lernszenarien</div>
-  <div style="font-size:14px;font-weight:900">Interaktive Geschichten</div>
-  <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700;margin-top:2px">Steuerrecht live erleben · ~8 Min. pro Szenario</div>
-</div>
-<div class="story-list">${storiesHtml}</div>
-<div style="height:90px"></div>
 </div>`;
 
-  // Trigger aufkommen game render if section opens later
   setTimeout(()=>{
     if(typeof renderAufkGame==='function') renderAufkGame();
   }, 100);
 }
+
 
 // ── Tax animations (profi hero counter) ──────────────────────────────────
 let taxLiveInterval = null;
