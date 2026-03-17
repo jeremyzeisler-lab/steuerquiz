@@ -398,7 +398,116 @@ const D_BUCHUNG = [
     ],
     explain:'ARAP (§ 250 Abs. 1 HGB): <b>Soll: Aktive Rechnungsabgrenzung 1.200 €</b> / <b>Haben: Bank 1.200 €</b>. Zahlung im Dezember für das Folgejahr: der Aufwand gehört noch nicht ins laufende Jahr! ARAP sichert die periodengerechte Abgrenzung. Im Folgejahr: Versicherungsaufwand an ARAP.'
   },
-];
+  ,
+  {
+    icon:'🏭',name:'Kauf einer Maschine auf Kredit',desc:'Unternehmen kauft eine Produktionsmaschine für 50.000 €. Zahlung erfolgt durch Bankdarlehen.',
+    options:[
+      {soll:'Maschinen',haben:'Darlehen',correct:true},
+      {soll:'Darlehen',haben:'Maschinen',correct:false},
+      {soll:'Maschinen',haben:'Bank',correct:false},
+    ],
+    explain:'Maschine kommt ins Unternehmen, Darlehen entsteht: <b>Soll: Maschinen</b> (Anlage ↑) / <b>Haben: Darlehen</b> (Verbindlichkeit ↑). Bilanzverlängerung: Aktiv und Passiv steigen gleichermaßen.'
+  },
+  {
+    icon:'📉',name:'Abschreibung auf PKW',desc:'Der Fuhrpark-PKW (Anschaffung 30.000 €, Nutzungsdauer 5 Jahre) wird am Jahresende abgeschrieben.',
+    options:[
+      {soll:'Abschreibungen auf Sachanlagen',haben:'Fuhrpark',correct:true},
+      {soll:'Fuhrpark',haben:'Abschreibungen auf Sachanlagen',correct:false},
+      {soll:'Abschreibungen auf Sachanlagen',haben:'Bank',correct:false},
+    ],
+    explain:'AfA = 30.000 ÷ 5 = 6.000 €/Jahr: <b>Soll: Abschreibungen auf Sachanlagen</b> (Aufwand ↑) / <b>Haben: Fuhrpark</b> (Buchwert sinkt ↓). Aktivminderung + Aufwandsbuchung. Kein Geldfluss!'
+  },
+  {
+    icon:'💰',name:'Warenverkauf auf Rechnung mit USt',desc:'Unternehmen verkauft Waren für 2.000 € netto + 19 % USt = 2.380 € brutto. Zahlung noch ausstehend.',
+    options:[
+      {soll:'Forderungen aus L+L 2.380 €',haben:'Umsatzerlöse 2.000 € + USt 380 €',correct:true},
+      {soll:'Umsatzerlöse 2.380 €',haben:'Forderungen aus L+L 2.380 €',correct:false},
+      {soll:'Forderungen aus L+L 2.000 €',haben:'Umsatzerlöse 2.000 €',correct:false},
+    ],
+    explain:'Verkauf auf Ziel mit USt: <b>Soll: Forderungen aus L+L 2.380 €</b> / <b>Haben: Umsatzerlöse 2.000 €</b> und <b>Umsatzsteuer 380 €</b>. Die USt gehört dem Finanzamt – sie ist kein Erlös!'
+  },
+  {
+    icon:'🛍️',name:'Wareneinkauf mit Vorsteuer',desc:'Einkauf von Rohstoffen: 5.000 € netto + 19 % VSt = 5.950 € brutto. Sofortüberweisung.',
+    options:[
+      {soll:'Rohstoffe 5.000 € + Vorsteuer 950 €',haben:'Bank 5.950 €',correct:true},
+      {soll:'Rohstoffe 5.950 €',haben:'Bank 5.950 €',correct:false},
+      {soll:'Rohstoffe 5.000 €',haben:'Bank 5.000 €',correct:false},
+    ],
+    explain:'Einkauf mit Vorsteuer: <b>Soll: Rohstoffe 5.000 €</b> + <b>Vorsteuer 950 €</b> / <b>Haben: Bank 5.950 €</b>. Vorsteuer ist eine Forderung gegen das Finanzamt – sie mindert später die USt-Zahllast.'
+  },
+  {
+    icon:'📝',name:'Rückstellung für Prozessrisiko',desc:'Rechtsanwalt schätzt: 70 % Wahrscheinlichkeit einer Zahlung von 8.000 € im nächsten Jahr.',
+    options:[
+      {soll:'Zuführung zu Rückstellungen',haben:'Rückstellungen',correct:true},
+      {soll:'Rückstellungen',haben:'Zuführung zu Rückstellungen',correct:false},
+      {soll:'Sonstige Verbindlichkeiten',haben:'Bank',correct:false},
+    ],
+    explain:'Ungewisse Verbindlichkeit → Rückstellung: <b>Soll: Zuführung zu Rückstellungen</b> (Aufwand ↑) / <b>Haben: Rückstellungen</b> (Passiv ↑). § 249 HGB: Rückstellungen für ungewisse Verbindlichkeiten sind Pflicht!'
+  },
+  {
+    icon:'🏦',name:'Darlehenstilgung',desc:'Unternehmen zahlt eine Darlehenstilgung von 5.000 € an die Bank.',
+    options:[
+      {soll:'Darlehen',haben:'Bank',correct:true},
+      {soll:'Bank',haben:'Darlehen',correct:false},
+      {soll:'Zinsaufwand',haben:'Bank',correct:false},
+    ],
+    explain:'Tilgung = Schuld sinkt: <b>Soll: Darlehen</b> (Verbindlichkeit ↓) / <b>Haben: Bank</b> (liquide Mittel ↓). Passivminderung + Aktivminderung = Bilanzverkürzung. Achtung: Zinsen sind ein separater Buchungssatz!'
+  },
+  {
+    icon:'⚡',name:'Stromrechnung erhalten, noch nicht bezahlt',desc:'Stromrechnung über 600 € (netto) + 114 € USt kommt an. Zahlung nächsten Monat.',
+    options:[
+      {soll:'Energiekosten 600 € + Vorsteuer 114 €',haben:'Verbindlichkeiten aus L+L 714 €',correct:true},
+      {soll:'Energiekosten 714 €',haben:'Kasse 714 €',correct:false},
+      {soll:'Energiekosten 600 €',haben:'Verbindlichkeiten aus L+L 600 €',correct:false},
+    ],
+    explain:'Aufwand entsteht mit Rechnungseingang: <b>Soll: Energiekosten 600 €</b> + <b>Vorsteuer 114 €</b> / <b>Haben: Verbindlichkeiten aus L+L 714 €</b>. Passiv- und Aktivmehrung (Aufwand + Verbindlichkeit).'
+  },
+  {
+    icon:'🎁',name:'Privatentnahme des Unternehmers',desc:'Einzelunternehmer entnimmt Waren im Wert von 500 € für den Privatbedarf.',
+    options:[
+      {soll:'Privatentnahme',haben:'Warenbestand',correct:true},
+      {soll:'Warenbestand',haben:'Privatentnahme',correct:false},
+      {soll:'Privatentnahme',haben:'Kasse',correct:false},
+    ],
+    explain:'Privatentnahme mindert das Eigenkapital: <b>Soll: Privatentnahme</b> (EK-Minderungskonto ↑) / <b>Haben: Warenbestand</b> (Aktiv ↓). Achtung: USt-pflichtig als unentgeltliche Wertabgabe (§ 3 Abs. 1b UStG)!'
+  },
+  {
+    icon:'📊',name:'Buchung einer Anzahlung vom Kunden',desc:'Kunde zahlt 3.000 € Anzahlung für einen Auftrag, der erst im nächsten Monat erfüllt wird.',
+    options:[
+      {soll:'Bank',haben:'Erhaltene Anzahlungen',correct:true},
+      {soll:'Bank',haben:'Umsatzerlöse',correct:false},
+      {soll:'Forderungen aus L+L',haben:'Umsatzerlöse',correct:false},
+    ],
+    explain:'Anzahlung ≠ Umsatz! Leistung wurde noch nicht erbracht: <b>Soll: Bank</b> (Geld ↑) / <b>Haben: Erhaltene Anzahlungen</b> (Verbindlichkeit ↑). Erst bei Leistungserfüllung wird in Umsatzerlöse umgebucht.'
+  },
+  {
+    icon:'📦',name:'Abschreibung auf uneinbringliche Forderung',desc:'Forderung von 1.000 € gegen insolventen Kunden wird abgeschrieben.',
+    options:[
+      {soll:'Forderungsabschreibungen',haben:'Forderungen aus L+L',correct:true},
+      {soll:'Forderungen aus L+L',haben:'Forderungsabschreibungen',correct:false},
+      {soll:'Sonstige Aufwendungen',haben:'Bank',correct:false},
+    ],
+    explain:'Uneinbringliche Forderung = Aufwand: <b>Soll: Forderungsabschreibungen</b> (Aufwand ↑) / <b>Haben: Forderungen aus L+L</b> (Forderung ↓). Aktivminderung + Aufwandsbuchung. USt-Korrektur nach § 17 UStG beachten!'
+  },
+  {
+    icon:'🔄',name:'USt-Zahllast abführen',desc:'Umsatzsteuer-Voranmeldung: Zahllast 2.400 € (USt 3.200 € ./. Vorsteuer 800 €) wird überwiesen.',
+    options:[
+      {soll:'Umsatzsteuer',haben:'Bank',correct:true},
+      {soll:'Vorsteuer',haben:'Bank',correct:false},
+      {soll:'Bank',haben:'Umsatzsteuer',correct:false},
+    ],
+    explain:'Zahllast = USt ./. VSt abführen: <b>Soll: Umsatzsteuer 2.400 €</b> / <b>Haben: Bank 2.400 €</b>. Das Konto "Umsatzsteuer" (Passiv) wird geleert, Bank sinkt. Vorsteuer wurde vorher bereits mit USt verrechnet.'
+  },
+  {
+    icon:'🏢',name:'Miete im Voraus bezahlt (ARAP)',desc:'Unternehmen zahlt im Dezember Januarmiete 1.200 € im Voraus.',
+    options:[
+      {soll:'Aktiver Rechnungsabgrenzungsposten (ARAP)',haben:'Bank',correct:true},
+      {soll:'Mietaufwand',haben:'Bank',correct:false},
+      {soll:'Bank',haben:'Mietaufwand',correct:false},
+    ],
+    explain:'Zahlung im Dezember für Leistung im Januar → Abgrenzung: <b>Soll: ARAP</b> (Aktiv ↑) / <b>Haben: Bank</b> (↓). Im Januar dann: Mietaufwand an ARAP. So wird der Aufwand dem richtigen Periode zugeordnet (§ 250 HGB).'
+  },
+];;
 
 const D_AO = [
   {q:'Wie lange ist die reguläre Festsetzungsverjährungsfrist für Einkommensteuer?',opts:['1 Jahr','2 Jahre','4 Jahre','10 Jahre'],ans:2,lvl:1,explain:'<b>4 Jahre</b> (§ 169 Abs. 2 Nr. 2 AO) – so lange darf das Finanzamt Steuern noch nachfordern. Bei leichtfertiger Steuerverkürzung: 5 Jahre. Bei vorsätzlicher Steuerhinterziehung: 10 Jahre!'},
@@ -1369,6 +1478,117 @@ const D_STORY = [
     },
   ]
 }
+
+,
+{
+  id:'werklieferung',
+  icon:'🔧',
+  title:'Werklieferung oder Werkleistung?',
+  protagonist:'Steuerberater Klaus – erklärt seinen Azubis die USt-Grundlagen',
+  level:'Fortgeschritten',
+  duration:'7 Min.',
+  color:'#005c36',
+  scenes:[
+    {
+      type:'info',
+      title:'Die entscheidende Frage',
+      narrative:'Klaus schreibt zwei Fälle an die Tafel. Fall A: Tischler baut aus eigenem Holz einen Einbauschrank beim Kunden. Fall B: Tischler repariert einen vorhandenen Schrank des Kunden mit dessen Materialien. „Beide Male arbeitet ein Tischler beim Kunden. Und doch ist das umsatzsteuerlich etwas völlig anderes", sagt Klaus. Warum?',
+      hint:'§ 3 Abs. 4 UStG: Eine Werklieferung liegt vor, wenn der Unternehmer einen Gegenstand aus fremden Stoffen herstellt ODER aus überwiegend eigenen Stoffen be- oder verarbeitet.'
+    },
+    {
+      type:'choice',
+      question:'Tischler Thomas baut aus EIGENEM Holz (Wert: 800 €) einen Einbauschrank beim Kunden. Arbeitslohn: 400 €. Was liegt umsatzsteuerlich vor?',
+      context:'Die überwiegende Leistung entscheidet: Material oder Arbeit?',
+      choices:[
+        {text:'Werkleistung – Thomas arbeitet beim Kunden', correct:false, feedback:'Falsch. Werkleistung wäre es, wenn Thomas überwiegend mit Material des Kunden arbeiten würde. Hier bringt er eigenes Holz (800 €) mit – das überwiegt die Arbeitsleistung (400 €).'},
+        {text:'Werklieferung (§ 3 Abs. 4 UStG) – eigenes Material überwiegt, Ort = Einbauort', correct:true, feedback:'Richtig! Thomas verarbeitet überwiegend eigene Stoffe → Werklieferung. Behandlung wie eine Lieferung: Leistungsort nach § 3 Abs. 7 UStG = dort, wo der Einbau stattfindet.'},
+        {text:'Gemischte Leistung – kein eindeutiger Fall', correct:false, feedback:'Nein. Wenn eigene Stoffe überwiegen, ist es eindeutig Werklieferung. Nur bei fremden Materialien des Kunden wäre es Werkleistung.'},
+      ]
+    },
+    {
+      type:'choice',
+      question:'Tischler Thomas repariert denselben Schrank mit Holz DES KUNDEN. Sein Arbeitslohn: 350 €, verbrauchtes Kundenmaterial: 50 €. Was liegt vor?',
+      context:'Jetzt dreht sich das Verhältnis um.',
+      choices:[
+        {text:'Werklieferung – Thomas arbeitet mit Material', correct:false, feedback:'Nein. Das Material gehört dem Kunden (50 €) und der Arbeitslohn überwiegt (350 €). Das ist kein eigenes Material von Thomas.'},
+        {text:'Werkleistung (§ 3 Abs. 9 UStG) – Arbeit überwiegt, Leistungsort = Sitz des Kunden (B2B) oder Ort der Ausführung (B2C)', correct:true, feedback:'Genau! Fremdes Material + Arbeit = Werkleistung. Behandlung wie sonstige Leistung (§ 3 Abs. 9 UStG). Leistungsort B2B: Sitz des Empfängers (§ 3a Abs. 2 UStG). Leistungsort B2C: Ort der Tätigkeit.'},
+        {text:'Werklieferung, weil Holz verarbeitet wurde', correct:false, feedback:'Die Art des Stoffs ist nicht entscheidend – sondern WEM er gehört. Fremde Stoffe = Werkleistung.'},
+      ]
+    },
+    {
+      type:'info',
+      title:'Warum die Abgrenzung wichtig ist',
+      narrative:'Klaus erklärt: „Der Unterschied bestimmt den Leistungsort und damit, ob ihr in Deutschland oder im Ausland USt schuldet. Bei Werklieferung gilt der Ort des Einbaus (§ 3 Abs. 7 UStG). Bei Werkleistung B2B der Sitz des Kunden (§ 3a Abs. 2 UStG). Das wird kritisch wenn der Kunde im EU-Ausland sitzt!"',
+      hint:'Merksatz: Eigene Stoffe überwiegen → Werklieferung = Lieferung. Fremde Stoffe → Werkleistung = sonstige Leistung.'
+    },
+    {
+      type:'choice',
+      question:'Schweizer Unternehmer kauft bei Thomas einen Einbauschrank aus Eigenem Holz (Werklieferung), Einbau in Zürich. Ist dieser Umsatz in Deutschland steuerbar?',
+      context:'Werklieferung → Leistungsort = Ort des Einbaus.',
+      choices:[
+        {text:'Ja – Thomas sitzt in Deutschland, also deutsches USt-Recht', correct:false, feedback:'Irrtum! Bei Lieferungen (inkl. Werklieferungen) kommt es nicht auf den Sitz des Liefernden an.'},
+        {text:'Nein – Leistungsort ist Zürich (Schweiz), kein EU-Inland → nicht steuerbar in Deutschland', correct:true, feedback:'Richtig! Werklieferung = Lieferung. Ort des Einbaus = Zürich. Damit ist der Umsatz in der Schweiz steuerbar, nicht in Deutschland. Thomas muss sich ggf. in der Schweiz registrieren lassen.'},
+        {text:'Nein – Lieferungen in die Schweiz sind immer steuerfrei', correct:false, feedback:'Nicht automatisch. Steuerfrei wäre es, wenn es als Ausfuhrlieferung qualifiziert und alle Nachweise vorliegen (§ 4 Nr. 1a, § 6 UStG). Das ist ein anderer Aspekt.'},
+      ]
+    },
+    {
+      type:'info',
+      title:'Zusammenfassung',
+      narrative:'Klaus schließt: „Drei Sekunden Prüfung: Wessen Material überwiegt? Eigenes → Werklieferung. Fremdes → Werkleistung. Das klingt einfach, aber im Klausurfall zählt jede Sekunde."',
+      hint:'Lernhilfe: W-W-W – Wessen Werkstoff → Werklieferung oder Werkleistung → Welcher Ort gilt?'
+    },
+  ]
+},
+{
+  id:'reihengeschaeft',
+  icon:'🔗',
+  title:'Das Reihengeschäft – wer liefert was?',
+  protagonist:'Großhändler Gabi – kauft in China, verkauft in Polen',
+  level:'Fortgeschritten',
+  duration:'8 Min.',
+  color:'#1a0060',
+  scenes:[
+    {
+      type:'info',
+      title:'Was ist ein Reihengeschäft?',
+      narrative:'A (China) → B (Deutschland, Gabi) → C (Polen). Gabi kauft Elektrogeräte bei A und verkauft sie sofort an C weiter. Aber: Die Ware geht direkt von A in China nach C in Polen – ohne Umweg über Gabis Lager. Das nennt sich Reihengeschäft (§ 3 Abs. 6 Satz 5 UStG): Eine einzige Warenbewegung, aber zwei Lieferungen.',
+      hint:'Im Reihengeschäft gibt es immer genau eine bewegte Lieferung (die Ware reist physisch) und eine oder mehrere unbewegte Lieferungen (nur auf dem Papier).'
+    },
+    {
+      type:'choice',
+      question:'A liefert aus China direkt an C in Polen. B (Gabi) ist der Mittelsmann. Wer ist der Transporteur – B beauftragt die Spedition. Welche Lieferung ist die bewegte?',
+      context:'Grundregel § 3 Abs. 6 Satz 5 UStG: Die bewegte Lieferung ist die Lieferung, der der Transport zugeordnet wird.',
+      choices:[
+        {text:'Die Lieferung A→B ist die bewegte Lieferung, da A den Transport veranlasst', correct:false, feedback:'Nicht ganz. Wenn B (der Mittelsmann) den Transport beauftragt, kommt es auf die USt-ID an, die B gegenüber A verwendet.'},
+        {text:'Die Lieferung B→C ist die bewegte Lieferung, weil B den Transport beauftragt und B gegenüber A mit einer deutschen USt-ID auftritt', correct:true, feedback:'Richtig! Wenn der mittlere Unternehmer (B) den Transport veranlasst und gegenüber seinem Lieferanten (A) mit der USt-ID des Abgangslandes auftritt, wird die Bewegung der Lieferung B→C zugeordnet. Die Lieferung A→B ist dann unbewegt – ruhende Lieferung im Abgangsland China.'},
+        {text:'Beide Lieferungen sind gleich – die Ware bewegt sich von A nach C', correct:false, feedback:'Nein. Obwohl die Ware physisch von A nach C geht, gibt es steuerrechtlich immer nur eine bewegte und eine unbewegte Lieferung.'},
+      ]
+    },
+    {
+      type:'info',
+      title:'Was bedeutet das konkret?',
+      narrative:'Die bewegte Lieferung (B→C) bestimmt den Lieferort: Sie findet im Abgangsland China statt und ist als innergemeinschaftliche Lieferung oder Ausfuhrlieferung zu behandeln. Die unbewegte Lieferung (A→B) findet ebenfalls in China statt – A und B müssen dort klären, ob Steuern anfallen. Gabi muss prüfen: Muss sie sich in China registrieren?',
+      hint:'Merksatz: Bewegte Lieferung = die Lieferung, der der Transport gehört. Alle anderen Lieferungen in der Kette sind unbewegt – ihr Ort bestimmt sich nach § 3 Abs. 7 UStG.'
+    },
+    {
+      type:'choice',
+      question:'B (Gabi) tritt gegenüber A mit einer POLNISCHEN USt-ID auf (statt der deutschen). Ändert sich dadurch die Zuordnung der bewegten Lieferung?',
+      context:'§ 3 Abs. 6 Satz 6 UStG: Besondere Regel wenn der Mittelsmann die USt-ID des Bestimmungslandes verwendet.',
+      choices:[
+        {text:'Nein – die USt-ID ändert nichts an der physischen Warenbewegung', correct:false, feedback:'Die physische Bewegung bleibt gleich – aber die steuerliche Zuordnung ändert sich nach dem Gesetz.'},
+        {text:'Ja – die bewegte Lieferung wechselt zu A→B, da B mit polnischer USt-ID agiert (Bestimmungsland)', correct:true, feedback:'Richtig! § 3 Abs. 6 Satz 6 UStG: Verwendet der Mittelsmann die USt-ID des Bestimmungslandes, wird die Bewegung der Lieferung A→B zugeordnet. B→C ist dann die unbewegte Lieferung im Bestimmungsland Polen. Das hat erhebliche steuerliche Konsequenzen für A!'},
+        {text:'Teilweise – nur die Mehrwertsteuer ändert sich, nicht die Zuordnung', correct:false, feedback:'Nein – es ändert sich die komplette steuerliche Zuordnung der bewegten vs. unbewegten Lieferung.'},
+      ]
+    },
+    {
+      type:'info',
+      title:'Dreiecksgeschäft als Vereinfachung',
+      narrative:'Für den Fall A (EU-Land 1) → B (EU-Land 2) → C (EU-Land 3) gibt es die Vereinfachungsregelung § 25b UStG: B muss sich nicht im Land von C registrieren, wenn er C darüber informiert und die Steuer auf C überträgt. C schuldet dann die Erwerbsteuer. Das spart B eine aufwändige Auslandsregistrierung.',
+      hint:'Prüfungsreihenfolge Reihengeschäft: (1) Wer transportiert? (2) Welche USt-ID verwendet der Mittelsmann? (3) Bewegte oder unbewegte Lieferung? (4) Leistungsort bestimmen.'
+    },
+  ]
+}
+
 ];
 
 // Story runtime state
