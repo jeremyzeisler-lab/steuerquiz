@@ -2742,123 +2742,193 @@ function renderBasicsEinsteiger(a){
   const stepsDone = ['para1','story','quiz','mehr'].filter(k=>!!p[k]).length;
   const pct = Math.round(stepsDone/4*100);
 
-  // Stories for beginners (level: Einstieg)
-  const einstiegStories = (typeof D_STORY!=="undefined"?D_STORY:[]).filter(s=>s.level==='Einstieg');
+  // Stories for beginners only
+  const einstiegStories = (typeof D_STORY!=='undefined'?D_STORY:[]).filter(s=>s.level==='Einstieg');
   const storiesHtml = einstiegStories.map(s=>{
     const prog = storyProgress[s.id];
     const done = prog&&prog.done;
     const inProg = prog&&!prog.done&&(prog.scene||0)>0;
-    const btnLabel = done ? '↺ Nochmal' : inProg ? '▶ Weiterlesen' : '▶ Story starten';
-    const btnBg = done ? 'rgba(255,255,255,.15)' : 'rgba(255,255,255,.15)';
-    const firstScene = s.scenes&&s.scenes[0] ? s.scenes[0].title : '';
-    const hook = s.scenes&&s.scenes[0]&&s.scenes[0].narrative ? s.scenes[0].narrative.replace(/\\n/g,' ').substring(0,80)+'…' : '';
-    const doneBadge = done ? '<div style="position:absolute;top:10px;right:10px;background:rgba(0,201,123,.25);color:#00c97b;font-size:9px;font-weight:900;padding:2px 8px;border-radius:100px;border:1px solid rgba(0,201,123,.4)">✓ Fertig</div>' : inProg ? '<div style="position:absolute;top:10px;right:10px;background:rgba(255,217,74,.2);color:#c08000;font-size:9px;font-weight:900;padding:2px 8px;border-radius:100px;border:1px solid rgba(255,217,74,.35)">⏸ Läuft</div>' : '';
-    return `<div onclick="openStoryDirect('${s.id}')" style="background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:18px;overflow:hidden;cursor:pointer;transition:all .2s;position:relative" onmouseover="this.style.borderColor='${s.color}88';this.style.transform='translateY(-2px)';this.style.background='rgba(255,255,255,.09)'" onmouseout="this.style.borderColor='rgba(255,255,255,.1)';this.style.transform='';this.style.background='rgba(255,255,255,.06)'">
-      <div style="height:4px;background:${s.color};width:100%"></div>
-      ${doneBadge}
-      <div style="padding:14px 16px">
-        <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:8px">
-          <div style="font-size:36px;line-height:1;flex-shrink:0;margin-top:2px">${s.icon}</div>
-          <div style="flex:1;min-width:0">
-            <div style="font-size:15px;font-weight:900;color:#fff;margin-bottom:3px;line-height:1.25">${s.title}</div>
-            <div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700;font-family:'Space Mono',monospace">⏱ ${s.duration}</div>
+    const hook = s.scenes&&s.scenes[0]&&s.scenes[0].narrative
+      ? s.scenes[0].narrative.replace(/\\n/g,' ').replace(/\\\\n/g,' ').substring(0,90)+'…'
+      : '';
+    const badgeBg  = done  ? 'rgba(0,201,123,.25)' : inProg ? 'rgba(255,217,74,.2)'  : `${s.color}33`;
+    const badgeTxt = done  ? '#00c97b'              : inProg ? '#c08000'              : s.color;
+    const badgeLbl = done  ? '✓ Fertig'             : inProg ? '⏸ Läuft'             : '▶ Neu';
+    const btnLabel = done  ? '↺ Nochmal'            : inProg ? '▶ Weiterlesen'        : '▶ Starten';
+    return `<div onclick="openStoryDirect('${s.id}')" style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:16px;overflow:hidden;cursor:pointer;transition:all .2s" onmouseover="this.style.background='rgba(255,255,255,.09)';this.style.borderColor='${s.color}66'" onmouseout="this.style.background='rgba(255,255,255,.05)';this.style.borderColor='rgba(255,255,255,.1)'">
+      <div style="height:3px;background:${s.color}"></div>
+      <div style="padding:13px 14px;display:flex;gap:12px;align-items:flex-start">
+        <div style="font-size:32px;line-height:1;flex-shrink:0">${s.icon}</div>
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+            <span style="font-size:13px;font-weight:900;color:#fff">${s.title}</span>
+            <span style="margin-left:auto;font-size:9px;font-weight:800;padding:2px 7px;border-radius:100px;background:${badgeBg};color:${badgeTxt};flex-shrink:0">${badgeLbl}</span>
+          </div>
+          <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5;margin-bottom:8px">${hook}</div>
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <span style="font-size:9px;color:rgba(255,255,255,.3);font-family:'Space Mono',monospace">⏱ ${s.duration}</span>
+            <button onclick="event.stopPropagation();openStoryDirect('${s.id}')" style="padding:5px 14px;border-radius:100px;border:none;background:${s.color};color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:11px;cursor:pointer">${btnLabel}</button>
           </div>
         </div>
-        <div style="font-size:12px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.55;margin-bottom:12px">${hook}</div>
-        <button onclick="event.stopPropagation();openStoryDirect('${s.id}')" style="width:100%;padding:10px;border-radius:10px;border:none;background:${s.color};color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">${btnLabel}</button>
       </div>
     </div>`;
   }).join('');
 
-  const stepDefs = [
-    { icon:'⚖️', title:'Wer zahlt Steuern?', sub:'Interaktive Fälle · ~5 Min.', desc:'4 Personen – steuerpflichtig oder nicht?', done:!!p.para1,  fn:'einstGoStep1', color:'#1a3a8f' },
-    { icon:'📄', title:'Lenas Lohnzettel',   sub:'Story · ~8 Min.',             desc:'850 € brutto – was bleibt netto?',       done:!!(storyProgress['lohnzettel']&&storyProgress['lohnzettel'].done), fn:'einstGoStep2', color:'#005c36' },
-    { icon:'🎯', title:'ESt-Quiz',           sub:'Quiz · ~5 Min.',              desc:'Teste dein neues Wissen!',               done:!!p.quiz,   fn:'einstGoStep3', color:'#3d0a6b' },
-    { icon:'💡', title:'Was kann ich absetzen?', sub:'Übersicht · ~4 Min.',      desc:'Fahrtkosten, Laptop, Spenden & mehr',    done:!!p.mehr, fn:'einstGoStep4', color:'#8a4000' }
-  ];
-  const stepCards = stepDefs.map((s,i)=>{
-    const num = i+1;
-    const active = !s.done && stepDefs.slice(0,i).every(x=>x.done);
-    const locked = !s.done && !active;
-    const bg = s.done ? 'rgba(0,201,123,.18)' : active ? `${s.color}55` : 'rgba(255,255,255,.04)';
-    const border = s.done ? 'rgba(0,201,123,.4)' : active ? `${s.color}99` : 'rgba(255,255,255,.08)';
-    const opacity = locked ? '0.45' : '1';
-    return `<div onclick="${locked?'':s.fn+'()'}" style="background:${bg};border:1.5px solid ${border};border-radius:14px;padding:13px 14px;cursor:${locked?'default':'pointer'};transition:all .2s;opacity:${opacity};display:flex;align-items:center;gap:12px" ${locked?'':''}>
-      <div style="width:30px;height:30px;border-radius:50%;background:${s.done?'#00c97b':active?s.color:'rgba(255,255,255,.15)'};display:flex;align-items:center;justify-content:center;font-size:${s.done?'14px':'13px'};flex-shrink:0;font-weight:900;color:#fff">${s.done?'✓':num}</div>
-      <div style="flex:1">
-        <div style="font-size:13px;font-weight:900;color:${locked?'rgba(255,255,255,.4)':'#fff'}">${s.title}</div>
-        <div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700;font-family:'Space Mono',monospace">${s.sub}</div>
-      </div>
-      ${active ? '<div style="font-size:11px;background:rgba(255,255,255,.15);color:#fff;padding:3px 9px;border-radius:100px;font-weight:800;flex-shrink:0">Starten →</div>' : ''}
-      ${s.done ? '<div style="font-size:11px;color:#00c97b;font-weight:900;flex-shrink:0">✓</div>' : ''}
-    </div>`;
-  }).join('');
+  // §1 EStG para1 block
+  const para1Html = renderPara1Block();
 
-  a.innerHTML = `<div class="basics">
+  a.innerHTML = `<div class="basics" style="color:#fff">
 
-<!-- HERO: Schock-Hook -->
-<div style="background:linear-gradient(145deg,#0a1628,#0d2b5e 60%,#1a0a5e);border-radius:22px;padding:22px 18px 20px;margin-bottom:14px;position:relative;overflow:hidden">
-  <div style="position:absolute;right:-15px;top:-15px;font-size:100px;opacity:.05;line-height:1;transform:rotate(15deg)">🧾</div>
-
-  <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:10px">📍 Willkommen im Steuerrecht</div>
-
-  <div style="font-size:21px;font-weight:900;color:#fff;line-height:1.25;margin-bottom:8px">Du zahlst täglich Steuern –<br>ohne es zu merken 🤯</div>
-
-  <div style="font-size:12px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.6;margin-bottom:16px">Vom Döner bis zum Konzertticket: Überall steckt Steuer drin. Lerne in 20 Minuten was das bedeutet – und was du damit machst.</div>
-
-  <!-- Shock stats row -->
+<!-- ══ HERO ══════════════════════════════════════════════════════════ -->
+<div style="background:linear-gradient(145deg,#060f22,#0d2b5e 55%,#1a0a5e);border-radius:22px;padding:22px 18px 20px;margin-bottom:14px;position:relative;overflow:hidden">
+  <div style="position:absolute;right:-10px;top:-10px;font-size:110px;opacity:.04;line-height:1;transform:rotate(10deg)">🧾</div>
+  <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:8px">📍 Willkommen im Steuerrecht</div>
+  <div style="font-size:22px;font-weight:900;color:#fff;line-height:1.25;margin-bottom:8px">Du zahlst täglich Steuern –<br>ohne es zu merken 🤯</div>
+  <div style="font-size:12px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.6;margin-bottom:16px">Vom Döner bis zum Konzertticket steckt Steuer drin. Lerne in 20 Minuten was das bedeutet – und was du damit machst.</div>
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px">
     <div style="background:rgba(255,255,255,.08);border-radius:12px;padding:10px 8px;text-align:center">
       <div style="font-size:18px;font-weight:900;color:var(--cyan);font-family:'Space Mono',monospace">1,28€</div>
-      <div style="font-size:9px;color:rgba(255,255,255,.45);font-weight:700;margin-top:2px">Steuer im Döner</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700;margin-top:2px">Steuer im Döner</div>
     </div>
     <div style="background:rgba(255,255,255,.08);border-radius:12px;padding:10px 8px;text-align:center">
       <div style="font-size:18px;font-weight:900;color:#ffd94a;font-family:'Space Mono',monospace">19%</div>
-      <div style="font-size:9px;color:rgba(255,255,255,.45);font-weight:700;margin-top:2px">auf fast alles</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700;margin-top:2px">auf fast alles</div>
     </div>
     <div style="background:rgba(255,255,255,.08);border-radius:12px;padding:10px 8px;text-align:center">
       <div style="font-size:16px;font-weight:900;color:#00c97b;font-family:'Space Mono',monospace">947Mrd</div>
-      <div style="font-size:9px;color:rgba(255,255,255,.45);font-weight:700;margin-top:2px">€ pro Jahr DE</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700;margin-top:2px">€ pro Jahr DE</div>
     </div>
   </div>
-
-  <!-- Progress bar -->
-  ${pct > 0 ? `<div style="margin-bottom:10px">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
-      <span style="font-size:10px;color:rgba(255,255,255,.45);font-weight:700">Dein Fortschritt</span>
+  ${pct > 0 ? `<div style="margin-bottom:12px">
+    <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+      <span style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700">Dein Fortschritt</span>
       <span style="font-size:10px;color:var(--cyan);font-weight:900;font-family:'Space Mono',monospace">${stepsDone}/4 Schritte</span>
     </div>
     <div style="height:5px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden">
-      <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,var(--cyan),#00c97b);border-radius:100px;transition:width .6s ease"></div>
+      <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,var(--cyan),#00c97b);border-radius:100px;transition:width .6s"></div>
     </div>
   </div>` : ''}
-
   <div style="display:flex;gap:8px">
-    <button onclick="einstGoStep1()" style="flex:1;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer;transition:all .2s">
+    <button onclick="einstGoStep1()" style="flex:1;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">
       ${pct > 0 ? '▶ Weiter lernen' : '🚀 Jetzt starten'}
     </button>
     ${pct > 0 ? '<button onclick="resetEinstProgress()" style="padding:13px 14px;border-radius:13px;border:1.5px solid rgba(255,255,255,.12);background:transparent;color:rgba(255,255,255,.35);font-family:\'Nunito\',sans-serif;font-weight:800;font-size:12px;cursor:pointer">↺</button>' : ''}
   </div>
 </div>
 
-<!-- STORIES: Primärer Inhalt -->
+<!-- ══ §1 EStG – WER ZAHLT STEUERN? ═════════════════════════════════ -->
 <div style="margin-bottom:14px">
-  <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">📖 Steuer-Stories – lerne durch echte Situationen</div>
-  <div style="display:flex;flex-direction:column;gap:8px">
-    ${storiesHtml}
+  <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">⚖️ §1 EStG – Wer ist steuerpflichtig?</div>
+  <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:14px;margin-bottom:8px">
+    <div style="font-size:13px;font-weight:900;color:#fff;margin-bottom:6px">Unbeschränkt vs. beschränkt</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+      <div style="background:rgba(0,194,224,.1);border:1px solid rgba(0,194,224,.25);border-radius:12px;padding:10px">
+        <div style="font-size:10px;font-weight:900;color:var(--cyan);margin-bottom:4px">§1 Abs. 1 EStG</div>
+        <div style="font-size:11px;font-weight:800;color:#fff;margin-bottom:3px">Unbeschränkt</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.5">Wohnsitz oder gewöhnlicher Aufenthalt in DE → <b>gesamtes Welteinkommen</b> steuerpflichtig</div>
+      </div>
+      <div style="background:rgba(255,140,66,.1);border:1px solid rgba(255,140,66,.25);border-radius:12px;padding:10px">
+        <div style="font-size:10px;font-weight:900;color:#ff8c42;margin-bottom:4px">§1 Abs. 4 EStG</div>
+        <div style="font-size:11px;font-weight:800;color:#fff;margin-bottom:3px">Beschränkt</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.5">Kein Wohnsitz in DE, aber <b>inländische Einkünfte</b> (§49 EStG) → nur diese werden besteuert</div>
+      </div>
+    </div>
+    <div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700;background:rgba(255,255,255,.05);border-radius:8px;padding:8px">
+      💡 <b>Merksatz:</b> Steuerpflichtig ≠ Steuer zahlen. Wer unter dem Grundfreibetrag (12.336 € / 2026) bleibt, zahlt keine Einkommensteuer – ist aber trotzdem steuerpflichtig.
+    </div>
+  </div>
+  <div id="para1-block">${para1Html}</div>
+</div>
+
+<!-- ══ STEUER-STORIES ════════════════════════════════════════════════ -->
+<div style="margin-bottom:14px">
+  <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">📖 Steuer-Stories – lerne durch echte Situationen</div>
+  <div style="display:flex;flex-direction:column;gap:8px">${storiesHtml}</div>
+</div>
+
+<!-- ══ STEUERAUFKOMMEN RATEN ═════════════════════════════════════════ -->
+<div style="margin-bottom:14px">
+  <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">💰 Was bringt dem Staat am meisten?</div>
+  <div style="background:linear-gradient(135deg,rgba(0,60,30,.6),rgba(0,100,50,.3));border:1.5px solid rgba(0,201,123,.2);border-radius:16px;padding:14px">
+    <div style="font-size:12px;color:rgba(255,255,255,.6);font-weight:700;margin-bottom:10px">Schätze: Welche Steuer nimmt Deutschland am meisten ein? Tippe auf die richtige Reihenfolge.</div>
+    <div id="aufk-game-wrap" style="min-height:60px"></div>
   </div>
 </div>
 
-<!-- LERNPFAD: Steps -->
-<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:16px;margin-bottom:14px">
-  <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px">🎯 Lernpfad – 4 Schritte</div>
-  <div style="display:flex;flex-direction:column;gap:8px">
-    ${stepCards}
+<!-- ══ KURIOSES STEUERRECHT ══════════════════════════════════════════ -->
+<div onclick="sw('kurios')" style="background:linear-gradient(135deg,rgba(58,10,0,.7),rgba(120,40,0,.4));border:1.5px solid rgba(255,140,66,.25);border-radius:16px;padding:15px;cursor:pointer;margin-bottom:14px;transition:all .2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+  <div style="display:flex;align-items:center;gap:12px">
+    <div style="font-size:36px">🤯</div>
+    <div style="flex:1">
+      <div style="font-size:14px;font-weight:900;color:#fff;margin-bottom:3px">Kurioses Steuerrecht</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">Es gibt eine Sektsteuer seit 1902 🍾 · Hunde zahlen Steuer 🐕 · Krypto wird besteuert 💻 · und 40+ weitere skurrile Fakten</div>
+    </div>
+    <div style="font-size:20px;color:rgba(255,255,255,.2)">›</div>
   </div>
 </div>
 
-<!-- QUICK QUIZ: Teaser -->
-<div onclick="einstGoStep3()" style="background:linear-gradient(135deg,#1a0a5e,#3d0a6b);border:1.5px solid rgba(139,92,246,.3);border-radius:16px;padding:15px;cursor:pointer;display:flex;align-items:center;gap:14px;margin-bottom:14px;transition:all .2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+<!-- ══ WAS KANN ICH ABSETZEN ════════════════════════════════════════ -->
+<div id="sec-absetzen" style="margin-bottom:14px">
+  <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">💡 Was kann ich absetzen?</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    ${[
+      {icon:'🚗', title:'Fahrten zur Arbeit', norm:'§9 Abs.1 Nr.4 EStG', tip:'0,38 €/km ab km 1 (ab 2026) · einfache Strecke · max. 4.500 €/Jahr'},
+      {icon:'💻', title:'Laptop & Handy', norm:'§9 EStG + GWG §6 Abs.2', tip:'Bis 800 € netto → Sofortabschreibung. Über 800 € → auf Nutzungsdauer verteilen. Anteilig bei Privatnutzung.'},
+      {icon:'🏠', title:'Homeoffice', norm:'§4 Abs.5 Nr.6b EStG', tip:'6 €/Tag · max. 210 Tage = max. 1.260 €/Jahr. Kein abgetrenntes Arbeitszimmer nötig!'},
+      {icon:'📚', title:'Fort- & Weiterbildung', norm:'§9 Abs.1 Nr.6 EStG', tip:'Kursgebühren, Fachliteratur, Prüfungsgebühren – wenn beruflich veranlasst, voll absetzbar.'},
+      {icon:'🎁', title:'Spenden', norm:'§10b EStG', tip:'Bis 20 % des Gesamtbetrags der Einkünfte absetzbar. Spendenquittung aufbewahren!'},
+      {icon:'🩺', title:'Krankheitskosten', norm:'§33 EStG', tip:'Außergewöhnliche Belastungen: Zahnarzt, Brille, Medikamente. Nur soweit sie die zumutbare Belastung übersteigen.'},
+    ].map(x=>`
+    <div style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:12px;cursor:pointer;transition:all .2s" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block';this.querySelector('.arr').textContent=this.nextElementSibling.style.display==='block'?'▲':'▼'" onmouseover="this.style.background='rgba(255,255,255,.09)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:22px">${x.icon}</span>
+        <div style="flex:1">
+          <div style="font-size:12px;font-weight:900;color:#fff;line-height:1.3">${x.title}</div>
+          <div style="font-size:9px;color:var(--cyan);font-family:'Space Mono',monospace;font-weight:700">${x.norm}</div>
+        </div>
+        <span class="arr" style="font-size:10px;color:rgba(255,255,255,.3)">▼</span>
+      </div>
+    </div>
+    <div style="display:none;margin-top:-6px;margin-bottom:2px;background:rgba(0,194,224,.08);border:1px solid rgba(0,194,224,.2);border-radius:0 0 12px 12px;padding:10px 12px;font-size:11px;color:rgba(255,255,255,.7);font-weight:700;line-height:1.6">${x.tip}</div>`).join('')}
+  </div>
+</div>
+
+<!-- ══ ARBEIT IM FINANZAMT ════════════════════════════════════════════ -->
+<div style="background:linear-gradient(135deg,#060f22,#0a2a60 60%,#0d3a20);border:1.5px solid rgba(0,194,224,.2);border-radius:18px;padding:18px;margin-bottom:14px">
+  <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">🏛️ Arbeit im Finanzamt – nicht was du denkst</div>
+  <div style="font-size:15px;font-weight:900;color:#fff;margin-bottom:8px">Akten sortieren? Nein. Wirtschaftskriminalität aufdecken. ⚡</div>
+  <div style="font-size:12px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.65;margin-bottom:14px">Finanzbeamte verhandeln mit internationalen Konzernen. Entlarven Steuerhinterziehung. Beraten Unternehmen und Privatpersonen. Und sie sichern die Grundlage für alles was der Staat finanziert – von der Schule bis zur Feuerwehr.</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+    ${[
+      {icon:'🔍', title:'Betriebsprüfung', desc:'Du prüfst Millionenunternehmen. Findest versteckte Einnahmen. Sorgst für Gerechtigkeit.'},
+      {icon:'⚖️', title:'Rechtsbehelfe', desc:'Einsprüche, Klagen, Finanzgericht. Steuerrecht ist Rechtsarbeit auf hohem Niveau.'},
+      {icon:'🌍', title:'Internationales', desc:'Verrechnungspreise. Doppelbesteuerungsabkommen. EU-Recht. Global denken, lokal entscheiden.'},
+      {icon:'👥', title:'Bürgerberatung', desc:'Du bist erster Ansprechpartner für Menschen in komplexen Lebenslagen – fair und kompetent.'},
+    ].map(x=>`<div style="background:rgba(255,255,255,.06);border-radius:12px;padding:12px">
+      <div style="font-size:22px;margin-bottom:6px">${x.icon}</div>
+      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:4px">${x.title}</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">${x.desc}</div>
+    </div>`).join('')}
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">
+    <div style="text-align:center;background:rgba(255,255,255,.06);border-radius:10px;padding:10px 6px">
+      <div style="font-size:16px;font-weight:900;color:var(--cyan);font-family:'Space Mono',monospace">~1.200€</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700;margin-top:2px">Ausbildungsgehalt netto</div>
+    </div>
+    <div style="text-align:center;background:rgba(255,255,255,.06);border-radius:10px;padding:10px 6px">
+      <div style="font-size:16px;font-weight:900;color:#00c97b;font-family:'Space Mono',monospace">3 Jahre</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700;margin-top:2px">Ausbildungsdauer</div>
+    </div>
+    <div style="text-align:center;background:rgba(255,255,255,.06);border-radius:10px;padding:10px 6px">
+      <div style="font-size:16px;font-weight:900;color:#ffd94a;font-family:'Space Mono',monospace">Beamter</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700;margin-top:2px">Verbeamtung möglich</div>
+    </div>
+  </div>
+  <button onclick="sw('karriere')" style="width:100%;padding:12px;border-radius:12px;border:none;background:linear-gradient(135deg,#00c97b,#005c36);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Karriere entdecken → Ausbildung, Studium, Bewerbung</button>
+</div>
+
+<!-- ══ QUIZ TEASER ════════════════════════════════════════════════════ -->
+<div onclick="einstGoStep3()" style="background:linear-gradient(135deg,#1a0a5e,#3d0a6b);border:1.5px solid rgba(139,92,246,.3);border-radius:16px;padding:15px;cursor:pointer;display:flex;align-items:center;gap:14px;margin-bottom:90px;transition:all .2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
   <div style="font-size:32px">⚡</div>
   <div>
     <div style="font-size:14px;font-weight:900;color:#fff;margin-bottom:2px">Schnell-Quiz: Was weißt du schon?</div>
@@ -2867,21 +2937,9 @@ function renderBasicsEinsteiger(a){
   <div style="margin-left:auto;font-size:20px;color:rgba(255,255,255,.25)">›</div>
 </div>
 
-<!-- CAREER TEASER -->
-<div onclick="sw('karriere')" style="background:linear-gradient(135deg,rgba(0,80,40,.6),rgba(0,150,80,.3));border:1.5px solid rgba(0,201,123,.25);border-radius:16px;padding:15px;cursor:pointer;display:flex;align-items:center;gap:14px;margin-bottom:90px;transition:all .2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
-  <div style="font-size:32px">🎓</div>
-  <div>
-    <div style="font-size:14px;font-weight:900;color:#fff;margin-bottom:2px">Karriere bei der Finanzverwaltung?</div>
-    <div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:700">Ausbildung · Studium · Bewerbung · Karriere-Test</div>
-  </div>
-  <div style="margin-left:auto;font-size:20px;color:rgba(255,255,255,.25)">›</div>
-</div>
-
 </div>`;
 
-  setTimeout(()=>{
-    if(typeof renderAufkGame==='function') renderAufkGame();
-  }, 100);
+  setTimeout(()=>{ if(typeof renderAufkGame==='function') renderAufkGame(); }, 120);
 }
 
 
