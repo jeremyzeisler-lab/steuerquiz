@@ -1121,7 +1121,7 @@ header p{color:rgba(255,255,255,.55);font-size:var(--tx-base)}
 .etag-btn-primary:hover{transform:translateY(-1px);box-shadow:var(--sh-md)}
 .etag-btn-secondary{padding:13px 16px;border-radius:var(--r-md);border:2px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:rgba(255,255,255,.7);font-family:'Nunito',sans-serif;font-weight:800;font-size:var(--tx-base);cursor:pointer;transition:all .2s}
 .etag-btn-secondary:hover{background:rgba(255,255,255,.12);color:#fff}
-.etag-q-card{background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.12);border-radius:var(--r-md);padding:14px;margin-bottom:var(--sp-sm)}
+.etag-q-card{background:#0d1e40;border:2px solid rgba(255,255,255,.15);border-radius:var(--r-md);padding:14px;margin-bottom:var(--sp-sm)}
 .etag-q-text{font-size:var(--tx-md);font-weight:800;color:#fff;line-height:1.5;margin-bottom:var(--sp-sm)}
 .etag-q-opt{display:block;width:100%;text-align:left;padding:11px 14px;margin-bottom:var(--sp-xs);border-radius:var(--r-sm);border:2px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:#fff;font-family:'Nunito',sans-serif;font-weight:700;font-size:var(--tx-base);cursor:pointer;transition:all .2s}
 .etag-q-opt:hover{border-color:var(--cyan);background:rgba(0,194,224,.1)}
