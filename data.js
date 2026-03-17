@@ -2902,6 +2902,31 @@ function renderBasicsEinsteiger(a){
   </div>
 </div>
 
+<!-- ══ WK / SONDERAUSGABEN / AUẞERGEWÖHNLICHE BELASTUNGEN ══════════ -->
+<div style="margin-bottom:14px">
+  <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">📋 Abzüge im Überblick – was ist was?</div>
+  <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;overflow:hidden">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr">
+      <div style="padding:12px;border-right:1px solid rgba(255,255,255,.08)">
+        <div style="font-size:9px;font-weight:900;color:var(--cyan);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Werbungskosten § 9</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.55">Beruflich veranlasst. Mindern direkt das <b style="color:#fff">Einkommen</b>.<br><br>✓ Fahrtkosten<br>✓ Laptop beruflich<br>✓ Homeoffice<br>✓ Fachliteratur</div>
+      </div>
+      <div style="padding:12px;border-right:1px solid rgba(255,255,255,.08)">
+        <div style="font-size:9px;font-weight:900;color:#ffd94a;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Sonderausgaben §§ 10–10b</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.55">Privat, gesetzlich anerkannt. Mindern das <b style="color:#fff">zu versteuernde Einkommen</b>.<br><br>✓ Spenden<br>✓ Krankenversicherung<br>✓ Altersvorsorge<br>✓ Kirchensteuer</div>
+      </div>
+      <div style="padding:12px">
+        <div style="font-size:9px;font-weight:900;color:#ff8c42;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Außergew. Belast. § 33</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.55">Zwangsläufig & ungewöhnlich. Nur über der <b style="color:#fff">zumutbaren Belastung</b> absetzbar.<br><br>✓ Arzt/Zahnarzt<br>✓ Pflege<br>✓ Behinderung<br>✓ Kurkosten</div>
+      </div>
+    </div>
+    <div style="background:rgba(255,255,255,.04);padding:10px 12px;font-size:10px;color:rgba(255,255,255,.4);font-weight:700;line-height:1.6;border-top:1px solid rgba(255,255,255,.07)">
+      🔑 <b style="color:rgba(255,255,255,.65)">Merksatz:</b> WK = beruflich · SA = privat aber anerkannt · AuBe = unausweichlich. Alle drei senken die Steuer – aber mit verschiedenen Grenzen und Regelungen.
+    </div>
+  </div>
+</div>
+
+
 <!-- ARBEIT IM FINANZAMT -->
 <div style="background:linear-gradient(135deg,#060f22,#0a2a60 60%,#0d3a20);border:1.5px solid rgba(0,194,224,.2);border-radius:18px;padding:18px;margin-bottom:14px">
   <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">🏛️ Arbeit im Finanzamt – nicht was du denkst</div>
@@ -2929,21 +2954,22 @@ function renderBasicsEinsteiger(a){
       <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">Erster Ansprechpartner in komplexen Lebenslagen – fair, kompetent, verlässlich.</div>
     </div>
   </div>
-  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">
-    <div style="text-align:center;background:rgba(255,255,255,.06);border-radius:10px;padding:10px 6px">
-      <div style="font-size:16px;font-weight:900;color:var(--cyan);font-family:'Space Mono',monospace">~1.200€</div>
-      <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700;margin-top:2px">Ausbildungsgehalt</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+    <div style="background:rgba(0,194,224,.08);border:1px solid rgba(0,194,224,.2);border-radius:12px;padding:12px">
+      <div style="font-size:9px;font-weight:900;color:var(--cyan);margin-bottom:5px;text-transform:uppercase;letter-spacing:1px">Mittlerer Dienst</div>
+      <div style="font-size:13px;font-weight:900;color:#fff;margin-bottom:4px">Ausbildung · 2 Jahre</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.55">Anwärterbezüge ca. <b style="color:#fff">1.350 € brutto/Monat</b><br>Abschluss: Steuersekretär/in<br>Einstieg Besoldung: <b style="color:var(--cyan)">A 7</b></div>
     </div>
-    <div style="text-align:center;background:rgba(255,255,255,.06);border-radius:10px;padding:10px 6px">
-      <div style="font-size:16px;font-weight:900;color:#00c97b;font-family:'Space Mono',monospace">3 Jahre</div>
-      <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700;margin-top:2px">Ausbildungsdauer</div>
-    </div>
-    <div style="text-align:center;background:rgba(255,255,255,.06);border-radius:10px;padding:10px 6px">
-      <div style="font-size:16px;font-weight:900;color:#ffd94a;font-family:'Space Mono',monospace">Beamter</div>
-      <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700;margin-top:2px">Verbeamtung möglich</div>
+    <div style="background:rgba(0,201,123,.08);border:1px solid rgba(0,201,123,.2);border-radius:12px;padding:12px">
+      <div style="font-size:9px;font-weight:900;color:#00c97b;margin-bottom:5px;text-transform:uppercase;letter-spacing:1px">Gehobener Dienst</div>
+      <div style="font-size:13px;font-weight:900;color:#fff;margin-bottom:4px">Studium FHF · 3 Jahre</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.55">Anwärterbezüge ca. <b style="color:#fff">1.550 € brutto/Monat</b><br>Abschluss: Dipl.-Finanzwirt(in) FH<br>Einstieg Besoldung: <b style="color:#00c97b">A 9</b></div>
     </div>
   </div>
-  <button onclick="sw('karriere')" style="width:100%;padding:12px;border-radius:12px;border:none;background:linear-gradient(135deg,#00c97b,#005c36);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Karriere entdecken → Ausbildung, Studium, Bewerbung</button>
+  <div style="background:rgba(255,255,255,.04);border-left:3px solid rgba(255,255,255,.15);padding:8px 12px;border-radius:0 8px 8px 0;margin-bottom:12px;font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.65">
+    💡 <b style="color:rgba(255,255,255,.75)">Anwärterbezüge</b> sind die Bezüge während der Ausbildung/des Studiums (§ 59 BBesG). Kein normales Ausbildungsgehalt – sondern Beamtenbezüge als <b style="color:rgba(255,255,255,.75)">Beamter auf Widerruf</b>. Nach erfolgreichem Abschluss folgt Beamter auf Probe → Beamter auf Lebenszeit (Verbeamtung).
+  </div>
+  <button onclick="sw('karriere')" style="width:100%;padding:12px;border-radius:12px;border:none;background:linear-gradient(135deg,#00c97b,#005c36);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Karriere entdecken → Ausbildung, Studium, Karriere-Test</button>
 </div>
 
 <!-- QUIZ TEASER -->
@@ -3142,114 +3168,6 @@ function toggleAbsetz(id){
 
 
 // ── Absetz overlay with full legal detail ────────────────────────────
-const ABSETZ_INFO = {
-  fahrt:{
-    icon:'🚗', title:'Fahrtkosten zur Arbeit', norm:'§ 9 Abs. 1 Satz 3 Nr. 4 EStG',
-    color:'#1a3a8f',
-    legal:'Arbeitnehmer können die Kosten für Fahrten zwischen Wohnung und erster Tätigkeitsstätte als <b>Werbungskosten</b> abziehen. Maßgebend ist die <b>einfache Entfernung</b> (nicht Hin- und Rückfahrt). Ab dem Veranlagungszeitraum 2026 gilt einheitlich <b>0,38 €/km ab dem ersten Kilometer</b> (Steueränderungsgesetz 2025, vorher Staffelung 0,30 € bis km 20). Maximal absetzbar: 4.500 €/Jahr bei PKW-Nutzung, unbegrenzt bei öffentlichen Verkehrsmitteln oder nachgewiesenen Fahrtkosten.',
-    example:'Lena fährt 22 km zur Ausbildung, 200 Arbeitstage. Absetzbar: 22 km × 0,38 € × 200 = <b>1.672 €</b>. Liegt dieser Betrag über dem Arbeitnehmer-Pauschbetrag (1.230 €), lohnt sich die Erklärung!',
-    calc:true
-  },
-  homeoffice:{
-    icon:'🏠', title:'Homeoffice-Pauschale', norm:'§ 4 Abs. 5 Satz 1 Nr. 6b EStG (i.V.m. § 9 Abs. 5 EStG)',
-    color:'#005c36',
-    legal:'Seit 2023 dauerhaft: Für jeden Kalendertag an dem die Tätigkeit <b>überwiegend im Homeoffice</b> ausgeübt wird (mind. mehr als die Hälfte der Arbeitszeit) können <b>6 € pauschal</b> abgezogen werden – ohne Nachweis eines abgetrennten Arbeitszimmers. Maximal <b>210 Tage = 1.260 €/Jahr</b>. Achtung: Für denselben Tag gilt entweder Homeoffice-Pauschale oder Entfernungspauschale – nicht beides.',
-    example:'Tom arbeitet 120 Tage im Homeoffice. 120 × 6 € = <b>720 € Werbungskosten</b>. Kein abgetrenntes Arbeitszimmer nötig – auch am Küchentisch gilt die Pauschale.',
-    calc:false
-  },
-  laptop:{
-    icon:'💻', title:'Laptop, Handy & Arbeitsmittel', norm:'§ 9 Abs. 1 Satz 3 Nr. 6 EStG · § 6 Abs. 2 EStG (GWG)',
-    color:'#3d0a6b',
-    legal:'Beruflich genutzte Arbeitsmittel sind als <b>Werbungskosten</b> absetzbar, anteilig bei Privatnutzung. <b>GWG-Grenze (geringwertige Wirtschaftsgüter):</b> Nettoanschaffungspreis bis 800 € → Sofortabschreibung im Anschaffungsjahr. Darüber: Abschreibung über die Nutzungsdauer (Laptop: 3 Jahre, Handy: 1–3 Jahre laut AfA-Tabelle). <b>Besonderheit Computer:</b> BMF-Schreiben 22.02.2022 erlaubt für Computerhardware und -software freiwillig 1 Jahr Nutzungsdauer → Sofortabschreibung auch über 800 €. Arbeitnehmer können Bruttobetrag ansetzen (kein Vorsteuerabzug möglich).',
-    example:'Azubi kauft Laptop für 1.190 € brutto (1.000 € netto). Berufliche Nutzung 70 %. Dank 1-Jahres-Nutzungsdauer (BMF 2022): 70 % × 1.190 € = <b>833 € im ersten Jahr absetzbar</b>.',
-    calc:false
-  },
-  weiterbildung:{
-    icon:'📚', title:'Fort- und Weiterbildungskosten', norm:'§ 9 Abs. 1 Satz 3 Nr. 6 EStG',
-    color:'#8a4000',
-    legal:'Kosten für <b>beruflich veranlasste</b> Fort- und Weiterbildung sind in voller Höhe als Werbungskosten absetzbar. Dazu gehören: Kursgebühren, Prüfungsgebühren, Fachliteratur, Fahrten zum Lehrgangsort, Übernachtungskosten. <b>Abgrenzung:</b> Allgemeinbildung (Fremdsprache als Hobby) ist nicht absetzbar; Fremdsprache für den Beruf schon. Bei Erstausbildung (kein vorheriger Berufsabschluss) gelten Ausbildungskosten nur als Sonderausgaben (§ 10 Abs. 1 Nr. 7 EStG) bis max. 6.000 €/Jahr – nicht als Werbungskosten.',
-    example:'Azubi kauft Steuerrecht-Fachliteratur für 180 € und zahlt 120 € Prüfungsgebühr. Zusammen <b>300 € Werbungskosten</b>. Plus Fahrten zum Prüfungsort.',
-    calc:false
-  },
-  spenden:{
-    icon:'🎁', title:'Spenden und Mitgliedsbeiträge', norm:'§ 10b EStG',
-    color:'#005c7a',
-    legal:'Spenden an <b>steuerbegünstigte Organisationen</b> (gemeinnützig, mildtätig, kirchlich i.S.d. §§ 52–54 AO) sind als <b>Sonderausgaben</b> absetzbar. Grenze: bis zu <b>20 % des Gesamtbetrags der Einkünfte</b> oder alternativ 4 ‰ der Summe aus Umsätzen und Löhnen. Darüber hinausgehende Beträge werden ins nächste Jahr vorgetragen (§ 10b Abs. 1 Satz 9 EStG). <b>Nachweis:</b> Bis 300 € genügt Kontoauszug + Empfangsbestätigung; über 300 € zwingend amtliche Zuwendungsbestätigung.',
-    example:'Max verdient 30.000 € und spendet 8.000 € an Greenpeace. Absetzbar: max. 20 % × 30.000 € = 6.000 €. Die restlichen 2.000 € werden ins nächste Jahr vorgetragen.',
-    calc:false
-  },
-  krankheit:{
-    icon:'🩺', title:'Krankheitskosten (außergewöhnliche Belastungen)', norm:'§ 33 EStG',
-    color:'#7a0030',
-    legal:'Krankheitskosten sind <b>außergewöhnliche Belastungen</b> und mindern das zu versteuernde Einkommen – aber nur soweit sie die <b>zumutbare Belastung</b> übersteigen. Diese richtet sich nach Einkommen, Familienstand und Kinderzahl (§ 33 Abs. 3 EStG: 1–7 % des Gesamtbetrags der Einkünfte). Absetzbare Kosten: Arztkosten, Medikamente, Brillen, Zahnersatz, Fahrtkosten zum Arzt (0,30 €/km). Nicht absetzbar: Krankenkassenbeiträge (das sind Vorsorgeaufwendungen nach § 10 EStG).',
-    example:'Singlehaushalt, Einkommen 25.000 €. Zumutbare Belastung: 5 % × 25.000 € = 1.250 €. Zahnarztrechnung 2.800 €. Absetzbar: 2.800 € − 1.250 € = <b>1.550 €</b>.',
-    calc:false
-  }
-};
-
-function showAbsetz(id){
-  const info = ABSETZ_INFO[id];
-  if(!info) return;
-  const old = document.getElementById('absetz-detail-ov');
-  if(old) old.remove();
-  const ov = document.createElement('div');
-  ov.id = 'absetz-detail-ov';
-  ov.style.cssText = 'position:fixed;inset:0;z-index:9800;background:rgba(5,10,30,.85);backdrop-filter:blur(6px);display:flex;align-items:flex-end;justify-content:center;padding:0';
-  ov.onclick = e => { if(e.target===ov) ov.remove(); };
-
-  const calcHtml = info.calc ? `
-    <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:14px;margin-top:14px">
-      <div style="font-size:11px;font-weight:900;color:var(--cyan);margin-bottom:10px">🧮 Fahrtkosten-Rechner (VZ 2026)</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
-        <div>
-          <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:4px">Arbeitstage/Jahr</div>
-          <input id="fahrt-tage" type="number" value="220" min="1" max="365" oninput="calcFahrt()" style="width:100%;padding:8px;border-radius:8px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;font-family:'Space Mono',monospace;font-size:13px;font-weight:700">
-        </div>
-        <div>
-          <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:4px">Einfache Strecke (km)</div>
-          <input id="fahrt-km" type="number" value="15" min="1" max="500" oninput="calcFahrt()" style="width:100%;padding:8px;border-radius:8px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;font-family:'Space Mono',monospace;font-size:13px;font-weight:700">
-        </div>
-      </div>
-      <div id="fahrt-result" style="background:rgba(0,194,224,.1);border:1px solid rgba(0,194,224,.25);border-radius:10px;padding:12px;text-align:center">
-        <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:4px">Absetzbare Entfernungspauschale</div>
-        <div id="fahrt-betrag" style="font-size:24px;font-weight:900;color:var(--cyan);font-family:'Space Mono',monospace">1.254,00 €</div>
-        <div id="fahrt-hinweis" style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700;margin-top:4px"></div>
-      </div>
-    </div>` : '';
-
-  ov.innerHTML = `<div style="background:#0d1b3e;border-radius:24px 24px 0 0;padding:0;max-width:520px;width:100%;max-height:88vh;overflow-y:auto">
-    <div style="background:linear-gradient(135deg,${info.color},${info.color}99);padding:20px 20px 16px;border-radius:24px 24px 0 0;position:relative">
-      <button onclick="document.getElementById('absetz-detail-ov').remove()" style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,.15);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
-      <div style="font-size:32px;margin-bottom:8px">${info.icon}</div>
-      <div style="font-size:17px;font-weight:900;color:#fff;margin-bottom:4px">${info.title}</div>
-      <div style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.6);font-weight:700">${info.norm}</div>
-    </div>
-    <div style="padding:18px 20px 36px">
-      <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px">Rechtliche Grundlage</div>
-      <div style="font-size:13px;color:rgba(255,255,255,.8);font-weight:700;line-height:1.7;margin-bottom:14px">${info.legal}</div>
-      <div style="background:rgba(0,201,123,.08);border:1px solid rgba(0,201,123,.25);border-radius:12px;padding:12px">
-        <div style="font-size:10px;font-weight:900;color:#00c97b;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">📋 Rechenbeispiel</div>
-        <div style="font-size:12px;color:rgba(255,255,255,.75);font-weight:700;line-height:1.65">${info.example}</div>
-      </div>
-      ${calcHtml}
-    </div>
-  </div>`;
-  document.body.appendChild(ov);
-  if(info.calc) setTimeout(calcFahrt, 50);
-}
-
-function calcFahrt(){
-  const tage = parseInt(document.getElementById('fahrt-tage')?.value)||0;
-  const km   = parseInt(document.getElementById('fahrt-km')?.value)||0;
-  const betrag = tage * km * 0.38;
-  const el = document.getElementById('fahrt-betrag');
-  const hint = document.getElementById('fahrt-hinweis');
-  if(el) el.textContent = betrag.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €';
-  if(hint){
-    if(betrag <= 1230) hint.textContent = 'Liegt unter dem AN-Pauschbetrag (1.230 €) – nur mit höheren Werbungskosten lohnend';
-    else hint.textContent = `Übersteigt AN-Pauschbetrag um ${(betrag-1230).toLocaleString('de-DE',{maximumFractionDigits:0})} € → Steuererklärung lohnt sich!`;
-  }
-}
 
 
 // ==================== BASICS ====================
