@@ -2743,23 +2743,26 @@ function renderBasicsEinsteiger(a){
   const stepsDone = ['para1','story','quiz','mehr'].filter(k=>!!p[k]).length;
   const pct = Math.round(stepsDone/4*100);
 
-  // Stories for beginners only
-  const einstiegStories = (typeof D_STORY!=='undefined'?D_STORY:[]).filter(s=>s.level==='Einstieg');
-  const storiesHtml = einstiegStories.map(s=>{
+  // Only show first 3 Einstieg stories on basics page
+  const allEinstieg = (typeof D_STORY!=='undefined'?D_STORY:[]).filter(s=>s.level==='Einstieg');
+  const previewStories = allEinstieg.slice(0, 3);
+  const moreCount = allEinstieg.length - previewStories.length;
+
+  const storiesHtml = previewStories.map(s=>{
     const prog = storyProgress[s.id];
     const done = prog&&prog.done;
     const inProg = prog&&!prog.done&&(prog.scene||0)>0;
     const hook = s.scenes&&s.scenes[0]&&s.scenes[0].narrative
       ? s.scenes[0].narrative.replace(/\\n/g,' ').replace(/\\\\n/g,' ').substring(0,90)+'…'
       : '';
-    const badgeBg  = done  ? 'rgba(0,201,123,.25)' : inProg ? 'rgba(255,217,74,.2)'  : `${s.color}33`;
-    const badgeTxt = done  ? '#00c97b'              : inProg ? '#c08000'              : s.color;
-    const badgeLbl = done  ? '✓ Fertig'             : inProg ? '⏸ Läuft'             : '▶ Neu';
-    const btnLabel = done  ? '↺ Nochmal'            : inProg ? '▶ Weiterlesen'        : '▶ Starten';
+    const badgeBg  = done?'rgba(0,201,123,.25)':inProg?'rgba(255,217,74,.2)':`${s.color}33`;
+    const badgeTxt = done?'#00c97b':inProg?'#c08000':s.color;
+    const badgeLbl = done?'✓ Fertig':inProg?'⏸ Läuft':'▶ Neu';
+    const btnLabel = done?'↺ Nochmal':inProg?'▶ Weiterlesen':'▶ Starten';
     return `<div onclick="openStoryDirect('${s.id}')" style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:16px;overflow:hidden;cursor:pointer;transition:all .2s" onmouseover="this.style.background='rgba(255,255,255,.09)';this.style.borderColor='${s.color}66'" onmouseout="this.style.background='rgba(255,255,255,.05)';this.style.borderColor='rgba(255,255,255,.1)'">
       <div style="height:3px;background:${s.color}"></div>
       <div style="padding:13px 14px;display:flex;gap:12px;align-items:flex-start">
-        <div style="font-size:32px;line-height:1;flex-shrink:0">${s.icon}</div>
+        <div style="font-size:30px;line-height:1;flex-shrink:0">${s.icon}</div>
         <div style="flex:1;min-width:0">
           <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
             <span style="font-size:13px;font-weight:900;color:#fff">${s.title}</span>
@@ -2775,12 +2778,11 @@ function renderBasicsEinsteiger(a){
     </div>`;
   }).join('');
 
-  // §1 EStG para1 block
   const para1Html = renderPara1Block();
 
   a.innerHTML = `<div class="basics" style="color:#fff">
 
-<!-- ══ HERO ══════════════════════════════════════════════════════════ -->
+<!-- HERO -->
 <div style="background:linear-gradient(145deg,#060f22,#0d2b5e 55%,#1a0a5e);border-radius:22px;padding:22px 18px 20px;margin-bottom:14px;position:relative;overflow:hidden">
   <div style="position:absolute;right:-10px;top:-10px;font-size:110px;opacity:.04;line-height:1;transform:rotate(10deg)">🧾</div>
   <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:8px">📍 Willkommen im Steuerrecht</div>
@@ -2800,121 +2802,137 @@ function renderBasicsEinsteiger(a){
       <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700;margin-top:2px">€ pro Jahr DE</div>
     </div>
   </div>
-  ${pct > 0 ? `<div style="margin-bottom:12px">
-    <div style="display:flex;justify-content:space-between;margin-bottom:4px">
-      <span style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700">Dein Fortschritt</span>
-      <span style="font-size:10px;color:var(--cyan);font-weight:900;font-family:'Space Mono',monospace">${stepsDone}/4 Schritte</span>
-    </div>
-    <div style="height:5px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden">
-      <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,var(--cyan),#00c97b);border-radius:100px;transition:width .6s"></div>
-    </div>
-  </div>` : ''}
+  ${pct>0?`<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700">Dein Fortschritt</span><span style="font-size:10px;color:var(--cyan);font-weight:900;font-family:'Space Mono',monospace">${stepsDone}/4 Schritte</span></div><div style="height:5px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden"><div style="height:100%;width:${pct}%;background:linear-gradient(90deg,var(--cyan),#00c97b);border-radius:100px;transition:width .6s"></div></div></div>`:''}
   <div style="display:flex;gap:8px">
-    <button onclick="einstGoStep1()" style="flex:1;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">
-      ${pct > 0 ? '▶ Weiter lernen' : '🚀 Jetzt starten'}
-    </button>
-    ${pct > 0 ? '<button onclick="resetEinstProgress()" style="padding:13px 14px;border-radius:13px;border:1.5px solid rgba(255,255,255,.12);background:transparent;color:rgba(255,255,255,.35);font-family:\'Nunito\',sans-serif;font-weight:800;font-size:12px;cursor:pointer">↺</button>' : ''}
+    <button onclick="einstGoStep1()" style="flex:1;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">${pct>0?'▶ Weiter lernen':'🚀 Jetzt starten'}</button>
+    ${pct>0?'<button onclick="resetEinstProgress()" style="padding:13px 14px;border-radius:13px;border:1.5px solid rgba(255,255,255,.12);background:transparent;color:rgba(255,255,255,.35);font-family:\'Nunito\',sans-serif;font-weight:800;font-size:12px;cursor:pointer">↺</button>':''}
   </div>
 </div>
 
-<!-- ══ §1 EStG – WER ZAHLT STEUERN? ═════════════════════════════════ -->
+<!-- §1 EStG -->
 <div style="margin-bottom:14px">
-  <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">⚖️ §1 EStG – Wer ist steuerpflichtig?</div>
+  <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">⚖️ §1 EStG – Wer ist steuerpflichtig?</div>
   <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:14px;margin-bottom:8px">
-    <div style="font-size:13px;font-weight:900;color:#fff;margin-bottom:6px">Unbeschränkt vs. beschränkt</div>
+    <div style="font-size:13px;font-weight:900;color:#fff;margin-bottom:8px">Natürliche Personen: Unbeschränkt vs. beschränkt</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
       <div style="background:rgba(0,194,224,.1);border:1px solid rgba(0,194,224,.25);border-radius:12px;padding:10px">
-        <div style="font-size:10px;font-weight:900;color:var(--cyan);margin-bottom:4px">§1 Abs. 1 EStG</div>
-        <div style="font-size:11px;font-weight:800;color:#fff;margin-bottom:3px">Unbeschränkt</div>
-        <div style="font-size:10px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.5">Wohnsitz oder gewöhnlicher Aufenthalt in DE → <b>gesamtes Welteinkommen</b> steuerpflichtig</div>
+        <div style="font-size:10px;font-weight:900;color:var(--cyan);margin-bottom:3px">§ 1 Abs. 1 EStG</div>
+        <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:4px">Unbeschränkt</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.55"><b style="color:#fff">Natürliche Person</b> mit Wohnsitz (§ 8 AO) oder gewöhnlichem Aufenthalt (§ 9 AO) im Inland → gesamtes <b style="color:var(--cyan)">Welteinkommen</b> steuerpflichtig</div>
       </div>
       <div style="background:rgba(255,140,66,.1);border:1px solid rgba(255,140,66,.25);border-radius:12px;padding:10px">
-        <div style="font-size:10px;font-weight:900;color:#ff8c42;margin-bottom:4px">§1 Abs. 4 EStG</div>
-        <div style="font-size:11px;font-weight:800;color:#fff;margin-bottom:3px">Beschränkt</div>
-        <div style="font-size:10px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.5">Kein Wohnsitz in DE, aber <b>inländische Einkünfte</b> (§49 EStG) → nur diese werden besteuert</div>
+        <div style="font-size:10px;font-weight:900;color:#ff8c42;margin-bottom:3px">§ 1 Abs. 4 EStG</div>
+        <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:4px">Beschränkt</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.55"><b style="color:#fff">Natürliche Person</b> ohne Wohnsitz in DE, aber mit <b style="color:#ff8c42">inländischen Einkünften</b> (§ 49 EStG) → nur diese werden besteuert</div>
       </div>
     </div>
-    <div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700;background:rgba(255,255,255,.05);border-radius:8px;padding:8px">
-      💡 <b>Merksatz:</b> Steuerpflichtig ≠ Steuer zahlen. Wer unter dem Grundfreibetrag (12.336 € / 2026) bleibt, zahlt keine Einkommensteuer – ist aber trotzdem steuerpflichtig.
+    <div style="background:rgba(0,194,224,.07);border-left:3px solid var(--cyan);border-radius:0 8px 8px 0;padding:8px 10px;font-size:10px;color:rgba(255,255,255,.65);font-weight:700;line-height:1.6">
+      💡 <b style="color:#fff">Merksatz:</b> Steuerpflichtig ≠ Steuer zahlen. Alle natürlichen Personen mit Wohnsitz in DE sind unbeschränkt steuerpflichtig – auch Kinder, Rentner, Azubis. Erst wer den Grundfreibetrag überschreitet (12.336 € / 2026), zahlt tatsächlich Einkommensteuer.
     </div>
   </div>
   <div id="para1-block">${para1Html}</div>
 </div>
 
-<!-- ══ STEUER-STORIES ════════════════════════════════════════════════ -->
+<!-- STORIES: nur 3 + Verweis -->
 <div style="margin-bottom:14px">
   <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">📖 Steuer-Stories – lerne durch echte Situationen</div>
   <div style="display:flex;flex-direction:column;gap:8px">${storiesHtml}</div>
+  ${moreCount>0?`<div onclick="sw('story')" style="margin-top:8px;padding:12px 16px;background:rgba(255,255,255,.04);border:1.5px dashed rgba(255,255,255,.15);border-radius:14px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:all .2s" onmouseover="this.style.background='rgba(255,255,255,.08)'" onmouseout="this.style.background='rgba(255,255,255,.04)'">
+    <span style="font-size:20px">📖</span>
+    <div style="flex:1"><div style="font-size:12px;font-weight:900;color:#fff">+ ${moreCount} weitere Stories</div><div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700">Influencer, Betriebsprüfung, Reihengeschäft & mehr</div></div>
+    <span style="font-size:18px;color:rgba(255,255,255,.25)">›</span>
+  </div>`:''}
 </div>
 
-<!-- ══ STEUERAUFKOMMEN RATEN ═════════════════════════════════════════ -->
+<!-- STEUERAUFKOMMEN RATEN -->
 <div style="margin-bottom:14px">
   <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">💰 Was bringt dem Staat am meisten?</div>
   <div style="background:linear-gradient(135deg,rgba(0,60,30,.6),rgba(0,100,50,.3));border:1.5px solid rgba(0,201,123,.2);border-radius:16px;padding:14px">
-    <div style="font-size:12px;color:rgba(255,255,255,.6);font-weight:700;margin-bottom:10px">Schätze: Welche Steuer nimmt Deutschland am meisten ein? Tippe auf die richtige Reihenfolge.</div>
+    <div style="font-size:12px;color:rgba(255,255,255,.6);font-weight:700;margin-bottom:10px">Schätze: Welche Steuer nimmt Deutschland am meisten ein?</div>
     <div id="aufk-game-wrap" style="min-height:60px"></div>
   </div>
 </div>
 
-<!-- ══ KURIOSES STEUERRECHT ══════════════════════════════════════════ -->
+<!-- KURIOSES -->
 <div onclick="sw('kurios')" style="background:linear-gradient(135deg,rgba(58,10,0,.7),rgba(120,40,0,.4));border:1.5px solid rgba(255,140,66,.25);border-radius:16px;padding:15px;cursor:pointer;margin-bottom:14px;transition:all .2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
   <div style="display:flex;align-items:center;gap:12px">
     <div style="font-size:36px">🤯</div>
     <div style="flex:1">
       <div style="font-size:14px;font-weight:900;color:#fff;margin-bottom:3px">Kurioses Steuerrecht</div>
-      <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">Es gibt eine Sektsteuer seit 1902 🍾 · Hunde zahlen Steuer 🐕 · Krypto wird besteuert 💻 · und 40+ weitere skurrile Fakten</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">Sektsteuer seit 1902 🍾 · Hundesteuer 🐕 · Krypto 💻 · Kernbrennstoffsteuer · 40+ skurrile Fakten</div>
     </div>
     <div style="font-size:20px;color:rgba(255,255,255,.2)">›</div>
   </div>
 </div>
 
-<!-- ══ WAS KANN ICH ABSETZEN ════════════════════════════════════════ -->
+<!-- WAS KANN ICH ABSETZEN -->
 <div id="sec-absetzen" style="margin-bottom:14px">
   <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">💡 Was kann ich absetzen?</div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-    ${[
-      {icon:'🚗', title:'Fahrten zur Arbeit', norm:'§9 Abs.1 Nr.4 EStG', tip:'0,38 €/km ab km 1 (ab 2026) · einfache Strecke · max. 4.500 €/Jahr'},
-      {icon:'💻', title:'Laptop & Handy', norm:'§9 EStG + GWG §6 Abs.2', tip:'Bis 800 € netto → Sofortabschreibung. Über 800 € → auf Nutzungsdauer verteilen. Anteilig bei Privatnutzung.'},
-      {icon:'🏠', title:'Homeoffice', norm:'§4 Abs.5 Nr.6b EStG', tip:'6 €/Tag · max. 210 Tage = max. 1.260 €/Jahr. Kein abgetrenntes Arbeitszimmer nötig!'},
-      {icon:'📚', title:'Fort- & Weiterbildung', norm:'§9 Abs.1 Nr.6 EStG', tip:'Kursgebühren, Fachliteratur, Prüfungsgebühren – wenn beruflich veranlasst, voll absetzbar.'},
-      {icon:'🎁', title:'Spenden', norm:'§10b EStG', tip:'Bis 20 % des Gesamtbetrags der Einkünfte absetzbar. Spendenquittung aufbewahren!'},
-      {icon:'🩺', title:'Krankheitskosten', norm:'§33 EStG', tip:'Außergewöhnliche Belastungen: Zahnarzt, Brille, Medikamente. Nur soweit sie die zumutbare Belastung übersteigen.'},
-    ].map(x=>`
-    <div style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:12px;cursor:pointer;transition:all .2s" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block';this.querySelector('.arr').textContent=this.nextElementSibling.style.display==='block'?'▲':'▼'" onmouseover="this.style.background='rgba(255,255,255,.09)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
-      <div style="display:flex;align-items:center;gap:8px">
-        <span style="font-size:22px">${x.icon}</span>
-        <div style="flex:1">
-          <div style="font-size:12px;font-weight:900;color:#fff;line-height:1.3">${x.title}</div>
-          <div style="font-size:9px;color:var(--cyan);font-family:'Space Mono',monospace;font-weight:700">${x.norm}</div>
-        </div>
-        <span class="arr" style="font-size:10px;color:rgba(255,255,255,.3)">▼</span>
-      </div>
+    <div onclick="absetzOv('fahrt')" style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:12px;cursor:pointer;transition:all .2s" onmouseover="this.style.background='rgba(255,255,255,.09)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
+      <div style="font-size:26px;margin-bottom:6px">🚗</div>
+      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:2px">Fahrtkosten</div>
+      <div style="font-size:9px;color:var(--cyan);font-family:'Space Mono',monospace;font-weight:700">§ 9 Abs. 1 Nr. 4 EStG</div>
     </div>
-    <div style="display:none;margin-top:-6px;margin-bottom:2px;background:rgba(0,194,224,.08);border:1px solid rgba(0,194,224,.2);border-radius:0 0 12px 12px;padding:10px 12px;font-size:11px;color:rgba(255,255,255,.7);font-weight:700;line-height:1.6">${x.tip}</div>`).join('')}
+    <div onclick="absetzOv('laptop')" style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:12px;cursor:pointer;transition:all .2s" onmouseover="this.style.background='rgba(255,255,255,.09)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
+      <div style="font-size:26px;margin-bottom:6px">💻</div>
+      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:2px">Laptop & Handy</div>
+      <div style="font-size:9px;color:var(--cyan);font-family:'Space Mono',monospace;font-weight:700">§ 9 EStG · § 6 Abs. 2 EStG</div>
+    </div>
+    <div onclick="absetzOv('home')" style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:12px;cursor:pointer;transition:all .2s" onmouseover="this.style.background='rgba(255,255,255,.09)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
+      <div style="font-size:26px;margin-bottom:6px">🏠</div>
+      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:2px">Homeoffice</div>
+      <div style="font-size:9px;color:var(--cyan);font-family:'Space Mono',monospace;font-weight:700">§ 4 Abs. 5 Nr. 6b EStG</div>
+    </div>
+    <div onclick="absetzOv('fortbild')" style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:12px;cursor:pointer;transition:all .2s" onmouseover="this.style.background='rgba(255,255,255,.09)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
+      <div style="font-size:26px;margin-bottom:6px">📚</div>
+      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:2px">Weiterbildung</div>
+      <div style="font-size:9px;color:var(--cyan);font-family:'Space Mono',monospace;font-weight:700">§ 9 Abs. 1 Nr. 6 EStG</div>
+    </div>
+    <div onclick="absetzOv('spende')" style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:12px;cursor:pointer;transition:all .2s" onmouseover="this.style.background='rgba(255,255,255,.09)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
+      <div style="font-size:26px;margin-bottom:6px">🎁</div>
+      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:2px">Spenden</div>
+      <div style="font-size:9px;color:var(--cyan);font-family:'Space Mono',monospace;font-weight:700">§ 10b EStG</div>
+    </div>
+    <div onclick="absetzOv('krank')" style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:12px;cursor:pointer;transition:all .2s" onmouseover="this.style.background='rgba(255,255,255,.09)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
+      <div style="font-size:26px;margin-bottom:6px">🩺</div>
+      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:2px">Krankheitskosten</div>
+      <div style="font-size:9px;color:var(--cyan);font-family:'Space Mono',monospace;font-weight:700">§ 33 EStG</div>
+    </div>
   </div>
 </div>
 
-<!-- ══ ARBEIT IM FINANZAMT ════════════════════════════════════════════ -->
+<!-- ARBEIT IM FINANZAMT -->
 <div style="background:linear-gradient(135deg,#060f22,#0a2a60 60%,#0d3a20);border:1.5px solid rgba(0,194,224,.2);border-radius:18px;padding:18px;margin-bottom:14px">
   <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">🏛️ Arbeit im Finanzamt – nicht was du denkst</div>
-  <div style="font-size:15px;font-weight:900;color:#fff;margin-bottom:8px">Akten sortieren? Nein. Wirtschaftskriminalität aufdecken. ⚡</div>
-  <div style="font-size:12px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.65;margin-bottom:14px">Finanzbeamte verhandeln mit internationalen Konzernen. Entlarven Steuerhinterziehung. Beraten Unternehmen und Privatpersonen. Und sie sichern die Grundlage für alles was der Staat finanziert – von der Schule bis zur Feuerwehr.</div>
+  <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:8px">Akten sortieren? Nein. Wirtschaftskriminalität aufdecken. ⚡</div>
+  <div style="font-size:12px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.65;margin-bottom:14px">Finanzbeamte verhandeln mit internationalen Konzernen, entlarven Steuerhinterziehung, beraten Privatpersonen in komplexen Lebenslagen – und sichern die Grundlage für Schulen, Krankenhäuser und Straßen.</div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
-    ${[
-      {icon:'🔍', title:'Betriebsprüfung', desc:'Du prüfst Millionenunternehmen. Findest versteckte Einnahmen. Sorgst für Gerechtigkeit.'},
-      {icon:'⚖️', title:'Rechtsbehelfe', desc:'Einsprüche, Klagen, Finanzgericht. Steuerrecht ist Rechtsarbeit auf hohem Niveau.'},
-      {icon:'🌍', title:'Internationales', desc:'Verrechnungspreise. Doppelbesteuerungsabkommen. EU-Recht. Global denken, lokal entscheiden.'},
-      {icon:'👥', title:'Bürgerberatung', desc:'Du bist erster Ansprechpartner für Menschen in komplexen Lebenslagen – fair und kompetent.'},
-    ].map(x=>`<div style="background:rgba(255,255,255,.06);border-radius:12px;padding:12px">
-      <div style="font-size:22px;margin-bottom:6px">${x.icon}</div>
-      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:4px">${x.title}</div>
-      <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">${x.desc}</div>
-    </div>`).join('')}
+    <div style="background:rgba(255,255,255,.06);border-radius:12px;padding:12px">
+      <div style="font-size:22px;margin-bottom:6px">🔍</div>
+      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:4px">Betriebsprüfung</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">Du prüfst Millionenunternehmen. Findest versteckte Einnahmen. Sorgst für Steuergerechtigkeit.</div>
+    </div>
+    <div style="background:rgba(255,255,255,.06);border-radius:12px;padding:12px">
+      <div style="font-size:22px;margin-bottom:6px">⚖️</div>
+      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:4px">Rechtsbehelfe</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">Einsprüche bearbeiten, Finanzgericht, EU-Recht. Steuerrecht ist anspruchsvolle Rechtsarbeit.</div>
+    </div>
+    <div style="background:rgba(255,255,255,.06);border-radius:12px;padding:12px">
+      <div style="font-size:22px;margin-bottom:6px">🌍</div>
+      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:4px">Internationales</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">Verrechnungspreise, Doppelbesteuerungsabkommen, OECD-Standards. Global denken.</div>
+    </div>
+    <div style="background:rgba(255,255,255,.06);border-radius:12px;padding:12px">
+      <div style="font-size:22px;margin-bottom:6px">👥</div>
+      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:4px">Bürgerberatung</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">Erster Ansprechpartner in komplexen Lebenslagen – fair, kompetent, verlässlich.</div>
+    </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">
     <div style="text-align:center;background:rgba(255,255,255,.06);border-radius:10px;padding:10px 6px">
       <div style="font-size:16px;font-weight:900;color:var(--cyan);font-family:'Space Mono',monospace">~1.200€</div>
-      <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700;margin-top:2px">Ausbildungsgehalt netto</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700;margin-top:2px">Ausbildungsgehalt</div>
     </div>
     <div style="text-align:center;background:rgba(255,255,255,.06);border-radius:10px;padding:10px 6px">
       <div style="font-size:16px;font-weight:900;color:#00c97b;font-family:'Space Mono',monospace">3 Jahre</div>
@@ -2928,19 +2946,134 @@ function renderBasicsEinsteiger(a){
   <button onclick="sw('karriere')" style="width:100%;padding:12px;border-radius:12px;border:none;background:linear-gradient(135deg,#00c97b,#005c36);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Karriere entdecken → Ausbildung, Studium, Bewerbung</button>
 </div>
 
-<!-- ══ QUIZ TEASER ════════════════════════════════════════════════════ -->
+<!-- QUIZ TEASER -->
 <div onclick="einstGoStep3()" style="background:linear-gradient(135deg,#1a0a5e,#3d0a6b);border:1.5px solid rgba(139,92,246,.3);border-radius:16px;padding:15px;cursor:pointer;display:flex;align-items:center;gap:14px;margin-bottom:90px;transition:all .2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
   <div style="font-size:32px">⚡</div>
-  <div>
-    <div style="font-size:14px;font-weight:900;color:#fff;margin-bottom:2px">Schnell-Quiz: Was weißt du schon?</div>
-    <div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:700">5 Fragen · 3 Minuten · sofort Ergebnis</div>
-  </div>
+  <div><div style="font-size:14px;font-weight:900;color:#fff;margin-bottom:2px">Schnell-Quiz: Was weißt du schon?</div><div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:700">5 Fragen · 3 Minuten · sofort Ergebnis</div></div>
   <div style="margin-left:auto;font-size:20px;color:rgba(255,255,255,.25)">›</div>
 </div>
 
 </div>`;
 
   setTimeout(()=>{ if(typeof renderAufkGame==='function') renderAufkGame(); }, 120);
+}
+
+// ── Absetz Overlay ────────────────────────────────────────────────────────
+const ABSETZ_OV = {
+  fahrt:{
+    icon:'🚗', title:'Fahrten zur Arbeit (Entfernungspauschale)',
+    norm:'§ 9 Abs. 1 Satz 3 Nr. 4 EStG · Steueränderungsgesetz 2025',
+    recht:`<b>Rechtliche Grundlage:</b> Arbeitnehmer können für Wege zwischen Wohnung und erster Tätigkeitsstätte die Entfernungspauschale als Werbungskosten (§ 9 EStG) abziehen.<br><br>
+<b>Ab VZ 2026 (StÄndG 2025):</b> Einheitlich <b>0,38 € je Entfernungskilometer ab dem 1. km</b> – die frühere Staffelung (0,30 € für km 1–20, 0,38 € ab km 21) entfällt.<br><br>
+<b>Wichtig:</b> Nur die einfache Strecke zählt (nicht Hin- und Rückfahrt). Maximal 4.500 €/Jahr (außer bei PKW-Nutzung: dann unbegrenzt). Gilt nicht für Tage mit Homeoffice-Pauschale (§ 4 Abs. 5 Nr. 6b EStG).`,
+    example:'Azubi Lena fährt 22 km zur Ausbildung, an 180 Tagen im Jahr. Abzug: 180 × 22 km × 0,38 € = <b>1.504,80 €</b> Werbungskosten.',
+    calc:true
+  },
+  laptop:{
+    icon:'💻', title:'Laptop, PC, Tablet & Handy',
+    norm:'§ 9 Abs. 1 EStG · § 6 Abs. 2 EStG · BMF-Schreiben 22.02.2022',
+    recht:`<b>Rechtliche Grundlage:</b> Arbeitsmittel (§ 9 Abs. 1 Satz 3 Nr. 6 EStG) die beruflich genutzt werden, sind als Werbungskosten absetzbar.<br><br>
+<b>GWG-Grenze (§ 6 Abs. 2 EStG):</b> Bis 800 € netto (= 952 € brutto für Arbeitnehmer ohne Vorsteuerabzug) → Sofortabschreibung im Anschaffungsjahr.<br><br>
+<b>Über 800 € netto:</b> Abschreibung über die betriebsgewöhnliche Nutzungsdauer. Für Computer und Peripherie: laut BMF-Schreiben vom 22.02.2022 gilt eine <b>Nutzungsdauer von 1 Jahr</b> → faktisch immer Sofortabschreibung möglich.<br><br>
+<b>Privatanteil:</b> Bei gemischter Nutzung muss der Privatanteil herausgerechnet werden. 60 % beruflich → 60 % absetzbar.`,
+    example:'Student Jonas kauft einen Laptop für 1.190 € brutto (1.000 € netto). Nutzung 80 % beruflich. Absetzbar: 80 % × 1.190 € = <b>952 €</b> (Arbeitnehmer = kein Vorsteuerabzug, daher Bruttobetrag).'
+  },
+  home:{
+    icon:'🏠', title:'Homeoffice-Pauschale',
+    norm:'§ 4 Abs. 5 Satz 1 Nr. 6b EStG (auch i.V.m. § 9 Abs. 5 EStG)',
+    recht:`<b>Rechtliche Grundlage:</b> Seit VZ 2023 dauerhaft: Für jeden Tag an dem ausschließlich zu Hause gearbeitet wird, kann ein Pauschbetrag abgezogen werden.<br><br>
+<b>Höhe:</b> <b>6 € pro Homeoffice-Tag</b>, maximal <b>210 Tage = 1.260 €/Jahr</b>.<br><br>
+<b>Kein abgetrenntes Arbeitszimmer nötig</b> – auch Küchentisch, Sofa, Wohnzimmer zählen.<br><br>
+<b>Achtung Doppelnutzung:</b> Für denselben Tag kann nicht sowohl die Homeoffice-Pauschale als auch die Entfernungspauschale geltend gemacht werden (§ 4 Abs. 5 Nr. 6b Satz 4 EStG).`,
+    example:'Lehrerin Andrea arbeitet an 120 Tagen im Jahr von zu Hause. Absetzbar: 120 × 6 € = <b>720 €</b> Werbungskosten – ohne Nachweis, ohne Arbeitszimmer.'
+  },
+  fortbild:{
+    icon:'📚', title:'Fort- und Weiterbildungskosten',
+    norm:'§ 9 Abs. 1 Satz 3 Nr. 6 EStG · § 9 Abs. 6 EStG',
+    recht:`<b>Rechtliche Grundlage:</b> Aufwendungen für Berufsausbildung oder Weiterbildung in einem bereits ausgeübten Beruf sind Werbungskosten (§ 9 Abs. 1 Nr. 6 EStG) bzw. Betriebsausgaben.<br><br>
+<b>Absetzbar:</b> Kursgebühren, Prüfungsgebühren, Fachliteratur, Fahrtkosten zur Bildungseinrichtung, anteilige Internetkosten.<br><br>
+<b>Erstausbildung (§ 9 Abs. 6 EStG):</b> Kosten der ersten Berufsausbildung / des Erststudiums sind nur als <b>Sonderausgaben</b> (§ 10 Abs. 1 Nr. 7 EStG) absetzbar, max. 6.000 €/Jahr – nicht als Werbungskosten.<br><br>
+<b>Zweitausbildung / Fortbildung:</b> Unbegrenzt als Werbungskosten, auch wenn man noch kein Einkommen hat (Verlustvortrag § 10d EStG).`,
+    example:'Azubi Kai macht nach der Ausbildung einen Finanzkurs: 450 € Kursgebühr + 120 € Fachliteratur + 80 € Fahrtkosten = <b>650 €</b> Werbungskosten.'
+  },
+  spende:{
+    icon:'🎁', title:'Spenden (Sonderausgaben)',
+    norm:'§ 10b EStG · § 50 EStDV',
+    recht:`<b>Rechtliche Grundlage:</b> Zuwendungen an steuerbegünstigte Körperschaften (§ 5 Abs. 1 Nr. 9 KStG) können als Sonderausgaben abgezogen werden.<br><br>
+<b>Höchstbetrag:</b> Bis zu <b>20 % des Gesamtbetrags der Einkünfte</b> oder alternativ 4 ‰ der Summe aus Umsätzen und Lohn- und Gehaltsaufwendungen.<br><br>
+<b>Nachweis:</b> Bei Spenden bis 300 € genügt der Kontoauszug. Darüber ist eine <b>Zuwendungsbestätigung</b> (Spendenquittung) nach amtlichem Muster erforderlich (§ 50 EStDV).<br><br>
+<b>Parteispenden (§ 34g EStG):</b> Gesonderte Regelung – direkte Steuerermäßigung (kein Abzug vom Einkommen), max. 825 € pro Person.`,
+    example:'Maria verdient 40.000 € und spendet 3.000 € an eine anerkannte Hilfsorganisation. Absetzbar: 3.000 € (< 20 % von 40.000 € = 8.000 €). Steuerersparnis bei 30 % Grenzsteuersatz: ca. <b>900 €</b>.'
+  },
+  krank:{
+    icon:'🩺', title:'Außergewöhnliche Belastungen (Krankheitskosten)',
+    norm:'§ 33 EStG · § 33a EStG · R 33.1–33.4 EStR',
+    recht:`<b>Rechtliche Grundlage:</b> Aufwendungen die zwangsläufig anfallen und außergewöhnlich sind, können nach § 33 EStG abgezogen werden – jedoch nur soweit sie die <b>zumutbare Belastung</b> übersteigen.<br><br>
+<b>Zumutbare Belastung (§ 33 Abs. 3 EStG):</b> Je nach Einkommen und Familienstand 1–7 % des Gesamtbetrags der Einkünfte. Erst was darüber liegt, wird anerkannt.<br><br>
+<b>Typische Fälle:</b> Zahnersatz (soweit nicht von KV erstattet), Brille/Kontaktlinsen, rezeptpflichtige Medikamente, Kurkosten (mit ärztlichem Attest), Pflegeaufwendungen.<br><br>
+<b>Ohne Abzug der zumutbaren Belastung:</b> Behinderten-Pauschbetrag (§ 33b EStG) – der kann zusätzlich geltend gemacht werden.`,
+    example:'Karl (ledig, 35.000 € Einkommen) hatte 2.400 € Zahnarztkosten. Zumutbare Belastung: ca. 1.050 € (3 % × 35.000 €). Abziehbar: 2.400 – 1.050 = <b>1.350 €</b>.'
+  }
+};
+
+function absetzOv(id){
+  const d = ABSETZ_OV[id];
+  if(!d) return;
+  const old = document.getElementById('absetz-full-ov');
+  if(old) old.remove();
+  const ov = document.createElement('div');
+  ov.id = 'absetz-full-ov';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:9800;background:rgba(5,10,30,.85);backdrop-filter:blur(6px);display:flex;align-items:flex-end;justify-content:center;padding:0';
+  ov.onclick = e => { if(e.target===ov) ov.remove(); };
+
+  const calcHtml = d.calc ? `
+    <div style="background:rgba(0,194,224,.08);border:1px solid rgba(0,194,224,.25);border-radius:14px;padding:14px;margin-top:14px">
+      <div style="font-size:11px;font-weight:900;color:var(--cyan);margin-bottom:10px">🧮 Rechner – Entfernungspauschale 2026</div>
+      <div style="display:flex;gap:8px;margin-bottom:8px">
+        <div style="flex:1">
+          <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:4px">Arbeitstage/Jahr</div>
+          <input id="fahrt-tage" type="number" value="220" min="1" max="365" oninput="calcFahrt()" style="width:100%;padding:8px 10px;border-radius:8px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;box-sizing:border-box">
+        </div>
+        <div style="flex:1">
+          <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:4px">Einfache km</div>
+          <input id="fahrt-km" type="number" value="22" min="1" max="500" oninput="calcFahrt()" style="width:100%;padding:8px 10px;border-radius:8px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;box-sizing:border-box">
+        </div>
+      </div>
+      <div id="fahrt-result" style="background:rgba(0,194,224,.15);border-radius:10px;padding:10px;text-align:center">
+        <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700">Entfernungspauschale</div>
+        <div id="fahrt-val" style="font-size:24px;font-weight:900;color:var(--cyan);font-family:'Space Mono',monospace">1.835,20 €</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700;margin-top:2px">220 Tage × 22 km × 0,38 €</div>
+      </div>
+    </div>` : '';
+
+  ov.innerHTML = `<div style="background:#0d1b3e;border-radius:24px 24px 0 0;width:100%;max-width:520px;max-height:88vh;overflow-y:auto;padding:24px 20px 36px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+      <span style="font-size:32px">${d.icon}</span>
+      <div style="flex:1">
+        <div style="font-size:15px;font-weight:900;color:#fff">${d.title}</div>
+        <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;margin-top:2px">${d.norm}</div>
+      </div>
+      <button onclick="document.getElementById('absetz-full-ov').remove()" style="background:rgba(255,255,255,.1);border:none;color:rgba(255,255,255,.6);border-radius:50%;width:30px;height:30px;font-size:16px;cursor:pointer;flex-shrink:0">✕</button>
+    </div>
+    <div style="font-size:12px;color:rgba(255,255,255,.7);font-weight:700;line-height:1.7;background:rgba(255,255,255,.04);border-radius:12px;padding:12px;margin-bottom:12px">${d.recht}</div>
+    <div style="background:rgba(0,201,123,.08);border:1px solid rgba(0,201,123,.25);border-radius:12px;padding:12px">
+      <div style="font-size:10px;font-weight:900;color:#00c97b;margin-bottom:4px">📋 Beispiel</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.75);font-weight:700;line-height:1.6">${d.example}</div>
+    </div>
+    ${calcHtml}
+  </div>`;
+  document.body.appendChild(ov);
+  if(d.calc) setTimeout(calcFahrt, 50);
+}
+
+function calcFahrt(){
+  const t = parseInt(document.getElementById('fahrt-tage')?.value)||0;
+  const k = parseInt(document.getElementById('fahrt-km')?.value)||0;
+  const result = t * k * 0.38;
+  const el = document.getElementById('fahrt-val');
+  const hint = document.querySelector('#fahrt-result div:last-child');
+  if(el) el.textContent = result.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €';
+  if(hint) hint.textContent = `${t} Tage × ${k} km × 0,38 €`;
 }
 
 
@@ -3006,6 +3139,118 @@ function toggleAbsetz(id){
     +'</div>';
   document.body.appendChild(ov);
 }
+
+
+// ── Absetz overlay with full legal detail ────────────────────────────
+const ABSETZ_INFO = {
+  fahrt:{
+    icon:'🚗', title:'Fahrtkosten zur Arbeit', norm:'§ 9 Abs. 1 Satz 3 Nr. 4 EStG',
+    color:'#1a3a8f',
+    legal:'Arbeitnehmer können die Kosten für Fahrten zwischen Wohnung und erster Tätigkeitsstätte als <b>Werbungskosten</b> abziehen. Maßgebend ist die <b>einfache Entfernung</b> (nicht Hin- und Rückfahrt). Ab dem Veranlagungszeitraum 2026 gilt einheitlich <b>0,38 €/km ab dem ersten Kilometer</b> (Steueränderungsgesetz 2025, vorher Staffelung 0,30 € bis km 20). Maximal absetzbar: 4.500 €/Jahr bei PKW-Nutzung, unbegrenzt bei öffentlichen Verkehrsmitteln oder nachgewiesenen Fahrtkosten.',
+    example:'Lena fährt 22 km zur Ausbildung, 200 Arbeitstage. Absetzbar: 22 km × 0,38 € × 200 = <b>1.672 €</b>. Liegt dieser Betrag über dem Arbeitnehmer-Pauschbetrag (1.230 €), lohnt sich die Erklärung!',
+    calc:true
+  },
+  homeoffice:{
+    icon:'🏠', title:'Homeoffice-Pauschale', norm:'§ 4 Abs. 5 Satz 1 Nr. 6b EStG (i.V.m. § 9 Abs. 5 EStG)',
+    color:'#005c36',
+    legal:'Seit 2023 dauerhaft: Für jeden Kalendertag an dem die Tätigkeit <b>überwiegend im Homeoffice</b> ausgeübt wird (mind. mehr als die Hälfte der Arbeitszeit) können <b>6 € pauschal</b> abgezogen werden – ohne Nachweis eines abgetrennten Arbeitszimmers. Maximal <b>210 Tage = 1.260 €/Jahr</b>. Achtung: Für denselben Tag gilt entweder Homeoffice-Pauschale oder Entfernungspauschale – nicht beides.',
+    example:'Tom arbeitet 120 Tage im Homeoffice. 120 × 6 € = <b>720 € Werbungskosten</b>. Kein abgetrenntes Arbeitszimmer nötig – auch am Küchentisch gilt die Pauschale.',
+    calc:false
+  },
+  laptop:{
+    icon:'💻', title:'Laptop, Handy & Arbeitsmittel', norm:'§ 9 Abs. 1 Satz 3 Nr. 6 EStG · § 6 Abs. 2 EStG (GWG)',
+    color:'#3d0a6b',
+    legal:'Beruflich genutzte Arbeitsmittel sind als <b>Werbungskosten</b> absetzbar, anteilig bei Privatnutzung. <b>GWG-Grenze (geringwertige Wirtschaftsgüter):</b> Nettoanschaffungspreis bis 800 € → Sofortabschreibung im Anschaffungsjahr. Darüber: Abschreibung über die Nutzungsdauer (Laptop: 3 Jahre, Handy: 1–3 Jahre laut AfA-Tabelle). <b>Besonderheit Computer:</b> BMF-Schreiben 22.02.2022 erlaubt für Computerhardware und -software freiwillig 1 Jahr Nutzungsdauer → Sofortabschreibung auch über 800 €. Arbeitnehmer können Bruttobetrag ansetzen (kein Vorsteuerabzug möglich).',
+    example:'Azubi kauft Laptop für 1.190 € brutto (1.000 € netto). Berufliche Nutzung 70 %. Dank 1-Jahres-Nutzungsdauer (BMF 2022): 70 % × 1.190 € = <b>833 € im ersten Jahr absetzbar</b>.',
+    calc:false
+  },
+  weiterbildung:{
+    icon:'📚', title:'Fort- und Weiterbildungskosten', norm:'§ 9 Abs. 1 Satz 3 Nr. 6 EStG',
+    color:'#8a4000',
+    legal:'Kosten für <b>beruflich veranlasste</b> Fort- und Weiterbildung sind in voller Höhe als Werbungskosten absetzbar. Dazu gehören: Kursgebühren, Prüfungsgebühren, Fachliteratur, Fahrten zum Lehrgangsort, Übernachtungskosten. <b>Abgrenzung:</b> Allgemeinbildung (Fremdsprache als Hobby) ist nicht absetzbar; Fremdsprache für den Beruf schon. Bei Erstausbildung (kein vorheriger Berufsabschluss) gelten Ausbildungskosten nur als Sonderausgaben (§ 10 Abs. 1 Nr. 7 EStG) bis max. 6.000 €/Jahr – nicht als Werbungskosten.',
+    example:'Azubi kauft Steuerrecht-Fachliteratur für 180 € und zahlt 120 € Prüfungsgebühr. Zusammen <b>300 € Werbungskosten</b>. Plus Fahrten zum Prüfungsort.',
+    calc:false
+  },
+  spenden:{
+    icon:'🎁', title:'Spenden und Mitgliedsbeiträge', norm:'§ 10b EStG',
+    color:'#005c7a',
+    legal:'Spenden an <b>steuerbegünstigte Organisationen</b> (gemeinnützig, mildtätig, kirchlich i.S.d. §§ 52–54 AO) sind als <b>Sonderausgaben</b> absetzbar. Grenze: bis zu <b>20 % des Gesamtbetrags der Einkünfte</b> oder alternativ 4 ‰ der Summe aus Umsätzen und Löhnen. Darüber hinausgehende Beträge werden ins nächste Jahr vorgetragen (§ 10b Abs. 1 Satz 9 EStG). <b>Nachweis:</b> Bis 300 € genügt Kontoauszug + Empfangsbestätigung; über 300 € zwingend amtliche Zuwendungsbestätigung.',
+    example:'Max verdient 30.000 € und spendet 8.000 € an Greenpeace. Absetzbar: max. 20 % × 30.000 € = 6.000 €. Die restlichen 2.000 € werden ins nächste Jahr vorgetragen.',
+    calc:false
+  },
+  krankheit:{
+    icon:'🩺', title:'Krankheitskosten (außergewöhnliche Belastungen)', norm:'§ 33 EStG',
+    color:'#7a0030',
+    legal:'Krankheitskosten sind <b>außergewöhnliche Belastungen</b> und mindern das zu versteuernde Einkommen – aber nur soweit sie die <b>zumutbare Belastung</b> übersteigen. Diese richtet sich nach Einkommen, Familienstand und Kinderzahl (§ 33 Abs. 3 EStG: 1–7 % des Gesamtbetrags der Einkünfte). Absetzbare Kosten: Arztkosten, Medikamente, Brillen, Zahnersatz, Fahrtkosten zum Arzt (0,30 €/km). Nicht absetzbar: Krankenkassenbeiträge (das sind Vorsorgeaufwendungen nach § 10 EStG).',
+    example:'Singlehaushalt, Einkommen 25.000 €. Zumutbare Belastung: 5 % × 25.000 € = 1.250 €. Zahnarztrechnung 2.800 €. Absetzbar: 2.800 € − 1.250 € = <b>1.550 €</b>.',
+    calc:false
+  }
+};
+
+function showAbsetz(id){
+  const info = ABSETZ_INFO[id];
+  if(!info) return;
+  const old = document.getElementById('absetz-detail-ov');
+  if(old) old.remove();
+  const ov = document.createElement('div');
+  ov.id = 'absetz-detail-ov';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:9800;background:rgba(5,10,30,.85);backdrop-filter:blur(6px);display:flex;align-items:flex-end;justify-content:center;padding:0';
+  ov.onclick = e => { if(e.target===ov) ov.remove(); };
+
+  const calcHtml = info.calc ? `
+    <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:14px;margin-top:14px">
+      <div style="font-size:11px;font-weight:900;color:var(--cyan);margin-bottom:10px">🧮 Fahrtkosten-Rechner (VZ 2026)</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+        <div>
+          <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:4px">Arbeitstage/Jahr</div>
+          <input id="fahrt-tage" type="number" value="220" min="1" max="365" oninput="calcFahrt()" style="width:100%;padding:8px;border-radius:8px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;font-family:'Space Mono',monospace;font-size:13px;font-weight:700">
+        </div>
+        <div>
+          <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:4px">Einfache Strecke (km)</div>
+          <input id="fahrt-km" type="number" value="15" min="1" max="500" oninput="calcFahrt()" style="width:100%;padding:8px;border-radius:8px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;font-family:'Space Mono',monospace;font-size:13px;font-weight:700">
+        </div>
+      </div>
+      <div id="fahrt-result" style="background:rgba(0,194,224,.1);border:1px solid rgba(0,194,224,.25);border-radius:10px;padding:12px;text-align:center">
+        <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:4px">Absetzbare Entfernungspauschale</div>
+        <div id="fahrt-betrag" style="font-size:24px;font-weight:900;color:var(--cyan);font-family:'Space Mono',monospace">1.254,00 €</div>
+        <div id="fahrt-hinweis" style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700;margin-top:4px"></div>
+      </div>
+    </div>` : '';
+
+  ov.innerHTML = `<div style="background:#0d1b3e;border-radius:24px 24px 0 0;padding:0;max-width:520px;width:100%;max-height:88vh;overflow-y:auto">
+    <div style="background:linear-gradient(135deg,${info.color},${info.color}99);padding:20px 20px 16px;border-radius:24px 24px 0 0;position:relative">
+      <button onclick="document.getElementById('absetz-detail-ov').remove()" style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,.15);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
+      <div style="font-size:32px;margin-bottom:8px">${info.icon}</div>
+      <div style="font-size:17px;font-weight:900;color:#fff;margin-bottom:4px">${info.title}</div>
+      <div style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.6);font-weight:700">${info.norm}</div>
+    </div>
+    <div style="padding:18px 20px 36px">
+      <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px">Rechtliche Grundlage</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.8);font-weight:700;line-height:1.7;margin-bottom:14px">${info.legal}</div>
+      <div style="background:rgba(0,201,123,.08);border:1px solid rgba(0,201,123,.25);border-radius:12px;padding:12px">
+        <div style="font-size:10px;font-weight:900;color:#00c97b;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">📋 Rechenbeispiel</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.75);font-weight:700;line-height:1.65">${info.example}</div>
+      </div>
+      ${calcHtml}
+    </div>
+  </div>`;
+  document.body.appendChild(ov);
+  if(info.calc) setTimeout(calcFahrt, 50);
+}
+
+function calcFahrt(){
+  const tage = parseInt(document.getElementById('fahrt-tage')?.value)||0;
+  const km   = parseInt(document.getElementById('fahrt-km')?.value)||0;
+  const betrag = tage * km * 0.38;
+  const el = document.getElementById('fahrt-betrag');
+  const hint = document.getElementById('fahrt-hinweis');
+  if(el) el.textContent = betrag.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €';
+  if(hint){
+    if(betrag <= 1230) hint.textContent = 'Liegt unter dem AN-Pauschbetrag (1.230 €) – nur mit höheren Werbungskosten lohnend';
+    else hint.textContent = `Übersteigt AN-Pauschbetrag um ${(betrag-1230).toLocaleString('de-DE',{maximumFractionDigits:0})} € → Steuererklärung lohnt sich!`;
+  }
+}
+
 
 // ==================== BASICS ====================
 function renderBasics(a){
