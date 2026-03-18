@@ -3259,7 +3259,7 @@ function toggleAbsetz(id){
 
 // ==================== BASICS ====================
 function renderBasics(a){
-  a.classList.remove('basics-dark-mode');
+  a.classList.add('basics-dark-mode');
   a.classList.remove('etag-mode');
 
   // ── Live stats from catStats ──────────────────────────────────────
@@ -3321,7 +3321,7 @@ function renderBasics(a){
   </div>
   <div style="display:flex;gap:8px">
     <button onclick="sw('meinbereich')" style="flex:1;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">📊 Mein Bereich</button>
-    <button onclick="sw('daily')" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,217,74,.3);background:rgba(255,217,74,.08);color:#ffd94a;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">📅 Daily</button>
+    <button onclick="sw('meinbereich');setTimeout(()=>renderDaily(document.getElementById('ga')),50)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,217,74,.3);background:rgba(255,217,74,.08);color:#ffd94a;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">📅 Daily</button>
   </div>
 </div>
 
