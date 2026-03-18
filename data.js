@@ -2843,6 +2843,29 @@ function renderBasicsEinsteiger(a){
   </div>
 </div>
 
+<!-- WAS SIND STEUERN -->
+<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:16px;margin-bottom:14px">
+  <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">💡 Was sind Steuern überhaupt?</div>
+  <div style="font-size:14px;font-weight:900;color:#fff;margin-bottom:10px">Steuern · Gebühren · Beiträge – was ist der Unterschied?</div>
+  <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px">
+    <div style="background:rgba(0,194,224,.08);border-left:3px solid var(--cyan);border-radius:0 10px 10px 0;padding:10px 12px">
+      <div style="font-size:11px;font-weight:900;color:var(--cyan);margin-bottom:3px">Steuer (§ 3 Abs. 1 AO)</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.7);font-weight:700;line-height:1.6">Geldleistung ohne direkte Gegenleistung. Du bezahlst – und der Staat entscheidet, wofür er das Geld einsetzt. <b style="color:#fff">Beispiel:</b> Einkommensteuer, Umsatzsteuer, Kfz-Steuer.</div>
+    </div>
+    <div style="background:rgba(255,140,66,.08);border-left:3px solid #ff8c42;border-radius:0 10px 10px 0;padding:10px 12px">
+      <div style="font-size:11px;font-weight:900;color:#ff8c42;margin-bottom:3px">Gebühr</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.7);font-weight:700;line-height:1.6">Zahlung für eine <b style="color:#fff">konkrete staatliche Leistung</b>. Du bekommst direkt etwas dafür. <b style="color:#fff">Beispiel:</b> Passgebühr, Gerichtsgebühr, KfZ-Zulassung.</div>
+    </div>
+    <div style="background:rgba(255,217,74,.08);border-left:3px solid #ffd94a;border-radius:0 10px 10px 0;padding:10px 12px">
+      <div style="font-size:11px;font-weight:900;color:#ffd94a;margin-bottom:3px">Beitrag</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.7);font-weight:700;line-height:1.6">Zahlung für die <b style="color:#fff">Möglichkeit einer Leistung</b> – ob du sie nutzt oder nicht. <b style="color:#fff">Beispiel:</b> Krankenversicherungsbeitrag, Rundfunkbeitrag.</div>
+    </div>
+  </div>
+  <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:10px 12px;font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.65">
+    🔑 <b style="color:rgba(255,255,255,.75)">Merksatz:</b> Steuern sind die einzige Abgabe <b style="color:rgba(255,255,255,.75)">ohne individuellen Anspruch auf Gegenleistung</b> (§ 3 Abs. 1 AO). Das unterscheidet sie fundamental von Gebühren und Beiträgen – und macht sie zur wichtigsten Finanzierungsquelle des Staates: <b style="color:var(--cyan)">947 Milliarden € pro Jahr</b>.
+  </div>
+</div>
+
 <!-- §1 EStG -->
 <div style="margin-bottom:14px">
   <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">⚖️ §1 EStG – Wer ist steuerpflichtig?</div>
@@ -2970,7 +2993,7 @@ function renderBasicsEinsteiger(a){
 <div style="background:linear-gradient(135deg,#060f22,#0a2a60 60%,#0d3a20);border:1.5px solid rgba(0,194,224,.2);border-radius:18px;padding:18px;margin-bottom:14px">
   <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">🏛️ Arbeit im Finanzamt – nicht was du denkst</div>
   <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:8px">Akten sortieren? Nein. Wirtschaftskriminalität aufdecken. ⚡</div>
-  <div style="font-size:12px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.65;margin-bottom:14px">Finanzbeamte verhandeln mit internationalen Konzernen, entlarven Steuerhinterziehung, beraten Privatpersonen in komplexen Lebenslagen – und sichern die Grundlage für Schulen, Krankenhäuser und Straßen.</div>
+  <div style="font-size:12px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.65;margin-bottom:14px">Finanzbeamte prüfen Millionenunternehmen, entlarven Steuerhinterziehung, setzen komplexe Bescheide fest und entscheiden über Einsprüche – und sichern damit die Grundlage für Schulen, Krankenhäuser und Straßen.</div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
     <div style="background:rgba(255,255,255,.06);border-radius:12px;padding:12px">
       <div style="font-size:22px;margin-bottom:6px">🔍</div>
@@ -2988,9 +3011,9 @@ function renderBasicsEinsteiger(a){
       <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">Verrechnungspreise, Doppelbesteuerungsabkommen, OECD-Standards. Global denken.</div>
     </div>
     <div style="background:rgba(255,255,255,.06);border-radius:12px;padding:12px">
-      <div style="font-size:22px;margin-bottom:6px">👥</div>
-      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:4px">Bürgerberatung</div>
-      <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">Erster Ansprechpartner in komplexen Lebenslagen – fair, kompetent, verlässlich.</div>
+      <div style="font-size:22px;margin-bottom:6px">📄</div>
+      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:4px">Steuerfestsetzung</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">Erklärungen prüfen, Bescheide erlassen, Einsprüche entscheiden – jeder Fall ist anders.</div>
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
