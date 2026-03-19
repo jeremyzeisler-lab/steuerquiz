@@ -6763,9 +6763,10 @@ const STEUER_TOUR_STEPS = [
             <div style="font-size:20px">❓</div>
           </div>`).join('')}
         </div>
-        <button onclick="STEUER_TOUR_STEPS[tourStep]._phase=1;renderTourStep(document.getElementById('ga'))" style="width:100%;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,#ff8c42,#c05800);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">
-          Ich schätze mal → Steuersätze zuordnen
-        </button>`;
+        <div style="display:flex;gap:8px">
+          <button onclick="STEUER_TOUR_STEPS[tourStep]._phase=1;renderTourStep(document.getElementById('ga'))" style="flex:3;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,#ff8c42,#c05800);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Ich schätze mal →</button>
+          <button onclick="tourNext()" style="flex:1;padding:13px;border-radius:13px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:rgba(255,255,255,.5);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">Überspringen</button>
+        </div>`;
       }
 
       if(phase===1){
@@ -6843,7 +6844,7 @@ const STEUER_TOUR_STEPS = [
     render(){
       const ITEMS = [
         {id:'ust', label:'Umsatzsteuer',   icon:'🛒', mrd:302.1, farbe:'#ff8c42', info:'§ 1 UStG – jeder Kauf'},
-        {id:'lst', label:'Lohnsteuer',     icon:'💼', mrd:248.9, farbe:'#1a3a8f', info:'§§ 38 ff. EStG – direkt vom Gehalt'},
+        {id:'lst', label:'Lohnsteuer',     icon:'💼', mrd:248.9, farbe:'#5b8dee', info:'§§ 38 ff. EStG – direkt vom Gehalt'},
         {id:'est', label:'Einkommensteuer',icon:'👤', mrd:73.0,  farbe:'#7b5ea7', info:'§ 32a EStG – Selbständige'},
         {id:'gst', label:'Gewerbesteuer',  icon:'🏭', mrd:73.8,  farbe:'#005c36', info:'§ 7 GewStG – Gemeinden'},
         {id:'kst', label:'Körperschaftst.',icon:'🏢', mrd:46.2,  farbe:'#8a4000', info:'§ 23 KStG – GmbH/AG'},
@@ -6996,6 +6997,10 @@ const STEUER_TOUR_STEPS = [
         <div style="font-size:13px;font-weight:900;color:${guessOk?'#00c97b':'#ff8c42'};margin-bottom:3px">${guessOk?'✅ Genau – 7 Einkunftsarten!':'Richtig wären 7 Einkunftsarten (§§ 13–22 EStG).'}</div>
         <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700">Jetzt zuordnen: Tippe einen Beruf, dann die passende Einkunftsart.</div>
       </div>
+      <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:8px 10px;margin-bottom:8px;display:flex;flex-wrap:wrap;gap:5px">
+        <div style="font-size:9px;color:rgba(255,255,255,.35);font-weight:700;width:100%;margin-bottom:3px;font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:1px">Abkürzungslegende</div>
+        ${EINK.map(e=>`<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.55);white-space:nowrap">${e.icon}<b style="color:var(--cyan)">${e.kurz}</b>=${e.name.split(' ')[0]}</div>`).join('<span style="color:rgba(255,255,255,.15);font-size:10px"> · </span>')}
+      </div>
       <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">
         ${this._shuffled.map(b=>{
           const done=answers[b.id]!==undefined; const ok=done&&answers[b.id]===b.correct; const sel=selBeruf===b.id;
@@ -7021,6 +7026,138 @@ const STEUER_TOUR_STEPS = [
       :`<div style="text-align:center;font-size:11px;color:rgba(255,255,255,.35);font-family:'Space Mono',monospace;font-weight:700">${Object.keys(answers).length} / ${BERUFE.length} zugeordnet</div>`}`;
     }
   },
+
+  // ── SCHRITT 5: Kann ich das absetzen? ────────────────────────────
+  {
+    id:'absetzen',
+    render(){
+      const CASES = [
+        {id:'f1',icon:'🎧',title:'AirPods für Podcasts und Calls?',
+         desc:'Lena (Azubi) kauft AirPods für 180 €. Sie nutzt sie für Fachinhalte-Podcasts und Zoom-Calls mit dem Team.',
+         answer:'nein',
+         erkl:'❌ Nicht absetzbar – jedenfalls nicht ohne sehr guten Nachweis. Kopfhörer sind Alltagsgegenstände (§ 12 Nr. 1 EStG) ohne objektiv berufliches Gepräge. Das FA erkennt den Abzug ohne nachweislich ausschließliche Berufsnutzung nicht an – und die ist bei AirPods kaum glaubhaft zu machen.'},
+        {id:'f2',icon:'🚲',title:'Fahrrad zur Ausbildungsstätte?',
+         desc:'Jonas (Azubi) fährt täglich 8 km mit dem Fahrrad zur Ausbildungsstätte – an 200 Arbeitstagen im Jahr.',
+         answer:'ja',
+         erkl:'✅ Ja! Entfernungspauschale 0,38 €/km (§ 9 Abs. 1 Nr. 4 EStG, ab VZ 2026). Gilt für alle Verkehrsmittel – nicht nur Auto. 200 Tage × 8 km × 0,38 € = 608 € Werbungskosten. Achtung: Lohnt sich nur wenn die gesamten WK den Arbeitnehmer-Pauschbetrag von 1.230 € übersteigen.'},
+        {id:'f3',icon:'📱',title:'Handy-Reparatur bei 60 % Berufsnutzung?',
+         desc:'Mia nutzt ihr Handy nachweislich zu 60 % beruflich (dienstliche E-Mails, Teams-Calls). Reparatur kostet 120 €.',
+         answer:'ja',
+         erkl:'✅ Anteilig absetzbar! Bei Arbeitsmitteln mit gemischter Nutzung gilt der berufliche Nutzungsanteil (§ 9 Abs. 1 Satz 3 Nr. 6 EStG). 60 % × 120 € = 72 € WK. Der Nutzungsanteil muss glaubhaft gemacht werden – eine nachvollziehbare Schätzung mit Begründung reicht in der Regel.'},
+        {id:'f4',icon:'🏋️',title:'Fitnessstudio-Abo für bessere Ausdauer im Job?',
+         desc:'Tom arbeitet im Außendienst und ist viel unterwegs. Er argumentiert: "Ohne Fitness schaffe ich den Job nicht."',
+         answer:'nein',
+         erkl:'❌ Nicht absetzbar. Sport und körperliche Fitness gelten als private Lebensführung (§ 12 Nr. 1 EStG). Auch wenn die Fitness dem Beruf objektiv nützt, akzeptiert das FA den Abzug nicht – außer bei Berufen mit spezifisch körperlichen Anforderungen, bei denen Fitness direkter Bestandteil der Berufsausübung ist (Stuntman, Berufssportler).'},
+        {id:'f5',icon:'📚',title:'Fachbuch für die Prüfungsvorbereitung?',
+         desc:'Kim (Azubi, 3. Lehrjahr) kauft zwei Fachbücher für die Abschlussprüfung: Steuerrecht und AO. Zusammen 55 €.',
+         answer:'ja',
+         erkl:'✅ Absetzbar! Fachliteratur ist ein klassisches Arbeitsmittel (§ 9 Abs. 1 Satz 3 Nr. 6 EStG). Bücher mit unmittelbarem Bezug zur Ausbildung oder zum Beruf sind als Werbungskosten anerkannt. Kaufbeleg aufbewahren. Bei insgesamt mehr als 1.230 € WK lohnt sich die Steuererklärung – darunter greift der Pauschbetrag.'},
+      ];
+      const answers = tourAnswers['abs'] || {};
+      const allDone = Object.keys(answers).length >= CASES.length;
+      const score = CASES.filter((_,i)=>answers[i]===CASES[i].answer).length;
+
+      return `
+      <div style="background:linear-gradient(135deg,#0a1a3a,#3d0a6b);border-radius:16px;padding:14px 16px 12px;margin-bottom:12px">
+        <div style="font-size:9px;font-family:'Space Mono',monospace;color:#c8a0ff;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px">💸 Schritt 5 – Steuer-Realcheck</div>
+        <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:3px">Kann ich das absetzen?</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:700">5 Alltagssituationen – mit rechtlicher Begründung</div>
+      </div>
+      ${CASES.map((pc,i)=>{
+        const given=answers[i]; const ok=given===pc.answer;
+        return `<div style="background:rgba(255,255,255,.05);border:1.5px solid ${given===undefined?'rgba(255,255,255,.1)':ok?'rgba(0,201,123,.4)':'rgba(255,77,109,.35)'};border-radius:14px;padding:13px;margin-bottom:8px">
+          <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:8px">
+            <span style="font-size:26px;flex-shrink:0">${pc.icon}</span>
+            <div style="flex:1">
+              <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:2px">${pc.title}</div>
+              <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">${pc.desc}</div>
+            </div>
+            ${given!==undefined?`<div style="font-size:18px;flex-shrink:0">${ok?'✅':'❌'}</div>`:''}
+          </div>
+          ${given===undefined
+            ?`<div style="display:flex;gap:8px">
+                <button onclick="if(!tourAnswers.abs)tourAnswers.abs={};tourAnswers.abs[${i}]='ja';renderTourStep(document.getElementById('ga'))" style="flex:1;padding:10px;border-radius:10px;border:2px solid rgba(0,194,224,.3);background:rgba(0,194,224,.08);color:var(--cyan);font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">✅ Ja, absetzbar</button>
+                <button onclick="if(!tourAnswers.abs)tourAnswers.abs={};tourAnswers.abs[${i}]='nein';renderTourStep(document.getElementById('ga'))" style="flex:1;padding:10px;border-radius:10px;border:2px solid rgba(255,77,109,.3);background:rgba(255,77,109,.08);color:#ff4d6d;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">❌ Nein</button>
+              </div>`
+            :`<div style="font-size:11px;color:rgba(255,255,255,.75);font-weight:700;line-height:1.65;background:${ok?'rgba(0,201,123,.08)':'rgba(255,77,109,.06)'};border:1px solid ${ok?'rgba(0,201,123,.25)':'rgba(255,77,109,.2)'};border-radius:10px;padding:10px">${pc.erkl}</div>`}
+        </div>`;
+      }).join('')}
+      ${allDone?`
+      <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px;margin-bottom:12px">
+        <div style="font-size:15px;font-weight:900;color:${score>=4?'#00c97b':score>=3?'var(--cyan)':'#ff8c42'};margin-bottom:5px">${score} / ${CASES.length} richtig</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.65">🔑 <b style="color:#fff">Merksatz:</b> Absetzbar = beruflich veranlasst (§ 9 Abs. 1 EStG) + nachweisbar. Gemischte Nutzung → anteilig. Private Lebensführung (§ 12 EStG) → nie. Belege immer aufbewahren!</div>
+      </div>
+      <button onclick="tourNext()" style="width:100%;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,#005c36,#00c97b);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Weiter: Berufe im Finanzamt →</button>`
+      :`<div style="text-align:center;padding:8px;font-size:11px;color:rgba(255,255,255,.35);font-family:'Space Mono',monospace;font-weight:700">${Object.keys(answers).length} / ${CASES.length} beantwortet</div>`}`;
+    }
+  },
+
+
+  // ── SCHRITT 6: Berufe im Finanzamt ──────────────────────────────
+  {
+    id:'berufe_fa',
+    render(){
+      const BERUFE = [
+        {id:'b1',icon:'👩‍⚖️',name:'Steuerbeamtin / Finanzwirt',exists:true,
+         erkl:'Ja – der Kern der Finanzverwaltung. Steuererklärungen prüfen, Bescheide erlassen (§ 155 AO), Einsprüche entscheiden (§ 347 AO). Einstieg über 2-jährige Ausbildung (mD) oder 3-jähriges Studium (gD).'},
+        {id:'b2',icon:'🕵️',name:'Steuerfahnder',exists:true,
+         erkl:'Ja! Die Steuerfahndungsstelle (§ 208 AO) ist für die Aufdeckung und Ermittlung von Steuerstraftaten zuständig. Zusammenarbeit mit Staatsanwaltschaft, Durchsuchungen, Verhörführung. Ein echter Ermittlerjob – aber beim Finanzamt.'},
+        {id:'b3',icon:'🏘️',name:'Bausachverständiger (Grundstücksbewertung)',exists:true,
+         erkl:'Ja – in der Bewertungsstelle. Für die Grundsteuer und Erbschaftsteuer müssen Immobilien bewertet werden (§§ 151 ff. BewG). Finanzbeamte mit bautechnischer Spezialisierung übernehmen diese Aufgabe.'},
+        {id:'b4',icon:'🚗',name:'Vollstreckungsbeamter',exists:true,
+         erkl:'Ja! Wer Steuern nicht zahlt, bekommt Besuch vom Vollstreckungsaußendienst (§ 249 AO). Diese Beamten pfänden Konten, stellen Pfändungsbeschlüsse zu und sorgen dafür, dass der Staat sein Geld bekommt.'},
+        {id:'b5',icon:'💻',name:'IT-Spezialist',exists:true,
+         erkl:'Ja – Finanzämter betreiben komplexe IT-Systeme: ELSTER (digitale Steuererklärung), KONSENS (bundesweites Steuerfachverfahren). IT-Fachkräfte entwickeln, warten und sichern diese Systeme.'},
+        {id:'b6',icon:'📊',name:'Betriebsprüfer / Controller',exists:true,
+         erkl:'Ja – Betriebsprüfer (§ 193 AO) prüfen Unternehmen vor Ort: Bilanzen analysieren, Buchführung kontrollieren, Verrechnungspreise prüfen. Wer Betriebswirtschaft kann, ist hier gefragt.'},
+        {id:'b7',icon:'⚖️',name:'Volljurist / Assessor',exists:true,
+         erkl:'Ja – besonders in höheren Positionen. Finanzrecht ist anspruchsvolle Rechtsarbeit: EU-Recht, DBA, BFH-Urteile anwenden. Einige Positionen in der Finanzverwaltung sind Juristen vorbehalten.'},
+        {id:'b8',icon:'🏥',name:'Arzt',exists:false,
+         erkl:'Nein – medizinische Versorgung gehört nicht zur Finanzverwaltung. Amtsärztliche Aufgaben (z.B. Dienstfähigkeitsgutachten) übernehmen Gesundheitsämter auf Anfrage.'},
+        {id:'b9',icon:'🧠',name:'Psychologe',exists:false,
+         erkl:'Nein – Psychologen sind in Finanzämtern nicht angestellt. Für Mitarbeiterunterstützung gibt es ggf. externe Angebote (Employee Assistance Programs), aber keine eigene psychologische Abteilung.'},
+        {id:'b10',icon:'🎨',name:'Grafikdesigner',exists:false,
+         erkl:'Nein – Finanzämter haben keine eigene Grafikabteilung. Öffentlichkeitsarbeit und Design werden zentralisiert oder an externe Agenturen vergeben. Wer als Grafiker im öffentlichen Dienst arbeiten will: Senatsverwaltungen oder Ministerien.'},
+      ];
+      const answers = tourAnswers['bfa'] || {};
+      const allDone = Object.keys(answers).length >= BERUFE.length;
+      if(!this._shuffled) this._shuffled = [...BERUFE].sort(()=>Math.random()-.5);
+
+      const scoreCorrect = BERUFE.filter(b=>answers[b.id]===b.exists).length;
+
+      return `
+      <div style="background:linear-gradient(135deg,#060f22,#0a2a60);border-radius:16px;padding:14px 16px 12px;margin-bottom:12px">
+        <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px">🏛️ Schritt 6 – Finanzamt-Berufe</div>
+        <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:3px">Gibt es das im Finanzamt?</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:700">10 Berufe – existiert der wirklich dort? Manche Antworten überraschen.</div>
+      </div>
+      ${this._shuffled.map((b)=>{
+        const given=answers[b.id]; const ok=given===b.exists;
+        return `<div style="background:rgba(255,255,255,.05);border:1.5px solid ${given===undefined?'rgba(255,255,255,.1)':ok?'rgba(0,201,123,.4)':'rgba(255,77,109,.35)'};border-radius:14px;padding:12px;margin-bottom:7px">
+          <div style="display:flex;gap:10px;align-items:center;margin-bottom:8px">
+            <span style="font-size:24px;flex-shrink:0">${b.icon}</span>
+            <div style="flex:1;font-size:13px;font-weight:900;color:#fff">${b.name}</div>
+            ${given!==undefined?`<span style="font-size:18px">${ok?'✅':'❌'}</span>`:''}
+          </div>
+          ${given===undefined
+            ?`<div style="display:flex;gap:8px">
+                <button onclick="if(!tourAnswers.bfa)tourAnswers.bfa={};tourAnswers.bfa['${b.id}']=true;renderTourStep(document.getElementById('ga'))" style="flex:1;padding:9px;border-radius:10px;border:2px solid rgba(0,194,224,.3);background:rgba(0,194,224,.08);color:var(--cyan);font-family:'Nunito',sans-serif;font-weight:900;font-size:12px;cursor:pointer">✓ Gibt's dort</button>
+                <button onclick="if(!tourAnswers.bfa)tourAnswers.bfa={};tourAnswers.bfa['${b.id}']=false;renderTourStep(document.getElementById('ga'))" style="flex:1;padding:9px;border-radius:10px;border:2px solid rgba(255,77,109,.3);background:rgba(255,77,109,.08);color:#ff4d6d;font-family:'Nunito',sans-serif;font-weight:900;font-size:12px;cursor:pointer">✗ Gibt's nicht</button>
+              </div>`
+            :`<div style="font-size:11px;color:rgba(255,255,255,.7);font-weight:700;line-height:1.6;background:${ok?'rgba(0,201,123,.08)':'rgba(255,77,109,.06)'};border:1px solid ${ok?'rgba(0,201,123,.2)':'rgba(255,77,109,.2)'};border-radius:8px;padding:8px 10px">${b.erkl}</div>`}
+        </div>`;
+      }).join('')}
+      ${allDone?`
+      <div style="background:rgba(0,194,224,.08);border:1px solid rgba(0,194,224,.2);border-radius:12px;padding:14px;margin-bottom:12px">
+        <div style="font-size:16px;font-weight:900;color:var(--cyan);margin-bottom:6px">${scoreCorrect} / ${BERUFE.length} richtig</div>
+        <div style="font-size:11px;font-weight:900;color:#fff;margin-bottom:5px">Das Finanzamt ist vielfältiger als gedacht!</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.65);font-weight:700;line-height:1.7">Steuerfahnder ermitteln wie Kriminalbeamte. Bausachverständige schätzen Immobilien. Vollstreckungsbeamte klingeln an der Haustür. Die Finanzverwaltung hat weit mehr Facetten als „Akten bearbeiten".</div>
+      </div>
+      <button onclick="tourNext()" style="width:100%;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Fertig! Zusammenfassung →</button>`
+      :`<div style="text-align:center;padding:8px;font-size:11px;color:rgba(255,255,255,.35);font-family:'Space Mono',monospace;font-weight:700">${Object.keys(answers).length} / ${BERUFE.length} eingeschätzt</div>`}`;
+    }
+  },
+
 
   // ── SCHRITT 5: Abschluss ──────────────────────────────────────────
   {
