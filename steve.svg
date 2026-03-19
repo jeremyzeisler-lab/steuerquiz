@@ -1,220 +1,100 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240" width="200" height="240">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 160" width="120" height="160" overflow="visible">
   <defs>
-    <!-- Body gradient - friendly blue -->
-    <radialGradient id="bodyGrad" cx="40%" cy="35%" r="65%">
-      <stop offset="0%" stop-color="#6ea8d8"/>
-      <stop offset="60%" stop-color="#4a7fb5"/>
-      <stop offset="100%" stop-color="#2d5c8a"/>
-    </radialGradient>
-    <!-- Shadow on body -->
-    <radialGradient id="shadowGrad" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#2d5c8a" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#1a3a5c" stop-opacity="0.4"/>
-    </radialGradient>
-    <!-- Glove gradient -->
-    <radialGradient id="gloveGrad" cx="35%" cy="30%" r="65%">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="100%" stop-color="#e0e0e0"/>
-    </radialGradient>
-    <!-- Briefcase gradient -->
-    <linearGradient id="bagGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#c8894a"/>
-      <stop offset="100%" stop-color="#8a5a25"/>
+    <linearGradient id="bodyG" x1="0%" y1="0%" x2="60%" y2="100%">
+      <stop offset="0%" stop-color="#7ab8e8"/>
+      <stop offset="100%" stop-color="#3a78c0"/>
     </linearGradient>
-    <!-- Pencil gradient -->
-    <linearGradient id="pencilGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#f5c842"/>
-      <stop offset="85%" stop-color="#e8b830"/>
-      <stop offset="85%" stop-color="#f0d090"/>
-      <stop offset="92%" stop-color="#e8c070"/>
-      <stop offset="92%" stop-color="#cc3300"/>
-      <stop offset="100%" stop-color="#cc3300"/>
+    <linearGradient id="bodyShadeG" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2a5a9a" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#1a3870" stop-opacity="0.4"/>
     </linearGradient>
-    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="2" dy="3" stdDeviation="3" flood-color="#1a3a5c" flood-opacity="0.35"/>
-    </filter>
-    <filter id="glowBlue" x="-30%" y="-30%" width="160%" height="160%">
-      <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#4a9fd4" flood-opacity="0.5"/>
-    </filter>
   </defs>
 
-  <!-- ── GROUND SHADOW ── -->
-  <ellipse cx="100" cy="232" rx="52" ry="7" fill="#1a3a5c" opacity="0.18"/>
+  <g>
+    <animateTransform attributeName="transform" type="translate"
+      values="0,0; 0,-6; 0,-2; 0,-5; 0,0"
+      keyTimes="0;0.25;0.5;0.75;1"
+      dur="3s" repeatCount="indefinite" additive="sum"/>
+    <animateTransform attributeName="transform" type="rotate"
+      values="0 60 100; -3 60 100; 0 60 100; 3 60 100; 0 60 100"
+      keyTimes="0;0.25;0.5;0.75;1"
+      dur="3s" repeatCount="indefinite" additive="sum"/>
 
-  <!-- ══════════════════════════════ -->
-  <!-- §TEVE BODY (§ shape)          -->
-  <!-- ══════════════════════════════ -->
-  <!-- Top curve of § -->
-  <path d="
-    M 100 18
-    C 125 18, 148 32, 148 58
-    C 148 78, 133 90, 112 95
-    C 130 100, 148 114, 148 136
-    C 148 162, 125 178, 100 178
-    C 75 178, 52 162, 52 136
-    C 52 128, 55 121, 60 116
-    L 72 122
-    C 69 126, 68 131, 68 136
-    C 68 153, 82 163, 100 163
-    C 118 163, 132 153, 132 136
-    C 132 119, 116 109, 98 104
-    L 98 104
-    C 78 98, 60 86, 60 64
-    L 60 58
-    C 60 32, 76 18, 100 18 Z
-  " fill="url(#bodyGrad)" filter="url(#softShadow)"/>
+    <!-- S-curve body -->
+    <path d="M60,22 C38,22 26,36 26,50 C26,62 36,70 52,74 L68,78 C82,82 90,88 90,100 C90,114 78,124 60,124 C44,124 32,116 28,104"
+      fill="none" stroke="url(#bodyG)" stroke-width="22" stroke-linecap="round"/>
+    <path d="M60,22 C38,22 26,36 26,50 C26,62 36,70 52,74 L68,78 C82,82 90,88 90,100 C90,114 78,124 60,124 C44,124 32,116 28,104"
+      fill="none" stroke="url(#bodyShadeG)" stroke-width="22" stroke-linecap="round"/>
+    <circle cx="60" cy="14" r="6" fill="url(#bodyG)"/>
+    <circle cx="60" cy="132" r="6" fill="url(#bodyG)"/>
 
-  <!-- Inner hole top -->
-  <path d="
-    M 100 33
-    C 116 33, 132 42, 132 58
-    C 132 72, 120 80, 104 85
-    C 86 80, 76 72, 76 58
-    C 76 42, 84 33, 100 33 Z
-  " fill="url(#shadowGrad)" opacity="0.6"/>
-  <path d="
-    M 100 33
-    C 116 33, 132 42, 132 58
-    C 132 72, 120 80, 104 85
-    C 86 80, 76 72, 76 58
-    C 76 42, 84 33, 100 33 Z
-  " fill="#e8f0f8" opacity="0.25"/>
+    <!-- Left arm + glove -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate"
+        values="0 33 82; 12 33 82; 0 33 82; -6 33 82; 0 33 82"
+        keyTimes="0;0.25;0.5;0.75;1" dur="3s" repeatCount="indefinite"/>
+      <path d="M33,82 Q18,86 14,98" fill="none" stroke="#5090c8" stroke-width="8" stroke-linecap="round"/>
+      <circle cx="12" cy="102" r="7" fill="#fff"/>
+      <circle cx="7" cy="97" r="4" fill="#fff"/>
+      <circle cx="17" cy="97" r="4" fill="#fff"/>
+    </g>
 
-  <!-- Body overlay for depth -->
-  <path d="
-    M 100 18
-    C 125 18, 148 32, 148 58
-    C 148 78, 133 90, 112 95
-    C 130 100, 148 114, 148 136
-    C 148 162, 125 178, 100 178
-    C 75 178, 52 162, 52 136
-    C 52 128, 55 121, 60 116
-    L 72 122
-    C 69 126, 68 131, 68 136
-    C 68 153, 82 163, 100 163
-    C 118 163, 132 153, 132 136
-    C 132 119, 116 109, 98 104
-    L 98 104
-    C 78 98, 60 86, 60 64
-    L 60 58
-    C 60 32, 76 18, 100 18 Z
-  " fill="url(#shadowGrad)"/>
+    <!-- Right arm + glove + briefcase -->
+    <g>
+      <animateTransform attributeName="transform" type="rotate"
+        values="0 88 80; -10 88 80; 0 88 80; 8 88 80; 0 88 80"
+        keyTimes="0;0.25;0.5;0.75;1" dur="3s" repeatCount="indefinite"/>
+      <path d="M88,80 Q102,84 106,95" fill="none" stroke="#5090c8" stroke-width="8" stroke-linecap="round"/>
+      <circle cx="108" cy="99" r="7" fill="#fff"/>
+      <rect x="97" y="108" width="26" height="20" rx="3" fill="#c8832a" stroke="#9a6020" stroke-width="1.5"/>
+      <path d="M104,108 Q110,102 116,108" fill="none" stroke="#9a6020" stroke-width="2.5" stroke-linecap="round"/>
+      <rect x="107" y="115" width="6" height="5" rx="1.5" fill="#f0c060" stroke="#9a6020" stroke-width="1"/>
+      <line x1="110" y1="108" x2="110" y2="128" stroke="#9a6020" stroke-width="1.2"/>
+    </g>
 
-  <!-- Highlight shine on left side -->
-  <path d="M 68 30 C 63 42, 62 56, 66 70 C 64 58, 65 44, 70 33 Z" fill="white" opacity="0.3"/>
+    <!-- Pencil -->
+    <g transform="rotate(-40, 55, 24)">
+      <rect x="51" y="2" width="6" height="30" rx="2" fill="#f5cc55"/>
+      <polygon points="51,32 57,32 54,40" fill="#e8a820"/>
+      <polygon points="52.5,37 55.5,37 54,41" fill="#444"/>
+      <rect x="51" y="2" width="6" height="5" rx="2" fill="#c05050"/>
+    </g>
 
-  <!-- ══════════════════════════════ -->
-  <!-- EYES + GLASSES                -->
-  <!-- ══════════════════════════════ -->
-  <!-- Left lens frame -->
-  <circle cx="86" cy="48" r="12" fill="white" opacity="0.92"/>
-  <circle cx="86" cy="48" r="12" fill="none" stroke="#2d5c8a" stroke-width="2.5"/>
-  <!-- Right lens frame -->
-  <circle cx="112" cy="46" r="11" fill="white" opacity="0.92"/>
-  <circle cx="112" cy="46" r="11" fill="none" stroke="#2d5c8a" stroke-width="2.5"/>
-  <!-- Bridge -->
-  <line x1="98" y1="48" x2="101" y2="47" stroke="#2d5c8a" stroke-width="2.5" stroke-linecap="round"/>
-  <!-- Left temple -->
-  <line x1="74" y1="46" x2="68" y2="42" stroke="#2d5c8a" stroke-width="2.5" stroke-linecap="round"/>
-  <!-- Right temple -->
-  <line x1="123" y1="44" x2="130" y2="40" stroke="#2d5c8a" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Glasses -->
+    <ellipse cx="48" cy="38" rx="10" ry="8" fill="rgba(180,220,255,0.15)" stroke="#1e3a6a" stroke-width="2.2"/>
+    <ellipse cx="70" cy="36" rx="10" ry="8" fill="rgba(180,220,255,0.15)" stroke="#1e3a6a" stroke-width="2.2"/>
+    <path d="M58,38 Q59,35 60,37" fill="none" stroke="#1e3a6a" stroke-width="2"/>
+    <path d="M38,36 Q33,35 31,38" fill="none" stroke="#1e3a6a" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M80,34 Q85,33 87,36" fill="none" stroke="#1e3a6a" stroke-width="1.8" stroke-linecap="round"/>
 
-  <!-- Left pupil -->
-  <circle cx="87" cy="49" r="5" fill="#1a3a5c"/>
-  <circle cx="88.5" cy="47.5" r="1.8" fill="white"/>
-  <!-- Right pupil -->
-  <circle cx="113" cy="47" r="4.5" fill="#1a3a5c"/>
-  <circle cx="114.5" cy="45.5" r="1.6" fill="white"/>
+    <!-- Eyes -->
+    <ellipse cx="48" cy="38" rx="3.5" ry="4" fill="#1a2840"/>
+    <ellipse cx="47" cy="36.5" rx="1.1" ry="1.1" fill="#fff"/>
+    <ellipse cx="70" cy="36" rx="3.5" ry="4" fill="#1a2840"/>
+    <ellipse cx="69" cy="34.5" rx="1.1" ry="1.1" fill="#fff"/>
+    <!-- Blink -->
+    <ellipse cx="48" cy="38" rx="3.5" ry="4" fill="#6da8d8">
+      <animate attributeName="ry" values="0;0;4;0.2;4;0;0" keyTimes="0;0.4;0.45;0.5;0.55;0.6;1" dur="5s" begin="1s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="70" cy="36" rx="3.5" ry="4" fill="#6da8d8">
+      <animate attributeName="ry" values="0;0;4;0.2;4;0;0" keyTimes="0;0.4;0.45;0.5;0.55;0.6;1" dur="5s" begin="1.07s" repeatCount="indefinite"/>
+    </ellipse>
 
-  <!-- Eyebrows -->
-  <path d="M 79 38 Q 86 35 93 37" fill="none" stroke="#2d5c8a" stroke-width="2" stroke-linecap="round"/>
-  <path d="M 106 36 Q 113 33 119 36" fill="none" stroke="#2d5c8a" stroke-width="2" stroke-linecap="round"/>
+    <!-- Eyebrows -->
+    <path d="M42,31 Q48,28 54,30" fill="none" stroke="#1e3a6a" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M64,29 Q70,26 76,28" fill="none" stroke="#1e3a6a" stroke-width="1.8" stroke-linecap="round"/>
 
-  <!-- Smile -->
-  <path d="M 88 66 Q 100 75 112 66" fill="none" stroke="#2d5c8a" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Smile -->
+    <path d="M50,48 Q59,55 70,50" fill="none" stroke="#1e3a6a" stroke-width="2" stroke-linecap="round"/>
 
-  <!-- Rosy cheeks -->
-  <ellipse cx="78" cy="62" rx="7" ry="4.5" fill="#e87070" opacity="0.25"/>
-  <ellipse cx="122" cy="60" rx="6.5" ry="4" fill="#e87070" opacity="0.25"/>
+    <!-- Speech bubble -->
+    <g>
+      <animateTransform attributeName="transform" type="translate"
+        values="0,0; 0,-4; 0,0" dur="2.2s" repeatCount="indefinite"/>
+      <ellipse cx="100" cy="16" rx="17" ry="13" fill="white" stroke="#3a78c0" stroke-width="1.5"/>
+      <path d="M88,24 L80,32 L90,27" fill="white" stroke="#3a78c0" stroke-width="1.5" stroke-linejoin="round"/>
+      <text x="100" y="22" text-anchor="middle" font-size="15" font-weight="900" fill="#3a78c0" font-family="Arial, sans-serif">?</text>
+    </g>
 
-  <!-- ══════════════════════════════ -->
-  <!-- LEFT ARM (holding pencil)     -->
-  <!-- ══════════════════════════════ -->
-  <!-- Upper arm -->
-  <path d="M 72 100 C 58 96, 48 90, 42 80" fill="none" stroke="#4a7fb5" stroke-width="14" stroke-linecap="round"/>
-  <!-- Lower arm -->
-  <path d="M 42 80 C 36 70, 32 62, 34 54" fill="none" stroke="#4a7fb5" stroke-width="13" stroke-linecap="round"/>
-  <!-- Arm shading -->
-  <path d="M 72 100 C 58 96, 48 90, 42 80 C 36 70, 32 62, 34 54" fill="none" stroke="#2d5c8a" stroke-width="5" stroke-linecap="round" opacity="0.25"/>
-
-  <!-- Left glove -->
-  <circle cx="34" cy="52" r="12" fill="url(#gloveGrad)" stroke="#d0d0d0" stroke-width="1"/>
-  <!-- Glove fingers suggestion -->
-  <path d="M 26 47 Q 24 42, 27 40" fill="none" stroke="#c0c0c0" stroke-width="1.5" stroke-linecap="round"/>
-  <path d="M 30 44 Q 29 39, 32 37" fill="none" stroke="#c0c0c0" stroke-width="1.5" stroke-linecap="round"/>
-  <path d="M 35 43 Q 35 38, 38 36" fill="none" stroke="#c0c0c0" stroke-width="1.5" stroke-linecap="round"/>
-
-  <!-- PENCIL (held in left hand) -->
-  <g transform="rotate(-35, 34, 52)">
-    <rect x="20" y="49" width="42" height="7" rx="1" fill="url(#pencilGrad)"/>
-    <!-- Pencil tip -->
-    <polygon points="62,49 68,52.5 62,56" fill="#f0d090"/>
-    <polygon points="64,50.5 68,52.5 64,54.5" fill="#cc3300"/>
-    <!-- Pencil detail line -->
-    <line x1="57" y1="49" x2="57" y2="56" stroke="#c8a020" stroke-width="0.8" opacity="0.6"/>
-    <!-- Eraser end -->
-    <rect x="20" y="49" width="6" height="7" rx="1" fill="#e88090"/>
-    <line x1="26" y1="49" x2="26" y2="56" stroke="#c06070" stroke-width="0.8"/>
   </g>
-
-  <!-- ══════════════════════════════ -->
-  <!-- RIGHT ARM (holding briefcase) -->
-  <!-- ══════════════════════════════ -->
-  <!-- Upper arm -->
-  <path d="M 128 112 C 142 110, 152 118, 158 130" fill="none" stroke="#4a7fb5" stroke-width="14" stroke-linecap="round"/>
-  <!-- Lower arm -->
-  <path d="M 158 130 C 163 140, 164 152, 160 162" fill="none" stroke="#4a7fb5" stroke-width="13" stroke-linecap="round"/>
-  <!-- Arm shading -->
-  <path d="M 128 112 C 142 110, 152 118, 158 130 C 163 140, 164 152, 160 162" fill="none" stroke="#2d5c8a" stroke-width="5" stroke-linecap="round" opacity="0.25"/>
-
-  <!-- Right glove -->
-  <circle cx="160" cy="164" r="12" fill="url(#gloveGrad)" stroke="#d0d0d0" stroke-width="1"/>
-
-  <!-- BRIEFCASE -->
-  <g transform="translate(138, 172)">
-    <!-- Main body -->
-    <rect x="0" y="8" width="42" height="30" rx="4" fill="url(#bagGrad)"/>
-    <!-- Body highlight -->
-    <rect x="2" y="10" width="38" height="12" rx="3" fill="white" opacity="0.12"/>
-    <!-- Divider line -->
-    <line x1="0" y1="23" x2="42" y2="23" stroke="#6a3a10" stroke-width="1.5"/>
-    <!-- Handle -->
-    <path d="M 12 8 L 12 4 Q 12 0 21 0 Q 30 0 30 4 L 30 8" fill="none" stroke="#8a5a25" stroke-width="3" stroke-linecap="round"/>
-    <!-- Clasp -->
-    <rect x="17" y="20" width="8" height="6" rx="1.5" fill="#d4a030"/>
-    <rect x="19" y="22" width="4" height="2" rx="0.5" fill="#f0c040"/>
-    <!-- Stitching details -->
-    <rect x="3" y="11" width="36" height="26" rx="3" fill="none" stroke="#6a3a10" stroke-width="0.8" stroke-dasharray="3,2" opacity="0.5"/>
-  </g>
-
-  <!-- ══════════════════════════════ -->
-  <!-- SPEECH BUBBLE                 -->
-  <!-- ══════════════════════════════ -->
-  <circle cx="158" cy="28" r="18" fill="white" stroke="#c0ccd8" stroke-width="1.5"/>
-  <!-- Bubble tail -->
-  <path d="M 148 38 L 140 50 L 155 42 Z" fill="white" stroke="#c0ccd8" stroke-width="1.5" stroke-linejoin="round"/>
-  <path d="M 149 39 L 142 49 L 154 43 Z" fill="white"/>
-  <!-- Question mark in bubble -->
-  <text x="158" y="34" text-anchor="middle" font-size="20" font-weight="900" fill="#4a7fb5" font-family="Georgia, serif">?</text>
-
-  <!-- ══════════════════════════════ -->
-  <!-- FEET (small rounded bumps)    -->
-  <!-- ══════════════════════════════ -->
-  <ellipse cx="86" cy="196" rx="14" ry="9" fill="#3d6e9e"/>
-  <ellipse cx="114" cy="194" rx="13" ry="8" fill="#3d6e9e"/>
-  <ellipse cx="84" cy="194" rx="11" ry="7" fill="#4a7fb5"/>
-  <ellipse cx="113" cy="192" rx="10" ry="6.5" fill="#4a7fb5"/>
-  <!-- Shoe shine -->
-  <ellipse cx="82" cy="191" rx="5" ry="2.5" fill="white" opacity="0.2" transform="rotate(-10,82,191)"/>
-  <ellipse cx="111" cy="189" rx="4.5" ry="2" fill="white" opacity="0.2" transform="rotate(-8,111,189)"/>
 </svg>
