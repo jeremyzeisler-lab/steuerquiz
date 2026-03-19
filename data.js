@@ -7956,6 +7956,62 @@ const STEVE_QA = [
 
 let steveOpen = false;
 let steveCurrentCtx = 'default';
+let steveIntroDone = false;
+let steveIntroStep = 0;
+
+const STEVE_INTRO = [
+  {
+    msg: `Hey! Ich bin <b>§teve</b> – dein persönlicher Steuer-Assistent. 👋<br><br>Ich begleite dich durch diese Seite, erkläre Funktionen und beantworte Fragen zu Steuerrecht und Karriere. Kurze Tour gefällig?`,
+    chips: ['Ja, kurz zeigen! →', 'Nein danke, direkt loslegen']
+  },
+  {
+    msg: `Die Seite hat <b>zwei Hauptbereiche</b>:<br><br>📚 <b>Basics</b> – Dein Einstieg. Steuer-Tour, Gehaltsrechner, Kurioses. Ideal wenn du noch nie eine Steuererklärung gemacht hast.<br><br>🎓 <b>Karriere</b> – Alles zur Bewerbung bei der Finanzverwaltung: Bewerbungsweg, Ablauf, Einstellungstest.`,
+    chips: ['Weiter →']
+  },
+  {
+    msg: `Im <b>Quiz-Bereich</b> übst du die Inhalte:<br><br>💼 <b>ESt</b> – Einkunftsarten, Werbungskosten<br>🛒 <b>USt</b> – Steuersätze, Vorsteuer<br>⚖️ <b>AO</b> – Fristen, Bescheide, Einspruch<br>📋 <b>Bilanz</b> – Buchungssätze, Abschreibung<br>🏛️ <b>Recht</b> – Privatrecht vs. öffentliches Recht<br><br>⚡ <b>Speed-Quiz</b> und 🎓 <b>Prüfungsmodus</b> für Fortgeschrittene.`,
+    chips: ['Weiter →']
+  },
+  {
+    msg: `Für Bewerber besonders interessant:<br><br>🧪 <b>Einstellungstest-Trainer</b> – direkt auf der Karriereseite. Übe alle 6 Testbereiche: Sprache, Mathe, Logik, Merkfähigkeit, Konzentration, Allgemeinwissen.<br><br>⚠️ Wichtig: Im echten Test kosten <b>falsche Antworten Punkte</b> – lieber überspringen als raten!`,
+    chips: ['Weiter →']
+  },
+  {
+    msg: `Noch ein paar Extras:<br><br>🃏 <b>Lernkarten</b> – Karteikarten-System zum Einprägen<br>📖 <b>Glossar</b> – alle Fachbegriffe mit Merkhilfen<br>📖 <b>Stories</b> – Steuerrecht durch Alltagsszenarien<br>⭐ <b>Mein Bereich</b> – dein Fortschritt, Abzeichen, Daily Challenge<br><br>Alles kostenlos, kein Login, alle Daten bleiben lokal in deinem Browser.`,
+    chips: ['Weiter →']
+  },
+  {
+    msg: `Das war die Tour! 🎉<br><br>Ich bin jetzt immer hier unten rechts. Wenn du eine Frage hast – einfach antippen. Ich passe meine Schnell-Antworten je nach Tab automatisch an.<br><br>Viel Erfolg beim Lernen und bei der Bewerbung! 💪`,
+    chips: ['Los geht\'s! 🚀']
+  }
+];
+
+function steveIntroNext(choice) {
+  if (choice === 'Nein danke, direkt loslegen' || choice === 'Los geht\'s! 🚀') {
+    steveIntroDone = true;
+    try { localStorage.setItem('steve_intro_done','1'); } catch(e) {}
+    // Show context for current tab
+    const ctx = STEVE_CTX[typeof mode !== 'undefined' ? mode : 'default'] || STEVE_CTX.default;
+    steveAddMsg('steve', ctx.greeting);
+    const chipsEl = document.getElementById('steve-chips');
+    if (chipsEl) chipsEl.innerHTML = ctx.chips.map(c =>
+      `<button onclick="steveAsk('${c.replace(/'/g,"\\'")}\')" class="steve-chip">${c}</button>`
+    ).join('');
+    return;
+  }
+  steveIntroStep++;
+  if (steveIntroStep >= STEVE_INTRO.length) {
+    steveIntroDone = true;
+    try { localStorage.setItem('steve_intro_done','1'); } catch(e) {}
+    return;
+  }
+  const step = STEVE_INTRO[steveIntroStep];
+  steveAddMsg('steve', step.msg);
+  const chipsEl = document.getElementById('steve-chips');
+  if (chipsEl) chipsEl.innerHTML = step.chips.map(c =>
+    `<button onclick="steveIntroNext('${c.replace(/'/g,"\\'")}\')" class="steve-chip">${c}</button>`
+  ).join('');
+}
 
 function steveToggle() {
   steveOpen = !steveOpen;
@@ -7963,12 +8019,27 @@ function steveToggle() {
   const wrap = document.getElementById('steve-btn-wrap');
   const bubble = document.getElementById('steve-bubble');
   if (steveOpen) {
-    // Hide speech bubble
     if (bubble) bubble.classList.add('hidden');
     panel.style.display = 'flex';
     requestAnimationFrame(() => panel.classList.add('open'));
     wrap.classList.add('active');
-    steveSetCtx(typeof mode !== 'undefined' ? mode : 'default');
+    const msgs = document.getElementById('steve-msgs');
+    // Check if intro was already done (localStorage or session)
+    try { if (localStorage.getItem('steve_intro_done')) steveIntroDone = true; } catch(e) {}
+    if (msgs && msgs.children.length === 0) {
+      if (!steveIntroDone) {
+        // Show intro
+        steveIntroStep = 0;
+        const step = STEVE_INTRO[0];
+        steveAddMsg('steve', step.msg);
+        const chipsEl = document.getElementById('steve-chips');
+        if (chipsEl) chipsEl.innerHTML = step.chips.map(c =>
+          `<button onclick="steveIntroNext('${c.replace(/'/g,"\\'")}\')" class="steve-chip">${c}</button>`
+        ).join('');
+      } else {
+        steveSetCtx(typeof mode !== 'undefined' ? mode : 'default');
+      }
+    }
   } else {
     panel.classList.remove('open');
     wrap.classList.remove('active');
@@ -7987,11 +8058,9 @@ function steveSetCtx(m) {
   const ctx = STEVE_CTX[m] || STEVE_CTX.default;
   const msgs = document.getElementById('steve-msgs');
   if (!msgs) return;
-  // Only set greeting if msgs is empty
   if (msgs.children.length === 0) {
     steveAddMsg('steve', ctx.greeting);
   }
-  // Update chips
   const chipsEl = document.getElementById('steve-chips');
   if (chipsEl) {
     chipsEl.innerHTML = ctx.chips.map(c =>
@@ -8039,6 +8108,8 @@ function steveSend() {
 function steveClear() {
   const msgs = document.getElementById('steve-msgs');
   if (msgs) msgs.innerHTML = '';
+  // After clear, always show context (not intro again)
+  steveIntroDone = true;
   steveSetCtx(steveCurrentCtx);
 }
 

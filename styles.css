@@ -1450,79 +1450,45 @@ header p{color:rgba(255,255,255,.55);font-size:var(--tx-base)}
   50%      { transform: translateY(-3px); }
 }
 
-/* The § button itself */
+/* The § button – image version */
 #steve-btn {
-  width: 56px;
-  height: 56px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
-  border: 2.5px solid rgba(0,194,224,.6);
-  background: linear-gradient(145deg, #0a1a4e, #1a0060 60%, #0d2b5e);
-  color: var(--cyan);
+  border: none;
+  background: transparent;
   cursor: pointer;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   position: relative;
-  box-shadow: 0 4px 20px rgba(0,194,224,.35), 0 0 0 0 rgba(0,194,224,.3);
-  transition: transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .2s, border-color .2s;
-  animation: steve-idle 6s ease-in-out infinite;
-  overflow: hidden;
+  padding: 0;
+  transition: transform .2s cubic-bezier(.34,1.56,.64,1);
+  animation: steve-idle 5s ease-in-out infinite;
+  filter: drop-shadow(0 4px 12px rgba(0,100,180,.4));
 }
 #steve-btn-wrap:hover #steve-btn,
 #steve-btn-wrap.active #steve-btn {
-  transform: scale(1.1);
-  border-color: var(--cyan);
-  box-shadow: 0 6px 28px rgba(0,194,224,.6), 0 0 0 8px rgba(0,194,224,.1);
-  animation: steve-excited .5s ease-in-out infinite alternate;
+  animation: steve-excited .45s ease-in-out infinite alternate;
+  filter: drop-shadow(0 6px 18px rgba(0,150,220,.6));
+}
+.steve-img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  display: block;
+}
+@media(max-width:640px) {
+  #steve-btn, .steve-img { width: 62px; height: 62px; }
 }
 @keyframes steve-idle {
   0%,40%,100% { transform: translateY(0) rotate(0deg); }
-  20%          { transform: translateY(-3px) rotate(-2deg); }
-  60%          { transform: translateY(-2px) rotate(1deg); }
+  20%          { transform: translateY(-4px) rotate(-3deg); }
+  65%          { transform: translateY(-2px) rotate(2deg); }
 }
 @keyframes steve-excited {
-  from { transform: scale(1.1) rotate(-3deg); }
-  to   { transform: scale(1.12) rotate(3deg); }
-}
-
-/* The § character */
-.steve-para {
-  font-size: 28px;
-  font-weight: 900;
-  font-family: 'Space Mono', monospace;
-  color: var(--cyan);
-  line-height: 1;
-  text-shadow: 0 0 16px rgba(0,194,224,.6);
-  animation: para-glow 3s ease-in-out infinite;
-  position: relative;
-  z-index: 1;
-}
-@keyframes para-glow {
-  0%,100% { text-shadow: 0 0 10px rgba(0,194,224,.4); }
-  50%      { text-shadow: 0 0 24px rgba(0,194,224,.9), 0 0 40px rgba(0,194,224,.3); }
-}
-
-/* Little eyes on the § */
-.steve-eyes {
-  position: absolute;
-  top: 10px;
-  right: 11px;
-  display: flex;
-  gap: 3px;
-  z-index: 2;
-}
-.steve-eye {
-  width: 5px;
-  height: 5px;
-  background: var(--cyan);
-  border-radius: 50%;
-  animation: blink 5s ease-in-out infinite;
-  box-shadow: 0 0 4px rgba(0,194,224,.8);
-}
-.steve-eye:nth-child(2) { animation-delay: .15s; }
-@keyframes blink {
-  0%,48%,52%,100% { transform: scaleY(1); }
-  50%              { transform: scaleY(.1); }
+  from { transform: scale(1.08) rotate(-4deg) translateY(-2px); }
+  to   { transform: scale(1.12) rotate(4deg) translateY(-4px); }
 }
 
 /* §teve Panel */
