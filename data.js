@@ -7960,18 +7960,27 @@ let steveCurrentCtx = 'default';
 function steveToggle() {
   steveOpen = !steveOpen;
   const panel = document.getElementById('steve-panel');
-  const btn = document.getElementById('steve-btn');
+  const wrap = document.getElementById('steve-btn-wrap');
+  const bubble = document.getElementById('steve-bubble');
   if (steveOpen) {
+    // Hide speech bubble
+    if (bubble) bubble.classList.add('hidden');
     panel.style.display = 'flex';
     requestAnimationFrame(() => panel.classList.add('open'));
-    btn.classList.add('active');
+    wrap.classList.add('active');
     steveSetCtx(typeof mode !== 'undefined' ? mode : 'default');
   } else {
     panel.classList.remove('open');
-    btn.classList.remove('active');
+    wrap.classList.remove('active');
     setTimeout(() => { if (!steveOpen) panel.style.display = 'none'; }, 300);
   }
 }
+
+// Auto-hide bubble after 5s
+setTimeout(() => {
+  const bubble = document.getElementById('steve-bubble');
+  if (bubble && !steveOpen) bubble.classList.add('hidden');
+}, 5000);
 
 function steveSetCtx(m) {
   steveCurrentCtx = m;

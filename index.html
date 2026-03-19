@@ -462,7 +462,7 @@
   </div>
 </div>
 
-<button class="tour-restart-btn" onclick="tourRestart()" title="App-Tour starten">?</button>
+<!-- § Tour-Button durch §teve ersetzt -->
 
 <!-- ===== LEVEL GATE ===== -->
 <div id="level-gate" style="display:none;position:fixed;inset:0;z-index:9500;background:rgba(4,8,22,.97);backdrop-filter:blur(18px);align-items:center;justify-content:center;padding:12px;overflow-y:auto">
@@ -592,10 +592,16 @@
 </div>
 
 <!-- ===== §TEVE PANEL ===== -->
-<button id="steve-btn" onclick="steveToggle()" title="§teve – dein Steuer-Assistent" aria-label="§teve öffnen">
-  <span class="steve-btn-icon">§</span>
-  <span class="steve-btn-label">§teve</span>
-</button>
+<div id="steve-btn-wrap" onclick="steveToggle()" title="§teve – dein Steuer-Assistent" aria-label="§teve öffnen">
+  <div id="steve-bubble" class="steve-bubble">Hast du eine Frage? 💡</div>
+  <button id="steve-btn" aria-label="§teve">
+    <span class="steve-para">§</span>
+    <span class="steve-eyes">
+      <span class="steve-eye"></span>
+      <span class="steve-eye"></span>
+    </span>
+  </button>
+</div>
 
 <div id="steve-panel" style="display:none">
   <div class="steve-header">
