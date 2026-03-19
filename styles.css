@@ -1454,48 +1454,23 @@ header p{color:rgba(255,255,255,.55);font-size:var(--tx-base)}
   50%      { transform: translateY(-3px); }
 }
 
-/* The § button – SVG character */
+/* The § button – inline SVG */
 #steve-btn {
-  width: 80px;
-  height: 100px;
-  border-radius: 0;
   border: none;
   background: transparent;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
   padding: 0;
+  margin: 0;
   overflow: visible;
-  transition: transform .2s cubic-bezier(.34,1.56,.64,1);
-  animation: steve-idle 4s ease-in-out infinite;
-  filter: drop-shadow(0 4px 10px rgba(0,80,160,.35));
+  display: block;
+  line-height: 0;
+  filter: drop-shadow(0 4px 10px rgba(0,80,160,.3));
+  transition: filter .2s;
 }
+#steve-btn svg { overflow: visible; display: block; }
 #steve-btn-wrap:hover #steve-btn,
 #steve-btn-wrap.active #steve-btn {
-  animation: steve-excited .4s ease-in-out infinite alternate;
-  filter: drop-shadow(0 6px 16px rgba(0,120,220,.55));
-}
-.steve-img {
-  width: 80px;
-  height: 100px;
-  object-fit: contain;
-  display: block;
-  overflow: visible;
-}
-@media(max-width:640px) {
-  #steve-btn { width: 68px; height: 85px; }
-  .steve-img { width: 68px; height: 85px; }
-}
-@keyframes steve-idle {
-  0%,100% { transform: translateY(0) rotate(0deg); }
-  25%      { transform: translateY(-5px) rotate(-2deg); }
-  75%      { transform: translateY(-3px) rotate(2deg); }
-}
-@keyframes steve-excited {
-  from { transform: scale(1.08) rotate(-4deg) translateY(-3px); }
-  to   { transform: scale(1.12) rotate(4deg) translateY(-5px); }
+  filter: drop-shadow(0 6px 18px rgba(0,130,230,.55));
 }
 
 /* §teve Panel */
