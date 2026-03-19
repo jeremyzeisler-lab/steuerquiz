@@ -576,4 +576,11 @@
     <textarea class="ai-input" id="ai-input" rows="1" placeholder="Frag mich etwas…"
       onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();aiSend()}"
       oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
-    <button class="ai
+        <button class="ai-send-btn" id="ai-send-btn" onclick="aiSend()">➤</button>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
