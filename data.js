@@ -3555,12 +3555,12 @@ function renderKarriere(a){
 <!-- NAV CHIPS -->
 <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px">
   <span onclick="scrollToId('karriere-wege')" style="background:rgba(0,201,123,.12);border:1.5px solid rgba(0,201,123,.3);color:#00c97b;border-radius:100px;padding:5px 12px;font-size:11px;font-weight:800;cursor:pointer">🛤️ Ausbildungswege</span>
+  <span onclick="scrollToId('karriere-wegweiser')" style="background:rgba(0,194,224,.1);border:1.5px solid rgba(0,194,224,.3);color:var(--cyan);border-radius:100px;padding:5px 12px;font-size:11px;font-weight:800;cursor:pointer">🗺️ Bewerbungsweg</span>
   <span onclick="scrollToId('karriere-voraussetzungen')" style="background:rgba(0,194,224,.1);border:1.5px solid rgba(0,194,224,.3);color:var(--cyan);border-radius:100px;padding:5px 12px;font-size:11px;font-weight:800;cursor:pointer">✅ Voraussetzungen</span>
   <span onclick="scrollToId('karriere-timeline')" style="background:rgba(255,217,74,.1);border:1.5px solid rgba(255,217,74,.3);color:var(--yellow);border-radius:100px;padding:5px 12px;font-size:11px;font-weight:800;cursor:pointer">📈 Karriereweg</span>
   <span onclick="scrollToId('karriere-fhf')" style="background:rgba(123,94,167,.15);border:1.5px solid rgba(123,94,167,.4);color:#c8a0ff;border-radius:100px;padding:5px 12px;font-size:11px;font-weight:800;cursor:pointer">🏫 FHF</span>
   <span onclick="scrollToId('karriere-vorteile')" style="background:rgba(255,140,66,.1);border:1.5px solid rgba(255,140,66,.3);color:#ffaa66;border-radius:100px;padding:5px 12px;font-size:11px;font-weight:800;cursor:pointer">🌟 Vorteile</span>
   <span onclick="scrollToId('karriere-fristen')" style="background:rgba(255,77,109,.1);border:1.5px solid rgba(255,77,109,.3);color:#ff8099;border-radius:100px;padding:5px 12px;font-size:11px;font-weight:800;cursor:pointer">⏱️ Fristen</span>
-  <span onclick="scrollToId('karriere-checkliste')" style="background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.2);color:rgba(255,255,255,.7);border-radius:100px;padding:5px 12px;font-size:11px;font-weight:800;cursor:pointer">📋 Checkliste</span>
   <span onclick="scrollToId('karriere-bewerben')" style="background:linear-gradient(135deg,rgba(0,194,224,.2),rgba(26,58,143,.2));border:2px solid var(--cyan);color:var(--cyan);border-radius:100px;padding:5px 12px;font-size:11px;font-weight:800;cursor:pointer">🚀 Jetzt bewerben</span>
 </div>
 
@@ -3585,6 +3585,281 @@ function renderKarriere(a){
     <div class="u-list-item"><b class="u-muted">Brandenburg:</b> <span style="color:var(--yellow);font-family:'Space Mono',monospace">1.571 €</span> brutto/Mo.</div>
     <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.7);padding:4px 0"><b class="u-muted">Start:</b> <span style="color:var(--cyan);font-weight:900">1. September</span></div>
   </div>
+</div>
+
+<!-- BEWERBUNGS-WEGWEISER -->
+<div id="karriere-wegweiser" class="u-section-head">🗺️ Bewerbungs-Wegweiser<span class="u-divider"></span></div>
+<div style="margin-bottom:20px">
+
+  <!-- Weg-Auswahl -->
+  <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.45);margin-bottom:8px;text-align:center">Für welchen Weg möchtest du die Schritte sehen?</div>
+  <div style="display:flex;gap:8px;margin-bottom:16px">
+    <button id="bweg-btn-md" onclick="showBweg('md')" style="flex:1;padding:10px;border-radius:11px;border:2px solid rgba(0,201,123,.5);background:rgba(0,201,123,.15);color:#00c97b;font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer">🏫 Finanzwirt/in (MD)</button>
+    <button id="bweg-btn-gd" onclick="showBweg('gd')" style="flex:1;padding:10px;border-radius:11px;border:2px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer">🎓 Diplom-FW/in (GD)</button>
+  </div>
+
+  <!-- MD-Wegweiser -->
+  <div id="bweg-md">
+    <div style="background:rgba(0,40,20,.4);border:1.5px solid rgba(0,201,123,.2);border-radius:14px;padding:13px;margin-bottom:8px">
+      <div style="font-size:10px;font-weight:900;color:#00c97b;letter-spacing:1.5px;margin-bottom:12px;font-family:'Space Mono',monospace">MITTLERER DIENST · FINANZWIRT/IN · BERLIN</div>
+
+      <!-- Schritt 1 -->
+      <div style="display:flex;gap:11px;margin-bottom:13px;align-items:flex-start">
+        <div style="width:28px;height:28px;border-radius:50%;background:#00c97b;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#000;flex-shrink:0;margin-top:1px">1</div>
+        <div style="flex:1">
+          <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:3px">📋 Voraussetzungen prüfen</div>
+          <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.6);line-height:1.65">
+            ✓ Mittlerer Schulabschluss (MSA / Realschule) oder höher<br>
+            ✓ Deutsche oder EU-Staatsangehörigkeit<br>
+            ✓ Alter: bei Einstellung max. <b style="color:rgba(255,255,255,.85)">47 Jahre</b> (Berlin)<br>
+            ✓ Keine schwerwiegenden Einträge im Bundeszentralregister
+          </div>
+        </div>
+      </div>
+
+      <!-- Schritt 2 -->
+      <div style="display:flex;gap:11px;margin-bottom:13px;align-items:flex-start">
+        <div style="width:28px;height:28px;border-radius:50%;background:#00c97b;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#000;flex-shrink:0;margin-top:1px">2</div>
+        <div style="flex:1">
+          <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:3px">📅 Bewerbungsfrist beachten</div>
+          <div style="background:rgba(255,77,109,.1);border:1px solid rgba(255,77,109,.3);border-radius:8px;padding:8px 10px;font-size:11px;font-weight:700;color:rgba(255,140,160,.9);margin-bottom:6px;line-height:1.6">
+            ⚠️ <b>Berlin:</b> Bewerbungsfrist ca. <b>August bis Ende Januar</b> des Vorjahres (Ausbildungsbeginn: 15. August).<br>
+            Das Bewerbungsverfahren startet ca. <b>ein Jahr vor Ausbildungsbeginn</b>.
+          </div>
+          <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.4);line-height:1.5">
+            Quelle: berlin.de/sen/finanzen – Angaben ohne Gewähr, aktuelle Fristen immer auf dem offiziellen Portal prüfen.
+          </div>
+        </div>
+      </div>
+
+      <!-- Schritt 3 -->
+      <div style="display:flex;gap:11px;margin-bottom:13px;align-items:flex-start">
+        <div style="width:28px;height:28px;border-radius:50%;background:#00c97b;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#000;flex-shrink:0;margin-top:1px">3</div>
+        <div style="flex:1">
+          <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:3px">💻 Online-Bewerbung einreichen</div>
+          <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.6);line-height:1.65">
+            Bewerbung <b style="color:rgba(255,255,255,.85)">ausschließlich online</b> über das Berliner Senatsportal einreichen. Beim Ausfüllen angeben:<br>
+            ✓ Lichtbild · Lebenslauf · Schulabschlusszeugnis (als Scan/PDF)
+          </div>
+          <div style="margin-top:7px;font-size:10px;font-weight:700;color:rgba(0,201,123,.7)">📬 Tipp: Aktuelle E-Mail-Adresse angeben – alle Rückmeldungen kommen per E-Mail!</div>
+        </div>
+      </div>
+
+      <!-- Schritt 4 -->
+      <div style="display:flex;gap:11px;margin-bottom:13px;align-items:flex-start">
+        <div style="width:28px;height:28px;border-radius:50%;background:#00c97b;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#000;flex-shrink:0;margin-top:1px">4</div>
+        <div style="flex:1">
+          <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:3px">🧠 Einstellungstest absolvieren</div>
+          <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.6);line-height:1.65;margin-bottom:7px">
+            Nach Prüfung deiner Unterlagen erhältst du eine <b style="color:rgba(255,255,255,.85)">Einladung per E-Mail</b>.<br>
+            <b style="color:rgba(255,255,255,.85)">Berlin:</b> Computergestützter Test (Online Assessment) · Präsenz-Termin an der Finanzschule Berlin, Bismarckstraße 48, 10627 Berlin.
+          </div>
+          <div style="background:rgba(0,194,224,.08);border:1px solid rgba(0,194,224,.2);border-radius:9px;padding:9px 11px">
+            <div style="font-size:10px;font-weight:900;color:var(--cyan);margin-bottom:6px;letter-spacing:.5px">TEST-INHALTE (laut berlin.de):</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px">
+              <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.65)">📖 Sprachverständnis</div>
+              <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.65)">🔢 Grundlagen Mathematik</div>
+              <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.65)">🧩 Logisches Denken</div>
+              <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.65)">🧠 Merkfähigkeit</div>
+              <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.65)">🎯 Konzentration</div>
+              <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.65)">📚 Allgemeinwissen</div>
+            </div>
+            <div style="margin-top:7px;font-size:10px;font-weight:700;color:rgba(255,217,74,.75)">⚠️ Richtige Antwort = Punkte+ · Falsche Antwort = Punkte− · Ergebnis wird mit Normgruppe verglichen.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Schritt 5 -->
+      <div style="display:flex;gap:11px;margin-bottom:13px;align-items:flex-start">
+        <div style="width:28px;height:28px;border-radius:50%;background:#00c97b;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#000;flex-shrink:0;margin-top:1px">5</div>
+        <div style="flex:1">
+          <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:3px">📨 Vorläufige Zusage & Unterlagen</div>
+          <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.6);line-height:1.65;margin-bottom:8px">
+            Nach Auswertung aller Tests: <b style="color:rgba(255,255,255,.85)">Zusage oder Warteliste per E-Mail</b>.<br>
+            Bei Zusage folgt Einladung zur <b style="color:rgba(255,255,255,.85)">persönlichen Unterlagenabgabe</b>. Die exakte Liste kommt mit dem Einladungsschreiben.
+          </div>
+          <button onclick="toggleCLDropdown('cl-md')" style="display:flex;align-items:center;gap:7px;width:100%;padding:9px 12px;border-radius:10px;border:1.5px solid rgba(0,201,123,.35);background:rgba(0,201,123,.08);cursor:pointer;font-family:'Nunito',sans-serif;text-align:left">
+            <span style="font-size:13px">📋</span>
+            <span style="font-size:11px;font-weight:900;color:#00c97b;flex:1">Unterlagen-Checkliste öffnen</span>
+            <span id="cl-md-chev" style="font-size:11px;color:#00c97b;transition:transform .2s">▼</span>
+          </button>
+          <div id="cl-md" style="display:none;margin-top:8px;background:rgba(0,20,10,.4);border:1.5px solid rgba(0,201,123,.2);border-radius:10px;padding:11px">
+            <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.35);margin-bottom:8px">Hake ab, was du schon bereit hast – wird lokal gespeichert!</div>
+            <div class="cl-progress"><div class="cl-prog-fill" id="cl-prog" style="width:0%"></div></div>
+            <div id="cl-count" style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.3);margin-bottom:12px">0 / 10 erledigt</div>
+            <div style="font-size:10px;font-weight:900;color:rgba(0,201,123,.7);margin:0 0 6px">🟩 Sofort bei Bewerbung (als Scan/PDF)</div>
+            <div class="cl-item" onclick="toggleCL(this)" id="cl0"><div class="cl-box"></div><div><div class="cl-text">📄 Schulabschlusszeugnis</div><div class="cl-sub">Scan/PDF reicht zunächst · Beglaubigung erst nach Zusage nötig</div></div></div>
+            <div class="cl-item" onclick="toggleCL(this)" id="cl1"><div class="cl-box"></div><div><div class="cl-text">📝 Online-Bewerbungsformular ausgefüllt</div><div class="cl-sub">Berlin: Senatsportal · Brandenburg: fhf.brandenburg.de</div></div></div>
+            <div class="cl-item" onclick="toggleCL(this)" id="cl2"><div class="cl-box"></div><div><div class="cl-text">📬 Aktuelle E-Mail-Adresse angegeben</div><div class="cl-sub">Alle Mitteilungen kommen per E-Mail – täglich prüfen!</div></div></div>
+            <div style="font-size:10px;font-weight:900;color:rgba(255,140,66,.75);margin:12px 0 6px">🟧 Nach vorläufiger Zusage (Original / beglaubigt)</div>
+            <div class="cl-item" onclick="toggleCL(this)" id="cl3"><div class="cl-box"></div><div><div class="cl-text">📜 Schulzeugnis Original / beglaubigte Kopie</div><div class="cl-sub">Bürgeramt, Notar oder Schule · ca. 5–10 € pro Kopie</div></div></div>
+            <div class="cl-item" onclick="toggleCL(this)" id="cl4"><div class="cl-box"></div><div><div class="cl-text">🪪 Personalausweis / Reisepass</div><div class="cl-sub">Zur Identitätsprüfung bei Unterlagenabgabe</div></div></div>
+            <div class="cl-item" onclick="toggleCL(this)" id="cl5"><div class="cl-box"></div><div><div class="cl-text">📋 Führungszeugnis (Behördenvorlage)</div><div class="cl-sub">Erst nach Zusage beantragen · max. 6 Monate alt · 13 € · 1–2 Wochen Wartezeit</div></div></div>
+            <div class="cl-item" onclick="toggleCL(this)" id="cl6"><div class="cl-box"></div><div><div class="cl-text">🏥 Amtsärztliches Gesundheitszeugnis</div><div class="cl-sub">Wird durch die Einstellungsbehörde veranlasst – du musst nichts aktiv tun</div></div></div>
+            <div class="cl-item" onclick="toggleCL(this)" id="cl7"><div class="cl-box"></div><div><div class="cl-text">📷 Lichtbild (35×45 mm)</div><div class="cl-sub">Aktuelles Passfoto für die Personalakte</div></div></div>
+            <div style="font-size:10px;font-weight:900;color:rgba(0,194,224,.6);margin:12px 0 6px">🟦 Situationsabhängig</div>
+            <div class="cl-item" onclick="toggleCL(this)" id="cl8"><div class="cl-box" style="border-color:rgba(255,255,255,.15)"></div><div><div class="cl-text" style="color:rgba(255,255,255,.7)">🌐 Amtl. Übersetzung ausländischer Zeugnisse <span class="cl-badge">Optional</span></div><div class="cl-sub">BB: Zeugnisanerkennungsstelle Landesschulamt Cottbus</div></div></div>
+            <div class="cl-item" onclick="toggleCL(this)" id="cl9"><div class="cl-box" style="border-color:rgba(255,255,255,.15)"></div><div><div class="cl-text" style="color:rgba(255,255,255,.7)">🎖️ Nachweis Schwerbehinderung / Bundeswehr <span class="cl-badge">Optional</span></div><div class="cl-sub">§ 10 SVG · Schwerbehinderte bei gleicher Eignung bevorzugt</div></div></div>
+          </div>
+          <div style="margin-top:6px;font-size:10px;font-weight:700;color:rgba(255,255,255,.3)">* Bundeszentralregister-Auskunft wird von der Senatsverwaltung direkt eingeholt.</div>
+        </div>
+      </div>
+
+      <!-- Schritt 6 -->
+      <div style="display:flex;gap:11px;align-items:flex-start">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--yellow);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#000;flex-shrink:0;margin-top:1px">6</div>
+        <div style="flex:1">
+          <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:3px">🎉 Einberufungsschreiben & Start</div>
+          <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.6);line-height:1.65">
+            Bei positiver Eignungsprüfung: <b style="color:var(--yellow)">verbindliches Einberufungsschreiben</b>.<br>
+            Ausbildungsbeginn: <b style="color:#00c97b">15. August</b> · Du erhältst eine <b style="color:rgba(255,255,255,.85)">Ernennungsurkunde</b> (kein Ausbildungsvertrag!) – du bist ab Tag 1 Beamter/in auf Widerruf.<br>
+            Vergütung: <b style="color:var(--yellow);font-family:'Space Mono',monospace">1.467,66 € brutto/Mo.</b> (Stand 01.01.2026, ledig) + Vermögenswirksame Leistungen + 30 Urlaubstage.
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div style="padding:9px 12px;background:rgba(0,201,123,.07);border:1px solid rgba(0,201,123,.2);border-radius:9px;font-size:10px;font-weight:700;color:rgba(0,201,123,.8);line-height:1.6">
+      📞 Ansprechpartner Berlin (MD): Senatsverwaltung für Finanzen · Alle Fragen zur Ausbildung werden über das offizielle Senatsportal beantwortet.
+    </div>
+  </div>
+
+  <!-- GD-Wegweiser -->
+  <div id="bweg-gd" style="display:none">
+    <div style="background:rgba(13,28,80,.4);border:1.5px solid rgba(0,194,224,.2);border-radius:14px;padding:13px;margin-bottom:8px">
+      <div style="font-size:10px;font-weight:900;color:var(--cyan);letter-spacing:1.5px;margin-bottom:12px;font-family:'Space Mono',monospace">GEHOBENER DIENST · DIPLOM-FINANZWIRT/IN (FH)</div>
+
+      <!-- Schritt 1 -->
+      <div style="display:flex;gap:11px;margin-bottom:13px;align-items:flex-start">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--cyan);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#000;flex-shrink:0;margin-top:1px">1</div>
+        <div style="flex:1">
+          <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:3px">📋 Voraussetzungen prüfen</div>
+          <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.6);line-height:1.65">
+            ✓ Mind. <b style="color:rgba(255,255,255,.85)">Fachhochschulreife (FHR) oder Abitur</b> – oder gleichwertig anerkannter Bildungsstand<br>
+            ✓ Deutsche oder EU-Staatsangehörigkeit<br>
+            ✓ Alter: max. <b style="color:rgba(255,255,255,.85)">47 Jahre</b> (Berlin) · max. <b style="color:rgba(255,255,255,.85)">39 Jahre</b> (Brandenburg) bei Einstellung<br>
+            ✓ <b style="color:rgba(255,255,255,.85)">Brandenburg:</b> Notendurchschnitt des Abschlusszeugnisses <b style="color:rgba(255,255,255,.85)">3,4 oder besser</b><br>
+            ✓ Keine schwerwiegenden Einträge im Bundeszentralregister
+          </div>
+        </div>
+      </div>
+
+      <!-- Schritt 2 -->
+      <div style="display:flex;gap:11px;margin-bottom:13px;align-items:flex-start">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--cyan);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#000;flex-shrink:0;margin-top:1px">2</div>
+        <div style="flex:1">
+          <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:3px">📅 Bewerbungsfrist beachten</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:6px">
+            <div style="background:rgba(0,194,224,.08);border:1px solid rgba(0,194,224,.25);border-radius:9px;padding:9px">
+              <div style="font-size:10px;font-weight:900;color:var(--cyan);margin-bottom:4px">🏛️ BERLIN</div>
+              <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.75);line-height:1.6">Bewerbungsportal der Senatsverwaltung<br><b style="color:#fff">Ca. August bis Ende Januar</b> des Vorjahres<br>Einstellungstermin: <b style="color:var(--cyan)">1. September</b><br>180 Studienplätze (2026)</div>
+            </div>
+            <div style="background:rgba(0,201,123,.07);border:1px solid rgba(0,201,123,.25);border-radius:9px;padding:9px">
+              <div style="font-size:10px;font-weight:900;color:#00c97b;margin-bottom:4px">🌿 BRANDENBURG</div>
+              <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.75);line-height:1.6">fhf.brandenburg.de<br><b style="color:#fff">1. August bis 31. Dezember</b> des Vorjahres<br>Einstellungstermin: <b style="color:#00c97b">1. September</b></div>
+            </div>
+          </div>
+          <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.35)">Quellen: berlin.de/sen/finanzen · fhf.brandenburg.de – Fristen vor Bewerbung immer offiziell prüfen.</div>
+        </div>
+      </div>
+
+      <!-- Schritt 3 -->
+      <div style="display:flex;gap:11px;margin-bottom:13px;align-items:flex-start">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--cyan);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#000;flex-shrink:0;margin-top:1px">3</div>
+        <div style="flex:1">
+          <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:3px">💻 Online-Bewerbung einreichen</div>
+          <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.6);line-height:1.65">
+            Bewerbung <b style="color:rgba(255,255,255,.85)">ausschließlich online</b>. Unterlagen beim Einreichen hochladen:<br>
+            ✓ Aussagekräftiges Bewerbungsanschreiben<br>
+            ✓ Lebenslauf<br>
+            ✓ Abiturzeugnis / letztes verfügbares Zeugnis (Scan/PDF reicht zunächst)<br>
+            ✓ Ggf. Schwerbehinderungsnachweis oder SVG-Nachweis (Bundeswehr)
+          </div>
+          <div style="margin-top:7px;font-size:10px;font-weight:700;color:rgba(0,194,224,.7)">📬 Tipp: Du kannst dich in Brandenburg für mehrere Finanzämter gleichzeitig bewerben – empfehlenswert!</div>
+        </div>
+      </div>
+
+      <!-- Schritt 4 -->
+      <div style="display:flex;gap:11px;margin-bottom:13px;align-items:flex-start">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--cyan);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#000;flex-shrink:0;margin-top:1px">4</div>
+        <div style="flex:1">
+          <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:3px">🧠 Einstellungstest absolvieren</div>
+          <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.6);line-height:1.65;margin-bottom:7px">
+            <b style="color:rgba(255,255,255,.85)">Berlin:</b> Computergestützter Online-Assessment-Test · Präsenz an der Finanzschule Berlin, Bismarckstraße 48, 10627 Berlin (im Finanzamt Charlottenburg).<br>
+            <b style="color:rgba(255,255,255,.85)">Brandenburg:</b> Kognitiver Leistungstest · ab Mitte Oktober in Königs Wusterhausen (Einladung kurzfristig per E-Mail).
+          </div>
+          <div style="background:rgba(0,194,224,.08);border:1px solid rgba(0,194,224,.2);border-radius:9px;padding:9px 11px;margin-bottom:7px">
+            <div style="font-size:10px;font-weight:900;color:var(--cyan);margin-bottom:6px;letter-spacing:.5px">TEST-INHALTE (laut offiziellen Quellen):</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px">
+              <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.65)">📖 Sprachverständnis & Deutsch</div>
+              <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.65)">🔢 Mathematik (Grundlagen)</div>
+              <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.65)">🧩 Logisches Denken & Reihen</div>
+              <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.65)">🧠 Merkfähigkeit</div>
+              <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.65)">🎯 Konzentrationsfähigkeit</div>
+              <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.65)">📚 Allgemeinwissen</div>
+            </div>
+          </div>
+          <div style="font-size:10px;font-weight:700;color:rgba(255,217,74,.75)">⚠️ Richtige Antwort = Punkte+ · Falsche Antwort = Punkte− · Mindestpunktzahl muss erreicht werden · Ergebnis wird mit Normgruppe verglichen.</div>
+        </div>
+      </div>
+
+      <!-- Schritt 5 -->
+      <div style="display:flex;gap:11px;margin-bottom:13px;align-items:flex-start">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--cyan);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#000;flex-shrink:0;margin-top:1px">5</div>
+        <div style="flex:1">
+          <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:3px">📨 Vorläufige Zusage & Unterlagen abgeben</div>
+          <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.6);line-height:1.65;margin-bottom:8px">
+            Nach Auswertung: <b style="color:rgba(255,255,255,.85)">Vorläufige Zusage oder Warteliste per E-Mail</b>.<br>
+            Bei Zusage: Einladung zur <b style="color:rgba(255,255,255,.85)">persönlichen Unterlagenabgabe</b>. Die exakte Liste kommt mit dem Einladungsschreiben.
+          </div>
+          <button onclick="toggleCLDropdown('cl-gd')" style="display:flex;align-items:center;gap:7px;width:100%;padding:9px 12px;border-radius:10px;border:1.5px solid rgba(0,194,224,.35);background:rgba(0,194,224,.08);cursor:pointer;font-family:'Nunito',sans-serif;text-align:left">
+            <span style="font-size:13px">📋</span>
+            <span style="font-size:11px;font-weight:900;color:var(--cyan);flex:1">Unterlagen-Checkliste öffnen</span>
+            <span id="cl-gd-chev" style="font-size:11px;color:var(--cyan);transition:transform .2s">▼</span>
+          </button>
+          <div id="cl-gd" style="display:none;margin-top:8px;background:rgba(13,28,80,.4);border:1.5px solid rgba(0,194,224,.2);border-radius:10px;padding:11px">
+            <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.35);margin-bottom:8px">Hake ab, was du schon bereit hast – wird lokal gespeichert!</div>
+            <div class="cl-progress"><div class="cl-prog-fill" id="cl-prog-gd" style="width:0%"></div></div>
+            <div id="cl-count-gd" style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.3);margin-bottom:12px">0 / 10 erledigt</div>
+            <div style="font-size:10px;font-weight:900;color:rgba(0,194,224,.7);margin:0 0 6px">🟦 Sofort bei Bewerbung (als Scan/PDF)</div>
+            <div class="cl-item" onclick="toggleCLgd(this)" id="clg0"><div class="cl-box"></div><div><div class="cl-text">📄 Abiturzeugnis / FHR-Zeugnis</div><div class="cl-sub">Scan/PDF reicht zunächst · Beglaubigung erst nach Zusage nötig</div></div></div>
+            <div class="cl-item" onclick="toggleCLgd(this)" id="clg1"><div class="cl-box"></div><div><div class="cl-text">📝 Online-Bewerbungsformular ausgefüllt</div><div class="cl-sub">Berlin: Senatsportal · Brandenburg: fhf.brandenburg.de</div></div></div>
+            <div class="cl-item" onclick="toggleCLgd(this)" id="clg2"><div class="cl-box"></div><div><div class="cl-text">📬 Aktuelle E-Mail-Adresse angegeben</div><div class="cl-sub">Alle Mitteilungen kommen per E-Mail – täglich prüfen!</div></div></div>
+            <div style="font-size:10px;font-weight:900;color:rgba(255,140,66,.75);margin:12px 0 6px">🟧 Nach vorläufiger Zusage (Original / beglaubigt)</div>
+            <div class="cl-item" onclick="toggleCLgd(this)" id="clg3"><div class="cl-box"></div><div><div class="cl-text">📜 Abiturzeugnis Original / beglaubigte Kopie</div><div class="cl-sub">Bürgeramt, Notar oder Schule · ca. 5–10 € pro Kopie</div></div></div>
+            <div class="cl-item" onclick="toggleCLgd(this)" id="clg4"><div class="cl-box"></div><div><div class="cl-text">🪪 Personalausweis / Reisepass</div><div class="cl-sub">Zur Identitätsprüfung bei Unterlagenabgabe</div></div></div>
+            <div class="cl-item" onclick="toggleCLgd(this)" id="clg5"><div class="cl-box"></div><div><div class="cl-text">📋 Führungszeugnis (Behördenvorlage)</div><div class="cl-sub">Erst nach Zusage beantragen · max. 6 Monate alt · 13 € · 1–2 Wochen Wartezeit</div></div></div>
+            <div class="cl-item" onclick="toggleCLgd(this)" id="clg6"><div class="cl-box"></div><div><div class="cl-text">🏥 Amtsärztliches Gesundheitszeugnis</div><div class="cl-sub">Wird durch die Einstellungsbehörde veranlasst – du musst nichts aktiv tun</div></div></div>
+            <div class="cl-item" onclick="toggleCLgd(this)" id="clg7"><div class="cl-box"></div><div><div class="cl-text">📷 Lichtbild (35×45 mm)</div><div class="cl-sub">Aktuelles Passfoto für die Personalakte</div></div></div>
+            <div style="font-size:10px;font-weight:900;color:rgba(0,194,224,.6);margin:12px 0 6px">🟦 Situationsabhängig</div>
+            <div class="cl-item" onclick="toggleCLgd(this)" id="clg8"><div class="cl-box" style="border-color:rgba(255,255,255,.15)"></div><div><div class="cl-text" style="color:rgba(255,255,255,.7)">🌐 Amtl. Übersetzung ausländischer Zeugnisse <span class="cl-badge">Optional</span></div><div class="cl-sub">BB: Zeugnisanerkennungsstelle Landesschulamt Cottbus</div></div></div>
+            <div class="cl-item" onclick="toggleCLgd(this)" id="clg9"><div class="cl-box" style="border-color:rgba(255,255,255,.15)"></div><div><div class="cl-text" style="color:rgba(255,255,255,.7)">🎖️ Nachweis Schwerbehinderung / Bundeswehr <span class="cl-badge">Optional</span></div><div class="cl-sub">§ 10 SVG · Schwerbehinderte bei gleicher Eignung bevorzugt</div></div></div>
+          </div>
+          <div style="margin-top:6px;font-size:10px;font-weight:700;color:rgba(255,255,255,.35)">* Exakte Unterlagenliste kommt mit dem Einladungsschreiben nach dem Test.</div>
+        </div>
+      </div>
+
+      <!-- Schritt 6 -->
+      <div style="display:flex;gap:11px;align-items:flex-start">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--yellow);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#000;flex-shrink:0;margin-top:1px">6</div>
+        <div style="flex:1">
+          <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:3px">🎉 Einberufungsschreiben & Studienstart</div>
+          <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.6);line-height:1.65">
+            Bei positiver Eignungsfeststellung: <b style="color:var(--yellow)">verbindliches Einberufungsschreiben</b>.<br>
+            Studienstart: <b style="color:var(--cyan)">1. September</b> · Du erhältst eine <b style="color:rgba(255,255,255,.85)">Ernennungsurkunde</b> – kein Ausbildungsvertrag! Du bist ab Tag 1 Beamter/in auf Widerruf.<br>
+            Vergütung Berlin: <b style="color:var(--yellow);font-family:'Space Mono',monospace">1.527,45 € brutto/Mo.</b> (Stand 01.01.2026, ledig) + Vermögenswirksame Leistungen + 30 Urlaubstage + Hauptstadtzulage.<br>
+            <span style="color:rgba(255,255,255,.5)">Berlin: Begrenztes Kontingent möblierter Mini-Appartements über Berlinovo verfügbar.</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div style="padding:9px 12px;background:rgba(0,194,224,.07);border:1px solid rgba(0,194,224,.2);border-radius:9px;font-size:10px;font-weight:700;color:rgba(0,194,224,.8);line-height:1.6">
+      📞 Ansprechpartner Berlin (GD): Alexander Rohr · 030 9020-3910<br>
+      📞 Ansprechpartner Brandenburg (GD): (03375) 672-672 · ausbildung@fhf.brandenburg.de
+    </div>
+  </div>
+
 </div>
 
 <!-- ABLAUF -->
@@ -3748,28 +4023,6 @@ function renderKarriere(a){
 <div id="karriere-countdown" style="margin-bottom:16px"></div>
 
 <!-- CHECKLISTE -->
-<div id="karriere-checkliste" class="u-section-head">📋 Bewerbungs-Checkliste<span class="u-divider"></span></div>
-<div style="background:rgba(255,255,255,.04);border:2px solid rgba(255,255,255,.1);border-radius:16px;padding:14px;margin-bottom:16px">
-  <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.35);margin-bottom:10px">Hake ab, was du schon bereit hast – wird lokal gespeichert!</div>
-  <div class="cl-progress"><div class="cl-prog-fill" id="cl-prog" style="width:0%"></div></div>
-  <div id="cl-count" style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.3);margin-bottom:14px">0 / 10 erledigt</div>
-  <div style="font-size:11px;font-weight:900;color:rgba(0,194,224,.75);margin:0 0 7px">🟦 Pflicht – Online-Bewerbung</div>
-  <div class="cl-item" onclick="toggleCL(this)" id="cl0" class="u-card-ghost"><div class="cl-box" class="u-cb-ghost"></div><div><div class="cl-text" class="u-white-80">📄 Schulabschlusszeugnis</div><div class="cl-sub">Scan/PDF reicht zunächst · Beglaubigung erst nach Zusage nötig</div></div></div>
-  <div class="cl-item" onclick="toggleCL(this)" id="cl1" class="u-card-ghost"><div class="cl-box" class="u-cb-ghost"></div><div><div class="cl-text" class="u-white-80">📝 Online-Bewerbungsformular ausgefüllt</div><div class="cl-sub">Berlin: Senatsportal · Brandenburg: fhf.brandenburg.de</div></div></div>
-  <div class="cl-item" onclick="toggleCL(this)" id="cl2" class="u-card-ghost"><div class="cl-box" class="u-cb-ghost"></div><div><div class="cl-text" class="u-white-80">📬 Aktuelle E-Mail-Adresse angegeben</div><div class="cl-sub">Alle Mitteilungen kommen per E-Mail – täglich prüfen!</div></div></div>
-  <div style="font-size:11px;font-weight:900;color:rgba(255,140,66,.75);margin:14px 0 7px">🟧 Nach vorläufiger Zusage</div>
-  <div class="cl-item" onclick="toggleCL(this)" id="cl3" class="u-card-ghost"><div class="cl-box" class="u-cb-ghost"></div><div><div class="cl-text" class="u-white-80">📜 Schulzeugnis Original / beglaubigte Kopie</div><div class="cl-sub">Bürgeramt, Notar oder Schule · ca. 5–10 € pro Kopie</div></div></div>
-  <div class="cl-item" onclick="toggleCL(this)" id="cl4" class="u-card-ghost"><div class="cl-box" class="u-cb-ghost"></div><div><div class="cl-text" class="u-white-80">🪪 Personalausweis / Reisepass</div><div class="cl-sub">Zur Identitätsprüfung bei Unterlagenabgabe</div></div></div>
-  <div class="cl-item" onclick="toggleCL(this)" id="cl5" class="u-card-ghost"><div class="cl-box" class="u-cb-ghost"></div><div><div class="cl-text" class="u-white-80">📋 Führungszeugnis (Behördenvorlage)</div><div class="cl-sub">Erst nach Zusage beantragen · max. 6 Monate alt · 13 € · 1–2 Wochen</div></div></div>
-  <div class="cl-item" onclick="toggleCL(this)" id="cl6" class="u-card-ghost"><div class="cl-box" class="u-cb-ghost"></div><div><div class="cl-text" class="u-white-80">🏥 Amtsärztliches Gesundheitszeugnis</div><div class="cl-sub">Wird durch die Einstellungsbehörde veranlasst</div></div></div>
-  <div class="cl-item" onclick="toggleCL(this)" id="cl7" class="u-card-ghost"><div class="cl-box" class="u-cb-ghost"></div><div><div class="cl-text" class="u-white-80">📷 Lichtbild (35×45 mm)</div><div class="cl-sub">Aktuelles Passfoto für die Personalakte</div></div></div>
-  <div style="font-size:11px;font-weight:900;color:rgba(0,201,123,.65);margin:14px 0 7px">🟩 Situationsabhängig</div>
-  <div class="cl-item cl-optional" onclick="toggleCL(this)" id="cl8" style="background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.09);border-style:dashed"><div class="cl-box" style="border-color:rgba(255,255,255,.15);background:transparent"></div><div><div class="cl-text" style="color:rgba(255,255,255,.7)">🌐 Amtl. Übersetzung ausländischer Zeugnisse <span class="cl-badge" style="background:rgba(0,201,123,.15);color:#00c97b;border:1px solid rgba(0,201,123,.25)">Optional</span></div><div class="cl-sub">BB: Zeugnisanerkennungsstelle Landesschulamt Cottbus</div></div></div>
-  <div class="cl-item cl-optional" onclick="toggleCL(this)" id="cl9" style="background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.09);border-style:dashed"><div class="cl-box" style="border-color:rgba(255,255,255,.15);background:transparent"></div><div><div class="cl-text" style="color:rgba(255,255,255,.7)">🎖️ Nachweis Schwerbehinderung / Bundeswehr <span class="cl-badge" style="background:rgba(0,201,123,.15);color:#00c97b;border:1px solid rgba(0,201,123,.25)">Optional</span></div><div class="cl-sub">§ 10 SVG · Schwerbehinderte bei gleicher Eignung bevorzugt</div></div></div>
-  <div style="background:rgba(0,194,224,.07);border:1px solid rgba(0,194,224,.2);border-radius:9px;padding:10px;font-size:11px;font-weight:700;color:rgba(0,194,224,.8);line-height:1.6;margin-top:12px">
-    💡 Die genaue Unterlagenliste erhältst du mit dem <b>Einladungsschreiben nach bestandenem Test</b> (Angaben nach Berlin &amp; Brandenburg).
-  </div>
-</div>
 
 <!-- KARRIERE MATCHING -->
 <div class="u-section-head" style="margin-top:8px">🎯 Passt die Finanzverwaltung zu dir?<span class="u-divider"></span></div>
@@ -3902,6 +4155,21 @@ function toggleCL(el){
   updateCLProgress();
   const items = Array.from(document.querySelectorAll('.cl-item'));
   saveCL(items.map(i=>i.classList.contains('done')));
+}
+
+function restoreCLgd(){
+  try{
+    const s=JSON.parse(localStorage.getItem('cl_gd')||'{}');
+    Object.keys(s).forEach(id=>{
+      if(s[id]){const el=document.getElementById(id);if(el)el.classList.add('cl-checked');}
+    });
+    const items=document.querySelectorAll('[id^="clg"]');
+    const done=[...items].filter(i=>i.classList.contains('cl-checked')).length;
+    const prog=document.getElementById('cl-prog-gd');
+    const cnt=document.getElementById('cl-count-gd');
+    if(prog)prog.style.width=Math.round(done/items.length*100)+'%';
+    if(cnt)cnt.textContent=done+' / '+items.length+' erledigt';
+  }catch(e){}
 }
 
 function restoreCL(){
@@ -5122,6 +5390,42 @@ function scrollToId(id){
     window.scrollTo({top, behavior:'smooth'});
   });
 }
+function toggleCLDropdown(id){
+  const el=document.getElementById(id);
+  const chev=document.getElementById(id+'-chev');
+  if(!el)return;
+  const open=el.style.display!=='none';
+  el.style.display=open?'none':'block';
+  if(chev)chev.style.transform=open?'':'rotate(180deg)';
+  if(!open && id==='cl-gd') restoreCLgd();
+}
+
+function toggleCLgd(item){
+  const id=item.id;
+  const checked=item.classList.toggle('cl-checked');
+  try{const s=JSON.parse(localStorage.getItem('cl_gd')||'{}');s[id]=checked;localStorage.setItem('cl_gd',JSON.stringify(s));}catch(e){}
+  const items=document.querySelectorAll('[id^="clg"]');
+  const done=[...items].filter(i=>i.classList.contains('cl-checked')).length;
+  const prog=document.getElementById('cl-prog-gd');
+  const cnt=document.getElementById('cl-count-gd');
+  if(prog)prog.style.width=Math.round(done/items.length*100)+'%';
+  if(cnt)cnt.textContent=done+' / '+items.length+' erledigt';
+}
+
+function showBweg(which){
+  document.getElementById('bweg-md').style.display=which==='md'?'block':'none';
+  document.getElementById('bweg-gd').style.display=which==='gd'?'block':'none';
+  const btnMd=document.getElementById('bweg-btn-md');
+  const btnGd=document.getElementById('bweg-btn-gd');
+  if(which==='md'){
+    btnMd.style.background='rgba(0,201,123,.25)';btnMd.style.color='#00c97b';btnMd.style.borderColor='rgba(0,201,123,.6)';
+    btnGd.style.background='rgba(255,255,255,.05)';btnGd.style.color='rgba(255,255,255,.4)';btnGd.style.borderColor='rgba(255,255,255,.1)';
+  } else {
+    btnGd.style.background='rgba(0,194,224,.2)';btnGd.style.color='var(--cyan)';btnGd.style.borderColor='rgba(0,194,224,.5)';
+    btnMd.style.background='rgba(255,255,255,.05)';btnMd.style.color='rgba(255,255,255,.4)';btnMd.style.borderColor='rgba(255,255,255,.1)';
+  }
+}
+
 function showAblauf(which){
   document.getElementById('ablauf-md').style.display=which==='md'?'block':'none';
   document.getElementById('ablauf-gd').style.display=which==='gd'?'block':'none';
