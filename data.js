@@ -6684,7 +6684,8 @@ function renderTourStep(a){
   if(!step){ tourDone(a); return; }
   const prog = Math.round((tourStep / STEUER_TOUR_STEPS.length) * 100);
   const prgBar = `<div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
-    <button onclick="const a=document.getElementById('ga');renderBasicsEinsteiger(a)" style="background:rgba(255,255,255,.08);border:none;color:rgba(255,255,255,.45);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer">✕</button>
+    <button onclick="const a=document.getElementById('ga');renderBasicsEinsteiger(a)" style="background:rgba(255,255,255,.08);border:none;color:rgba(255,255,255,.45);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer">✕ Beenden</button>
+    <button onclick="startSteuerTour()" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.3);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer">↺ Neu starten</button>
     <div style="flex:1;height:5px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden">
       <div style="height:100%;width:${prog}%;background:linear-gradient(90deg,var(--cyan),#00c97b);border-radius:100px;transition:width .4s"></div>
     </div>
@@ -6706,19 +6707,17 @@ function tourDone(a){
     <div style="font-size:22px;font-weight:900;color:#fff;margin-bottom:8px">Einführung abgeschlossen!</div>
     <div style="font-size:13px;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:28px;line-height:1.65">Du kennst jetzt die Grundlagen des deutschen Steuerrechts.<br>Zeit für das richtige Quiz!</div>
     <button onclick="renderBasicsEinsteiger(document.getElementById('ga'))" style="width:100%;padding:14px;border-radius:14px;border:none;background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer;margin-bottom:10px">← Zurück zur Übersicht</button>
-    <button onclick="sw('est')" style="width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Zum ESt-Quiz →</button>
+    <button onclick="sw('est')" style="width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer;margin-bottom:10px">Zum ESt-Quiz →</button>
+    <button onclick="startSteuerTour()" style="width:100%;padding:12px;border-radius:14px;border:1.5px solid rgba(255,255,255,.12);background:transparent;color:rgba(255,255,255,.35);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">↺ Tour nochmal starten</button>
   </div>`;
 }
 
 // ── Helper ──────────────────────────────────────────────────────
 function _nextBtn(label, onclick){
-  return `<button onclick="${onclick||'tourNext()'}" style="width:100%;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer;margin-top:14px">${label} →</button>`;
+  return `<button onclick="${onclick||'tourNext()'}" style="width:100%;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">${label}</button>`;
 }
 
-// ══════════════════════════════════════════════════════════════════
-// STEUER_TOUR_STEPS
-// ══════════════════════════════════════════════════════════════════
-
+// ══ STEUER_TOUR_STEPS ══
 const STEUER_TOUR_STEPS = [
   // ── SCHRITT 1: Ein normaler Montag ──────────────────────────────
   {
@@ -6746,6 +6745,9 @@ const STEUER_TOUR_STEPS = [
       if(phase===0){
         // Show scenes, no tax info yet
         return `
+        <div style="display:flex;justify-content:flex-end;margin-bottom:10px">
+          <button onclick="tourNext()" style="padding:7px 14px;border-radius:100px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:rgba(255,255,255,.45);font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer">Schritt überspringen →</button>
+        </div>
         <div style="background:linear-gradient(135deg,#060f22,#1a0a60);border-radius:16px;padding:16px;margin-bottom:12px">
           <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px">🗓️ Schritt 1 – Ein normaler Montag</div>
           <div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:4px">Wo stecken Steuern drin?</div>
@@ -6919,6 +6921,10 @@ const STEUER_TOUR_STEPS = [
       const allDone = Object.keys(answers).length >= CASES.length;
 
       return `
+        <div style="display:flex;justify-content:flex-end;margin-bottom:10px">
+          <button onclick="tourNext()" style="padding:7px 14px;border-radius:100px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:rgba(255,255,255,.45);font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer">Schritt überspringen →</button>
+        </div>
+        
       <div style="background:linear-gradient(135deg,#0a1a3a,#1a3a8f);border-radius:16px;padding:14px 16px 12px;margin-bottom:12px">
         <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px">⚖️ Schritt 3 – § 1 EStG</div>
         <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:3px">Wer ist einkommensteuerpflichtig?</div>
@@ -7036,10 +7042,10 @@ const STEUER_TOUR_STEPS = [
          desc:'Lena (Azubi) kauft AirPods für 180 €. Sie nutzt sie für Fachinhalte-Podcasts und Zoom-Calls mit dem Team.',
          answer:'nein',
          erkl:'❌ Nicht absetzbar – jedenfalls nicht ohne sehr guten Nachweis. Kopfhörer sind Alltagsgegenstände (§ 12 Nr. 1 EStG) ohne objektiv berufliches Gepräge. Das FA erkennt den Abzug ohne nachweislich ausschließliche Berufsnutzung nicht an – und die ist bei AirPods kaum glaubhaft zu machen.'},
-        {id:'f2',icon:'🚲',title:'Fahrrad zur Ausbildungsstätte?',
-         desc:'Jonas (Azubi) fährt täglich 8 km mit dem Fahrrad zur Ausbildungsstätte – an 200 Arbeitstagen im Jahr.',
+        {id:'f2',icon:'🚲',title:'Den täglichen Weg zur Ausbildung?',
+         desc:'Jonas (Azubi) fährt 8 km zur Ausbildungsstätte – an 200 Tagen pro Jahr. Kann er die Fahrtkosten als Werbungskosten absetzen?',
          answer:'ja',
-         erkl:'✅ Ja! Entfernungspauschale 0,38 €/km (§ 9 Abs. 1 Nr. 4 EStG, ab VZ 2026). Gilt für alle Verkehrsmittel – nicht nur Auto. 200 Tage × 8 km × 0,38 € = 608 € Werbungskosten. Achtung: Lohnt sich nur wenn die gesamten WK den Arbeitnehmer-Pauschbetrag von 1.230 € übersteigen.'},
+         erkl:'✅ Ja – die Fahrtkosten als Entfernungspauschale (nicht das Fahrrad!). § 9 Abs. 1 Nr. 4 EStG: 0,38 €/km für die einfache Strecke, egal ob Fahrrad, Bus oder Auto. Beispiel: 200 Tage × 8 km × 0,38 € = 608 € WK. Das Fahrrad selbst ist nicht absetzbar – nur der Weg. Lohnt sich wenn alle WK zusammen über dem AN-Pauschbetrag 1.230 € liegen.'},
         {id:'f3',icon:'📱',title:'Handy-Reparatur bei 60 % Berufsnutzung?',
          desc:'Mia nutzt ihr Handy nachweislich zu 60 % beruflich (dienstliche E-Mails, Teams-Calls). Reparatur kostet 120 €.',
          answer:'ja',
@@ -7058,6 +7064,10 @@ const STEUER_TOUR_STEPS = [
       const score = CASES.filter((_,i)=>answers[i]===CASES[i].answer).length;
 
       return `
+        <div style="display:flex;justify-content:flex-end;margin-bottom:10px">
+          <button onclick="tourNext()" style="padding:7px 14px;border-radius:100px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:rgba(255,255,255,.45);font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer">Schritt überspringen →</button>
+        </div>
+        
       <div style="background:linear-gradient(135deg,#0a1a3a,#3d0a6b);border-radius:16px;padding:14px 16px 12px;margin-bottom:12px">
         <div style="font-size:9px;font-family:'Space Mono',monospace;color:#c8a0ff;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px">💸 Schritt 5 – Steuer-Realcheck</div>
         <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:3px">Kann ich das absetzen?</div>
@@ -7126,6 +7136,10 @@ const STEUER_TOUR_STEPS = [
       const scoreCorrect = BERUFE.filter(b=>answers[b.id]===b.exists).length;
 
       return `
+        <div style="display:flex;justify-content:flex-end;margin-bottom:10px">
+          <button onclick="tourNext()" style="padding:7px 14px;border-radius:100px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:rgba(255,255,255,.45);font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer">Schritt überspringen →</button>
+        </div>
+        
       <div style="background:linear-gradient(135deg,#060f22,#0a2a60);border-radius:16px;padding:14px 16px 12px;margin-bottom:12px">
         <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px">🏛️ Schritt 6 – Finanzamt-Berufe</div>
         <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:3px">Gibt es das im Finanzamt?</div>
@@ -7170,6 +7184,7 @@ const STEUER_TOUR_STEPS = [
         <div style="display:flex;flex-direction:column;gap:8px">
           <button onclick="renderBasicsEinsteiger(document.getElementById('ga'))" style="width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:15px;cursor:pointer">← Zur Übersicht</button>
           <button onclick="sw('est')" style="width:100%;padding:14px;border-radius:14px;border:1.5px solid rgba(255,255,255,.2);background:transparent;color:rgba(255,255,255,.7);font-family:'Nunito',sans-serif;font-weight:900;font-size:15px;cursor:pointer">ESt-Quiz starten →</button>
+          <button onclick="startSteuerTour()" style="width:100%;padding:12px;border-radius:14px;border:1.5px solid rgba(255,255,255,.12);background:transparent;color:rgba(255,255,255,.35);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer;margin-top:8px">↺ Tour nochmal starten</button>
         </div>
       </div>`;
     }
