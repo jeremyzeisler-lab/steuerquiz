@@ -23,8 +23,6 @@
 <meta name="twitter:image" content="https://steuer-lernspiel.de/preview.png">
 <title>Steuer-Lernspiel – Finanzverwaltung Berlin/Brandenburg</title>
 
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -84,6 +82,7 @@
     <button class="mode-tab" onclick="sw('kurios')" id="tab-kurios"><span class="ti">🤯</span>Kurioses</button>
     <button class="mode-tab" onclick="sw('story')" id="tab-story"><span class="ti">📖</span>Stories</button>
     <button class="mode-tab" onclick="sw('karriere')" id="tab-karriere"><span class="ti">🎓</span>Karriere</button>
+    <button class="mode-tab" onclick="sw('trainer')" id="tab-trainer"><span class="ti">🧪</span>Testtrainer</button>
     <button class="mode-tab" onclick="sw('ao_basics')" id="tab-ao_basics" style="display:none"><span class="ti">⚖️</span>AO Basics</button>
     <button class="mode-tab" onclick="sw('recht_basics')" id="tab-recht_basics" style="display:none"><span class="ti">🏛️</span>Recht Basics</button>
     <button class="mode-tab" onclick="sw('ust_basics')" id="tab-ust_basics" style="display:none"><span class="ti">🛒</span>USt Basics</button>
@@ -141,6 +140,7 @@
     <option value="kurios">🤯 Kurioses</option>
     <option value="recht">🏛️ Privat- & Öff. Recht</option>
     <option value="karriere">🎓 Karriere</option>
+    <option value="trainer">🧪 Einstellungstest-Trainer</option>
     <option value="glossar">📖 Glossar</option>
   </select>
 
@@ -307,7 +307,7 @@
       </div>
       <div style="background:#f4f0ff;border-radius:12px;padding:12px 14px">
         <div style="font-size:11px;font-weight:900;color:#3a0080;margin-bottom:4px">✉️ Kontakt</div>
-        Für Feedback, Fehlermeldungen oder Kooperationsanfragen: <a href="mailto:jeremy.zeisler@googlemail.com" style="color:#5c2db8;font-weight:800;text-decoration:none">jeremy.zeisler@googlemail.com</a>
+        Für Feedback, Fehlermeldungen oder Kooperationsanfragen: <a href="/cdn-cgi/l/email-protection#b6dcd3c4d3dbcf98ccd3dfc5dad3c4f6d1d9d9d1dad3dbd7dfda98d5d9db" style="color:#5c2db8;font-weight:800;text-decoration:none"><span class="__cf_email__" data-cfemail="3b515e495e564215415e5248575e497b5c54545c575e565a525715585456">[email&#160;protected]</span></a>
       </div>
     </div>
     <button onclick="document.getElementById('impressum-modal').style.display='none'" style="width:100%;margin-top:18px;padding:13px;border-radius:14px;border:none;background:linear-gradient(135deg,#1a3a8f,#2255cc);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Schließen</button>
@@ -576,18 +576,4 @@
     <textarea class="ai-input" id="ai-input" rows="1" placeholder="Frag mich etwas…"
       onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();aiSend()}"
       oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
-    <button class="ai-send-btn" id="ai-send-btn" onclick="aiSend()">➤</button>
-  </div>
-</div>
-
-<script src="data.js"></script>
-<script src="app.js"></script>
-<script>
-if('serviceWorker' in navigator){
-  window.addEventListener('load', ()=>{
-    navigator.serviceWorker.register('./sw.js').catch(()=>{});
-  });
-}
-</script>
-</body>
-</html>
+    <button class="ai

@@ -2722,6 +2722,7 @@ function render(){
   else if(mode==='pruefung')renderPruefung(a);
   else if(mode==='praxis')renderPraxis(a);
   else if(mode==='einfuehrung')renderEinfuehrung(a);
+  else if(mode==='trainer'){trainerMode='home';trainerCat=null;renderTrainer(a);}
   else renderKarriere(a);
 }
 
@@ -7498,6 +7499,269 @@ const STEUER_TOUR_STEPS = [
 // ══════════════════════════════════════════════════════════════════
 // ABSETZ Overlay
 // ══════════════════════════════════════════════════════════════════
+
+
+
+
+// ==================== EINSTELLUNGSTEST-TRAINER ====================
+const TRAINER_STATS_KEY='trainer_stats_v1';
+let trainerMode='home',trainerCat=null,trainerQIdx=0,trainerAnswers=[],trainerMerkPhase=0,trainerSelected=null;
+
+const D_TRAINER_CATS=[
+  {id:'sprache',label:'Sprachverständnis',icon:'📖',color:'var(--cyan)',desc:'Grammatik · Rechtschreibung · Textverständnis'},
+  {id:'mathe',label:'Mathematik',icon:'🔢',color:'#00c97b',desc:'Grundrechenarten · Prozent · Zins · Dreisatz'},
+  {id:'logik',label:'Logik & Denken',icon:'🧩',color:'#c8a0ff',desc:'Zahlenreihen · Analogien · Muster erkennen'},
+  {id:'merk',label:'Merkfähigkeit',icon:'🧠',color:'var(--yellow)',desc:'Informationen einprägen und wiedergeben'},
+  {id:'konz',label:'Konzentration',icon:'🎯',color:'#ff8c42',desc:'Genauigkeit · Tabellen · Fehler finden'},
+  {id:'wissen',label:'Allgemeinwissen',icon:'📚',color:'#ff4d6d',desc:'Politik · Gesellschaft · Finanzverwaltung'},
+];
+
+const D_TRAINER_QS={
+  sprache:[
+    {q:'Welches Wort ist <b>falsch</b> geschrieben?',opts:['Rechtschreibung','Voraaussetzung','Behörde','Zuständigkeit'],ans:1,explain:'Richtig: <b>Voraussetzung</b> – ein „a", nicht „aa". Merkhilfe: vor·aus·set·zung (vier Silben).'},
+    {q:'Welcher Satz ist <b>grammatikalisch korrekt</b>?',opts:['Er hoffte dass er die Stelle bekommt.','Er hoffte, dass er die Stelle bekommt.','Er hoffte, dass er die Stelle, bekommt.','Er hoffte, dass, er die Stelle bekommt.'],ans:1,explain:'Vor <b>„dass"</b> steht immer ein Komma. Innerhalb des Nebensatzes kommt kein weiteres Komma vor dem Verb.'},
+    {q:'<i style="font-size:11px;color:rgba(255,255,255,.65);line-height:1.7;display:block;margin-bottom:10px">"In Deutschland ist die Steuerverwaltung Ländersache. Das Bundeszentralamt für Steuern (BZSt) übernimmt hingegen bestimmte bundesweite Aufgaben – u.a. die Vergabe der Steuer-Identifikationsnummer."</i>Welche Aussage ist laut Text <b>korrekt</b>?',opts:['Der Bund verwaltet alle Steuern zentral.','Das BZSt vergibt die Steuer-Identifikationsnummer.','Die Gemeinden sind für alle Steuern zuständig.','Das BZSt ersetzt die Finanzämter vollständig.'],ans:1,explain:'Laut Text vergibt das <b>BZSt die Steuer-Identifikationsnummer</b>. Die eigentliche Steuerverwaltung ist Ländersache.'},
+    {q:'Was bedeutet das Wort <b>„dezidiert"</b>?',opts:['zufällig','verschwommen','entschieden / klar','vertraulich'],ans:2,explain:'"Dezidiert" = <b>entschieden, klar, ausdrücklich</b>. Beispiel: „Er lehnte die Anfrage dezidiert ab."'},
+    {q:'Was ist der korrekte Plural von <b>„die Vollmacht"</b>?',opts:['die Vollmachten','die Vollmächten','die Vollmachts','die Vollmächte'],ans:0,explain:'Die Vollmacht → die <b>Vollmachten</b>. Häufige Fehler: Vollmächten (falsche Umlautung) oder Vollmächte.'},
+    {q:'Welches Wort ist ein Synonym für <b>„überprüfen"</b>?',opts:['beantragen','einreichen','verweigern','kontrollieren'],ans:3,explain:'<b>Kontrollieren</b> = überprüfen, nachsehen ob etwas stimmt. Die anderen Wörter haben völlig andere Bedeutungen.'},
+  ],
+  mathe:[
+    {q:'Berechne: <b>342 × 17</b> = ?',opts:['5.712','5.814','5.900','5.784'],ans:1,explain:'342 × 17 = 342 × 10 + 342 × 7 = 3.420 + 2.394 = <b>5.814</b> ✓'},
+    {q:'Ein Beamter verdient <b>2.800 €</b> im Monat. Er erhält eine Erhöhung um <b>3,5 %</b>. Wie viel verdient er danach?',opts:['2.880 €','2.884 €','2.898 €','2.904 €'],ans:2,explain:'2.800 × 0,035 = 98 € Erhöhung. 2.800 + 98 = <b>2.898 €</b> ✓'},
+    {q:'Berechne: <b>3/4 + 1/6</b> = ?',opts:['11/12','4/10','5/12','2/5'],ans:0,explain:'Gemeinsamer Nenner 12: 3/4 = 9/12 · 1/6 = 2/12 · Summe: <b>11/12</b> ✓'},
+    {q:'<b>12 Mitarbeiter</b> bearbeiten in 5 Tagen <b>480 Akten</b>. Wie viele Akten bearbeiten <b>8 Mitarbeiter</b> in denselben 5 Tagen?',opts:['240','320','360','400'],ans:1,explain:'Pro Mitarbeiter: 480 ÷ 12 = 40 Akten. 8 × 40 = <b>320 Akten</b> ✓'},
+    {q:'<b>8.000 €</b> werden für <b>3 Jahre</b> zu <b>2,5 % p.a.</b> angelegt (einfache Verzinsung). Wie viel Zinsen entstehen?',opts:['500 €','580 €','600 €','620 €'],ans:2,explain:'Zinsen = Kapital × Zinssatz × Zeit = 8.000 × 0,025 × 3 = <b>600 €</b> ✓'},
+    {q:'Verpflegungspauschale: <b>14 € pro Tag</b> ab 8 h Abwesenheit. Ein Beamter hat <b>5 Dienstreisen</b> à genau 8 Stunden. Wie viel erhält er insgesamt?',opts:['56 €','60 €','65 €','70 €'],ans:3,explain:'5 × 14 € = <b>70 €</b> ✓ (Pauschale gilt ab 8 Stunden – ist hier jeweils erfüllt.)'},
+  ],
+  logik:[
+    {q:'Welche Zahl kommt als nächstes?<br><span style="font-family:\'Space Mono\',monospace;font-size:15px;letter-spacing:4px;color:rgba(255,255,255,.85);display:block;margin:12px 0">2 · 5 · 10 · 17 · 26 · ?</span>',opts:['35','37','39','33'],ans:1,explain:'Differenzen: +3, +5, +7, +9, <b>+11</b> → 26 + 11 = <b>37</b> ✓'},
+    {q:'Welche Zahl kommt als nächstes?<br><span style="font-family:\'Space Mono\',monospace;font-size:15px;letter-spacing:4px;color:rgba(255,255,255,.85);display:block;margin:12px 0">1 · 1 · 2 · 3 · 5 · 8 · ?</span>',opts:['11','12','13','14'],ans:2,explain:'<b>Fibonacci-Folge</b>: Jede Zahl = Summe der zwei vorherigen. 5 + 8 = <b>13</b> ✓'},
+    {q:'Welche Zahl kommt als nächstes?<br><span style="font-family:\'Space Mono\',monospace;font-size:15px;letter-spacing:4px;color:rgba(255,255,255,.85);display:block;margin:12px 0">100 · 95 · 85 · 70 · 50 · ?</span>',opts:['25','20','30','35'],ans:0,explain:'Differenzen: −5, −10, −15, −20 → nächste: −25 → 50 − 25 = <b>25</b> ✓'},
+    {q:'Welcher Buchstabe kommt als nächstes?<br><span style="font-family:\'Space Mono\',monospace;font-size:18px;letter-spacing:8px;color:rgba(255,255,255,.85);display:block;margin:12px 0">A · D · G · J · ?</span>',opts:['L','K','M','N'],ans:2,explain:'Abstand jeweils +3: A(1)→D(4)→G(7)→J(10)→<b>M(13)</b> ✓'},
+    {q:'Berlin verhält sich zu Deutschland wie Wien zu …?',opts:['Bayern','Europa','Schweiz','Österreich'],ans:3,explain:'Berlin = Hauptstadt Deutschlands. Wien = Hauptstadt <b>Österreichs</b> ✓'},
+    {q:'Quadrate haben der Reihe nach <b>1 · 4 · 9 · 16</b> Punkte. Wie viele hat das <b>nächste</b>?',opts:['20','21','24','25'],ans:3,explain:'Quadratzahlen: 1², 2², 3², 4² → nächste: 5² = <b>25</b> ✓'},
+  ],
+  merk:{
+    card:{'Name':'Maximilian Schreiber','Personalnummer':'FA-2847','Finanzamt':'Schöneberg','Einstellungsdatum':'15.08.2023','Sachgebiet':'Einkommensteuer','Laufbahn':'Mittlerer Dienst (A6)'},
+    questions:[
+      {q:'Wie lautet die <b>Personalnummer</b> von Maximilian Schreiber?',opts:['FA-2748','FA-2847','FA-2874','FA-2478'],ans:1,explain:'Die Personalnummer lautete <b>FA-2847</b>.'},
+      {q:'Bei welchem <b>Finanzamt</b> ist er tätig?',opts:['Steglitz','Tempelhof','Schöneberg','Zehlendorf'],ans:2,explain:'Maximilian Schreiber ist beim Finanzamt <b>Schöneberg</b> tätig.'},
+      {q:'Seit wann ist er <b>eingestellt</b>?',opts:['01.09.2023','15.08.2022','15.08.2023','01.08.2023'],ans:2,explain:'Einstellungsdatum: <b>15.08.2023</b> – typischer Ausbildungsstart für den Mittleren Dienst.'},
+    ]
+  },
+  konz:[
+    {q:'Wie oft kommt das Wort <b>„Berlin"</b> vor?<br><br><span style="font-family:\'Space Mono\',monospace;font-size:11px;line-height:2.2;color:rgba(255,255,255,.8);display:block">Berlin · Bonn · Berlin · Hamburg · Berlin · München · Bonn · Berlin</span>',opts:['2','3','4','5'],ans:2,explain:'<b>Berlin</b>(1) · Bonn · <b>Berlin</b>(2) · Hamburg · <b>Berlin</b>(3) · München · Bonn · <b>Berlin</b>(4) → <b>4-mal</b> ✓'},
+    {q:'Wie viele <b>gerade Zahlen</b> enthält diese Reihe?<br><br><span style="font-family:\'Space Mono\',monospace;font-size:13px;letter-spacing:2px;color:rgba(255,255,255,.85);display:block;margin:10px 0">7 · 12 · 5 · 18 · 3 · 24 · 11 · 6 · 9 · 16</span>',opts:['3','4','5','6'],ans:2,explain:'Gerade (durch 2 teilbar): <b>12, 18, 24, 6, 16</b> → <b>5 gerade Zahlen</b> ✓'},
+    {q:'Wie oft kommt der Buchstabe <b>„e"</b> im Wort <b>„Steuerverwaltung"</b> vor?<br><br><span style="font-family:\'Space Mono\',monospace;font-size:13px;letter-spacing:2px;color:rgba(255,255,255,.85);display:block;margin:10px 0">S-t-e-u-e-r-v-e-r-w-a-l-t-u-n-g</span>',opts:['2','3','4','5'],ans:1,explain:'S-t-<b>e</b>-u-<b>e</b>-r-v-<b>e</b>-r-w-a-l-t-u-n-g → <b>3-mal</b> ✓'},
+    {q:'Welches ist die <b>größte Zahl</b> in dieser Liste?<br><br><span style="font-family:\'Space Mono\',monospace;font-size:13px;letter-spacing:1px;color:rgba(255,255,255,.85);display:block;margin:10px 0">147 · 892 · 341 · 768 · 519 · 824 · 631</span>',opts:['824','892','768','847'],ans:1,explain:'<b>892</b> ist die größte Zahl. Tipp: Stelle für Stelle von links vergleichen – 892 > 824 (9 > 2 an der zweiten Stelle).'},
+    {q:'Wie viele Wörter haben im folgenden Satz <b>mehr als 5 Buchstaben</b>?<br><br><i style="color:rgba(255,255,255,.75);font-size:12px">"Das Finanzamt prüft die Steuererklärung des Bürgers."</i>',opts:['2','3','4','5'],ans:1,explain:'Finanzamt (9✓) · Steuererklärung (16✓) · Bürgers (7✓) → <b>3 Wörter</b> mit mehr als 5 Buchstaben ✓'},
+    {q:'Wie viele <b>§-Zeichen</b> enthält dieser Text?<br><br><span style="font-family:\'Space Mono\',monospace;font-size:10px;line-height:2.2;color:rgba(255,255,255,.8);display:block">§ 1 EStG · § 3 UStG · § 15 GewStG · § 2 AO · § 19 EStG · § 4 UStG · § 20 KStG</span>',opts:['5','6','7','8'],ans:2,explain:'§1 · §3 · §15 · §2 · §19 · §4 · §20 → <b>7 §-Zeichen</b> ✓'},
+  ],
+  wissen:[
+    {q:'Wer ist aktuell (2026) <b>Bundesfinanzminister</b> Deutschlands?',opts:['Christian Lindner','Olaf Scholz','Lars Klingbeil','Robert Habeck'],ans:2,explain:'<b>Lars Klingbeil</b> (SPD) ist seit 2025 Bundesfinanzminister und Vizekanzler der Bundesrepublik Deutschland.'},
+    {q:'Die <b>Steuerverwaltung</b> ist in Deutschland …',opts:['Bundessache','Ländersache','EU-Sache','Gemeindesache'],ans:1,explain:'Die Steuerverwaltung ist <b>Ländersache</b> (Art. 108 GG). Die 16 Bundesländer verwalten die meisten Steuern eigenständig.'},
+    {q:'Wofür steht die Abkürzung <b>„BZSt"</b>?',opts:['Bundessteueramt','Bundeszollstelle','Bundeszentralamt für Steuern','Bundeszentrumsteuer'],ans:2,explain:'BZSt = <b>Bundeszentralamt für Steuern</b>. Es übernimmt bundesweit einheitliche Aufgaben, z.B. die Vergabe der Steuer-Identifikationsnummer.'},
+    {q:'Wie hoch ist der <b>Spitzensteuersatz</b> der deutschen Einkommensteuer?',opts:['35 %','40 %','42 %','50 %'],ans:2,explain:'Der Spitzensteuersatz beträgt <b>42 %</b>. Oberhalb einer höheren Einkommensgrenze gilt die sog. „Reichensteuer" von 45 %.'},
+    {q:'Wie viele <b>Finanzämter</b> gibt es in Berlin?',opts:['17','20','23','26'],ans:2,explain:'Berlin hat <b>23 Finanzämter</b>: 17 Regionalfinanzämter + 6 Sonderfinanzämter (Körperschaften I–IV, Fahndung, Technisches FA).'},
+    {q:'Welcher <b>Grundgesetz-Artikel</b> schützt das Eigentum?',opts:['Art. 1 GG','Art. 3 GG','Art. 14 GG','Art. 20 GG'],ans:2,explain:'<b>Art. 14 GG</b> schützt das Eigentum. Art. 1 = Menschenwürde · Art. 3 = Gleichheitsgebot · Art. 20 = Staatsstrukturprinzipien.'},
+  ],
+};
+
+function trainerGetStats(){try{return JSON.parse(localStorage.getItem(TRAINER_STATS_KEY)||'{}')}catch(e){return{}}}
+function trainerSaveResult(cat,correct,total){const s=trainerGetStats();if(!s[cat])s[cat]={correct:0,total:0};s[cat].correct+=correct;s[cat].total+=total;localStorage.setItem(TRAINER_STATS_KEY,JSON.stringify(s));}
+
+function renderTrainer(a){
+  if(trainerMode==='home') _trainerHome(a);
+  else if(trainerMode==='quiz') _trainerQuiz(a);
+  else if(trainerMode==='result') _trainerResult(a);
+}
+
+function _trainerHome(a){
+  const stats=trainerGetStats();
+  const totalDone=Object.values(stats).reduce((s,v)=>s+v.total,0);
+  const totalCorrect=Object.values(stats).reduce((s,v)=>s+v.correct,0);
+  a.innerHTML=`
+<div style="max-width:600px;margin:0 auto">
+  <div style="text-align:center;padding:20px 0 16px">
+    <div style="font-size:40px;margin-bottom:8px">🧪</div>
+    <div style="font-size:20px;font-weight:900;color:#fff;margin-bottom:4px">Einstellungstest-Trainer</div>
+    <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.5);line-height:1.6;margin-bottom:4px">Übe die 6 Bereiche des Auswahlverfahrens für die Finanzverwaltung Berlin &amp; Brandenburg.</div>
+    <div style="font-size:10px;font-weight:700;color:rgba(255,77,109,.7)">⚠️ Falsche Antworten = Punkte−  ·  Sorgfalt schlägt Tempo</div>
+  </div>
+  ${totalDone>0?`<div style="background:rgba(0,194,224,.07);border:1px solid rgba(0,194,224,.2);border-radius:12px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:12px">
+    <div style="font-size:24px">📊</div>
+    <div><div style="font-size:11px;font-weight:900;color:var(--cyan)">Dein Gesamtstand</div><div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.7)">${totalCorrect} / ${totalDone} richtig (${Math.round(totalCorrect/totalDone*100)} %)</div></div>
+    <button onclick="if(confirm('Gesamtfortschritt wirklich zurücksetzen?')){localStorage.removeItem(TRAINER_STATS_KEY);trainerMode=\'home\';renderTrainer(document.getElementById(\'ga\'))}" style="margin-left:auto;font-size:10px;padding:5px 10px;border-radius:7px;border:1px solid rgba(255,77,109,.3);background:rgba(255,77,109,.08);color:#ff8099;cursor:pointer;font-family:\'Nunito\',sans-serif;font-weight:800">↺ Reset</button>
+  </div>`:``}
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+    ${D_TRAINER_CATS.map(cat=>{
+      const s=stats[cat.id];
+      const pct=s&&s.total>0?Math.round(s.correct/s.total*100):null;
+      return`<button onclick="trainerStart('${cat.id}')" style="background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;text-align:left;cursor:pointer;transition:all .2s;font-family:'Nunito',sans-serif" onmouseover="this.style.background='rgba(255,255,255,.08)';this.style.borderColor='${cat.color}'" onmouseout="this.style.background='rgba(255,255,255,.04)';this.style.borderColor='rgba(255,255,255,.1)'">
+        <div style="font-size:24px;margin-bottom:6px">${cat.icon}</div>
+        <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:3px">${cat.label}</div>
+        <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.4);margin-bottom:8px;line-height:1.5">${cat.desc}</div>
+        ${pct!==null
+          ?`<div style="display:flex;align-items:center;gap:6px"><div style="flex:1;height:4px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden"><div style="height:100%;width:${pct}%;background:${cat.color};border-radius:100px"></div></div><div style="font-size:9px;font-family:'Space Mono',monospace;font-weight:700;color:${cat.color}">${pct}%</div></div>`
+          :`<div style="font-size:9px;font-family:'Space Mono',monospace;font-weight:700;color:rgba(255,255,255,.25)">Noch nicht geübt</div>`}
+      </button>`;
+    }).join('')}
+  </div>
+  <div style="background:rgba(255,217,74,.06);border:1px solid rgba(255,217,74,.2);border-radius:10px;padding:10px 13px;font-size:10px;font-weight:700;color:rgba(255,217,74,.8);line-height:1.7">
+    💡 <b>Tipp:</b> Im echten Test gilt: richtige Antwort = Punkte+, falsche = Punkte−. Lieber eine Frage überspringen als raten!<br>
+    Der Test findet computergestützt statt – übe täglich mind. 30 Minuten.
+  </div>
+</div>`;
+}
+
+function trainerStart(catId){
+  trainerCat=catId; trainerQIdx=0; trainerAnswers=[]; trainerMerkPhase=0; trainerSelected=null;
+  trainerMode='quiz';
+  renderTrainer(document.getElementById('ga'));
+}
+
+function _trainerQuiz(a){
+  if(trainerCat==='merk'){_trainerMerk(a);return;}
+  const qs=D_TRAINER_QS[trainerCat];
+  const cat=D_TRAINER_CATS.find(c=>c.id===trainerCat);
+  if(trainerQIdx>=qs.length){trainerMode='result';renderTrainer(a);return;}
+  const q=qs[trainerQIdx];
+  const answered=trainerSelected!==null;
+  const correct=trainerSelected===q.ans;
+  a.innerHTML=`
+<div style="max-width:580px;margin:0 auto">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+    <button onclick="trainerMode='home';trainerCat=null;renderTrainer(document.getElementById('ga'))" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 12px;color:rgba(255,255,255,.6);cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;font-size:12px">← Zurück</button>
+    <div style="flex:1;height:6px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden"><div style="height:100%;width:${Math.round((trainerQIdx/qs.length)*100)}%;background:${cat.color};border-radius:100px;transition:width .4s ease"></div></div>
+    <div style="font-size:11px;font-family:'Space Mono',monospace;font-weight:700;color:rgba(255,255,255,.45)">${trainerQIdx+1}/${qs.length}</div>
+  </div>
+  <div style="background:rgba(255,255,255,.03);border:1.5px solid rgba(255,255,255,.1);border-radius:16px;padding:18px;margin-bottom:12px">
+    <div style="font-size:9px;font-weight:900;color:${cat.color};letter-spacing:1.5px;margin-bottom:10px;font-family:'Space Mono',monospace">${cat.icon} ${cat.label.toUpperCase()}</div>
+    <div style="font-size:13px;font-weight:700;color:#fff;line-height:1.65">${q.q}</div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+    ${q.opts.map((opt,i)=>{
+      let bg='rgba(255,255,255,.04)',border='rgba(255,255,255,.12)',col='rgba(255,255,255,.8)';
+      if(answered){
+        if(i===q.ans){bg='rgba(0,201,123,.12)';border='rgba(0,201,123,.5)';col='#00c97b';}
+        else if(i===trainerSelected&&!correct){bg='rgba(255,77,109,.1)';border='rgba(255,77,109,.4)';col='#ff4d6d';}
+        else{bg='rgba(255,255,255,.02)';border='rgba(255,255,255,.06)';col='rgba(255,255,255,.3)';}
+      }
+      return`<button ${!answered?`onclick="trainerAnswer(${i})"`:'disabled'} style="width:100%;padding:12px 14px;border-radius:11px;border:1.5px solid ${border};background:${bg};color:${col};font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;text-align:left;cursor:${answered?'default':'pointer'};transition:all .2s;display:flex;align-items:center;gap:10px"${!answered?` onmouseover="this.style.background='rgba(255,255,255,.09)';this.style.borderColor='rgba(255,255,255,.3)'" onmouseout="this.style.background='rgba(255,255,255,.04)';this.style.borderColor='rgba(255,255,255,.12)'"`:''}>
+        <span style="width:22px;height:22px;border-radius:50%;border:1.5px solid ${border};display:flex;align-items:center;justify-content:center;font-size:10px;font-family:'Space Mono',monospace;flex-shrink:0">${['A','B','C','D'][i]}</span>
+        <span>${opt}</span>
+        ${answered&&i===q.ans?'<span style="margin-left:auto">✅</span>':''}
+        ${answered&&i===trainerSelected&&!correct?'<span style="margin-left:auto">❌</span>':''}
+      </button>`;
+    }).join('')}
+  </div>
+  ${answered?`
+  <div style="background:${correct?'rgba(0,201,123,.08)':'rgba(255,77,109,.07)'};border:1.5px solid ${correct?'rgba(0,201,123,.3)':'rgba(255,77,109,.25)'};border-radius:12px;padding:13px;margin-bottom:12px">
+    <div style="font-size:12px;font-weight:900;color:${correct?'#00c97b':'#ff4d6d'};margin-bottom:5px">${correct?'✅ Richtig!':'❌ Leider falsch.'}</div>
+    <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.7);line-height:1.65">${q.explain}</div>
+  </div>
+  <button onclick="trainerNext()" style="width:100%;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,${cat.color},rgba(0,0,0,.1));color:${trainerCat==='wissen'?'#fff':'var(--navy)'};font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">
+    ${trainerQIdx+1<qs.length?'Nächste Frage →':'Auswertung ansehen →'}
+  </button>`:`<div style="text-align:center;font-size:11px;color:rgba(255,255,255,.25);font-weight:700;font-family:'Space Mono',monospace">⚠️ Falsche Antwort = Punkte− · Nur antworten wenn sicher!</div>`}
+</div>`;
+}
+
+function _trainerMerk(a){
+  const cat=D_TRAINER_CATS.find(c=>c.id==='merk');
+  const {card,questions}=D_TRAINER_QS.merk;
+  if(trainerMerkPhase===0){
+    a.innerHTML=`
+<div style="max-width:580px;margin:0 auto">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+    <button onclick="trainerMode='home';renderTrainer(document.getElementById('ga'))" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 12px;color:rgba(255,255,255,.6);cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;font-size:12px">← Zurück</button>
+    <div style="font-size:11px;font-family:'Space Mono',monospace;font-weight:700;color:rgba(255,255,255,.45)">🧠 MERKFÄHIGKEIT</div>
+  </div>
+  <div style="background:rgba(255,217,74,.07);border:1.5px solid rgba(255,217,74,.25);border-radius:14px;padding:16px;margin-bottom:14px">
+    <div style="font-size:11px;font-weight:900;color:var(--yellow);margin-bottom:12px">📋 Personalakte – einprägen!</div>
+    <div style="display:flex;flex-direction:column;gap:7px">
+      ${Object.entries(card).map(([k,v])=>`<div style="display:flex;gap:10px;align-items:center"><div style="font-size:10px;font-weight:900;color:rgba(255,255,255,.4);width:120px;flex-shrink:0">${k}</div><div style="font-size:12px;font-weight:900;color:#fff">${v}</div></div>`).join('')}
+    </div>
+  </div>
+  <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 13px;font-size:11px;font-weight:700;color:rgba(255,255,255,.5);margin-bottom:14px;line-height:1.6">
+    💡 Präge dir alle Angaben ein. Danach wird die Karte verborgen und du wirst abgefragt. Im echten Test hast du oft nur wenige Sekunden pro Information.
+  </div>
+  <button onclick="trainerMerkPhase=1;renderTrainer(document.getElementById('ga'))" style="width:100%;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--yellow),#c8900a);color:var(--navy);font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Karte verbergen – Quiz starten →</button>
+</div>`;
+    return;
+  }
+  if(trainerQIdx>=questions.length){trainerMode='result';renderTrainer(a);return;}
+  const q=questions[trainerQIdx];
+  const answered=trainerSelected!==null;
+  const correct=trainerSelected===q.ans;
+  a.innerHTML=`
+<div style="max-width:580px;margin:0 auto">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+    <button onclick="trainerMode='home';renderTrainer(document.getElementById('ga'))" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 12px;color:rgba(255,255,255,.6);cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;font-size:12px">← Zurück</button>
+    <div style="flex:1;height:6px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden"><div style="height:100%;width:${Math.round((trainerQIdx/questions.length)*100)}%;background:var(--yellow);border-radius:100px"></div></div>
+    <div style="font-size:11px;font-family:'Space Mono',monospace;font-weight:700;color:rgba(255,255,255,.45)">${trainerQIdx+1}/${questions.length}</div>
+  </div>
+  <div style="background:rgba(255,217,74,.04);border:1px solid rgba(255,217,74,.15);border-radius:10px;padding:8px 13px;font-size:10px;font-weight:700;color:rgba(255,217,74,.6);margin-bottom:12px">🧠 Karte verborgen – antworte aus dem Gedächtnis</div>
+  <div style="background:rgba(255,255,255,.03);border:1.5px solid rgba(255,255,255,.1);border-radius:16px;padding:18px;margin-bottom:12px">
+    <div style="font-size:13px;font-weight:700;color:#fff;line-height:1.65">${q.q}</div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+    ${q.opts.map((opt,i)=>{
+      let bg='rgba(255,255,255,.04)',border='rgba(255,255,255,.12)',col='rgba(255,255,255,.8)';
+      if(answered){if(i===q.ans){bg='rgba(0,201,123,.12)';border='rgba(0,201,123,.5)';col='#00c97b';}else if(i===trainerSelected&&!correct){bg='rgba(255,77,109,.1)';border='rgba(255,77,109,.4)';col='#ff4d6d';}else{bg='rgba(255,255,255,.02)';border='rgba(255,255,255,.06)';col='rgba(255,255,255,.3)';}}
+      return`<button ${!answered?`onclick="trainerAnswer(${i})"`:'disabled'} style="width:100%;padding:12px 14px;border-radius:11px;border:1.5px solid ${border};background:${bg};color:${col};font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;text-align:left;cursor:${answered?'default':'pointer'};display:flex;align-items:center;gap:10px">
+        <span style="width:22px;height:22px;border-radius:50%;border:1.5px solid ${border};display:flex;align-items:center;justify-content:center;font-size:10px;font-family:'Space Mono',monospace;flex-shrink:0">${['A','B','C','D'][i]}</span>
+        <span>${opt}</span>${answered&&i===q.ans?'<span style="margin-left:auto">✅</span>':''}${answered&&i===trainerSelected&&!correct?'<span style="margin-left:auto">❌</span>':''}
+      </button>`;
+    }).join('')}
+  </div>
+  ${answered?`
+  <div style="background:${correct?'rgba(0,201,123,.08)':'rgba(255,77,109,.07)'};border:1.5px solid ${correct?'rgba(0,201,123,.3)':'rgba(255,77,109,.25)'};border-radius:12px;padding:13px;margin-bottom:12px">
+    <div style="font-size:12px;font-weight:900;color:${correct?'#00c97b':'#ff4d6d'};margin-bottom:5px">${correct?'✅ Richtig!':'❌ Leider falsch.'}</div>
+    <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.7);line-height:1.65">${q.explain}</div>
+  </div>
+  <button onclick="trainerNext()" style="width:100%;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--yellow),#c8900a);color:var(--navy);font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">${trainerQIdx+1<questions.length?'Nächste Frage →':'Auswertung ansehen →'}</button>`
+  :`<div style="text-align:center;font-size:11px;color:rgba(255,255,255,.25);font-weight:700;font-family:'Space Mono',monospace">Antworte nur wenn du sicher bist!</div>`}
+</div>`;
+}
+
+function trainerAnswer(optIdx){
+  if(trainerSelected!==null)return;
+  trainerSelected=optIdx;
+  const qs=trainerCat==='merk'?D_TRAINER_QS.merk.questions:D_TRAINER_QS[trainerCat];
+  const correct=optIdx===qs[trainerQIdx].ans;
+  trainerAnswers.push(correct);
+  renderTrainer(document.getElementById('ga'));
+}
+
+function trainerNext(){
+  trainerQIdx++;
+  trainerSelected=null;
+  renderTrainer(document.getElementById('ga'));
+}
+
+function _trainerResult(a){
+  const cat=D_TRAINER_CATS.find(c=>c.id===trainerCat);
+  const correct=trainerAnswers.filter(Boolean).length;
+  const total=trainerAnswers.length;
+  const pct=Math.round(correct/total*100);
+  trainerSaveResult(trainerCat,correct,total);
+  const stars=pct>=80?'⭐⭐⭐':pct>=60?'⭐⭐':pct>=40?'⭐':'';
+  const msg=pct>=80?'Ausgezeichnet! Du bist gut vorbereitet.':pct>=60?'Solide! Noch etwas Übung und du bist fit.':pct>=40?'Weiter üben – da ist noch Luft nach oben.':'Nicht aufgeben – regelmäßiges Üben hilft!';
+  a.innerHTML=`
+<div style="max-width:500px;margin:0 auto;text-align:center;padding:20px 0">
+  <div style="font-size:48px;margin-bottom:10px">${stars||'📊'}</div>
+  <div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:6px">${cat.label} – Ergebnis</div>
+  <div style="font-size:40px;font-weight:900;color:${cat.color};margin:14px 0">${correct} / ${total}</div>
+  <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.6);margin-bottom:20px">${msg}</div>
+  <div style="height:10px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden;margin-bottom:20px">
+    <div style="height:100%;width:${pct}%;background:${pct>=60?cat.color:'#ff4d6d'};border-radius:100px;transition:width .8s ease"></div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:8px">
+    <button onclick="trainerStart('${trainerCat}')" style="width:100%;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,${cat.color},rgba(0,0,0,.2));color:${['mathe','logik','konz'].includes(trainerCat)?'var(--navy)':'#fff'};font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">↺ Nochmal üben</button>
+    <button onclick="trainerMode='home';trainerCat=null;renderTrainer(document.getElementById('ga'))" style="width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(255,255,255,.2);background:transparent;color:rgba(255,255,255,.7);font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">← Alle Kategorien</button>
+  </div>
+</div>`;
+}
 
 
 
