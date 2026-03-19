@@ -2908,6 +2908,170 @@ function renderBasicsEinsteiger(a){
   </div>
 </div>
 
+<!-- ARBEIT IM FINANZAMT -->
+<div style="background:linear-gradient(135deg,#060f22,#0a2a60 60%,#0d3a20);border:1.5px solid rgba(0,194,224,.2);border-radius:18px;padding:18px;margin-bottom:16px">
+  <div style="font-size:10px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">🏛️ Arbeit im Finanzamt – nicht was du denkst</div>
+  <div style="font-size:17px;font-weight:900;color:#fff;margin-bottom:8px">Akten sortieren? Nein.<br>Wirtschaftskriminalität aufdecken. ⚡</div>
+  <div style="font-size:12px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.65;margin-bottom:14px">Finanzbeamte prüfen Millionenunternehmen, entlarven Steuerhinterziehung, setzen komplexe Bescheide fest und entscheiden über Einsprüche – und sichern damit die Grundlage für Schulen, Krankenhäuser und Straßen.</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+    <div style="background:rgba(255,255,255,.06);border-radius:12px;padding:12px">
+      <div style="font-size:20px;margin-bottom:5px">🔍</div>
+      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:3px">Betriebsprüfung</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">Du prüfst Millionenunternehmen. Findest versteckte Einnahmen. Sorgst für Steuergerechtigkeit (§ 193 AO).</div>
+    </div>
+    <div style="background:rgba(255,255,255,.06);border-radius:12px;padding:12px">
+      <div style="font-size:20px;margin-bottom:5px">⚖️</div>
+      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:3px">Rechtsbehelfe</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">Einsprüche bearbeiten, Finanzgericht, EU-Recht. Anspruchsvolle Rechtsarbeit (§§ 347 ff. AO).</div>
+    </div>
+    <div style="background:rgba(255,255,255,.06);border-radius:12px;padding:12px">
+      <div style="font-size:20px;margin-bottom:5px">🌍</div>
+      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:3px">Internationales</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">Verrechnungspreise, Doppelbesteuerungsabkommen. Global denken, lokal entscheiden.</div>
+    </div>
+    <div style="background:rgba(255,255,255,.06);border-radius:12px;padding:12px">
+      <div style="font-size:20px;margin-bottom:5px">📄</div>
+      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:3px">Steuerfestsetzung</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">Erklärungen prüfen, Bescheide erlassen, Einsprüche entscheiden – jeder Fall ist anders.</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+    <div style="background:rgba(0,194,224,.08);border:1px solid rgba(0,194,224,.2);border-radius:12px;padding:12px">
+      <div style="font-size:9px;font-weight:900;color:var(--cyan);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px">Mittlerer Dienst</div>
+      <div style="font-size:13px;font-weight:900;color:#fff;margin-bottom:4px">Ausbildung · 2 Jahre</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.6">Berlin: <b style="color:#fff">1.467 €</b> · BB: <b style="color:#fff">1.518 €</b> brutto/Mo.<br>Einstieg: <b style="color:var(--cyan)">A 7</b> · Steuersekretär/in</div>
+    </div>
+    <div style="background:rgba(0,201,123,.08);border:1px solid rgba(0,201,123,.2);border-radius:12px;padding:12px">
+      <div style="font-size:9px;font-weight:900;color:#00c97b;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px">Gehobener Dienst</div>
+      <div style="font-size:13px;font-weight:900;color:#fff;margin-bottom:4px">Studium FHF · 3 Jahre</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.6">Berlin: <b style="color:#fff">1.527 €</b> · BB: <b style="color:#fff">1.571 €</b> brutto/Mo.<br>Einstieg: <b style="color:#00c97b">A 9</b> · Steuerinspektor/in</div>
+    </div>
+  </div>
+  <div style="background:rgba(255,255,255,.04);border-left:3px solid rgba(255,255,255,.12);padding:8px 12px;border-radius:0 8px 8px 0;margin-bottom:12px;font-size:10px;color:rgba(255,255,255,.45);font-weight:700;line-height:1.65">
+    💡 <b style="color:rgba(255,255,255,.7)">Anwärterbezüge (§ 59 BBesG)</b> – Beamtenbezüge als Beamter auf Widerruf. Keine Sozialversicherungsabzüge → Netto vergleichsweise hoch.
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px">
+    <div style="background:rgba(0,194,224,.08);border:1px solid rgba(0,194,224,.18);border-radius:10px;padding:10px">
+      <div style="font-size:11px;font-weight:900;color:var(--cyan);margin-bottom:5px">🏛️ Beamter</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.65">✓ Keine SV-Beiträge<br>✓ Beihilfe statt GKV<br>✓ Pension statt Rente<br>✓ Unkündbar nach Verbeamtung<br>✗ Kein Streikrecht</div>
+    </div>
+    <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px">
+      <div style="font-size:11px;font-weight:900;color:rgba(255,255,255,.7);margin-bottom:5px">📋 TVöD-Angestellter</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.65">✓ Volle Sozialversicherung<br>✓ Streikrecht · Tarifvertrag<br>✗ Kündigung möglich<br>✗ Gesetzl. Rente (geringer)<br>✗ Keine Beihilfe</div>
+    </div>
+  </div>
+  <button onclick="sw('karriere')" style="width:100%;padding:12px;border-radius:12px;border:none;background:linear-gradient(135deg,#00c97b,#005c36);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Karriere entdecken → Ausbildung, Studium, Karriere-Test</button>
+</div>
+
+<!-- STEUER-KOMPENDIUM -->
+<div id="steuer-kompendium" style="margin-bottom:16px">
+  <button onclick="(function(){const el=document.getElementById('komp-body');const btn=document.getElementById('komp-btn');const open=el.style.display!=='none';el.style.display=open?'none':'block';btn.textContent=open?'📖 Steuer-Kompendium öffnen':'📖 Kompendium schließen';})()" id="komp-btn" style="width:100%;padding:13px;border-radius:14px;border:1.5px solid rgba(0,194,224,.25);background:rgba(0,194,224,.06);color:var(--cyan);font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer;text-align:left">📖 Steuer-Kompendium öffnen – alles auf einen Blick</button>
+  <div id="komp-body" style="display:none;margin-top:10px">
+
+    <!-- 1. Was sind Steuern? -->
+    <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;margin-bottom:8px">
+      <div style="font-size:11px;font-weight:900;color:var(--cyan);margin-bottom:8px">§ 3 AO – Steuer vs. Gebühr vs. Beitrag</div>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:8px">
+        <div style="background:rgba(0,194,224,.08);border-left:3px solid var(--cyan);border-radius:0 8px 8px 0;padding:8px 10px;font-size:11px;color:rgba(255,255,255,.75);font-weight:700;line-height:1.55"><b style="color:#fff">Steuer:</b> Ohne direkte Gegenleistung. Der Staat entscheidet, wofür das Geld eingesetzt wird (§ 3 Abs. 1 AO). Beispiel: Einkommensteuer, USt, Kfz-Steuer.</div>
+        <div style="background:rgba(255,140,66,.08);border-left:3px solid #ff8c42;border-radius:0 8px 8px 0;padding:8px 10px;font-size:11px;color:rgba(255,255,255,.75);font-weight:700;line-height:1.55"><b style="color:#fff">Gebühr:</b> Für eine konkrete staatliche Leistung. Beispiel: Passgebühr, Gerichtsgebühr, Kfz-Zulassung.</div>
+        <div style="background:rgba(255,217,74,.08);border-left:3px solid #ffd94a;border-radius:0 8px 8px 0;padding:8px 10px;font-size:11px;color:rgba(255,255,255,.75);font-weight:700;line-height:1.55"><b style="color:#fff">Beitrag:</b> Für die Möglichkeit einer Leistung – ob genutzt oder nicht. Beispiel: Krankenversicherung, Rundfunkbeitrag.</div>
+      </div>
+    </div>
+
+    <!-- 2. Wofür werden Steuern genutzt? -->
+    <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;margin-bottom:8px">
+      <div style="font-size:11px;font-weight:900;color:#00c97b;margin-bottom:8px">💰 Wofür werden Steuern genutzt? (947 Mrd. € / Jahr)</div>
+      <div style="display:flex;flex-direction:column;gap:5px">
+        ${[
+          ['🏫','Bildung & Wissenschaft','~105 Mrd. €','Schulen, Universitäten, BAföG'],
+          ['🏥','Soziales & Gesundheit','~278 Mrd. €','Rente, Pflege, Sozialleistungen'],
+          ['🛣️','Infrastruktur & Verkehr','~44 Mrd. €','Straßen, Bahn, Digitalisierung'],
+          ['🛡️','Sicherheit','~92 Mrd. €','Polizei, Bundeswehr, Justiz'],
+          ['🌍','Entwicklungshilfe','~14 Mrd. €','Internationale Zusammenarbeit'],
+          ['🏛️','Allgemeine Verwaltung','~414 Mrd. €','Alles weitere: Zinsen, Verwaltung'],
+        ].map(([icon,label,betrag,detail])=>`<div style="display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border-radius:8px;padding:7px 10px"><span style="font-size:16px;flex-shrink:0">${icon}</span><div style="flex:1"><div style="font-size:11px;font-weight:900;color:#fff">${label}</div><div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700">${detail}</div></div><div style="font-size:11px;font-weight:900;color:#00c97b;font-family:'Space Mono',monospace;flex-shrink:0">${betrag}</div></div>`).join('')}
+      </div>
+    </div>
+
+    <!-- 3. Steueraufkommen -->
+    <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;margin-bottom:8px">
+      <div style="font-size:11px;font-weight:900;color:#ffd94a;margin-bottom:8px">📊 Steueraufkommen – die wichtigsten Steuerarten</div>
+      <div style="display:flex;flex-direction:column;gap:5px">
+        ${[
+          ['🛒','Umsatzsteuer (§ 1 UStG)','302 Mrd. €','31,9 %','#ff8c42'],
+          ['💼','Lohnsteuer (§§ 38 ff. EStG)','249 Mrd. €','26,3 %','#1a3a8f'],
+          ['👤','Einkommensteuer (§ 32a EStG)','73 Mrd. €','7,7 %','#7b5ea7'],
+          ['🏭','Gewerbesteuer (§ 7 GewStG)','74 Mrd. €','7,8 %','#005c36'],
+          ['🏢','Körperschaftsteuer (§ 23 KStG)','46 Mrd. €','4,9 %','#8a4000'],
+          ['⛽','Energiesteuer','37 Mrd. €','3,9 %','#5c1a8f'],
+          ['🚗','Kfz-Steuer','9 Mrd. €','1,0 %','#3a5000'],
+        ].map(([icon,label,mrd,pct,col])=>`<div style="display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border-radius:8px;padding:7px 10px">
+          <span style="font-size:16px;flex-shrink:0">${icon}</span>
+          <div style="flex:1"><div style="font-size:11px;font-weight:900;color:#fff">${label}</div></div>
+          <div style="text-align:right;flex-shrink:0"><div style="font-size:11px;font-weight:900;color:${col};font-family:'Space Mono',monospace">${mrd}</div><div style="font-size:9px;color:rgba(255,255,255,.35);font-weight:700">${pct}</div></div>
+        </div>`).join('')}
+      </div>
+    </div>
+
+    <!-- 4. Steuerpflicht -->
+    <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;margin-bottom:8px">
+      <div style="font-size:11px;font-weight:900;color:var(--cyan);margin-bottom:8px">⚖️ § 1 EStG – Steuerpflicht</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.7);font-weight:700;line-height:1.75">
+        <b style="color:var(--cyan)">Nur natürliche Personen</b> – GmbH/AG zahlen Körperschaftsteuer (KStG)<br>
+        <b style="color:var(--cyan)">Unbeschränkt (§ 1 Abs. 1):</b> Wohnsitz/Aufenthalt in DE → gesamtes Welteinkommen<br>
+        <b style="color:#ff8c42">Beschränkt (§ 1 Abs. 4):</b> Keine Wohnsitz, aber inländische Einkünfte (§ 49 EStG)<br>
+        <b style="color:rgba(255,255,255,.4)">Steuerpflichtig ≠ Steuer zahlen</b> – Grundfreibetrag 12.336 € (VZ 2026)
+      </div>
+    </div>
+
+    <!-- 5. Steuersätze USt -->
+    <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;margin-bottom:8px">
+      <div style="font-size:11px;font-weight:900;color:#ff8c42;margin-bottom:8px">🛒 Umsatzsteuersätze (§ 12 UStG)</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+        <div style="background:rgba(255,140,66,.1);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-size:22px;font-weight:900;color:#ff8c42;font-family:'Space Mono',monospace">19 %</div>
+          <div style="font-size:10px;font-weight:900;color:#fff;margin:3px 0">Regelsteuersatz § 12 Abs. 1</div>
+          <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700">Elektronik · Kleidung · Netflix · Apps · Benzin</div>
+        </div>
+        <div style="background:rgba(0,201,123,.1);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-size:22px;font-weight:900;color:#00c97b;font-family:'Space Mono',monospace">7 %</div>
+          <div style="font-size:10px;font-weight:900;color:#fff;margin:3px 0">Ermäßigt § 12 Abs. 2</div>
+          <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700">Lebensmittel · Bücher · ÖPNV · Gastronomie ab 2026</div>
+        </div>
+      </div>
+      <div style="background:rgba(255,217,74,.06);border:1px solid rgba(255,217,74,.15);border-radius:8px;padding:8px 10px;font-size:10px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.6">
+        ⚡ <b style="color:#ffd94a">Neu ab 2026 (StÄndG 2025):</b> Gastronomie dauerhaft 7 % – auch Vor-Ort-Verzehr. Tee 7 %, Kaffeebohnen 19 % – ja, das ist wirklich so.
+      </div>
+    </div>
+
+    <!-- 6. Warum trägt der Unternehmer die USt nicht? -->
+    <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;margin-bottom:8px">
+      <div style="font-size:11px;font-weight:900;color:#c8a0ff;margin-bottom:8px">🔄 Warum belastet die Umsatzsteuer Unternehmer nicht?</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.7);font-weight:700;line-height:1.7;margin-bottom:10px">
+        Unternehmer sind nur <b style="color:#fff">Steuereinnehmer</b> – nicht Steuerzahler. Das System funktioniert so:
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px">
+        <div style="background:rgba(200,160,255,.08);border-radius:10px;padding:10px;font-size:11px;color:rgba(255,255,255,.7);font-weight:700;line-height:1.55">
+          <b style="color:#c8a0ff">1. Bäcker kauft Mehl</b> für 100 € + 7 € USt = 107 € brutto.<br>
+          → Die 7 € USt kann er als <b style="color:#fff">Vorsteuer</b> vom Finanzamt zurückfordern (§ 15 UStG). Sein Aufwand: nur 100 €.
+        </div>
+        <div style="background:rgba(200,160,255,.08);border-radius:10px;padding:10px;font-size:11px;color:rgba(255,255,255,.7);font-weight:700;line-height:1.55">
+          <b style="color:#c8a0ff">2. Bäcker verkauft Brot</b> für 200 € + 14 € USt = 214 € brutto.<br>
+          → Er nimmt 14 € USt ein und muss diese ans Finanzamt abführen.
+        </div>
+        <div style="background:rgba(200,160,255,.08);border-radius:10px;padding:10px;font-size:11px;color:rgba(255,255,255,.7);font-weight:700;line-height:1.55">
+          <b style="color:#c8a0ff">3. Zahllast = 14 € − 7 € = 7 €</b> ans Finanzamt.<br>
+          → Der Bäcker zahlt nur die Differenz. Die Belastung trägt am Ende der <b style="color:#fff">Endverbraucher</b>.
+        </div>
+      </div>
+      <div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700;background:rgba(255,255,255,.04);border-radius:8px;padding:8px 10px;line-height:1.6">
+        🔑 <b style="color:rgba(255,255,255,.65)">Vorsteuerabzug (§ 15 UStG):</b> Jeder Unternehmer zieht die an ihn berechnete USt von seiner Zahllast ab. Nur Endverbraucher (= Privatpersonen ohne USt-ID) haben kein Vorsteuerabzugsrecht. Die USt ist daher eine <b style="color:rgba(255,255,255,.65)">Verbrauchsteuer</b>.
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <!-- QUIZ TEASER -->
 <div onclick="einstGoStep3()" style="background:linear-gradient(135deg,#1a0a5e,#3d0a6b);border:1.5px solid rgba(139,92,246,.3);border-radius:16px;padding:15px;cursor:pointer;display:flex;align-items:center;gap:14px;margin-bottom:90px;transition:all .2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
   <div style="font-size:30px">⚡</div>
