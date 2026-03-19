@@ -2842,6 +2842,37 @@ function renderBasicsEinsteiger(a){
     ${pct>0?'<button onclick="resetEinstProgress()" style="padding:13px 14px;border-radius:13px;border:1.5px solid rgba(255,255,255,.12);background:transparent;color:rgba(255,255,255,.35);font-family:\'Nunito\',sans-serif;font-weight:800;font-size:12px;cursor:pointer">↺</button>':''}
   </div>
 </div>
+<!-- STEUERAUFKOMMEN RATEN -->
+<div style="margin-bottom:14px">
+  <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">💰 Was bringt dem Staat am meisten?</div>
+  <div style="background:linear-gradient(135deg,rgba(0,60,30,.6),rgba(0,100,50,.3));border:1.5px solid rgba(0,201,123,.2);border-radius:16px;padding:14px">
+    <div style="font-size:12px;color:rgba(255,255,255,.6);font-weight:700;margin-bottom:10px">Schätze: Welche Steuer nimmt Deutschland am meisten ein?</div>
+    <div id="aufk-game-wrap" style="min-height:60px"></div>
+  </div>
+</div>
+
+<!-- KURIOSES -->
+<div onclick="sw('kurios')" style="background:linear-gradient(135deg,rgba(58,10,0,.7),rgba(120,40,0,.4));border:1.5px solid rgba(255,140,66,.25);border-radius:16px;padding:15px;cursor:pointer;margin-bottom:14px;transition:all .2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+  <div style="display:flex;align-items:center;gap:12px">
+    <div style="font-size:36px">🤯</div>
+    <div style="flex:1">
+      <div style="font-size:14px;font-weight:900;color:#fff;margin-bottom:3px">Kurioses Steuerrecht</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">Sektsteuer seit 1902 🍾 · Hundesteuer 🐕 · Krypto 💻 · Kernbrennstoffsteuer · 40+ skurrile Fakten</div>
+    </div>
+    <div style="font-size:20px;color:rgba(255,255,255,.2)">›</div>
+  </div>
+</div>
+
+<!-- STORIES: nur 3 + Verweis -->
+<div style="margin-bottom:14px">
+  <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">📖 Steuer-Stories – lerne durch echte Situationen</div>
+  <div style="display:flex;flex-direction:column;gap:8px">${storiesHtml}</div>
+  ${moreCount>0?`<div onclick="sw('story')" style="margin-top:8px;padding:12px 16px;background:rgba(255,255,255,.04);border:1.5px dashed rgba(255,255,255,.15);border-radius:14px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:all .2s" onmouseover="this.style.background='rgba(255,255,255,.08)'" onmouseout="this.style.background='rgba(255,255,255,.04)'">
+    <span style="font-size:20px">📖</span>
+    <div style="flex:1"><div style="font-size:12px;font-weight:900;color:#fff">+ ${moreCount} weitere Stories</div><div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700">Influencer, Betriebsprüfung, Reihengeschäft & mehr</div></div>
+    <span style="font-size:18px;color:rgba(255,255,255,.25)">›</span>
+  </div>`:''}
+</div>
 
 <!-- WAS SIND STEUERN -->
 <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:16px;margin-bottom:14px">
@@ -2888,38 +2919,6 @@ function renderBasicsEinsteiger(a){
     </div>
   </div>
   <div id="para1-block">${para1Html}</div>
-</div>
-
-<!-- STORIES: nur 3 + Verweis -->
-<div style="margin-bottom:14px">
-  <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">📖 Steuer-Stories – lerne durch echte Situationen</div>
-  <div style="display:flex;flex-direction:column;gap:8px">${storiesHtml}</div>
-  ${moreCount>0?`<div onclick="sw('story')" style="margin-top:8px;padding:12px 16px;background:rgba(255,255,255,.04);border:1.5px dashed rgba(255,255,255,.15);border-radius:14px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:all .2s" onmouseover="this.style.background='rgba(255,255,255,.08)'" onmouseout="this.style.background='rgba(255,255,255,.04)'">
-    <span style="font-size:20px">📖</span>
-    <div style="flex:1"><div style="font-size:12px;font-weight:900;color:#fff">+ ${moreCount} weitere Stories</div><div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700">Influencer, Betriebsprüfung, Reihengeschäft & mehr</div></div>
-    <span style="font-size:18px;color:rgba(255,255,255,.25)">›</span>
-  </div>`:''}
-</div>
-
-<!-- STEUERAUFKOMMEN RATEN -->
-<div style="margin-bottom:14px">
-  <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">💰 Was bringt dem Staat am meisten?</div>
-  <div style="background:linear-gradient(135deg,rgba(0,60,30,.6),rgba(0,100,50,.3));border:1.5px solid rgba(0,201,123,.2);border-radius:16px;padding:14px">
-    <div style="font-size:12px;color:rgba(255,255,255,.6);font-weight:700;margin-bottom:10px">Schätze: Welche Steuer nimmt Deutschland am meisten ein?</div>
-    <div id="aufk-game-wrap" style="min-height:60px"></div>
-  </div>
-</div>
-
-<!-- KURIOSES -->
-<div onclick="sw('kurios')" style="background:linear-gradient(135deg,rgba(58,10,0,.7),rgba(120,40,0,.4));border:1.5px solid rgba(255,140,66,.25);border-radius:16px;padding:15px;cursor:pointer;margin-bottom:14px;transition:all .2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
-  <div style="display:flex;align-items:center;gap:12px">
-    <div style="font-size:36px">🤯</div>
-    <div style="flex:1">
-      <div style="font-size:14px;font-weight:900;color:#fff;margin-bottom:3px">Kurioses Steuerrecht</div>
-      <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">Sektsteuer seit 1902 🍾 · Hundesteuer 🐕 · Krypto 💻 · Kernbrennstoffsteuer · 40+ skurrile Fakten</div>
-    </div>
-    <div style="font-size:20px;color:rgba(255,255,255,.2)">›</div>
-  </div>
 </div>
 
 <!-- WAS KANN ICH ABSETZEN -->
