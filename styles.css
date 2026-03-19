@@ -1401,9 +1401,9 @@ header p{color:rgba(255,255,255,.55);font-size:var(--tx-base)}
 /* Wrapper – positions everything */
 #steve-btn-wrap {
   position: fixed;
-  bottom: 80px;
+  bottom: 90px;
   right: 16px;
-  z-index: 300;
+  z-index: 400;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -1411,7 +1411,10 @@ header p{color:rgba(255,255,255,.55);font-size:var(--tx-base)}
   cursor: pointer;
 }
 @media(max-width:640px) {
-  #steve-btn-wrap { bottom: 72px; right: 12px; }
+  #steve-btn-wrap {
+    bottom: calc(70px + env(safe-area-inset-bottom, 16px));
+    right: 12px;
+  }
 }
 
 /* Speech bubble */
@@ -1525,9 +1528,9 @@ header p{color:rgba(255,255,255,.55);font-size:var(--tx-base)}
 /* §teve Panel */
 #steve-panel {
   position: fixed;
-  bottom: 148px;
+  bottom: 158px;
   right: 16px;
-  z-index: 299;
+  z-index: 399;
   width: 320px;
   max-height: 480px;
   background: rgba(8,15,38,.97);
@@ -1547,7 +1550,13 @@ header p{color:rgba(255,255,255,.55);font-size:var(--tx-base)}
   transform: translateY(0) scale(1);
 }
 @media(max-width:640px) {
-  #steve-panel { right:8px; left:8px; width:auto; bottom:136px; max-height:60vh; }
+  #steve-panel {
+    right: 8px;
+    left: 8px;
+    width: auto;
+    bottom: calc(140px + env(safe-area-inset-bottom, 16px));
+    max-height: 55vh;
+  }
 }
 
 .steve-header {
