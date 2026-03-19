@@ -2908,187 +2908,6 @@ function renderBasicsEinsteiger(a){
   </div>
 </div>
 
-<!-- WAS SIND STEUERN – Theorie am Ende -->
-<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:16px;margin-bottom:16px">
-  <div style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.3);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">💡 Was sind Steuern – und was nicht?</div>
-  <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px">
-    <div style="background:rgba(0,194,224,.08);border-left:3px solid var(--cyan);border-radius:0 10px 10px 0;padding:10px 12px">
-      <div style="font-size:11px;font-weight:900;color:var(--cyan);margin-bottom:3px">Steuer · § 3 Abs. 1 AO</div>
-      <div style="font-size:11px;color:rgba(255,255,255,.7);font-weight:700;line-height:1.6"><b style="color:#fff">Ohne direkte Gegenleistung.</b> Der Staat entscheidet wie er das Geld einsetzt. Beispiel: Einkommensteuer, USt, Kfz-Steuer.</div>
-    </div>
-    <div style="background:rgba(255,140,66,.08);border-left:3px solid #ff8c42;border-radius:0 10px 10px 0;padding:10px 12px">
-      <div style="font-size:11px;font-weight:900;color:#ff8c42;margin-bottom:3px">Gebühr</div>
-      <div style="font-size:11px;color:rgba(255,255,255,.7);font-weight:700;line-height:1.6">Für eine <b style="color:#fff">konkrete staatliche Leistung</b>. Beispiel: Passgebühr, Gerichtsgebühr, Kfz-Zulassung.</div>
-    </div>
-    <div style="background:rgba(255,217,74,.08);border-left:3px solid #ffd94a;border-radius:0 10px 10px 0;padding:10px 12px">
-      <div style="font-size:11px;font-weight:900;color:#ffd94a;margin-bottom:3px">Beitrag</div>
-      <div style="font-size:11px;color:rgba(255,255,255,.7);font-weight:700;line-height:1.6">Für die <b style="color:#fff">Möglichkeit einer Leistung</b> – ob genutzt oder nicht. Beispiel: Krankenversicherungsbeitrag, Rundfunkbeitrag.</div>
-    </div>
-  </div>
-  <div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700;line-height:1.65;background:rgba(255,255,255,.05);border-radius:8px;padding:8px 10px">
-    🔑 <b style="color:rgba(255,255,255,.7)">Merksatz:</b> Steuern = einzige Abgabe ohne individuellen Gegenleistungsanspruch (§ 3 Abs. 1 AO). Nur für natürliche Personen: Einkommensteuer. Juristische Personen (GmbH, AG): Körperschaftsteuer nach KStG.
-  </div>
-</div>
-
-<!-- §1 EStG – WER IST STEUERPFLICHTIG -->
-<div style="margin-bottom:16px">
-  <div style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.3);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">⚖️ § 1 EStG – Wer ist steuerpflichtig?</div>
-  <div id="para1-block">${para1Html}</div>
-</div>
-
-
-<!-- ARBEIT IM FINANZAMT -->
-<div style="background:linear-gradient(135deg,#060f22,#0a2a60 60%,#0d3a20);border:1.5px solid rgba(0,194,224,.2);border-radius:18px;padding:18px;margin-bottom:16px">
-  <div style="font-size:10px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">🏛️ Arbeit im Finanzamt – nicht was du denkst</div>
-  <div style="font-size:17px;font-weight:900;color:#fff;margin-bottom:8px">Akten sortieren? Nein.<br>Wirtschaftskriminalität aufdecken. ⚡</div>
-  <div style="font-size:12px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.65;margin-bottom:14px">Finanzbeamte prüfen Millionenunternehmen, entlarven Steuerhinterziehung, setzen komplexe Bescheide fest und entscheiden über Einsprüche – und sichern die Grundlage für Schulen, Krankenhäuser und Straßen.</div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
-    <div style="background:rgba(255,255,255,.06);border-radius:12px;padding:12px">
-      <div style="font-size:20px;margin-bottom:5px">🔍</div>
-      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:3px">Betriebsprüfung</div>
-      <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">Du prüfst Millionenunternehmen. Findest versteckte Einnahmen. Sorgst für Steuergerechtigkeit (§ 193 AO).</div>
-    </div>
-    <div style="background:rgba(255,255,255,.06);border-radius:12px;padding:12px">
-      <div style="font-size:20px;margin-bottom:5px">⚖️</div>
-      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:3px">Rechtsbehelfe</div>
-      <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">Einsprüche bearbeiten, Finanzgericht, EU-Recht. Anspruchsvolle Rechtsarbeit (§§ 347 ff. AO).</div>
-    </div>
-    <div style="background:rgba(255,255,255,.06);border-radius:12px;padding:12px">
-      <div style="font-size:20px;margin-bottom:5px">🌍</div>
-      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:3px">Internationales</div>
-      <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">Verrechnungspreise, Doppelbesteuerungsabkommen. Global denken, lokal entscheiden.</div>
-    </div>
-    <div style="background:rgba(255,255,255,.06);border-radius:12px;padding:12px">
-      <div style="font-size:20px;margin-bottom:5px">📄</div>
-      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:3px">Steuerfestsetzung</div>
-      <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">Erklärungen prüfen, Bescheide erlassen – jeder Fall ist anders, jeder Fall ist real.</div>
-    </div>
-  </div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
-    <div style="background:rgba(0,194,224,.08);border:1px solid rgba(0,194,224,.2);border-radius:12px;padding:12px">
-      <div style="font-size:9px;font-weight:900;color:var(--cyan);margin-bottom:5px;text-transform:uppercase;letter-spacing:1px">Mittlerer Dienst</div>
-      <div style="font-size:13px;font-weight:900;color:#fff;margin-bottom:4px">Ausbildung · 2 Jahre</div>
-      <div style="font-size:10px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.6">Anwärterbezüge Berlin: <b style="color:#fff">1.467 €</b> · BB: <b style="color:#fff">1.518 €</b> brutto/Monat<br>Einstieg: <b style="color:var(--cyan)">A 7</b> · Steuersekretär/in</div>
-    </div>
-    <div style="background:rgba(0,201,123,.08);border:1px solid rgba(0,201,123,.2);border-radius:12px;padding:12px">
-      <div style="font-size:9px;font-weight:900;color:#00c97b;margin-bottom:5px;text-transform:uppercase;letter-spacing:1px">Gehobener Dienst</div>
-      <div style="font-size:13px;font-weight:900;color:#fff;margin-bottom:4px">Studium FHF · 3 Jahre</div>
-      <div style="font-size:10px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.6">Anwärterbezüge Berlin: <b style="color:#fff">1.527 €</b> · BB: <b style="color:#fff">1.571 €</b> brutto/Monat<br>Einstieg: <b style="color:#00c97b">A 9</b> · Steuerinspektor/in</div>
-    </div>
-  </div>
-  <div style="background:rgba(255,255,255,.04);border-left:3px solid rgba(255,255,255,.12);padding:8px 12px;border-radius:0 8px 8px 0;margin-bottom:12px;font-size:10px;color:rgba(255,255,255,.45);font-weight:700;line-height:1.65">
-    💡 <b style="color:rgba(255,255,255,.7)">Anwärterbezüge (§ 59 BBesG)</b> – keine Ausbildungsvergütung, sondern Beamtenbezüge als Beamter auf Widerruf. Keine Sozialversicherungsabzüge → Netto vergleichsweise hoch.
-  </div>
-  <div style="margin-bottom:12px">
-    <div style="font-size:10px;font-weight:900;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">⚖️ Beamter vs. Angestellter (TVöD)</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
-      <div style="background:rgba(0,194,224,.08);border:1px solid rgba(0,194,224,.18);border-radius:10px;padding:10px">
-        <div style="font-size:11px;font-weight:900;color:var(--cyan);margin-bottom:5px">🏛️ Beamter</div>
-        <div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.65">✓ Keine SV-Beiträge<br>✓ Beihilfe statt GKV<br>✓ Pension statt Rente<br>✓ Unkündbar nach Verbeamtung<br>✗ Kein Streikrecht</div>
-      </div>
-      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px">
-        <div style="font-size:11px;font-weight:900;color:rgba(255,255,255,.7);margin-bottom:5px">📋 TVöD-Angestellter</div>
-        <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.65">✓ Volle SV<br>✓ Streikrecht<br>✓ Tarifvertrag<br>✗ Kündigung möglich<br>✗ Gesetzl. Rente (geringer)</div>
-      </div>
-    </div>
-  </div>
-  <button onclick="sw('karriere')" style="width:100%;padding:12px;border-radius:12px;border:none;background:linear-gradient(135deg,#00c97b,#005c36);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Karriere entdecken → Ausbildung, Studium, Karriere-Test</button>
-</div>
-
-<!-- WAS KANN ICH ABSETZEN -->
-<div id="sec-absetzen" style="margin-bottom:16px">
-  <div style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.3);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">💡 Was kann ich absetzen?</div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-    <div onclick="absetzOv('fahrt')" style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;cursor:pointer;transition:all .2s;text-align:center" onmouseover="this.style.background='rgba(0,194,224,.08)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
-      <div style="font-size:26px;margin-bottom:6px">🚗</div>
-      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:2px">Fahrtkosten</div>
-      <div style="font-size:9px;color:var(--cyan);font-family:'Space Mono',monospace;font-weight:700">§ 9 Abs.1 Nr.4 EStG</div>
-    </div>
-    <div onclick="absetzOv('laptop')" style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;cursor:pointer;transition:all .2s;text-align:center" onmouseover="this.style.background='rgba(0,194,224,.08)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
-      <div style="font-size:26px;margin-bottom:6px">💻</div>
-      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:2px">Laptop & Handy</div>
-      <div style="font-size:9px;color:var(--cyan);font-family:'Space Mono',monospace;font-weight:700">§ 9 · BMF 22.02.2022</div>
-    </div>
-    <div onclick="absetzOv('home')" style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;cursor:pointer;transition:all .2s;text-align:center" onmouseover="this.style.background='rgba(0,194,224,.08)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
-      <div style="font-size:26px;margin-bottom:6px">🏠</div>
-      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:2px">Homeoffice</div>
-      <div style="font-size:9px;color:var(--cyan);font-family:'Space Mono',monospace;font-weight:700">§ 4 Abs.5 Nr.6b EStG</div>
-    </div>
-    <div onclick="absetzOv('fortbild')" style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;cursor:pointer;transition:all .2s;text-align:center" onmouseover="this.style.background='rgba(0,194,224,.08)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
-      <div style="font-size:26px;margin-bottom:6px">📚</div>
-      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:2px">Weiterbildung</div>
-      <div style="font-size:9px;color:var(--cyan);font-family:'Space Mono',monospace;font-weight:700">§ 9 Abs.1 Nr.6 EStG</div>
-    </div>
-    <div onclick="absetzOv('spende')" style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;cursor:pointer;transition:all .2s;text-align:center" onmouseover="this.style.background='rgba(0,194,224,.08)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
-      <div style="font-size:26px;margin-bottom:6px">🎁</div>
-      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:2px">Spenden</div>
-      <div style="font-size:9px;color:var(--cyan);font-family:'Space Mono',monospace;font-weight:700">§ 10b EStG</div>
-    </div>
-    <div onclick="absetzOv('krank')" style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;cursor:pointer;transition:all .2s;text-align:center" onmouseover="this.style.background='rgba(0,194,224,.08)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
-      <div style="font-size:26px;margin-bottom:6px">🩺</div>
-      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:2px">Krankheitskosten</div>
-      <div style="font-size:9px;color:var(--cyan);font-family:'Space Mono',monospace;font-weight:700">§ 33 EStG</div>
-    </div>
-    <div onclick="absetzOv('kleidung')" style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;cursor:pointer;transition:all .2s;text-align:center" onmouseover="this.style.background='rgba(0,194,224,.08)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
-      <div style="font-size:26px;margin-bottom:6px">👔</div>
-      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:2px">Arbeitskleidung</div>
-      <div style="font-size:9px;color:var(--cyan);font-family:'Space Mono',monospace;font-weight:700">§ 9 Abs.1 Nr.6 EStG</div>
-    </div>
-  </div>
-</div>
-
-<!-- WK / SONDERAUSGABEN / AUßERGEWÖHNLICHE BELASTUNGEN -->
-<div style="margin-bottom:16px">
-  <div style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.3);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">📋 Abzüge im Überblick – was ist was?</div>
-  <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;overflow:hidden">
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr">
-      <div style="padding:12px;border-right:1px solid rgba(255,255,255,.08)">
-        <div style="font-size:9px;font-weight:900;color:var(--cyan);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Werbungskosten · § 9 Abs. 1</div>
-        <div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.55"><b style="color:#fff">Beruflich veranlasst.</b> Auf Nachfrage nachzuweisen. Mindern die <b style="color:var(--cyan)">einzelnen Einkünfte</b>.<br><br>✓ Fahrtkosten<br>✓ Arbeitsmittel<br>✓ Homeoffice<br>✓ Fortbildung</div>
-      </div>
-      <div style="padding:12px;border-right:1px solid rgba(255,255,255,.08)">
-        <div style="font-size:9px;font-weight:900;color:#ffd94a;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Sonderausgaben · §§ 10–10b</div>
-        <div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.55"><b style="color:#fff">Privat, abschließend aufgezählt.</b> Mindern den <b style="color:#ffd94a">Gesamtbetrag der Einkünfte</b>.<br><br>✓ KV/RV-Beiträge<br>✓ Kirchensteuer<br>✓ Spenden<br>✓ Erstausbildung</div>
-      </div>
-      <div style="padding:12px">
-        <div style="font-size:9px;font-weight:900;color:#ff8c42;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Außergewöhnl. Belast. · § 33</div>
-        <div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.55"><b style="color:#fff">Zwangsläufig & ungewöhnlich.</b> Nur über <b style="color:#ff8c42">zumutbarer Belastung</b> (1–7 % GdE).<br><br>✓ Arzt/Zahnarzt<br>✓ Medikamente<br>✓ Pflege<br>✓ Kurkosten</div>
-      </div>
-    </div>
-    <div style="background:rgba(255,255,255,.04);padding:10px 12px;font-size:10px;color:rgba(255,255,255,.4);font-weight:700;line-height:1.6;border-top:1px solid rgba(255,255,255,.07)">
-      🔑 WK = beruflich · SA = privat aber anerkannt · AuBe = unausweichlich. Alle drei senken die Steuer – mit verschiedenen Grenzen.
-    </div>
-  </div>
-</div>
-
-<!-- WAS SIND STEUERN – Theorie am Ende -->
-<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:16px;margin-bottom:16px">
-  <div style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.3);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">💡 Was sind Steuern – und was nicht?</div>
-  <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px">
-    <div style="background:rgba(0,194,224,.08);border-left:3px solid var(--cyan);border-radius:0 10px 10px 0;padding:10px 12px">
-      <div style="font-size:11px;font-weight:900;color:var(--cyan);margin-bottom:3px">Steuer · § 3 Abs. 1 AO</div>
-      <div style="font-size:11px;color:rgba(255,255,255,.7);font-weight:700;line-height:1.6"><b style="color:#fff">Ohne direkte Gegenleistung.</b> Der Staat entscheidet wie er das Geld einsetzt. Beispiel: Einkommensteuer, USt, Kfz-Steuer.</div>
-    </div>
-    <div style="background:rgba(255,140,66,.08);border-left:3px solid #ff8c42;border-radius:0 10px 10px 0;padding:10px 12px">
-      <div style="font-size:11px;font-weight:900;color:#ff8c42;margin-bottom:3px">Gebühr</div>
-      <div style="font-size:11px;color:rgba(255,255,255,.7);font-weight:700;line-height:1.6">Für eine <b style="color:#fff">konkrete staatliche Leistung</b>. Beispiel: Passgebühr, Gerichtsgebühr, Kfz-Zulassung.</div>
-    </div>
-    <div style="background:rgba(255,217,74,.08);border-left:3px solid #ffd94a;border-radius:0 10px 10px 0;padding:10px 12px">
-      <div style="font-size:11px;font-weight:900;color:#ffd94a;margin-bottom:3px">Beitrag</div>
-      <div style="font-size:11px;color:rgba(255,255,255,.7);font-weight:700;line-height:1.6">Für die <b style="color:#fff">Möglichkeit einer Leistung</b> – ob genutzt oder nicht. Beispiel: Krankenversicherungsbeitrag, Rundfunkbeitrag.</div>
-    </div>
-  </div>
-  <div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700;line-height:1.65;background:rgba(255,255,255,.05);border-radius:8px;padding:8px 10px">
-    🔑 <b style="color:rgba(255,255,255,.7)">Merksatz:</b> Steuern = einzige Abgabe ohne individuellen Gegenleistungsanspruch (§ 3 Abs. 1 AO). Nur für natürliche Personen: Einkommensteuer. Juristische Personen (GmbH, AG): Körperschaftsteuer nach KStG.
-  </div>
-</div>
-
-<!-- §1 EStG – WER IST STEUERPFLICHTIG -->
-<div style="margin-bottom:16px">
-  <div style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.3);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">⚖️ § 1 EStG – Wer ist steuerpflichtig?</div>
-  <div id="para1-block">${para1Html}</div>
-</div>
-
 <!-- QUIZ TEASER -->
 <div onclick="einstGoStep3()" style="background:linear-gradient(135deg,#1a0a5e,#3d0a6b);border:1.5px solid rgba(139,92,246,.3);border-radius:16px;padding:15px;cursor:pointer;display:flex;align-items:center;gap:14px;margin-bottom:90px;transition:all .2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
   <div style="font-size:30px">⚡</div>
@@ -3168,6 +2987,136 @@ function toggleAbsetz(id){
 
 
 // ==================== BASICS ====================
+// ── Absetz Overlay ────────────────────────────────────────────────────────
+const ABSETZ_OV = {
+  fahrt:{
+    icon:'🚗', title:'Entfernungspauschale – Fahrten zur Arbeit',
+    norm:'§ 9 Abs. 1 Satz 3 Nr. 4 EStG · StÄndG 2025',
+    recht:`<b>Voraussetzung:</b> Berufliche Veranlassung (§ 9 Abs. 1 Satz 1 EStG) – auf Nachfrage gegenüber dem Finanzamt nachzuweisen.<br><br>
+<b>Ab VZ 2026 (StÄndG 2025):</b> Einheitlich <b>0,38 €/km ab dem 1. km</b> (einfache Strecke). Frühere Staffelung entfällt. Gilt für alle Verkehrsmittel; bei höheren ÖPNV-Kosten können diese alternativ angesetzt werden.<br><br>
+<b>Begrenzung:</b> Grds. max. 4.500 €/Jahr – Ausnahme PKW: unbegrenzt (Nachweis).<br><br>
+<b>Ausschluss:</b> Für denselben Tag nicht gleichzeitig Homeoffice-Pauschale (§ 9 Abs. 1 Nr. 4 Satz 3 EStG).`,
+    example:'Azubi Lena, 22 km, 180 Arbeitstage: 180 × 22 × 0,38 € = <b>1.504,80 € WK</b>. Übersteigt AN-Pauschbetrag (1.230 €) → Steuererklärung lohnt sich.',
+    calc:true
+  },
+  laptop:{
+    icon:'💻', title:'Arbeitsmittel – Laptop, PC, Tablet, Handy',
+    norm:'§ 9 Abs. 1 Satz 3 Nr. 6 EStG · § 6 Abs. 2 EStG · BMF-Schreiben v. 22.02.2022',
+    recht:`<b>Berufliche Veranlassung</b> ist Voraussetzung und auf Anforderung nachzuweisen.<br><br>
+<b>GWG (§ 6 Abs. 2 EStG):</b> Bis 800 € netto = 952 € brutto (AN ohne Vorsteuerabzug) → Sofortabschreibung.<br><br>
+<b>Wahlrecht 1-Jahres-ND (BMF 22.02.2022):</b> Für Computer-Hardware/Software kann <b>1 Jahr Nutzungsdauer</b> gewählt werden → faktisch Sofortabschreibung auch über 952 €. Wahlrecht, keine Pflicht.<br><br>
+<b>Gemischte Nutzung:</b> Anteilig nach beruflichem Nutzungsanteil absetzbar. FA kann Nachweis verlangen.`,
+    example:'AN Jonas, Notebook 1.190 € brutto, 70 % beruflich. Mit BMF-Wahlrecht (1 Jahr ND): 70 % × 1.190 € = <b>833 € WK im Anschaffungsjahr</b>.'
+  },
+  home:{
+    icon:'🏠', title:'Homeoffice-Pauschale',
+    norm:'§ 4 Abs. 5 Satz 1 Nr. 6b EStG i.V.m. § 9 Abs. 5 EStG',
+    recht:`Seit VZ 2023 dauerhaft: Für jeden Kalendertag an dem <b>überwiegend zu Hause</b> gearbeitet wird und keine außerhäusliche Tätigkeitsstätte aufgesucht wird.<br><br>
+<b>6 € pro Homeoffice-Tag, max. 210 Tage = 1.260 €/Jahr.</b> Kein abgetrenntes Arbeitszimmer nötig.<br><br>
+<b>Ausschluss Doppelnutzung:</b> Kein gleichzeitiger Ansatz der Entfernungspauschale für denselben Tag.`,
+    example:'Lehrerin Andrea, 120 Homeoffice-Tage: 120 × 6 € = <b>720 € WK</b> – ohne Nachweis, ohne Arbeitszimmer.'
+  },
+  fortbild:{
+    icon:'📚', title:'Fort- und Weiterbildungskosten',
+    norm:'§ 9 Abs. 1 Satz 3 Nr. 6 EStG · § 9 Abs. 6 EStG · § 10 Abs. 1 Nr. 7 EStG',
+    recht:`<b>Weiterbildung im Beruf:</b> Unbegrenzt als WK absetzbar (Kursgebühren, Prüfungsgebühren, Fahrtkosten, Fachliteratur).<br><br>
+<b>Erstausbildung (§ 9 Abs. 6 EStG):</b> Kosten der ersten Berufsausbildung sind nur <b>Sonderausgaben</b> (§ 10 Abs. 1 Nr. 7 EStG), max. 6.000 €/Jahr – keine WK.<br><br>
+<b>Zweitausbildung/Zweitstudium:</b> Vollständig WK, auch vorweggenommen (Verlustvortrag § 10d EStG).`,
+    example:'Azubi Kai: 450 € Kursgebühr + 120 € Literatur + 80 € Fahrten = <b>650 € WK</b>.'
+  },
+  spende:{
+    icon:'🎁', title:'Spenden – Sonderausgaben',
+    norm:'§ 10b EStG · § 50 EStDV · §§ 52–54 AO',
+    recht:`<b>Sonderausgaben:</b> weder WK/BA noch AuBe, aber gesetzlich zum Abzug zugelassen (abschließend).<br><br>
+<b>Max. 20 % des GdE</b> oder 4 ‰ der Summe aus Umsätzen + Löhnen. Überhang: Spendenübertrag (§ 10b Abs. 1 Satz 9 EStG).<br><br>
+<b>Nachweis (§ 50 EStDV):</b> Bis 300 € Kontoauszug ausreichend. Ab 300 € zwingend amtliche Zuwendungsbestätigung.`,
+    example:'Max (30.000 € GdE) spendet 4.500 €. Max. 20 % × 30.000 € = 6.000 € → voll absetzbar. Steuerersparnis ca. <b>1.125 €</b> (25 % Grenzsteuersatz).'
+  },
+  krank:{
+    icon:'🩺', title:'Außergewöhnliche Belastungen – Krankheitskosten',
+    norm:'§ 33 EStG · § 33a EStG · § 33b EStG · R 33.1–33.4 EStR',
+    recht:`<b>§ 33 EStG:</b> Aufwendungen die (1) außergewöhnlich, (2) zwangsläufig und (3) notwendig/angemessen sind. Mindern den GdE.<br><br>
+<b>Zumutbare Belastung (§ 33 Abs. 3 EStG):</b> 1–7 % des GdE je nach Einkommen und Familienstand. Stufenweise Berechnung (BFH v. 19.01.2017). Nur der übersteigende Betrag wird anerkannt.<br><br>
+<b>Behinderten-Pauschbetrag (§ 33b EStG):</b> Alternativ – ohne Einzelnachweis, ohne Abzug zumutbarer Belastung.`,
+    example:'Ledig, 35.000 € GdE, Zahnarzt 2.400 €. Zumutbar: 35.000 × 3 % = 1.050 €. Absetzbar: 2.400 – 1.050 = <b>1.350 €</b>.'
+  },
+  kleidung:{
+    icon:'👔', title:'Typische Berufskleidung',
+    norm:'§ 9 Abs. 1 Satz 3 Nr. 6 EStG · R 9.12 LStR · BFH-Rspr.',
+    recht:`Nur typische Berufskleidung absetzbar:<br><br>
+(1) <b>Schutzkleidung</b> (Sicherheitsschuhe, Helm, Warnweste)<br>
+(2) <b>Uniformen/Amtskleidung</b> (Polizei, Feuerwehr, Richterrobe)<br>
+(3) <b>Kleidung mit Firmenlogo</b> – private Nutzung unzumutbar<br><br>
+<b>Alltagskleidung nicht absetzbar</b> – auch wenn ausschließlich zur Arbeit getragen (BFH v. 13.11.1987). Maßgeblich: objektive Eignung zur privaten Mitbenutzung.`,
+    example:'Dienstkleidung mit Behördenlogo: absetzbar. Schwarzer Anzug des Anwalts: nicht absetzbar (BFH). Reinigungskosten anerkannter Berufskleidung: absetzbar.'
+  }
+};
+
+function absetzOv(id){
+  const d = ABSETZ_OV[id];
+  if(!d) return;
+  const old = document.getElementById('absetz-full-ov');
+  if(old) old.remove();
+  const ov = document.createElement('div');
+  ov.id = 'absetz-full-ov';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:9800;background:rgba(5,10,30,.85);backdrop-filter:blur(6px);display:flex;align-items:flex-end;justify-content:center;padding:0';
+  ov.onclick = e => { if(e.target===ov) ov.remove(); };
+
+  const calcHtml = d.calc ? `
+    <div style="background:rgba(0,194,224,.08);border:1px solid rgba(0,194,224,.25);border-radius:14px;padding:14px;margin-top:14px">
+      <div style="font-size:11px;font-weight:900;color:var(--cyan);margin-bottom:10px">🧮 Rechner – Entfernungspauschale 2026</div>
+      <div style="display:flex;gap:8px;margin-bottom:10px">
+        <div style="flex:1">
+          <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:4px">Arbeitstage/Jahr</div>
+          <input id="fahrt-tage" type="number" value="220" min="1" max="365" oninput="calcFahrt()" style="width:100%;padding:8px 10px;border-radius:8px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;box-sizing:border-box">
+        </div>
+        <div style="flex:1">
+          <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:4px">Einfache km</div>
+          <input id="fahrt-km" type="number" value="22" min="1" max="500" oninput="calcFahrt()" style="width:100%;padding:8px 10px;border-radius:8px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;box-sizing:border-box">
+        </div>
+      </div>
+      <div style="background:rgba(0,194,224,.15);border-radius:10px;padding:12px;text-align:center">
+        <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700">Entfernungspauschale</div>
+        <div id="fahrt-val" style="font-size:26px;font-weight:900;color:var(--cyan);font-family:'Space Mono',monospace">1.835,20 €</div>
+        <div id="fahrt-hint" style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700;margin-top:4px">220 Tage × 22 km × 0,38 €</div>
+      </div>
+    </div>` : '';
+
+  ov.innerHTML = `<div style="background:#0d1b3e;border-radius:24px 24px 0 0;width:100%;max-width:520px;max-height:88vh;overflow-y:auto">
+    <div style="background:linear-gradient(135deg,#1a3a8f,#3d0a6b);padding:20px 20px 16px;border-radius:24px 24px 0 0;position:relative">
+      <button onclick="document.getElementById('absetz-full-ov').remove()" style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,.15);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-size:16px;cursor:pointer">✕</button>
+      <div style="font-size:32px;margin-bottom:8px">${d.icon}</div>
+      <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:4px">${d.title}</div>
+      <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.6);font-weight:700">${d.norm}</div>
+    </div>
+    <div style="padding:18px 20px 36px">
+      <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px">Rechtliche Grundlage</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.8);font-weight:700;line-height:1.7;margin-bottom:14px">${d.recht}</div>
+      <div style="background:rgba(0,201,123,.08);border:1px solid rgba(0,201,123,.25);border-radius:12px;padding:12px">
+        <div style="font-size:10px;font-weight:900;color:#00c97b;margin-bottom:5px;text-transform:uppercase;letter-spacing:1px">📋 Rechenbeispiel</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.75);font-weight:700;line-height:1.65">${d.example}</div>
+      </div>
+      ${calcHtml}
+    </div>
+  </div>`;
+  document.body.appendChild(ov);
+  if(d.calc) setTimeout(calcFahrt, 60);
+}
+
+function calcFahrt(){
+  const t = parseInt(document.getElementById('fahrt-tage')?.value)||0;
+  const k = parseInt(document.getElementById('fahrt-km')?.value)||0;
+  const result = t * k * 0.38;
+  const el = document.getElementById('fahrt-val');
+  const hint = document.getElementById('fahrt-hint');
+  if(el) el.textContent = result.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €';
+  if(hint){
+    const pb = 1230;
+    hint.textContent = t + ' Tage × ' + k + ' km × 0,38 €' + (result > pb ? ' → Erklärung lohnt sich!' : ' → unter AN-Pauschbetrag 1.230 €');
+  }
+}
+
+
 function renderBasics(a){
   a.classList.add('basics-dark-mode');
   a.classList.remove('etag-mode');
@@ -6607,329 +6556,328 @@ function _nextBtn(label, onclick){
 // ══════════════════════════════════════════════════════════════════
 
 const STEUER_TOUR_STEPS = [
+  // ── SCHRITT 1: Ein normaler Montag ──────────────────────────────
+  {
+    id:'montag',
+    _phase: 0,
+    render(){
+      const SZENEN = [
+        {time:'06:45',icon:'🛁',was:'Duschen',detail:'Warmwasser – Stadtwerke',tax:null},
+        {time:'07:10',icon:'🍫',was:'Kakao aus dem Supermarkt',detail:'250 ml, 1,20 €',tax:'7'},
+        {time:'07:45',icon:'🚌',was:'Bus zur Schule',detail:'Einzelticket 3,00 €',tax:'7'},
+        {time:'12:30',icon:'🥙',was:'Döner beim Imbiss',detail:'8 €, Vor-Ort-Verzehr (ab 2026)',tax:'7'},
+        {time:'16:00',icon:'📱',was:'App gekauft',detail:'0,99 € im Store',tax:'19'},
+        {time:'18:00',icon:'⛽',was:'Papa tankt Benzin',detail:'50 L à 1,75 €',tax:'komplex'},
+        {time:'20:00',icon:'🎬',was:'Netflix',detail:'Abo 17,99 €/Monat',tax:'19'},
+      ];
+      const phase = this._phase || 0;
+      const guesses = this._guesses || {};
+      const allGuessed = SZENEN.filter(s=>s.tax).every((_,i)=>guesses[i]!==undefined || SZENEN[i].tax===null);
+      const taxItems = SZENEN.filter(s=>s.tax);
+      const allTaxGuessed = taxItems.every((s,i)=>{
+        const origIdx = SZENEN.indexOf(s);
+        return guesses[origIdx]!==undefined;
+      });
 
-// ══ SCHRITT 1: Ein ganz normaler Montag ═══════════════════════════════
-{
-  id:'montag',
-  render(){
-    const SZENEN = [
-      {time:'06:45',icon:'🛁',was:'Du duschst.',detail:'Warmwasser aus der Leitung',tax:null,taxName:null},
-      {time:'07:10',icon:'☕',was:'Kakao aus dem Supermarkt.',detail:'250 ml Kakaogetränk, 1,20 € Preis',tax:'7',taxName:'Mehrwertsteuer'},
-      {time:'07:45',icon:'🚌',was:'Du fährst Bus.',detail:'Einzelticket 3,00 €',tax:'7',taxName:'Mehrwertsteuer'},
-      {time:'12:30',icon:'🥙',was:'Döner zum Mittagessen.',detail:'8 € beim Imbiss vor Ort',tax:'7',taxName:'Mehrwertsteuer'},
-      {time:'16:00',icon:'📱',was:'Neue App gekauft.',detail:'0,99 € im App Store',tax:'19',taxName:'Mehrwertsteuer'},
-      {time:'18:00',icon:'⛽',was:'Papa tankt Benzin.',detail:'50 Liter à 1,75 €',tax:'komplex',taxName:'Energiesteuer + 19% USt'},
-      {time:'20:00',icon:'🎬',was:'Netflix am Abend.',detail:'Abo 17,99 €/Monat',tax:'19',taxName:'Mehrwertsteuer'},
-    ];
-    const revealed = this._revealed || false;
-
-    const scenesHtml = SZENEN.map((s,i) => `
-      <div style="display:flex;gap:10px;margin-bottom:10px;align-items:flex-start">
-        <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.3);font-weight:700;min-width:38px;padding-top:14px">${s.time}</div>
-        <div style="flex:1;background:rgba(255,255,255,.05);border-left:3px solid ${s.tax?'#ff8c42':'rgba(255,255,255,.15)'};border-radius:0 12px 12px 0;padding:11px 12px">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
-            <span style="font-size:22px">${s.icon}</span>
-            <div>
+      if(phase===0){
+        // Show scenes, no tax info yet
+        return `
+        <div style="background:linear-gradient(135deg,#060f22,#1a0a60);border-radius:16px;padding:16px;margin-bottom:12px">
+          <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px">🗓️ Schritt 1 – Ein normaler Montag</div>
+          <div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:4px">Wo stecken Steuern drin?</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700">Schau dir den Tag an – was denkst du, wo Steuern drinstecken?</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+          ${SZENEN.map((s,i)=>`
+          <div style="display:flex;gap:10px;align-items:center;background:rgba(255,255,255,.05);border-left:3px solid rgba(255,255,255,.1);border-radius:0 12px 12px 0;padding:11px 12px">
+            <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.3);font-weight:700;min-width:38px">${s.time}</div>
+            <span style="font-size:22px;flex-shrink:0">${s.icon}</span>
+            <div style="flex:1">
               <div style="font-size:12px;font-weight:900;color:#fff">${s.was}</div>
               <div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700">${s.detail}</div>
             </div>
-          </div>
-          ${revealed && s.tax
-            ? `<div style="margin-top:6px;font-size:10px;font-weight:900;padding:4px 10px;border-radius:100px;display:inline-block;background:rgba(255,140,66,.2);color:#ff8c42">${s.taxName === 'Mehrwertsteuer' ? (s.tax==='7'?'7 % Mehrwertsteuer (§ 12 Abs. 2 UStG)':'19 % Mehrwertsteuer (§ 12 Abs. 1 UStG)') : '🔥 Energiesteuer (§ 1 EnergieStG) + 19 % USt – Löwenanteil!'}</div>`
-            : revealed && !s.tax
-            ? `<div style="margin-top:6px;font-size:10px;font-weight:900;padding:4px 10px;border-radius:100px;display:inline-block;background:rgba(0,201,123,.15);color:#00c97b">Keine Steuer – Wassergebühr (direkte Gegenleistung!)</div>`
-            : `<div style="margin-top:6px;font-size:10px;color:rgba(255,255,255,.2);font-weight:700;font-style:italic">Steckt hier Steuer drin?</div>`
-          }
+            <div style="font-size:20px">❓</div>
+          </div>`).join('')}
         </div>
-      </div>`).join('');
+        <button onclick="STEUER_TOUR_STEPS[tourStep]._phase=1;renderTourStep(document.getElementById('ga'))" style="width:100%;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,#ff8c42,#c05800);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">
+          Ich schätze mal → Steuersätze zuordnen
+        </button>`;
+      }
 
-    return `
-    <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:16px;margin-bottom:14px">
-      <div style="font-size:10px;font-family:'Space Mono',monospace;color:#ff8c42;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">🗓️ Schritt 1 – Ein ganz normaler Montag</div>
-      <div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:4px">Steuern überall – aber welche?</div>
-      <div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:700;margin-bottom:14px">Sieben Momente, sieben Fragen. Schau dir jeden an – dann klick auf Auflösung.</div>
-      ${scenesHtml}
-    </div>
-    ${revealed
-      ? `<div style="background:rgba(255,140,66,.08);border:1px solid rgba(255,140,66,.2);border-radius:14px;padding:14px;margin-bottom:12px">
-          <div style="font-size:12px;font-weight:900;color:#ff8c42;margin-bottom:6px">💡 Was du gerade gesehen hast:</div>
-          <div style="font-size:11px;color:rgba(255,255,255,.65);font-weight:700;line-height:1.7">
-            • <b style="color:#fff">7 % Mehrwertsteuer</b> gilt für Lebensmittel, Bücher, Bus/Bahn (§ 12 Abs. 2 UStG Anlage 2)<br>
-            • <b style="color:#fff">19 % Mehrwertsteuer</b> ist der Regelsteuersatz – auf fast alles andere (§ 12 Abs. 1 UStG)<br>
-            • <b style="color:#fff">Dusche:</b> Keine Steuer – die Wassergebühr ist eine Gegenleistung (kein § 3 AO-Tatbestand)<br>
-            • <b style="color:#fff">Benzin:</b> Doppelt besteuert – Energiesteuer (§ 1 EnergieStG) <i>und</i> dann nochmal 19 % USt auf den Gesamtpreis inkl. Energiesteuer
-          </div>
+      if(phase===1){
+        // User assigns 7% / 19% / keine to each scene
+        return `
+        <div style="background:linear-gradient(135deg,#060f22,#1a0a60);border-radius:16px;padding:16px;margin-bottom:12px">
+          <div style="font-size:9px;font-family:'Space Mono',monospace;color:#ff8c42;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px">🎯 Schritt 1 – Deine Schätzung</div>
+          <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:4px">Welcher Steuersatz gilt?</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700">Tippe bei jeder Situation auf 0%, 7% oder 19%</div>
         </div>
-        <button onclick="tourNext()" style="width:100%;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,#ff8c42,#c05800);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Weiter: Woher kommt das Geld? →</button>`
-      : `<button onclick="STEUER_TOUR_STEPS[tourStep]._revealed=true;renderTourStep(document.getElementById('ga'))" style="width:100%;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">🔍 Auflösung zeigen</button>`
-    }`;
-  }
-},
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+          ${SZENEN.map((s,i)=>{
+            const g = guesses[i];
+            const btnStyle = (val)=>`padding:6px 10px;border-radius:8px;border:2px solid ${g===val?'var(--cyan)':'rgba(255,255,255,.15)'};background:${g===val?'rgba(0,194,224,.2)':'rgba(255,255,255,.05)'};color:${g===val?'var(--cyan)':'rgba(255,255,255,.5)'};font-family:'Nunito',sans-serif;font-weight:900;font-size:11px;cursor:pointer`;
+            return `<div style="background:rgba(255,255,255,.05);border-radius:12px;padding:11px 12px">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+                <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.3);font-weight:700;min-width:38px">${s.time}</div>
+                <span style="font-size:18px">${s.icon}</span>
+                <div style="flex:1;font-size:11px;font-weight:900;color:#fff">${s.was} <span style="color:rgba(255,255,255,.4);font-weight:700;font-size:10px">– ${s.detail}</span></div>
+              </div>
+              <div style="display:flex;gap:6px">
+                <button onclick="if(!STEUER_TOUR_STEPS[tourStep]._guesses)STEUER_TOUR_STEPS[tourStep]._guesses={};STEUER_TOUR_STEPS[tourStep]._guesses[${i}]='0';renderTourStep(document.getElementById('ga'))" style="${btnStyle('0')}">0 %</button>
+                <button onclick="if(!STEUER_TOUR_STEPS[tourStep]._guesses)STEUER_TOUR_STEPS[tourStep]._guesses={};STEUER_TOUR_STEPS[tourStep]._guesses[${i}]='7';renderTourStep(document.getElementById('ga'))" style="${btnStyle('7')}">7 %</button>
+                <button onclick="if(!STEUER_TOUR_STEPS[tourStep]._guesses)STEUER_TOUR_STEPS[tourStep]._guesses={};STEUER_TOUR_STEPS[tourStep]._guesses[${i}]='19';renderTourStep(document.getElementById('ga'))" style="${btnStyle('19')}">19 %</button>
+                <button onclick="if(!STEUER_TOUR_STEPS[tourStep]._guesses)STEUER_TOUR_STEPS[tourStep]._guesses={};STEUER_TOUR_STEPS[tourStep]._guesses[${i}]='komplex';renderTourStep(document.getElementById('ga'))" style="${btnStyle('komplex')}">🔥</button>
+              </div>
+            </div>`;
+          }).join('')}
+        </div>
+        ${Object.keys(guesses).length >= SZENEN.length
+          ? `<button onclick="STEUER_TOUR_STEPS[tourStep]._phase=2;renderTourStep(document.getElementById('ga'))" style="width:100%;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">🔍 Auflösung anzeigen</button>`
+          : `<div style="text-align:center;font-size:11px;color:rgba(255,255,255,.3);font-family:'Space Mono',monospace;font-weight:700">${Object.keys(guesses).length} / ${SZENEN.length} eingeschätzt</div>`}`;
+      }
 
-// ══ SCHRITT 2: Steueraufkommen selbst ordnen ══════════════════════════
-{
-  id:'aufkommen_raten',
-  render(){
-    const ITEMS = [
-      {id:'ust',  label:'Umsatzsteuer',  icon:'🛒', mrd:302.1, info:'§ 1 UStG – jeder Kauf im Supermarkt'},
-      {id:'lst',  label:'Lohnsteuer',    icon:'💼', mrd:248.9, info:'§§ 38 ff. EStG – direkt vom Gehalt'},
-      {id:'kst',  label:'Körperschaftst.',icon:'🏢', mrd:46.2,  info:'§ 23 KStG – GmbH & AG zahlen 15 %'},
-      {id:'est',  label:'Einkommenst.',  icon:'👤', mrd:73.0,  info:'§ 32a EStG – Selbständige & Kapital'},
-      {id:'est2', label:'Veranl. ESt',   icon:'📋', mrd:73.0,  info:'Zusammen mit nicht veranlagter ESt'},
-      {id:'gst',  label:'Gewerbesteuer', icon:'🏭', mrd:73.8,  info:'§ 7 GewStG – Gemeinde-Steuer'},
-      {id:'kfz',  label:'Kfz-Steuer',   icon:'🚗', mrd:9.4,   info:'§ 1 KraftStG – nach Hubraum/CO₂'},
-      {id:'ener', label:'Energiesteuer', icon:'⛽', mrd:37.2,  info:'§ 1 EnergieStG – auf Benzin, Diesel'},
-    ];
-
-    const sorted = this._sorted || [];
-    const done = sorted.length >= 3; // show after top 3 guessed
-
-    if(!this._order) this._order = [...ITEMS].sort(()=>Math.random()-.5);
-    const shuffled = this._order;
-
-    const optionsHtml = shuffled.map((it,i) => {
-      const rank = sorted.indexOf(it.id) + 1;
-      return `<button onclick="
-        if(STEUER_TOUR_STEPS[tourStep]._sorted===undefined) STEUER_TOUR_STEPS[tourStep]._sorted=[];
-        const s=STEUER_TOUR_STEPS[tourStep]._sorted;
-        if(!s.includes('${it.id}') && s.length<3){s.push('${it.id}');}
-        renderTourStep(document.getElementById('ga'))
-      " style="padding:9px 10px;border-radius:10px;border:2px solid ${rank?'var(--cyan)':'rgba(255,255,255,.15)'};background:${rank?'rgba(0,194,224,.12)':'rgba(255,255,255,.05)'};color:${rank?'var(--cyan)':'rgba(255,255,255,.7)'};font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer;transition:all .15s;text-align:left;display:flex;align-items:center;gap:8px">
-        ${rank?`<span style="background:var(--cyan);color:#0d1b3e;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;flex-shrink:0">${rank}</span>`:`<span style="width:18px;height:18px;flex-shrink:0"></span>`}
-        <span style="font-size:16px">${it.icon}</span>${it.label}
-      </button>`;
-    }).join('');
-
-    const SORTED_CORRECT = [...ITEMS].sort((a,b)=>b.mrd-a.mrd).slice(0,3);
-    const revealHtml = done ? `
-      <div style="margin-top:14px">
-        <div style="font-size:11px;font-weight:900;color:#ffd94a;margin-bottom:8px">🏆 Die wahre Reihenfolge (Top 3):</div>
-        ${SORTED_CORRECT.map((it,i)=>{
-          const userRank = sorted.indexOf(it.id)+1;
-          const ok = userRank === i+1;
-          return `<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:${ok?'rgba(0,201,123,.1)':'rgba(255,255,255,.04)'};border-radius:10px;margin-bottom:6px">
-            <span style="font-size:16px;font-weight:900;color:${ok?'#00c97b':'#ffd94a'};font-family:'Space Mono',monospace;min-width:20px">${i+1}.</span>
-            <span style="font-size:18px">${it.icon}</span>
-            <div style="flex:1"><div style="font-size:12px;font-weight:900;color:#fff">${it.label} – ${it.mrd} Mrd. €</div>
-            <div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700">${it.info}</div></div>
-            <span>${ok?'✅':'❌'}</span>
+      // phase 2: Reveal with correct/wrong
+      const correct_map = {null:'0', '7':'7', '19':'19', 'komplex':'komplex'};
+      const score = SZENEN.filter((s,i)=>guesses[i]===correct_map[s.tax]).length;
+      const ERKL = {
+        '7': 'Mehrwertsteuer 7 % (§ 12 Abs. 2 UStG) – ermäßigter Satz für Lebensmittel, ÖPNV und ab 2026 auch Gastronomie',
+        '19': 'Mehrwertsteuer 19 % (§ 12 Abs. 1 UStG) – Regelsteuersatz',
+        'komplex': 'Energiesteuer (§ 1 EnergieStG) ~0,65 €/L + 19 % USt auf Gesamtpreis = ca. 55 % Steuern am Literpreis',
+        null: 'Keine Mehrwertsteuer – Gebühr für Wasserversorgung (kommunale Leistung)'
+      };
+      return `
+      <div style="background:rgba(255,255,255,.05);border-radius:14px;padding:14px;margin-bottom:12px;text-align:center">
+        <div style="font-size:28px;margin-bottom:6px">${score>=6?'🏆':score>=4?'👍':'📖'}</div>
+        <div style="font-size:18px;font-weight:900;color:${score>=6?'#00c97b':score>=4?'var(--cyan)':'#ff8c42'};font-family:'Space Mono',monospace">${score} / ${SZENEN.length} richtig</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+        ${SZENEN.map((s,i)=>{
+          const correct = correct_map[s.tax];
+          const given = guesses[i] || '?';
+          const ok = given === correct;
+          return `<div style="background:${ok?'rgba(0,201,123,.08)':'rgba(255,77,109,.06)'};border:1.5px solid ${ok?'rgba(0,201,123,.3)':'rgba(255,77,109,.25)'};border-radius:12px;padding:11px 12px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+              <span style="font-size:18px">${s.icon}</span>
+              <div style="flex:1;font-size:11px;font-weight:900;color:#fff">${s.was}</div>
+              <span style="font-size:16px">${ok?'✅':'❌'}</span>
+            </div>
+            <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.65);line-height:1.6">${ERKL[s.tax]}</div>
           </div>`;
         }).join('')}
-        <div style="margin-top:10px;background:rgba(255,255,255,.05);border-radius:10px;padding:10px;font-size:10px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.65">
-          💡 <b style="color:#fff">Gesamt 2024:</b> 947,7 Mrd. € – davon fast 60 % aus Umsatz- und Lohnsteuer. Wer also ein Gehalt bekommt und einkauft, trägt den Löwenanteil.
-        </div>
       </div>
-      <button onclick="tourNext()" style="width:100%;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,#00c97b,#005c36);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer;margin-top:12px">Weiter: Wer zahlt eigentlich Steuern? →</button>`
-    : `<div style="font-size:10px;color:rgba(255,255,255,.3);font-weight:700;text-align:center;font-family:'Space Mono',monospace;margin-top:10px">${sorted.length} / 3 ausgewählt</div>`;
+      <div style="background:rgba(0,194,224,.08);border:1px solid rgba(0,194,224,.2);border-radius:12px;padding:12px;margin-bottom:12px;font-size:11px;color:rgba(255,255,255,.7);font-weight:700;line-height:1.65">
+        💡 <b style="color:#fff">Merksatz:</b> Vor-Ort-Verzehr in Gastronomie = 7 % ab 2026 (StÄndG 2025). Lebensmittel = 7 %. ÖPNV = 7 %. Digitale Dienste, Elektronik = 19 %. Energie = Energiesteuer + 19 % USt.
+      </div>
+      <button onclick="tourNext()" style="width:100%;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,#005c36,#00c97b);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Weiter: Was bringt dem Staat am meisten? →</button>`;
+    }
+  },
 
-    return `
-    <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:16px;margin-bottom:14px">
-      <div style="font-size:10px;font-family:'Space Mono',monospace;color:#00c97b;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">💰 Schritt 2 – Woher kommt das Geld?</div>
-      <div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:4px">Deutschland nimmt 947 Mrd. € Steuern ein.</div>
-      <div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:700;margin-bottom:14px">Wähle die <b style="color:#fff">Top 3 Steuerquellen</b> – woher kommt am meisten?</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">${optionsHtml}</div>
-      ${revealHtml}
-    </div>`;
-  }
-},
 
-// ══ SCHRITT 3: Wer ist steuerpflichtig? ══════════════════════════════
-{
-  id:'steuerpflicht',
-  render(){
-    const CASES = [
-      {avatar:'👶',name:'Mia, 8 Monate',desc:'Wohnt mit Eltern in München. Hat kein Einkommen.',q:'Einkommensteuerpflichtig?',answer:'ja',
-       richtig:'✅ Ja! § 1 Abs. 1 EStG gilt für alle <b>natürlichen Personen</b> mit Wohnsitz (§ 8 AO) in DE – unabhängig von Alter oder Nationalität. Mia zahlt keine Steuer (kein Einkommen, liegt unter Grundfreibetrag 12.336 €) – ist aber steuerpflichtig. Steuerpflichtig ≠ Steuer zahlen!',
-       falsch:'❌ Doch! § 1 Abs. 1 EStG: Wer Wohnsitz in DE hat, ist unbeschränkt steuerpflichtig – auch Babys. Mia zahlt zwar keine Steuer (kein Einkommen), ist aber im Steuersystem erfasst.'},
-      {avatar:'🧑‍🎓',name:'Tim, 17',desc:'Schüler in Berlin. Nachhilfe: 3.000 €/Jahr. Wohnsitz DE.',q:'Muss Tim Einkommensteuer zahlen?',answer:'nein',
-       richtig:'✅ Nein! Tim ist zwar nach § 1 Abs. 1 EStG steuerpflichtig (Wohnsitz in DE), aber: 3.000 € < <b>Grundfreibetrag 12.336 € (2026)</b> → keine Einkommensteuer. Aber: Er sollte trotzdem prüfen ob eine freiwillige Erklärung sinnvoll ist (z.B. Werbungskosten vorwegnehmen).',
-       falsch:'Fast! Tim ist zwar steuerpflichtig (§ 1 Abs. 1 EStG), aber 3.000 € liegt unter dem Grundfreibetrag von 12.336 € (2026) → er zahlt <b>keine</b> Einkommensteuer.'},
-      {avatar:'🏖️',name:'Sandra, 35',desc:'Lebt in Spanien. Hat vermietete Wohnung in Hamburg – Mieteinnahmen 12.000 €/Jahr.',q:'In Deutschland steuerpflichtig?',answer:'ja',
-       richtig:'✅ Ja – <b>beschränkte Steuerpflicht (§ 1 Abs. 4 EStG)</b>! Sandra hat keinen Wohnsitz mehr in DE, bezieht aber inländische Einkünfte aus V+V (§ 21 i.V.m. § 49 Abs. 1 Nr. 6 EStG) → nur diese Mieteinnahmen werden in DE besteuert (Quellenprinzip). Für das Welteinkommen gilt spanisches Recht.',
-       falsch:'Doch! § 1 Abs. 4 EStG: Kein Wohnsitz in DE, aber <b>inländische Einkünfte</b> (Miete § 49 Nr. 6 EStG) → <b>beschränkte Steuerpflicht</b>. Nur die deutschen Einkünfte werden in DE besteuert.'},
-      {avatar:'🏢',name:'Müller GmbH',desc:'GmbH mit Sitz in Frankfurt, 2 Mio. € Gewinn im Jahr.',q:'Einkommensteuerpflichtig nach EStG?',answer:'nein',
-       richtig:'✅ Nein! Das EStG gilt <b>nur für natürliche Personen (Menschen)</b>. Die Müller GmbH ist eine juristische Person → zahlt <b>Körperschaftsteuer (§ 1 Abs. 1 KStG: 15 %)</b> + Gewerbesteuer (§ 7 GewStG). Völlig andere Steuergesetze!',
-       falsch:'Richtig! EStG = nur natürliche Personen. Eine GmbH zahlt <b>Körperschaftsteuer</b> nach dem KStG (15 % auf den Gewinn) + Gewerbesteuer. Das EStG gilt nicht für sie.'},
-    ];
-    const given = tourAnswers['sp'] || {};
-    const answered = Object.keys(given).length;
-    const allDone = answered >= CASES.length;
+  // ── SCHRITT 2: Steueraufkommen selbst ordnen ─────────────────────
+  {
+    id:'aufkommen',
+    render(){
+      const ITEMS = [
+        {id:'ust', label:'Umsatzsteuer',   icon:'🛒', mrd:302.1, farbe:'#ff8c42', info:'§ 1 UStG – jeder Kauf'},
+        {id:'lst', label:'Lohnsteuer',     icon:'💼', mrd:248.9, farbe:'#1a3a8f', info:'§§ 38 ff. EStG – direkt vom Gehalt'},
+        {id:'est', label:'Einkommensteuer',icon:'👤', mrd:73.0,  farbe:'#7b5ea7', info:'§ 32a EStG – Selbständige'},
+        {id:'gst', label:'Gewerbesteuer',  icon:'🏭', mrd:73.8,  farbe:'#005c36', info:'§ 7 GewStG – Gemeinden'},
+        {id:'kst', label:'Körperschaftst.',icon:'🏢', mrd:46.2,  farbe:'#8a4000', info:'§ 23 KStG – GmbH/AG'},
+        {id:'ener',label:'Energiesteuer',  icon:'⛽', mrd:37.2,  farbe:'#5c1a8f', info:'§ 1 EnergieStG'},
+        {id:'kfz', label:'Kfz-Steuer',     icon:'🚗', mrd:9.4,   farbe:'#3a5000', info:'§ 1 KraftStG'},
+      ];
+      const sorted = this._sorted || [];
+      const done = sorted.length >= 3;
+      if(!this._order) this._order = [...ITEMS].sort(()=>Math.random()-.5);
+      const CORRECT = [...ITEMS].sort((a,b)=>b.mrd-a.mrd);
 
-    const casesHtml = CASES.map((pc,i) => {
-      const ans = given[i];
-      const ok = ans === pc.answer;
-      return `<div style="background:rgba(255,255,255,.05);border:1.5px solid ${ans===undefined?'rgba(255,255,255,.1)':ok?'rgba(0,201,123,.4)':'rgba(255,77,109,.35)'};border-radius:14px;padding:14px;margin-bottom:8px">
-        <div style="display:flex;gap:10px;margin-bottom:8px">
-          <div style="font-size:28px;flex-shrink:0">${pc.avatar}</div>
-          <div style="flex:1"><div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:2px">${pc.name}</div>
-          <div style="font-size:10px;color:rgba(255,255,255,.45);font-weight:700">${pc.desc}</div></div>
-          ${ans!==undefined?`<div style="font-size:18px">${ok?'✅':'❌'}</div>`:''}
-        </div>
-        <div style="font-size:12px;font-weight:800;color:rgba(255,255,255,.8);margin-bottom:8px">${pc.q}</div>
-        ${ans===undefined
-          ?`<div style="display:flex;gap:8px">
-              <button onclick="if(!tourAnswers.sp)tourAnswers.sp={};tourAnswers.sp[${i}]='ja';renderTourStep(document.getElementById('ga'))" style="flex:1;padding:10px;border-radius:10px;border:2px solid rgba(0,194,224,.3);background:rgba(0,194,224,.08);color:var(--cyan);font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Ja</button>
-              <button onclick="if(!tourAnswers.sp)tourAnswers.sp={};tourAnswers.sp[${i}]='nein';renderTourStep(document.getElementById('ga'))" style="flex:1;padding:10px;border-radius:10px;border:2px solid rgba(255,77,109,.3);background:rgba(255,77,109,.08);color:#ff4d6d;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Nein</button>
-            </div>`
-          :`<div style="font-size:11px;font-weight:700;line-height:1.65;background:${ok?'rgba(0,201,123,.08)':'rgba(255,77,109,.06)'};border:1px solid ${ok?'rgba(0,201,123,.25)':'rgba(255,77,109,.2)'};border-radius:10px;padding:10px;color:rgba(255,255,255,.75)">${ok?pc.richtig:pc.falsch}</div>`
-        }
+      const optHtml = this._order.map(it=>{
+        const rank = sorted.indexOf(it.id)+1;
+        return `<button onclick="
+          if(!STEUER_TOUR_STEPS[tourStep]._sorted) STEUER_TOUR_STEPS[tourStep]._sorted=[];
+          const s=STEUER_TOUR_STEPS[tourStep]._sorted;
+          if(!s.includes('${it.id}') && s.length<3){s.push('${it.id}');}
+          else if(s.includes('${it.id}')){STEUER_TOUR_STEPS[tourStep]._sorted=s.filter(x=>x!=='${it.id}');}
+          renderTourStep(document.getElementById('ga'))
+        " style="padding:9px 10px;border-radius:10px;border:2px solid ${rank?'var(--cyan)':'rgba(255,255,255,.15)'};background:${rank?'rgba(0,194,224,.12)':'rgba(255,255,255,.05)'};color:${rank?'var(--cyan)':'rgba(255,255,255,.7)'};font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer;display:flex;align-items:center;gap:7px">
+          ${rank?`<span style="background:var(--cyan);color:#0d1b3e;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;flex-shrink:0">${rank}</span>`:`<span style="width:18px;height:18px;flex-shrink:0"></span>`}
+          <span style="font-size:15px">${it.icon}</span>${it.label}
+        </button>`;
+      }).join('');
+
+      const revealHtml = done ? `
+        <div style="margin-top:14px;border-top:1px solid rgba(255,255,255,.1);padding-top:12px">
+          <div style="font-size:11px;font-weight:900;color:#ffd94a;margin-bottom:10px">🏆 Die richtige Reihenfolge – alle 7:</div>
+          ${CORRECT.map((it,i)=>{
+            const ur=sorted.indexOf(it.id)+1; const ok=ur===i+1&&i<3;
+            return `<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:${ok?'rgba(0,201,123,.1)':'rgba(255,255,255,.04)'};border-radius:10px;margin-bottom:5px">
+              <div style="font-size:13px;font-weight:900;color:${ok?'#00c97b':'rgba(255,255,255,.4)'};font-family:'Space Mono',monospace;min-width:22px">#${i+1}</div>
+              <span style="font-size:18px">${it.icon}</span>
+              <div style="flex:1"><div style="font-size:12px;font-weight:900;color:#fff">${it.label}</div><div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700">${it.info}</div></div>
+              <div style="font-size:12px;font-weight:900;color:${it.farbe};font-family:'Space Mono',monospace">${it.mrd} Mrd.</div>
+              ${ok?'<span style="font-size:14px">✅</span>':''}
+            </div>`;
+          }).join('')}
+          <div style="margin-top:10px;padding:10px 12px;background:rgba(255,255,255,.04);border-radius:10px;font-size:10px;color:rgba(255,255,255,.4);font-weight:700;line-height:1.65">Gesamt: 947 Mrd. € (2024). USt + Lohnsteuer = über 58 % aller Einnahmen.</div>
+          <button onclick="tourNext()" style="width:100%;margin-top:12px;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,#1a3a8f,#3d0a6b);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Weiter: Wer zahlt Steuern? →</button>
+        </div>` : `<div style="text-align:center;font-size:11px;color:rgba(255,255,255,.35);font-family:'Space Mono',monospace;font-weight:700;margin-top:10px">${sorted.length} / 3 – tippe die Top-3</div>`;
+
+      return `<div style="background:linear-gradient(135deg,rgba(0,60,30,.6),rgba(0,100,50,.3));border-radius:16px;padding:16px;margin-bottom:14px">
+        <div style="font-size:9px;font-family:'Space Mono',monospace;color:#00c97b;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">💰 Schritt 2</div>
+        <div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:6px">Was bringt dem Staat am meisten?</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:14px">Deutschland: <b style="color:#00c97b">947 Mrd. €</b>/Jahr. Welche 3 Steuerarten bringen am meisten? Tippe in der richtigen Reihenfolge.</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">${optHtml}</div>
+        ${revealHtml}
       </div>`;
-    }).join('');
+    }
+  },
 
-    return `
-    <div style="background:linear-gradient(135deg,#0a1a3a,#1a3a8f);border-radius:16px;padding:14px 16px 12px;margin-bottom:12px">
-      <div style="font-size:10px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px">🎯 Schritt 3 – Wer ist steuerpflichtig?</div>
-      <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:3px">Erst raten – dann die Erklärung</div>
-      <div style="font-size:11px;color:rgba(255,255,255,.4);font-weight:700">Alle 4 einschätzen, dann Auflösung</div>
-    </div>
-    ${casesHtml}
-    ${allDone
-      ?`<div style="background:rgba(255,255,255,.05);border-radius:12px;padding:12px;margin-bottom:12px">
-          <div style="font-size:11px;font-weight:900;color:rgba(255,255,255,.8);margin-bottom:6px">§ 1 EStG – Auf einen Blick</div>
-          <div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.75">
-            <b style="color:var(--cyan)">Nur natürliche Personen!</b> GmbH & AG → KStG.<br>
-            <b style="color:var(--cyan)">Unbeschränkt (§ 1 Abs. 1):</b> Wohnsitz/Aufenthalt in DE → Welteinkommensprinzip<br>
-            <b style="color:#ff8c42">Beschränkt (§ 1 Abs. 4):</b> Kein Wohnsitz, aber inländ. Einkünfte (§ 49) → Quellenprinzip<br>
-            <b style="color:rgba(255,255,255,.4)">Steuerpflichtig ≠ Steuer zahlen</b> – erst ab Grundfreibetrag 12.336 € (2026)
+  // ── SCHRITT 3: Wer ist steuerpflichtig? ──────────────────────────
+  {
+    id:'steuerpflicht',
+    render(){
+      const CASES = [
+        {avatar:'👶',name:'Mia, 8 Monate',desc:'Wohnt mit Eltern in München. Kein Einkommen.',q:'Einkommensteuerpflichtig nach § 1 EStG?',answer:'ja',
+         richtig:'✅ Ja! § 1 Abs. 1 EStG gilt für alle <b>natürlichen Personen</b> mit Wohnsitz (§ 8 AO) oder gewöhnlichem Aufenthalt (§ 9 AO) in Deutschland – unabhängig von Alter. Mia zahlt <b>keine</b> Steuer (kein Einkommen, Grundfreibetrag 12.336 €), ist aber steuerpflichtig.',
+         falsch:'Falsch: § 1 Abs. 1 EStG gilt für alle natürlichen Personen mit Wohnsitz in DE – auch Babys. <b>Steuerpflichtig ≠ Steuer zahlen!</b>'},
+        {avatar:'🧑‍🎓',name:'Tim, 17',desc:'Schüler, Nachhilfe: 3.000 €/Jahr.',q:'Muss Tim eine Einkommensteuererklärung abgeben?',answer:'nein',
+         richtig:'✅ Nein. Tim ist zwar steuerpflichtig (Wohnsitz in DE, § 1 Abs. 1 EStG), aber 3.000 € &lt; Grundfreibetrag 12.336 € → keine Steuer, keine Pflicht. Er <b>kann</b> freiwillig abgeben (§ 169 AO, 4 Jahre rückwirkend).',
+         falsch:'Tim ist steuerpflichtig, aber 3.000 € &lt; Grundfreibetrag 12.336 € → keine Abgabepflicht. Steuerpflicht ≠ Steuer zahlen.'},
+        {avatar:'🏖️',name:'Sandra, 32',desc:'Lebt in Spanien. Vermietet Wohnung in Hamburg.',q:'Ist Sandra in Deutschland steuerpflichtig?',answer:'ja',
+         richtig:'✅ Ja – <b>beschränkte Steuerpflicht</b> (§ 1 Abs. 4 EStG)! Kein Wohnsitz in DE, aber inländische Einkünfte aus V+V (§ 49 Abs. 1 Nr. 6 EStG). Nur diese werden in DE besteuert – Quellenprinzip.',
+         falsch:'Doch! Beschränkte Steuerpflicht (§ 1 Abs. 4 EStG): inländische Einkünfte (§ 49) ohne Wohnsitz in DE → steuerpflichtig in DE.'},
+        {avatar:'🏢',name:'Müller GmbH',desc:'Sitz Frankfurt, 2 Mio. € Gewinn.',q:'Unterliegt die GmbH der Einkommensteuer?',answer:'nein',
+         richtig:'✅ Nein! EStG gilt <b>nur für natürliche Personen</b>. Die GmbH ist juristische Person → <b>Körperschaftsteuer 15 % (§ 23 KStG)</b> + Gewerbesteuer. Völlig anderes Steuergesetz!',
+         falsch:'Richtig! GmbH = juristische Person → kein EStG, sondern KStG. EStG gilt nur für natürliche Personen (Menschen).'},
+      ];
+      const answers = tourAnswers['sp'] || {};
+      const allDone = Object.keys(answers).length >= CASES.length;
+
+      return `
+      <div style="background:linear-gradient(135deg,#0a1a3a,#1a3a8f);border-radius:16px;padding:14px 16px 12px;margin-bottom:12px">
+        <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px">⚖️ Schritt 3 – § 1 EStG</div>
+        <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:3px">Wer ist einkommensteuerpflichtig?</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:700">Alle 4 einschätzen, dann kommt die Begründung</div>
+      </div>
+      ${CASES.map((pc,i)=>{
+        const given=answers[i]; const ok=given===pc.answer;
+        return `<div style="background:rgba(255,255,255,.05);border:1.5px solid ${given===undefined?'rgba(255,255,255,.1)':ok?'rgba(0,201,123,.4)':'rgba(255,77,109,.35)'};border-radius:14px;padding:13px;margin-bottom:8px">
+          <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:8px">
+            <div style="font-size:26px;flex-shrink:0">${pc.avatar}</div>
+            <div style="flex:1"><div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:2px">${pc.name}</div><div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700">${pc.desc}</div></div>
+            ${given!==undefined?`<div style="font-size:18px">${ok?'✅':'❌'}</div>`:''}
           </div>
-        </div>
-        <button onclick="tourNext()" style="width:100%;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,#1a3a8f,#3d0a6b);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Weiter: Die Einkunftsarten →</button>`
-      :`<div style="text-align:center;padding:8px;font-size:10px;color:rgba(255,255,255,.3);font-weight:700;font-family:'Space Mono',monospace">${answered} / 4 beantwortet</div>`
-    }`;
-  }
-},
-
-// ══ SCHRITT 4: Einkunftsarten – Berufe zuordnen ═══════════════════════
-{
-  id:'einkunftsarten',
-  render(){
-    const EINK = [
-      {nr:1, para:'§ 13',icon:'🌾',name:'Land- & Forstwirtschaft'},
-      {nr:2, para:'§ 15',icon:'🏭',name:'Gewerbebetrieb'},
-      {nr:3, para:'§ 18',icon:'⚕️',name:'Selbständige Arbeit'},
-      {nr:4, para:'§ 19',icon:'💼',name:'Nichtselbständige Arbeit'},
-      {nr:5, para:'§ 20',icon:'💰',name:'Kapitalvermögen'},
-      {nr:6, para:'§ 21',icon:'🏠',name:'Vermietung & Verpachtung'},
-      {nr:7, para:'§ 22',icon:'📦',name:'Sonstige Einkünfte'},
-    ];
-    const BERUFE = [
-      {id:'baecker',  label:'🥐 Bäcker (Inhaber)',        correct:2, tip:'Gewerbebetrieb – nachhaltige selbständige Tätigkeit mit Gewinnabsicht (§ 15 EStG)'},
-      {id:'arzt',     label:'🩺 Niedergelassener Arzt',   correct:3, tip:'Selbständige Arbeit – freiberuflich, wissenschaftlich-ähnliche Tätigkeit (§ 18 EStG)'},
-      {id:'azubi',    label:'👷 Azubi im Finanzamt',       correct:4, tip:'Nichtselbständige Arbeit – Dienstverhältnis, Weisungsgebunden (§ 19 EStG)'},
-      {id:'aktien',   label:'📈 Aktionär mit Dividenden', correct:5, tip:'Kapitalvermögen – Erträge aus Beteiligungen (§ 20 EStG), Abgeltungsteuer 25 %'},
-      {id:'vermieter',label:'🏠 Wohnungsvermieter',       correct:6, tip:'Vermietung & Verpachtung – Einkünfte aus der Überlassung von Sachen (§ 21 EStG)'},
-      {id:'rentner',  label:'👴 Rentner',                  correct:7, tip:'Sonstige Einkünfte – gesetzliche Rente (§ 22 Nr. 1 EStG), Besteuerungsanteil je nach Rentenbeginn'},
-    ];
-    const answers = tourAnswers['eink'] || {};
-    const allDone = Object.keys(answers).length >= BERUFE.length;
-    const guessCount = tourAnswers['eink_guess'];
-
-    if(!this._shuffled) this._shuffled = [...BERUFE].sort(()=>Math.random()-.5);
-
-    const guessHtml = guessCount===undefined
-      ? `<div style="background:rgba(255,255,255,.05);border-radius:14px;padding:16px;margin-bottom:14px;text-align:center">
-          <div style="font-size:14px;font-weight:900;color:#fff;margin-bottom:12px">Wie viele Einkunftsarten gibt es im deutschen Steuerrecht?</div>
-          <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
-            ${[4,5,6,7,8,10].map(n=>`<button onclick="tourAnswers.eink_guess=${n};renderTourStep(document.getElementById('ga'))" style="padding:10px 18px;border-radius:10px;border:2px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;font-family:'Space Mono',monospace;font-weight:900;font-size:16px;cursor:pointer">${n}</button>`).join('')}
-          </div>
-        </div>`
-      : `<div style="background:${guessCount===7?'rgba(0,201,123,.1)':'rgba(255,77,109,.08)'};border:1px solid ${guessCount===7?'rgba(0,201,123,.3)':'rgba(255,77,109,.25)'};border-radius:12px;padding:10px 14px;margin-bottom:14px;font-size:11px;font-weight:700;color:rgba(255,255,255,.8)">
-          ${guessCount===7?'✅ Genau! Genau 7 Einkunftsarten – §§ 13, 15, 18, 19, 20, 21, 22 EStG.':'❌ Nicht ganz. Es sind genau 7 Einkunftsarten (§§ 13, 15, 18, 19, 20, 21, 22 EStG).'}
+          <div style="font-size:12px;font-weight:800;color:rgba(255,255,255,.8);margin-bottom:8px">${pc.q}</div>
+          ${given===undefined
+            ?`<div style="display:flex;gap:8px">
+                <button onclick="if(!tourAnswers.sp)tourAnswers.sp={};tourAnswers.sp[${i}]='ja';renderTourStep(document.getElementById('ga'))" style="flex:1;padding:10px;border-radius:10px;border:2px solid rgba(0,194,224,.3);background:rgba(0,194,224,.08);color:var(--cyan);font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Ja</button>
+                <button onclick="if(!tourAnswers.sp)tourAnswers.sp={};tourAnswers.sp[${i}]='nein';renderTourStep(document.getElementById('ga'))" style="flex:1;padding:10px;border-radius:10px;border:2px solid rgba(255,77,109,.3);background:rgba(255,77,109,.08);color:#ff4d6d;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Nein</button>
+              </div>`
+            :`<div style="font-size:11px;color:rgba(255,255,255,.7);font-weight:700;line-height:1.65;background:${ok?'rgba(0,201,123,.08)':'rgba(255,77,109,.06)'};border:1px solid ${ok?'rgba(0,201,123,.25)':'rgba(255,77,109,.2)'};border-radius:10px;padding:10px">${ok?pc.richtig:pc.falsch}</div>`}
         </div>`;
+      }).join('')}
+      ${allDone?`
+      <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px;margin-bottom:12px;font-size:11px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.75">
+        <b style="color:var(--cyan)">Unbeschränkt (§ 1 Abs. 1):</b> Wohnsitz/Aufenthalt in DE → Welteinkommen<br>
+        <b style="color:#ff8c42">Beschränkt (§ 1 Abs. 4):</b> Inländische Einkünfte (§ 49) ohne DE-Wohnsitz<br>
+        <b style="color:rgba(255,255,255,.4)">Nur natürliche Personen – GmbH/AG zahlen Körperschaftsteuer (KStG)</b>
+      </div>
+      <button onclick="tourNext()" style="width:100%;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,#3d0a6b,#7b5ea7);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Weiter: Die 7 Einkunftsarten →</button>`
+      :`<div style="text-align:center;padding:10px;font-size:11px;color:rgba(255,255,255,.35);font-family:'Space Mono',monospace;font-weight:700">${Object.keys(answers).length} / ${CASES.length} beantwortet</div>`}`;
+    }
+  },
 
-    const einkSelect = (berufId, current) => EINK.map(e =>
-      `<option value="${e.nr}" ${current==e.nr?'selected':''}>${e.nr}. ${e.name} (${e.para})</option>`
-    ).join('');
+  // ── SCHRITT 4: Einkunftsarten ─────────────────────────────────────
+  {
+    id:'einkunftsarten',
+    render(){
+      const EINK = [
+        {nr:1,para:'§ 13',icon:'🌾',name:'Land- & Forstwirtschaft',kurz:'L+F'},
+        {nr:2,para:'§ 15',icon:'🏭',name:'Gewerbebetrieb',kurz:'Gew.'},
+        {nr:3,para:'§ 18',icon:'⚕️',name:'Selbständige Arbeit',kurz:'Selb.'},
+        {nr:4,para:'§ 19',icon:'💼',name:'Nichtselbständige Arbeit',kurz:'NSA'},
+        {nr:5,para:'§ 20',icon:'💰',name:'Kapitalvermögen',kurz:'Kap.'},
+        {nr:6,para:'§ 21',icon:'🏠',name:'Vermietung & Verpachtung',kurz:'V+V'},
+        {nr:7,para:'§ 22',icon:'📦',name:'Sonstige Einkünfte',kurz:'Sonst.'},
+      ];
+      const BERUFE = [
+        {id:'bk',icon:'🥐',label:'Bäcker (Inhaber)',      correct:2,tip:'Gewerbebetrieb – § 15 Abs. 2 EStG: nachhaltig, Gewinnabsicht, Beteiligung am wirtsch. Verkehr'},
+        {id:'az',icon:'👷',label:'Azubi im Finanzamt',   correct:4,tip:'Nichtselbständige Arbeit – § 19 EStG: Dienstverhältnis, weisungsgebunden, Lohnsteuer'},
+        {id:'ar',icon:'🩺',label:'Niedergelassener Arzt',correct:3,tip:'Selbständige Arbeit – § 18 Abs. 1 Nr. 1 EStG: freiberuflich, heilkundlich. Kein Gewerbe!'},
+        {id:'ak',icon:'📈',label:'Aktionär (Dividenden)',correct:5,tip:'Kapitalvermögen – § 20 EStG: Erträge aus Beteiligungen, Abgeltungsteuer 25 % + SolZ'},
+        {id:'vm',icon:'🏠',label:'Wohnungsvermieter',    correct:6,tip:'Vermietung & Verpachtung – § 21 EStG: Überlassung von Wirtschaftsgütern'},
+        {id:'rn',icon:'👴',label:'Rentner',              correct:7,tip:'Sonstige Einkünfte – § 22 Nr. 1 EStG: gesetzliche Rente, Besteuerungsanteil nach Rentenbeginn'},
+        {id:'bv',icon:'🌾',label:'Bauer (eigene Felder)',correct:1,tip:'Land- & Forstwirtschaft – § 13 EStG: Urproduktion, oft § 13a EStG Pauschalierung'},
+      ];
+      const answers = tourAnswers['eink'] || {};
+      const guessCount = tourAnswers['eink_guess'];
+      const allDone = Object.keys(answers).length >= BERUFE.length;
+      if(!this._shuffled) this._shuffled = [...BERUFE].sort(()=>Math.random()-.5);
+      const selBeruf = tourAnswers['sel_beruf'];
 
-    const berufHtml = guessCount!==undefined ? this._shuffled.map(b => {
-      const sel = answers[b.id];
-      const ok = sel!==undefined && parseInt(sel)===b.correct;
-      const wrong = sel!==undefined && parseInt(sel)!==b.correct;
-      return `<div style="background:rgba(255,255,255,.05);border:1.5px solid ${ok?'rgba(0,201,123,.4)':wrong?'rgba(255,77,109,.35)':'rgba(255,255,255,.1)'};border-radius:12px;padding:12px;margin-bottom:8px">
-        <div style="font-size:13px;font-weight:900;color:#fff;margin-bottom:8px">${b.label}</div>
-        <select onchange="if(!tourAnswers.eink)tourAnswers.eink={};tourAnswers.eink['${b.id}']=this.value;renderTourStep(document.getElementById('ga'))"
-          style="width:100%;padding:8px;border-radius:8px;border:1.5px solid rgba(255,255,255,.2);background:#0d1b3e;color:#fff;font-family:'Nunito',sans-serif;font-weight:700;font-size:12px;cursor:pointer">
-          <option value="">– Einkunftsart wählen –</option>
-          ${einkSelect(b.id, sel)}
-        </select>
-        ${sel!==undefined?`<div style="margin-top:6px;font-size:10px;font-weight:700;color:${ok?'#00c97b':'#ff4d6d'}">${ok?'✅ '+b.tip:'❌ Richtig wäre: '+EINK[b.correct-1].name+' ('+EINK[b.correct-1].para+') – '+b.tip}</div>`:''}
+      if(guessCount===undefined){
+        return `<div style="background:linear-gradient(135deg,#1a0030,#3d0a6b);border-radius:16px;padding:20px;margin-bottom:14px">
+          <div style="font-size:9px;font-family:'Space Mono',monospace;color:#c8a0ff;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">💼 Schritt 4</div>
+          <div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:8px">Wie viele Einkunftsarten kennt das EStG?</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:16px">Das EStG besteuert nur ganz bestimmte Einkommensquellen. Alle anderen sind steuerfrei.</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            ${[3,5,7,10].map(n=>`<button onclick="tourAnswers.eink_guess=${n};renderTourStep(document.getElementById('ga'))" style="padding:16px;border-radius:12px;border:2px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:#fff;font-family:'Space Mono',monospace;font-weight:900;font-size:20px;cursor:pointer">${n}</button>`).join('')}
+          </div>
+        </div>`;
+      }
+
+      const guessOk = guessCount===7;
+      return `
+      <div style="background:rgba(255,255,255,.05);border-radius:12px;padding:12px;margin-bottom:12px">
+        <div style="font-size:13px;font-weight:900;color:${guessOk?'#00c97b':'#ff8c42'};margin-bottom:3px">${guessOk?'✅ Genau – 7 Einkunftsarten!':'Richtig wären 7 Einkunftsarten (§§ 13–22 EStG).'}</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700">Jetzt zuordnen: Tippe einen Beruf, dann die passende Einkunftsart.</div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">
+        ${this._shuffled.map(b=>{
+          const done=answers[b.id]!==undefined; const ok=done&&answers[b.id]===b.correct; const sel=selBeruf===b.id;
+          return `<button onclick="tourAnswers.sel_beruf='${b.id}';renderTourStep(document.getElementById('ga'))" style="padding:7px 10px;border-radius:100px;border:2px solid ${done?(ok?'rgba(0,201,123,.5)':'rgba(255,77,109,.4)'):sel?'var(--cyan)':'rgba(255,255,255,.15)'};background:${done?(ok?'rgba(0,201,123,.1)':'rgba(255,77,109,.08)'):sel?'rgba(0,194,224,.12)':'rgba(255,255,255,.05)'};color:${done?(ok?'#00c97b':'#ff4d6d'):sel?'var(--cyan)':'rgba(255,255,255,.7)'};font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer">${b.icon} ${b.label} ${done?(ok?'✓':'✗'):''}</button>`;
+        }).join('')}
+      </div>
+      ${selBeruf&&!answers[selBeruf]?`
+      <div style="font-size:11px;color:rgba(255,255,255,.6);font-weight:700;margin-bottom:8px">Einkunftsart für <b style="color:#fff">${this._shuffled.find(b=>b.id===selBeruf)?.icon} ${this._shuffled.find(b=>b.id===selBeruf)?.label}</b>:</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">
+        ${EINK.map(e=>`<button onclick="if(!tourAnswers.eink)tourAnswers.eink={};tourAnswers.eink['${selBeruf}']=${e.nr};tourAnswers.sel_beruf=undefined;renderTourStep(document.getElementById('ga'))" style="padding:7px 10px;border-radius:100px;border:2px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:rgba(255,255,255,.7);font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer">${e.icon} ${e.kurz} <span style="font-size:9px;opacity:.6">${e.para}</span></button>`).join('')}
+      </div>`:''}
+      ${allDone?`
+      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px;margin-bottom:12px">
+        <div style="font-size:11px;font-weight:900;color:#ffd94a;margin-bottom:8px">Alle 7 Einkunftsarten · §§ 13–22 EStG</div>
+        ${EINK.map(e=>`<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05)">
+          <span style="font-size:14px">${e.icon}</span><div style="font-size:11px;font-weight:900;color:#fff;flex:1">${e.name}</div>
+          <span style="font-size:9px;color:var(--cyan);font-family:'Space Mono',monospace;font-weight:700">${e.para}</span>
+        </div>`).join('')}
+        <div style="margin-top:8px;font-size:10px;color:rgba(255,255,255,.4);font-weight:700">Nr. 1–3 = Gewinneinkunftsarten (§ 4/5 EStG). Nr. 4–7 = Überschusseinkunftsarten (Einnahmen ./. WK).</div>
+        ${this._shuffled.filter(b=>answers[b.id]!==b.correct).map(b=>`<div style="margin-top:6px;font-size:10px;color:rgba(255,140,66,.8);font-weight:700">${b.icon} ${b.label}: ${b.tip}</div>`).join('')}
+      </div>
+      <button onclick="tourNext()" style="width:100%;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,#005c36,#00c97b);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Fertig! Zusammenfassung →</button>`
+      :`<div style="text-align:center;font-size:11px;color:rgba(255,255,255,.35);font-family:'Space Mono',monospace;font-weight:700">${Object.keys(answers).length} / ${BERUFE.length} zugeordnet</div>`}`;
+    }
+  },
+
+  // ── SCHRITT 5: Abschluss ──────────────────────────────────────────
+  {
+    id:'abschluss',
+    render(){
+      return `<div style="text-align:center;padding:24px 10px">
+        <div style="font-size:60px;margin-bottom:14px">🎉</div>
+        <div style="font-size:22px;font-weight:900;color:#fff;margin-bottom:8px">Tour abgeschlossen!</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.65;margin-bottom:28px">Du kennst jetzt die Grundlagen: wo Steuern drinstecken, was dem Staat am meisten einbringt, wer steuerpflichtig ist und welche Einkunftsart zu welchem Beruf passt.</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <button onclick="renderBasicsEinsteiger(document.getElementById('ga'))" style="width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:15px;cursor:pointer">← Zur Übersicht</button>
+          <button onclick="sw('est')" style="width:100%;padding:14px;border-radius:14px;border:1.5px solid rgba(255,255,255,.2);background:transparent;color:rgba(255,255,255,.7);font-family:'Nunito',sans-serif;font-weight:900;font-size:15px;cursor:pointer">ESt-Quiz starten →</button>
+        </div>
       </div>`;
-    }).join('') : '';
-
-    return `
-    <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:16px;margin-bottom:14px">
-      <div style="font-size:10px;font-family:'Space Mono',monospace;color:#ffd94a;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">💼 Schritt 4 – Die 7 Einkunftsarten</div>
-      <div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:4px">Woher kommt das Geld – und wie wird es besteuert?</div>
-      <div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:700;margin-bottom:14px">Das EStG kennt exakt 7 Quellen. Alles was nicht auftaucht: steuerfrei.</div>
-      ${guessHtml}
-      ${berufHtml}
-    </div>
-    ${allDone
-      ?`<div style="background:rgba(255,217,74,.08);border:1px solid rgba(255,217,74,.2);border-radius:12px;padding:12px;margin-bottom:12px;font-size:10px;color:rgba(255,255,255,.65);font-weight:700;line-height:1.7">
-          🔑 <b style="color:#ffd94a">Merksatz:</b> §§ 13–15 = Gewinneinkunftsarten (Betriebsvermögensvergleich/Einnahmenüberschuss). §§ 19–22 = Überschusseinkunftsarten (Einnahmen ./. Werbungskosten). Der Unterschied liegt in der Gewinnermittlung.
-        </div>
-        <button onclick="tourNext()" style="width:100%;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,#8a4000,#ff8c42);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Weiter: Umsatzsteuer →</button>`
-      :''
-    }`;
-  }
-},
-
-// ══ SCHRITT 5: USt – 7 oder 19 %? ════════════════════════════════════
-{
-  id:'ust_quiz',
-  render(){
-    const ITEMS = [
-      {icon:'🥐',label:'Bäckerei-Brötchen (Supermarkt)',     correct:'7',  explain:'7 % – Lebensmittel, Anlage 2 UStG (Nr. 1 Nahrungsmittel)'},
-      {icon:'💻',label:'Laptop im Media Markt',              correct:'19', explain:'19 % – Regelsteuersatz § 12 Abs. 1 UStG, keine Ausnahme'},
-      {icon:'🍕',label:'Pizza im Restaurant (ab 2026)',       correct:'7',  explain:'7 % ab 2026 – Steueränderungsgesetz 2025 setzt Gastronomie dauerhaft auf 7 %'},
-      {icon:'📰',label:'Tageszeitung gedruckt',              correct:'7',  explain:'7 % – Anlage 2 UStG Nr. 49: Bücher und Zeitungen'},
-      {icon:'☕',label:'Kaffeebohnen (500g)',                 correct:'19', explain:'19 % – Ausdrücklich NICHT in Anlage 2 UStG. Kaffeebohnen trotz Lebensmittel 19 %! Prüfungsfalle.'},
-      {icon:'🚌',label:'Busticket',                          correct:'7',  explain:'7 % – § 12 Abs. 2 Nr. 10 UStG: Personenbeförderung im Nahverkehr'},
-      {icon:'🏨',label:'Hotelübernachtung',                  correct:'7',  explain:'7 % – § 12 Abs. 2 Nr. 11 UStG: Beherbergungsleistungen. Achtung: Frühstück separat 19 %!'},
-    ];
-    const answers = tourAnswers['ust'] || {};
-    const allDone = Object.keys(answers).length >= ITEMS.length;
-
-    const itemsHtml = ITEMS.map((it,i) => {
-      const sel = answers[i];
-      const ok = sel === it.correct;
-      return `<div style="background:rgba(255,255,255,.05);border:1.5px solid ${sel===undefined?'rgba(255,255,255,.1)':ok?'rgba(0,201,123,.4)':'rgba(255,77,109,.35)'};border-radius:12px;padding:12px;margin-bottom:8px">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-          <span style="font-size:22px">${it.icon}</span>
-          <span style="font-size:12px;font-weight:900;color:#fff;flex:1">${it.label}</span>
-          ${sel!==undefined?`<span>${ok?'✅':'❌'}</span>`:''}
-        </div>
-        <div style="display:flex;gap:8px">
-          <button onclick="if(!tourAnswers.ust)tourAnswers.ust={};tourAnswers.ust[${i}]='7';renderTourStep(document.getElementById('ga'))" style="flex:1;padding:8px;border-radius:9px;border:2px solid ${sel==='7'?(ok?'rgba(0,201,123,.6)':'rgba(255,77,109,.6)'):'rgba(255,255,255,.15)'};background:${sel==='7'?(ok?'rgba(0,201,123,.12)':'rgba(255,77,109,.1)'):'rgba(255,255,255,.05)'};color:${sel==='7'?(ok?'#00c97b':'#ff4d6d'):'rgba(255,255,255,.6)'};font-family:'Space Mono',monospace;font-weight:900;font-size:13px;cursor:pointer">7 %</button>
-          <button onclick="if(!tourAnswers.ust)tourAnswers.ust={};tourAnswers.ust[${i}]='19';renderTourStep(document.getElementById('ga'))" style="flex:1;padding:8px;border-radius:9px;border:2px solid ${sel==='19'?(ok?'rgba(0,201,123,.6)':'rgba(255,77,109,.6)'):'rgba(255,255,255,.15)'};background:${sel==='19'?(ok?'rgba(0,201,123,.12)':'rgba(255,77,109,.1)'):'rgba(255,255,255,.05)'};color:${sel==='19'?(ok?'#00c97b':'#ff4d6d'):'rgba(255,255,255,.6)'};font-family:'Space Mono',monospace;font-weight:900;font-size:13px;cursor:pointer">19 %</button>
-        </div>
-        ${sel!==undefined?`<div style="margin-top:6px;font-size:10px;font-weight:700;color:${ok?'#00c97b':'rgba(255,255,255,.55)'}">${it.explain}</div>`:''}
-      </div>`;
-    }).join('');
-
-    const correct = Object.entries(answers).filter(([i,v])=>v===ITEMS[i].correct).length;
-
-    return `
-    <div style="background:linear-gradient(135deg,rgba(0,60,30,.6),rgba(0,100,50,.3));border:1.5px solid rgba(0,201,123,.2);border-radius:18px;padding:16px;margin-bottom:14px">
-      <div style="font-size:10px;font-family:'Space Mono',monospace;color:#00c97b;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">🛒 Schritt 5 – 7 oder 19 %?</div>
-      <div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:4px">Umsatzsteuer – rate den Satz!</div>
-      <div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:700;margin-bottom:14px">§ 12 Abs. 1 UStG: 19 % Regelsteuersatz. § 12 Abs. 2 UStG: 7 % für Ausnahmen.</div>
-      ${itemsHtml}
-    </div>
-    ${allDone
-      ?`<div style="background:rgba(255,255,255,.05);border-radius:12px;padding:12px;margin-bottom:12px;text-align:center">
-          <div style="font-size:22px;font-weight:900;color:${correct>=6?'#00c97b':correct>=4?'var(--cyan)':'#ff8c42'};font-family:'Space Mono',monospace">${correct} / ${ITEMS.length}</div>
-          <div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:700;margin-top:4px">${correct>=6?'Sehr gut! Die Anlage 2 UStG sitzt.':correct>=4?'Gut – Kaffeebohnen überraschen viele!':'Kein Problem – das übt man mit dem Quiz.'}</div>
-        </div>
-        <button onclick="tourNext()" style="width:100%;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,#005c36,#00c97b);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">🎉 Tour abschließen →</button>`
-      :''
-    }`;
-  }
-},
-
+    }
+  },
 ];
-;
 
 // ══════════════════════════════════════════════════════════════════
 // ABSETZ Overlay
 // ══════════════════════════════════════════════════════════════════
+
+
+
