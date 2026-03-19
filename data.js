@@ -2909,6 +2909,26 @@ function renderBasicsEinsteiger(a){
   </div>
 </div>
 
+<!-- SCHEMATISCHER GEHALTSRECHNER -->
+<div style="margin-bottom:16px">
+  <div style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.3);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">💶 Was bleibt vom Gehalt übrig?</div>
+  <div style="background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.1);border-radius:16px;padding:14px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+      <div style="font-size:12px;font-weight:900;color:#fff">Bruttogehalt:</div>
+      <div style="font-size:16px;font-weight:900;color:var(--cyan);font-family:'Space Mono',monospace" id="gr-brutto-lbl">3.000 €</div>
+    </div>
+    <input type="range" min="1000" max="8000" step="100" value="3000" oninput="grUpdate(this.value)"
+      style="width:100%;margin-bottom:14px;accent-color:var(--cyan)">
+    <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px" id="gr-bars">
+    </div>
+    <div style="background:rgba(0,201,123,.08);border:1.5px solid rgba(0,201,123,.3);border-radius:10px;padding:10px;display:flex;align-items:center;justify-content:space-between">
+      <div style="font-size:12px;font-weight:900;color:#fff">≈ Netto</div>
+      <div style="font-size:20px;font-weight:900;color:#00c97b;font-family:'Space Mono',monospace" id="gr-netto-lbl">—</div>
+    </div>
+    <div style="margin-top:8px;font-size:9px;font-weight:700;color:rgba(255,255,255,.25);line-height:1.6">⚠️ Schematische Darstellung · Steuerklasse I · ledig · keine Kinder · kein Kirchenmitglied · keine Freibeträge. Tatsächliches Netto kann abweichen.</div>
+  </div>
+</div>
+
 <!-- ARBEIT IM FINANZAMT -->
 <div style="background:linear-gradient(135deg,#060f22,#0a2a60 60%,#0d3a20);border:1.5px solid rgba(0,194,224,.2);border-radius:18px;padding:18px;margin-bottom:16px">
   <div style="font-size:10px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">🏛️ Arbeit im Finanzamt – nicht was du denkst</div>
@@ -3084,6 +3104,7 @@ function renderBasicsEinsteiger(a){
 </div>`;
 
   setTimeout(()=>{ if(typeof renderAufkGame==='function') renderAufkGame(); }, 120);
+  setTimeout(()=>{ if(document.getElementById('gr-bars')) grUpdate(3000); }, 50);
 }
 
 function startTaxAnimations(){
@@ -4392,9 +4413,36 @@ function renderEstEinkunft(a, tabs){
   if(idx>=sh_ein.length){a.innerHTML='';renderResult2('ga','💼 Einkommensteuer',sh_ein.length);return;}
   const q=sh_ein[idx];
   const catsHtml=D_EINKATS.map(c=>`<button class="choice-btn" onclick="ansEinkunft(${c.id})" data-i="${c.id}" style="text-align:left"><span class="ct">${c.icon} ${c.name}<br><span style="font-size:9px;font-family:'Space Mono',monospace;opacity:.6">${c.sub}</span></span></button>`).join('');
+  const spickzettel=`
+  <div style="margin-bottom:10px">
+    <button onclick="const b=document.getElementById('szk');const ch=document.getElementById('szk-ch');const open=b.style.display!=='none';b.style.display=open?'none':'block';ch.style.transform=open?'':'rotate(180deg)'" style="display:flex;align-items:center;gap:7px;width:100%;padding:8px 11px;border-radius:9px;border:1px solid rgba(255,217,74,.25);background:rgba(255,217,74,.06);cursor:pointer;font-family:'Nunito',sans-serif">
+      <span style="font-size:12px">💡</span>
+      <span style="font-size:11px;font-weight:900;color:rgba(255,217,74,.85);flex:1">Spickzettel – die 7 Einkunftsarten</span>
+      <span id="szk-ch" style="font-size:10px;color:rgba(255,217,74,.6);transition:transform .2s">▼</span>
+    </button>
+    <div id="szk" style="display:none;margin-top:6px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:10px;display:none">
+      ${[
+        {id:0,icon:'🌾',name:'Land- & Forstwirtschaft',beispiel:'Bauer, Förster'},
+        {id:1,icon:'👔',name:'Nicht-selbständige Arbeit',beispiel:'Angestellter, Beamter'},
+        {id:2,icon:'🏭',name:'Gewerbebetrieb',beispiel:'Händler, GmbH-Inhaber'},
+        {id:3,icon:'🖊️',name:'Selbständige Arbeit',beispiel:'Arzt, Anwalt, Künstler'},
+        {id:4,icon:'📊',name:'Kapitalvermögen',beispiel:'Zinsen, Dividenden, Aktiengewinn'},
+        {id:5,icon:'🏠',name:'Vermietung & Verpachtung',beispiel:'Vermieter, Grundstücksverpächter'},
+        {id:6,icon:'🔖',name:'Sonstige Einkünfte',beispiel:'Rente, Unterhalt, Krypto'},
+      ].map(c=>`<div style="display:flex;align-items:baseline;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05)">
+        <span style="font-size:16px;flex-shrink:0">${c.icon}</span>
+        <div>
+          <span style="font-size:11px;font-weight:900;color:#fff">${c.name}</span>
+          <span style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700;margin-left:6px">z.B. ${c.beispiel}</span>
+        </div>
+      </div>`).join('')}
+      <div style="margin-top:6px;padding:6px 8px;background:rgba(0,201,123,.07);border-radius:7px;font-size:10px;font-weight:700;color:rgba(0,201,123,.8)">🎉 Steuerfrei: Lottogewinn, Erbschaft bis Freibetrag, Stipendium – kein Einkommen i.S.d. § 2 EStG</div>
+    </div>
+  </div>`;
   a.innerHTML=`${tabs}${quizFilterBar()}${_quizProgress(sh_ein,idx)}
     <div class="item-card"><span class="ii">${q.icon}</span><div><div class="in">${q.name}</div><div class="is">${q.sub}</div></div></div>
     <div style="font-size:11px;color:#777;font-weight:700;margin-bottom:8px;font-family:'Space Mono',monospace">Welche Einkunftsart? Ordne zu:</div>
+    ${spickzettel}
     <div class="ao-grid">${catsHtml}</div>
     <div class="fb" id="fb"></div>
     <button class="next-btn" id="nb" onclick="nextQ()">Nächste Frage ➜</button>`;
@@ -5424,6 +5472,56 @@ function toggleCLgd(item){
   const cnt=document.getElementById('cl-count-gd');
   if(prog)prog.style.width=Math.round(done/items.length*100)+'%';
   if(cnt)cnt.textContent=done+' / '+items.length+' erledigt';
+}
+
+// ==================== SCHEMATISCHER GEHALTSRECHNER ====================
+function grUpdate(brutto){
+  brutto=parseInt(brutto);
+  document.getElementById('gr-brutto-lbl').textContent=brutto.toLocaleString('de-DE')+' €';
+  // Schematic approximations (Steuerklasse I, 2026)
+  const rv=Math.round(brutto*0.093);      // Rentenversicherung 9,3%
+  const kv=Math.round(brutto*0.073);      // Krankenversicherung ~7,3%
+  const av=Math.round(brutto*0.013);      // Arbeitslosenversicherung 1,3%
+  const pv=Math.round(brutto*0.018);      // Pflegeversicherung ~1,8%
+  const sv=rv+kv+av+pv;
+  // Schematic LSt: progressive approximation
+  const jb=brutto*12;
+  let lst=0;
+  if(jb>11784){
+    if(jb<=17005)lst=Math.round((0.14+(jb-11784)*0.000009766)*( jb-11784)/12);
+    else if(jb<=66760)lst=Math.round((0.2397+(jb-17005)*0.0000039667)*(jb-17005)/12+880/12);
+    else if(jb<=277826)lst=Math.round((0.42*(jb-66760)+17543)/12);
+    else lst=Math.round((0.45*(jb-277826)+106112)/12);
+    lst=Math.max(0,Math.round(lst));
+  }
+  const soli=lst>18130/12?Math.round(lst*0.055):0;
+  const netto=Math.max(0,brutto-sv-lst-soli);
+  const total=sv+lst+soli;
+
+  const bars=[
+    {label:'Rentenversicherung',val:rv,color:'#c8a0ff',pct:rv/brutto},
+    {label:'Krankenversicherung',val:kv,color:'#7eb8ff',pct:kv/brutto},
+    {label:'Pflege- & Arbeitslosenvers.',val:av+pv,color:'#60d0e4',pct:(av+pv)/brutto},
+    {label:'Lohnsteuer (ca.)',val:lst,color:'#ff8c42',pct:lst/brutto},
+    ...(soli>0?[{label:'Solidaritätszuschlag',val:soli,color:'#ff4d6d',pct:soli/brutto}]:[]),
+    {label:'Netto (ca.)',val:netto,color:'#00c97b',pct:netto/brutto,highlight:true},
+  ];
+
+  document.getElementById('gr-bars').innerHTML=bars.map(b=>`
+    <div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+        <div style="font-size:10px;font-weight:700;color:${b.highlight?'#00c97b':'rgba(255,255,255,.55)'}">
+          ${b.highlight?'<b>':''}${b.label}${b.highlight?'</b>':''}
+        </div>
+        <div style="font-size:10px;font-weight:900;color:${b.color};font-family:'Space Mono',monospace">
+          −${b.val.toLocaleString('de-DE')} €
+        </div>
+      </div>
+      <div style="height:${b.highlight?8:5}px;background:rgba(255,255,255,.08);border-radius:100px;overflow:hidden">
+        <div style="height:100%;width:${Math.round(b.pct*100)}%;background:${b.color};border-radius:100px;transition:width .4s ease"></div>
+      </div>
+    </div>`).join('');
+  document.getElementById('gr-netto-lbl').textContent='≈ '+netto.toLocaleString('de-DE')+' €';
 }
 
 function showBweg(which){

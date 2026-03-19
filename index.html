@@ -75,35 +75,37 @@
   </div>
 
   <div class="mode-tabs" id="tour-tabs">
-    <span class="tab-group-label">Einstieg</span>
+    <!-- HAUPTNAVIGATION: kompakt, 2 Gruppen -->
     <button class="mode-tab active" onclick="sw('basics')" id="tab-basics"><span class="ti">📚</span>Basics</button>
+    <button class="mode-tab" onclick="sw('karriere')" id="tab-karriere"><span class="ti">🎓</span>Karriere</button>
+
+    <span class="tab-sep"></span>
+    <span class="tab-group-label">Quiz</span>
     <button class="mode-tab" onclick="sw('est')" id="tab-est"><span class="ti">💼</span>ESt</button>
     <button class="mode-tab" onclick="sw('ust')" id="tab-ust"><span class="ti">🛒</span>USt</button>
-    <button class="mode-tab" onclick="sw('kurios')" id="tab-kurios"><span class="ti">🤯</span>Kurioses</button>
-    <button class="mode-tab" onclick="sw('story')" id="tab-story"><span class="ti">📖</span>Stories</button>
-    <button class="mode-tab" onclick="sw('karriere')" id="tab-karriere"><span class="ti">🎓</span>Karriere</button>
-    <button class="mode-tab" onclick="sw('trainer')" id="tab-trainer"><span class="ti">🧪</span>Testtrainer</button>
-    <button class="mode-tab" onclick="sw('ao_basics')" id="tab-ao_basics" style="display:none"><span class="ti">⚖️</span>AO Basics</button>
-    <button class="mode-tab" onclick="sw('recht_basics')" id="tab-recht_basics" style="display:none"><span class="ti">🏛️</span>Recht Basics</button>
-    <button class="mode-tab" onclick="sw('ust_basics')" id="tab-ust_basics" style="display:none"><span class="ti">🛒</span>USt Basics</button>
-    <button class="mode-tab" onclick="sw('bilanz_basics')" id="tab-bilanz_basics" style="display:none"><span class="ti">📋</span>Bilanz Basics</button>
-    <button class="mode-tab" onclick="sw('est_basics')" id="tab-est_basics" style="display:none"><span class="ti">💼</span>ESt Basics</button>
-
-    <span class="tab-sep" id="tab-sep-vertiefung"></span>
-    <span class="tab-group-label" id="tgl-vertiefung">Vertiefung</span>
     <button class="mode-tab" onclick="sw('ao')" id="tab-ao"><span class="ti">⚖️</span>AO</button>
     <button class="mode-tab" onclick="sw('bilanz')" id="tab-bilanz"><span class="ti">📋</span>Bilanz</button>
     <button class="mode-tab" onclick="sw('recht')" id="tab-recht"><span class="ti">🏛️</span>Recht</button>
-    <button class="mode-tab" onclick="sw('gewst')" id="tab-gewst"><span class="ti">🏭</span>GewSt</button>
-    <button class="mode-tab" onclick="sw('gesellschaft')" id="tab-gesellschaft"><span class="ti">🏢</span>Gesellschaft</button>
 
     <span class="tab-sep"></span>
-    <span class="tab-group-label">Tools</span>
+    <span class="tab-group-label">Mehr</span>
+    <button class="mode-tab" onclick="sw('story')" id="tab-story"><span class="ti">📖</span>Stories</button>
+    <button class="mode-tab" onclick="sw('kurios')" id="tab-kurios"><span class="ti">🤯</span>Kurioses</button>
     <button class="mode-tab" onclick="sw('speed')" id="tab-speed"><span class="ti">⚡</span>Speed</button>
     <button class="mode-tab" onclick="sw('flashcard')" id="tab-flashcard"><span class="ti">🃏</span>Karten</button>
     <button class="mode-tab" onclick="sw('glossar')" id="tab-glossar"><span class="ti">📖</span>Glossar</button>
     <button class="mode-tab" onclick="sw('meinbereich')" id="tab-meinbereich"><span class="ti">⭐</span>Ich</button>
     <button class="mode-tab" onclick="swEinfuehrung()" id="tab-einfuehrung" title="Dozenten-Bereich – Passwort erforderlich"><span class="ti">🔒</span>E-Tag</button>
+
+    <!-- Versteckte Tabs (per Code aktiviert) -->
+    <button class="mode-tab" onclick="sw('gewst')" id="tab-gewst" style="display:none"><span class="ti">🏭</span>GewSt</button>
+    <button class="mode-tab" onclick="sw('gesellschaft')" id="tab-gesellschaft" style="display:none"><span class="ti">🏢</span>Gesellschaft</button>
+    <button class="mode-tab" onclick="sw('trainer')" id="tab-trainer" style="display:none"><span class="ti">🧪</span>Testtrainer</button>
+    <button class="mode-tab" onclick="sw('ao_basics')" id="tab-ao_basics" style="display:none"><span class="ti">⚖️</span>AO Basics</button>
+    <button class="mode-tab" onclick="sw('recht_basics')" id="tab-recht_basics" style="display:none"><span class="ti">🏛️</span>Recht Basics</button>
+    <button class="mode-tab" onclick="sw('ust_basics')" id="tab-ust_basics" style="display:none"><span class="ti">🛒</span>USt Basics</button>
+    <button class="mode-tab" onclick="sw('bilanz_basics')" id="tab-bilanz_basics" style="display:none"><span class="ti">📋</span>Bilanz Basics</button>
+    <button class="mode-tab" onclick="sw('est_basics')" id="tab-est_basics" style="display:none"><span class="ti">💼</span>ESt Basics</button>
   </div>
   <!-- Level switch banner -->
   <div id="level-banner" style="display:none;align-items:center;justify-content:space-between;border-radius:12px;padding:9px 14px;margin-bottom:10px;gap:10px">
@@ -133,15 +135,24 @@
   </div>
   <select class="mode-select" id="mobileSelect" onchange="sw(this.value)" style="display:none">
     <option value="basics">📚 Basics</option>
-    <option value="est">💼 Einkommensteuer</option>
-    <option value="ust">🛒 Umsatzsteuer</option>
-    <option value="bilanz">📋 Bilanz</option>
-    <option value="ao">⚖️ Abgabenordnung</option>
-    <option value="kurios">🤯 Kurioses</option>
-    <option value="recht">🏛️ Privat- & Öff. Recht</option>
     <option value="karriere">🎓 Karriere</option>
-    <option value="trainer">🧪 Einstellungstest-Trainer</option>
-    <option value="glossar">📖 Glossar</option>
+    <optgroup label="Quiz">
+      <option value="est">💼 Einkommensteuer</option>
+      <option value="ust">🛒 Umsatzsteuer</option>
+      <option value="ao">⚖️ Abgabenordnung</option>
+      <option value="bilanz">📋 Bilanz</option>
+      <option value="recht">🏛️ Privat- &amp; Öff. Recht</option>
+      <option value="gewst">🏭 Gewerbesteuer</option>
+      <option value="gesellschaft">🏢 Gesellschaftsbesteuerung</option>
+    </optgroup>
+    <optgroup label="Mehr">
+      <option value="story">📖 Stories</option>
+      <option value="kurios">🤯 Kurioses</option>
+      <option value="speed">⚡ Speed-Quiz</option>
+      <option value="flashcard">🃏 Lernkarten</option>
+      <option value="glossar">📖 Glossar</option>
+      <option value="meinbereich">⭐ Mein Bereich</option>
+    </optgroup>
   </select>
 
   <div id="einst-back-bar" style="display:none;margin-bottom:8px">
