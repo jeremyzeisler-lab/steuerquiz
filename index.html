@@ -591,6 +591,31 @@
   </div>
 </div>
 
+<!-- ===== §TEVE PANEL ===== -->
+<button id="steve-btn" onclick="steveToggle()" title="§teve – dein Steuer-Assistent" aria-label="§teve öffnen">
+  <span class="steve-btn-icon">§</span>
+  <span class="steve-btn-label">§teve</span>
+</button>
+
+<div id="steve-panel" style="display:none">
+  <div class="steve-header">
+    <div class="steve-avatar">§</div>
+    <div class="steve-header-text">
+      <div class="steve-name">§teve</div>
+      <div class="steve-sub">Dein Steuer-Assistent · immer dabei</div>
+    </div>
+    <button class="steve-clear" onclick="steveClear()" title="Gespräch zurücksetzen">↺</button>
+    <button class="steve-close" onclick="steveToggle()">✕</button>
+  </div>
+  <div id="steve-msgs" class="steve-msgs"></div>
+  <div id="steve-chips" class="steve-chips"></div>
+  <div class="steve-input-row">
+    <input id="steve-input" class="steve-input" type="text" placeholder="Frag §teve…"
+      onkeydown="if(event.key==='Enter')steveSend()">
+    <button class="steve-send" onclick="steveSend()">➤</button>
+  </div>
+</div>
+
 <script src="data.js"></script>
 <script src="app.js"></script>
 </body>

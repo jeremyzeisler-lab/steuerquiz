@@ -2724,6 +2724,8 @@ function render(){
   else if(mode==='einfuehrung')renderEinfuehrung(a);
   else if(mode==='trainer'){trainerMode='home';trainerCat=null;renderTrainer(a);}
   else renderKarriere(a);
+  // §teve context update
+  if(typeof steveOnSwitch==='function') steveOnSwitch(mode);
 }
 
 // ==================== EINSTEIGER SYSTEM ====================
@@ -3912,7 +3914,7 @@ function renderKarriere(a){
       <div class="u-row-gap"><div style="border:1.5px solid #00c97b;color:#00c97b;border-radius:6px;padding:2px 7px;font-size:9px;font-weight:900;font-family:'Space Mono',monospace;flex-shrink:0;white-space:nowrap;margin-top:2px">Praxis I</div><div class="u-body-white">Erste Praxisphase am Finanzamt – UNIFA-Software, ESt- und USt-Sachgebiete, Ausbildungsarbeitsgemeinschaften (AbAg). <span class="u-yellow">✍️ Diplomarbeit (Hausarbeit) wird in dieser Praxisphase nach dem 3. Semester geschrieben.</span></div></div>
       <div class="u-row-gap"><div style="border:1.5px solid var(--cyan);color:var(--cyan);border-radius:6px;padding:2px 7px;font-size:9px;font-weight:900;font-family:'Space Mono',monospace;flex-shrink:0;white-space:nowrap;margin-top:2px">Sem. 4</div><div class="u-body-white">Hauptstudium (FHF) – Vertiefung ESt, Körperschaftsteuer, internationale Bezüge, Verfahrensrecht, Spezialgebiete.</div></div>
       <div class="u-row-gap"><div style="border:1.5px solid #00c97b;color:#00c97b;border-radius:6px;padding:2px 7px;font-size:9px;font-weight:900;font-family:'Space Mono',monospace;flex-shrink:0;white-space:nowrap;margin-top:2px">Praxis II</div><div class="u-body-white">Zweite Praxisphase – verschiedene Sachgebiete, zunehmend eigenständige Fallbearbeitung, Betriebsprüfung, Vollstreckung u.a. Spezialbereiche.</div></div>
-      <div class="u-row-gap"><div style="border:1.5px solid var(--yellow);color:var(--yellow);border-radius:6px;padding:2px 7px;font-size:9px;font-weight:900;font-family:'Space Mono',monospace;flex-shrink:0;white-space:nowrap;margin-top:2px">Sem. 5–6</div><div class="u-body-white">Hauptstudium Abschluss (FHF) + <b class="u-yellow">Laufbahnprüfung:</b> Mehrere Klausuren à 5 Std. + mündliche Prüfung → Abschluss als <b>Diplom-Finanzwirt/in (FH)</b> ✓</div></div>
+      <div class="u-row-gap"><div style="border:1.5px solid var(--yellow);color:var(--yellow);border-radius:6px;padding:2px 7px;font-size:9px;font-weight:900;font-family:'Space Mono',monospace;flex-shrink:0;white-space:nowrap;margin-top:2px">Sem. 5–6</div><div class="u-body-white">Hauptstudium Abschluss (FHF) + <b class="u-yellow">Laufbahnprüfung:</b> <b>5 Klausuren à 5 Std.</b> + mündliche Prüfung (1× wiederholbar) → Abschluss als <b>Diplom-Finanzwirt/in (FH)</b> ✓</div></div>
     </div>
     <div style="margin-top:10px;padding:9px;background:rgba(255,217,74,.07);border-radius:8px;border-left:3px solid rgba(255,217,74,.3);font-size:11px;color:rgba(255,217,74,.9);font-weight:700;line-height:1.55">💡 Die <b>Diplomarbeit</b> ist eine schriftliche Hausarbeit, die du in der ersten Praxisphase nach dem 3. Semester anfertigst – kein klassisches Hochschul-Abschlussthema, sondern ein praxisnaher Fall aus dem Finanzamtsalltag.</div>
     <div style="margin-top:8px;padding:9px;background:rgba(0,194,224,.08);border-radius:8px;border-left:3px solid rgba(0,194,224,.4);font-size:11px;color:rgba(0,194,224,.9);font-weight:700">🎓 Keine Studiengebühren · Volle Anwärterbezüge ab Tag 1 · FHF Königs Wusterhausen (BB, Berlin, Sachsen-Anhalt gemeinsam)</div>
@@ -3938,8 +3940,9 @@ function renderKarriere(a){
 <div style="margin-bottom:16px">
   <div class="u-row-12"><div class="u-col-center-shrink"><div style="width:32px;height:32px;border-radius:50%;background:var(--yellow);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:var(--navy)">1</div><div class="u-tl-line"></div></div><div class="u-pad-bottom"><div class="u-label-white u-mb-xs">📝 Bewerbung einreichen</div><div class="u-caption u-mb-xs">Online-Bewerbung · Berlin: Senatsportal · Brandenburg: fhf.brandenburg.de</div><span class="u-badge-ghost">Brandenburg: Aug–Dez des Vorjahres</span></div></div>
   <div class="u-row-12"><div class="u-col-center-shrink"><div style="width:32px;height:32px;border-radius:50%;background:var(--cyan);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:var(--navy)">2</div><div class="u-tl-line"></div></div><div class="u-pad-bottom"><div class="u-label-white u-mb-xs">🏆 Auswahltest &amp; Gespräch</div><div class="u-caption u-mb-xs">Schriftl. Test (Deutsch, Logik, Allgemeinwissen) + mündl. Gespräch. Kein komplexes Mathe!</div><span class="u-badge-ghost">Test + Gespräch</span></div></div>
-  <div class="u-row-12"><div class="u-col-center-shrink"><div style="width:32px;height:32px;border-radius:50%;background:#c8a0ff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:var(--navy)">3</div><div class="u-tl-line"></div></div><div class="u-pad-bottom"><div class="u-label-white u-mb-xs">🏫 Ausbildung / Studium</div><div class="u-caption u-mb-xs">Mittlerer Dienst: 2 J. (15. Aug) · Gehobener Dienst: 3 J. (1. Sept) · Volle Bezüge, keine Studiengebühren</div><span class="u-badge-ghost">Bezahlte Ausbildung · keine Studiengebühren</span></div></div>
-  <div class="u-row-12"><div class="u-col-center-shrink"><div style="width:32px;height:32px;border-radius:50%;background:#ff8c42;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#fff">4</div><div class="u-tl-line"></div></div><div class="u-pad-bottom"><div class="u-label-white u-mb-xs">📋 Laufbahnprüfung</div><div class="u-caption u-mb-xs">MD: 5 Klausuren à 3 Std. · GD: 5 Klausuren à 5 Std. + Diplomarbeit · Bei Bestehen: Diplom-FW/in (FH)</div><span class="u-badge-ghost">Diplom-Finanzwirt/in (FH)</span></div></div>
+  <div class="u-row-12"><div class="u-col-center-shrink"><div style="width:32px;height:32px;border-radius:50%;background:#c8a0ff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:var(--navy)">3</div><div class="u-tl-line"></div></div><div class="u-pad-bottom"><div class="u-label-white u-mb-xs">🏫 Ausbildung / Studium (Start)</div><div class="u-caption u-mb-xs">MD: 15. Aug · GD: 1. Sept · Volle Bezüge ab Tag 1, keine Studiengebühren · Ernennungsurkunde als Beamter/in auf Widerruf</div><span class="u-badge-ghost">Bezahlte Ausbildung</span></div></div>
+  <div class="u-row-12"><div class="u-col-center-shrink"><div style="width:32px;height:32px;border-radius:50%;background:#ff4d6d;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#fff">⚠️</div><div class="u-tl-line"></div></div><div class="u-pad-bottom"><div class="u-label-white u-mb-xs">📋 Zwischenprüfung <span style="font-size:9px;color:rgba(255,77,109,.8);font-weight:900">(nur GD)</span></div><div class="u-caption u-mb-xs">Nach Semester 1 · 5 Klausuren à 3 Std. · Entscheidet über Fortsetzung des Studiums · <b style="color:rgba(255,255,255,.75)">1× wiederholbar</b></div><span class="u-badge-ghost" style="border-color:rgba(255,77,109,.3);color:#ff8099">Nicht bestanden = Ende</span></div></div>
+  <div class="u-row-12"><div class="u-col-center-shrink"><div style="width:32px;height:32px;border-radius:50%;background:#ff8c42;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#fff">4</div><div class="u-tl-line"></div></div><div class="u-pad-bottom"><div class="u-label-white u-mb-xs">📋 Laufbahnprüfung</div><div class="u-caption u-mb-xs">MD: 5 Klausuren à 3 Std. am Ende der 2-jährigen Ausbildung · GD: 5 Klausuren à 5 Std. + Diplomarbeit am Ende von Sem. 5–6 · 1× wiederholbar</div><span class="u-badge-ghost">Diplom-Finanzwirt/in (FH)</span></div></div>
   <div class="u-row-12"><div class="u-col-center-shrink"><div style="width:32px;height:32px;border-radius:50%;background:#00c97b;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#fff">5</div><div class="u-tl-line"></div></div><div class="u-pad-bottom"><div class="u-label-white u-mb-xs">🏛️ Beamter auf Probe</div><div class="u-caption u-mb-xs">Ca. 2–3 Jahre im Finanzamt – ESt, USt, Betriebsprüfung oder Vollstreckung</div><span class="u-badge-ghost">Probezeit ca. 2–3 Jahre</span></div></div>
   <div class="u-row-12"><div class="u-col-center-shrink"><div style="width:32px;height:32px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#fff">6</div></div><div style="padding:0 0 0"><div class="u-label-white u-mb-xs">🌟 Beamter auf Lebenszeit</div><div class="u-caption u-mb-xs">Verbeamtung auf Lebenszeit nach Probezeit · Hohes Maß an Sicherheit, Pension, Aufstieg möglich</div><span class="u-badge-ghost">Unkündbar · Pensionsanspruch · Beihilfe</span></div></div>
 </div>
@@ -7876,3 +7879,174 @@ function _trainerResult(a){
 
 
 
+
+// ==================== §TEVE ====================
+const STEVE_CTX = {
+  basics: {
+    greeting: 'Hey, ich bin §teve – dein persönlicher Steuer-Assistent. 👋<br><br>Basics ist ein guter Start! Hier lernst du warum Steuern dich jeden Tag betreffen – auch wenn du noch nie eine Steuererklärung gemacht hast.',
+    chips: ['Was ist der Unterschied Steuer/Gebühr?','Muss ich mit 18 Steuern zahlen?','Was ist der Grundfreibetrag?','Warum gibt es so viele Steuerarten?']
+  },
+  est: {
+    greeting: '§teve hier. 📊 Einkommensteuer – das Herzstück. Alles dreht sich um § 2 EStG: <b>7 Einkunftsarten</b>, zusammenrechnen, Freibeträge abziehen, Tarif anwenden. Klingt viel, wird aber schnell ein Muster.',
+    chips: ['Was sind die 7 Einkunftsarten?','Was ist der Unterschied § 15 und § 18?','Wie funktioniert der Steuertarif?','Was ist der Grundfreibetrag 2026?']
+  },
+  ust: {
+    greeting: 'Umsatzsteuer – die unsichtbare Steuer. §teve erklärt: Jeder kauft, jeder zahlt sie. Aber nur Unternehmer führen sie ab. Der Clou: Vorsteuerabzug (§ 15 UStG) macht Unternehmer quasi steuerneutral. 🛒',
+    chips: ['Wann gilt 7 %, wann 19 %?','Was ist Vorsteuerabzug?','Was ist Reverse Charge?','Kleinunternehmer – lohnt sich das?']
+  },
+  ao: {
+    greeting: 'AO – das Grundgesetz des Steuerrechts. §teve nennt es gerne das "Betriebssystem": Ohne AO läuft kein Steuergesetz. Hier stehen Fristen, Rechtsbehelfe, Außenprüfungen – alles was zwischen dir und dem Finanzamt passiert. ⚖️',
+    chips: ['Wie lege ich Einspruch ein?','Was ist Festsetzungsverjährung?','Was ist eine Außenprüfung?','Was bedeutet Bestandskraft?']
+  },
+  bilanz: {
+    greeting: 'Bilanz und Buchführung – §teve gibt zu: Das klingt trocken. Ist es aber nicht! Buchführung ist eigentlich Detektivarbeit: Jede Zahlung erzählt eine Geschichte. Aktiva = was du hast. Passiva = wer das bezahlt hat. 📋',
+    chips: ['Was ist Aktiva / Passiva?','Wie funktioniert Soll/Haben?','Was ist Abschreibung (AfA)?','Was ist ein GWG?']
+  },
+  recht: {
+    greeting: 'Privat- und öffentliches Recht – §teve liebt diese Unterscheidung: Wenn der Staat oben steht und Pflichten auferlegt → öffentliches Recht. Wenn zwei Parteien gleichberechtigt → Privatrecht. Steuerrecht? Immer öffentlich. 🏛️',
+    chips: ['Privatrecht vs. öffentliches Recht?','Was ist ein Verwaltungsakt?','Was ist das Finanzgericht?','Was bedeutet Treu und Glauben?']
+  },
+  karriere: {
+    greeting: '§teve kennt den Weg ins Finanzamt in- und auswendig. 🎓 Kurze Version: Bewerbung → Test → Studium/Ausbildung (bezahlt!) → Prüfung → Verbeamtung. Lange Version – frag mich einfach was dich interessiert!',
+    chips: ['Was ist der Unterschied MD und GD?','Wie läuft der Einstellungstest ab?','Was verdiene ich als Anwärter?','Was ist die Zwischenprüfung?']
+  },
+  kurios: {
+    greeting: '§teve liebt diesen Tab. 🤯 Hier erfährst du: Lottogewinne sind steuerfrei. Sektsteuer finanzierte 1902 die Marine. Und ja – es gibt eine Kaffeesteuer. Steuerrecht ist absurder als jeder Roman.',
+    chips: ['Warum ist Lotto steuerfrei?','Was ist die älteste Steuer Deutschlands?','Gibt es eine Digitalsteuer?','Was ist der Unterschied Kaffee/Tee bei der USt?']
+  },
+  speed: {
+    greeting: '§teve sagt: Speed-Quiz trainiert Reaktion – genau wie im echten Einstellungstest zählt Tempo UND Genauigkeit. Falsche Antwort kostet Punkte. Also: Lieber kurz nachdenken als schnell falsch klicken! ⚡',
+    chips: ['Welche Themen kommen im Einstellungstest?','Tipps für das Speed-Quiz?']
+  },
+  pruefung: {
+    greeting: 'Prüfungsmodus – §teve im Ernstnehm-Modus. 🎓 Hier simulierst du echte Klausurbedingungen. Zeitdruck, keine Hilfen, alle Themen gemischt. Pro-Tipp: Lies die Frage zweimal. Fast alle Fehler passieren durch zu schnelles Lesen.',
+    chips: ['Welche Themen sind prüfungsrelevant?','Wie bereite ich mich auf die Laufbahnprüfung vor?','Was sind typische Klausurfallen?']
+  },
+  trainer: {
+    greeting: '§teve im Trainer-Modus! 🧪 Der Einstellungstest hat 6 Bereiche – und falsche Antworten kosten Punkte. Mein Tipp: Fang mit dem Bereich an wo du dich am unsichersten fühlst. Stärken trainiert sich von selbst.',
+    chips: ['Was kommt im Berliner Einstellungstest?','Welcher Bereich ist am schwersten?','Wie viele Fragen hat der echte Test?']
+  },
+  meinbereich: {
+    greeting: '§teve checkt deinen Fortschritt. ⭐ Hier siehst du welche Themen du schon gemeistert hast – und welche noch Arbeit brauchen. Schlechte Werte sind kein Problem: Sie zeigen dir genau wo du üben sollst.',
+    chips: ['Wie funktioniert das Punktesystem?','Was sind Abzeichen?','Wie setze ich meinen Fortschritt zurück?']
+  },
+  default: {
+    greeting: '§teve ist da! Ich begleite dich durch Steuerrecht, Karriere und alles dazwischen. Was kann ich für dich tun? 💡',
+    chips: ['Was kann diese Seite?','Wo fange ich am besten an?','Was ist das Karriere-Modul?','Gibt es einen Einstellungstest-Trainer?']
+  }
+};
+
+const STEVE_QA = [
+  // Karriere
+  {q:/unterschied.*md.*gd|md.*gd.*unterschied|md vs gd|mittlerer.*gehobener/i, a:'<b>Mittlerer Dienst (MD)</b> = 2-jährige Ausbildung, Voraussetzung: MSA/Realschule. Start: 15. August. Einstiegsbesoldung A 7.<br><br><b>Gehobener Dienst (GD)</b> = 3-jähriges duales Studium an der FHF Königs Wusterhausen, Voraussetzung: Abitur/FHR. Start: 1. September. Abschluss: Diplom-Finanzwirt/in (FH), Einstieg A 9.<br><br>§teve-Tipp: GD hat mehr Karrierepotenzial, MD ist der schnellere Einstieg.'},
+  {q:/einstellungstest|auswahltest|test.*finanzamt|was.*kommt.*test/i, a:'Der Test hat 6 Bereiche: <b>Sprachverständnis, Mathematik, Logik, Merkfähigkeit, Konzentration, Allgemeinwissen</b>.<br><br>Wichtig: <b>Falsche Antworten kosten Punkte!</b> Lieber überspringen als raten. Berlin: computergestützt, Präsenz in der Finanzschule Bismarckstraße 48. §teve-Tipp: Übe täglich 20–30 Min. im Trainer.'},
+  {q:/zwischenprüfung/i, a:'Die Zwischenprüfung kommt nach Semester 1 des GD-Studiums. <b>5 Klausuren à 3 Stunden</b>. Wer nicht besteht: <b>1× Wiederholung möglich</b>. Danach ist das Studium beendet.<br><br>Fächer: AO, ESt, USt, Bilanzsteuerrecht, Privatrecht/öffentliches Recht. §teve-Rat: Nicht unterschätzen – das ist kein Probelauf.'},
+  {q:/verdien|gehalt|bezüge|anwärter|lohn/i, a:'Als Anwärter erhältst du <b>Anwärterbezüge</b> (§ 59 BBesG) – kein Azubi-Gehalt, sondern Beamtenbezüge:<br><br>• MD Berlin: <b>1.467 €</b> brutto/Mo.<br>• GD Berlin: <b>1.527 €</b> brutto/Mo.<br>• MD Brandenburg: <b>1.518 €</b> brutto/Mo.<br><br>§teve-Hinweis: Als Beamter auf Widerruf zahlst du keine Sozialversicherung – das Netto ist daher überproportional hoch.'},
+  {q:/bewerb|bewerbung|wann.*bewerben|frist/i, a:'Bewerbungsfristen (jeweils für den Start im Folgejahr):<br><br>🏛️ <b>Berlin:</b> ca. August bis Ende Januar · Senatsportal<br>🌿 <b>Brandenburg (GD):</b> 1. August bis 31. Dezember · fhf.brandenburg.de<br><br>§teve-Tipp: Lieber früh bewerben – die Plätze sind begrenzt (Berlin: ca. 180 GD-Plätze).'},
+  // Steuerrecht
+  {q:/grundfreibetrag/i, a:'Der <b>Grundfreibetrag 2026</b> beträgt <b>11.784 €</b> (§ 32a Abs. 1 EStG). Bis zu diesem Betrag fällt keine Einkommensteuer an – das sichert das Existenzminimum. §teve-Merker: Über dem Grundfreibetrag startet der Steuertarif bei 14 % und steigt progressiv bis 42 % (Spitzensteuersatz).'},
+  {q:/7.*prozent|sieben.*prozent|ermäßigt.*steuersatz|umsatzsteuer.*satz/i, a:'<b>7 % USt</b> gilt für Güter des täglichen Bedarfs: Lebensmittel, Bücher, ÖPNV, Zeitungen, Theaterkarten – und seit 2026 dauerhaft auch für Gastronomie-Speisen.<br><br><b>19 % USt</b> ist der Regelsteuersatz für alles andere: Elektronik, Kleidung, Dienstleistungen usw.<br><br>§teve-Kuriosität: Tee = 7 %, Kaffeebohnen = 19 %. Gleiches Getränk, anderer Satz.'},
+  {q:/vorsteuer|vorsteuerabzug/i, a:'<b>Vorsteuerabzug (§ 15 UStG)</b>: Unternehmer können die an sie berechnete USt vom Finanzamt zurückfordern. Dadurch trägt der Unternehmer die USt wirtschaftlich nicht – nur der <b>Endverbraucher</b> zahlt sie letztendlich.<br><br>§teve-Formel: Zahllast = Umsatzsteuer auf Verkäufe − Vorsteuer aus Einkäufen.'},
+  {q:/einspruch/i, a:'Einspruch (§ 347 AO) gegen einen Steuerbescheid: <b>1 Monat Frist</b> ab Bekanntgabe (§ 355 AO). Schriftlich oder zur Niederschrift beim Finanzamt.<br><br>Wichtig: Das FA prüft den <b>gesamten Bescheid</b> neu – auch zu deinen Ungunsten (Verböserung § 367 Abs. 2 AO)! §teve-Tipp: Vor dem Einspruch immer rechtliche Grundlage prüfen.'},
+  {q:/außenprüfung|betriebsprüfung/i, a:'<b>Außenprüfung (§§ 193 ff. AO)</b>: Das Finanzamt prüft die Bücher des Unternehmens vor Ort. Ankündigung mit angemessener Frist (§ 197 AO). Prüfungszeitraum: i.d.R. 3 Jahre, bei Hinterziehung bis 10 Jahre.<br><br>§teve-Warnung: Ab Bekanntgabe der Prüfungsanordnung ist eine strafbefreiende Selbstanzeige gesperrt!'},
+  // Allgemein
+  {q:/was kann.*seite|was.*lernspiel|was gibt.*hier|usp|besonderheit/i, a:'§teve listet die USPs auf: 🎯<br><br>• <b>300+ Quizfragen</b> in 8 Themengebieten<br>• <b>Karriere-Modul</b> mit verifizierten Infos zu Bewerbung und Ablauf<br>• <b>Einstellungstest-Trainer</b> für alle 6 Testbereiche<br>• <b>Schematischer Gehaltsrechner</b> – was bleibt vom Gehalt?<br>• <b>Steuer-Stories</b> – Lernen durch Entscheiden<br>• Alles kostenlos, kein Login, läuft offline<br><br>Und ich, §teve – dein persönlicher Assistent. 😎'},
+  {q:/wo.*anfangen|einstieg|anfänger|neuling/i, a:'§teve empfiehlt den klassischen Einstieg: <br><br>1️⃣ <b>Basics</b> – Überblick und Steuer-Tour (20 Min.)<br>2️⃣ <b>Karriere</b> – Bewerbungsweg anschauen<br>3️⃣ <b>Einstellungstest-Trainer</b> – üben wo du stehst<br>4️⃣ <b>ESt-Quiz</b> – Einkunftsarten vertiefen<br><br>Kein Vorwissen nötig – alles erkläre ich on-the-go.'},
+];
+
+let steveOpen = false;
+let steveCurrentCtx = 'default';
+
+function steveToggle() {
+  steveOpen = !steveOpen;
+  const panel = document.getElementById('steve-panel');
+  const btn = document.getElementById('steve-btn');
+  if (steveOpen) {
+    panel.style.display = 'flex';
+    requestAnimationFrame(() => panel.classList.add('open'));
+    btn.classList.add('active');
+    steveSetCtx(typeof mode !== 'undefined' ? mode : 'default');
+  } else {
+    panel.classList.remove('open');
+    btn.classList.remove('active');
+    setTimeout(() => { if (!steveOpen) panel.style.display = 'none'; }, 300);
+  }
+}
+
+function steveSetCtx(m) {
+  steveCurrentCtx = m;
+  const ctx = STEVE_CTX[m] || STEVE_CTX.default;
+  const msgs = document.getElementById('steve-msgs');
+  if (!msgs) return;
+  // Only set greeting if msgs is empty
+  if (msgs.children.length === 0) {
+    steveAddMsg('steve', ctx.greeting);
+  }
+  // Update chips
+  const chipsEl = document.getElementById('steve-chips');
+  if (chipsEl) {
+    chipsEl.innerHTML = ctx.chips.map(c =>
+      `<button onclick="steveAsk('${c.replace(/'/g,"\\'")}')" class="steve-chip">${c}</button>`
+    ).join('');
+  }
+}
+
+function steveAddMsg(role, html) {
+  const msgs = document.getElementById('steve-msgs');
+  if (!msgs) return;
+  const div = document.createElement('div');
+  div.className = 'steve-msg steve-msg-' + role;
+  div.innerHTML = html;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function steveAsk(text) {
+  const input = document.getElementById('steve-input');
+  if (input) input.value = text;
+  steveSend();
+}
+
+function steveSend() {
+  const input = document.getElementById('steve-input');
+  if (!input) return;
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  steveAddMsg('user', text);
+  // Find matching QA
+  const match = STEVE_QA.find(qa => qa.q.test(text));
+  setTimeout(() => {
+    if (match) {
+      steveAddMsg('steve', match.a);
+    } else {
+      steveAddMsg('steve', `§teve gibt zu: Auf "<b>${text}</b>" habe ich keine fertige Antwort parat. 🤔<br><br>Versuch es mit den Schnell-Antworten unten – oder schau im <b>Glossar</b> nach (Tab 📖). Wenn du einen echten Tipp-Fehler gefunden hast: Feedback-Button nutzen!`);
+    }
+    const msgs = document.getElementById('steve-msgs');
+    if (msgs) msgs.scrollTop = msgs.scrollHeight;
+  }, 400);
+}
+
+function steveClear() {
+  const msgs = document.getElementById('steve-msgs');
+  if (msgs) msgs.innerHTML = '';
+  steveSetCtx(steveCurrentCtx);
+}
+
+// Hook into sw() to update §teve context when tab changes
+const _origRender = typeof render === 'function' ? render : null;
+function steveOnSwitch(m) {
+  if (steveOpen) {
+    steveCurrentCtx = m;
+    const ctx = STEVE_CTX[m] || STEVE_CTX.default;
+    const chipsEl = document.getElementById('steve-chips');
+    if (chipsEl) {
+      chipsEl.innerHTML = ctx.chips.map(c =>
+        `<button onclick="steveAsk('${c.replace(/'/g,"\\'")}')" class="steve-chip">${c}</button>`
+      ).join('');
+    }
+    // Add context switch hint
+    const ctxName = {basics:'Basics',est:'ESt',ust:'USt',ao:'AO',bilanz:'Bilanz',recht:'Recht',karriere:'Karriere',kurios:'Kurioses',speed:'Speed',pruefung:'Prüfungsmodus',trainer:'Testtrainer',meinbereich:'Mein Bereich'}[m] || m;
+    steveAddMsg('steve', `📍 Du bist jetzt bei <b>${ctxName}</b>. Meine Schnell-Antworten habe ich entsprechend aktualisiert.`);
+  }
+}
