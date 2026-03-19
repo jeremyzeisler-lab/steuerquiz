@@ -3563,6 +3563,7 @@ function renderKarriere(a){
   <span onclick="scrollToId('karriere-vorteile')" style="background:rgba(255,140,66,.1);border:1.5px solid rgba(255,140,66,.3);color:#ffaa66;border-radius:100px;padding:5px 12px;font-size:11px;font-weight:800;cursor:pointer">🌟 Vorteile</span>
   <span onclick="scrollToId('karriere-fristen')" style="background:rgba(255,77,109,.1);border:1.5px solid rgba(255,77,109,.3);color:#ff8099;border-radius:100px;padding:5px 12px;font-size:11px;font-weight:800;cursor:pointer">⏱️ Fristen</span>
   <span onclick="scrollToId('karriere-bewerben')" style="background:linear-gradient(135deg,rgba(0,194,224,.2),rgba(26,58,143,.2));border:2px solid var(--cyan);color:var(--cyan);border-radius:100px;padding:5px 12px;font-size:11px;font-weight:800;cursor:pointer">🚀 Jetzt bewerben</span>
+  <span onclick="scrollToId('karriere-trainer')" style="background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.2);color:rgba(255,255,255,.7);border-radius:100px;padding:5px 12px;font-size:11px;font-weight:800;cursor:pointer">🧪 Testtrainer</span>
 </div>
 
 <!-- ZWEI WEGE -->
@@ -4065,9 +4066,21 @@ function renderKarriere(a){
   </a>
 </div>
 <p style="font-size:10px;color:rgba(255,255,255,.25);font-weight:600;text-align:center;margin-top:4px;margin-bottom:8px">↗ Links öffnen die offiziellen Bewerbungsseiten in einem neuen Tab</p>
+
+<!-- EINSTELLUNGSTEST-TRAINER -->
+<div id="karriere-trainer" class="u-section-head">🧪 Einstellungstest-Trainer<span class="u-divider"></span></div>
+<div style="background:rgba(255,255,255,.03);border:1.5px solid rgba(255,255,255,.1);border-radius:16px;padding:16px;margin-bottom:8px">
+  <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.55);line-height:1.65;margin-bottom:14px">
+    Übe die <b style="color:#fff">6 Bereiche</b> des Auswahlverfahrens für die Finanzverwaltung Berlin &amp; Brandenburg.<br>
+    <span style="color:rgba(255,77,109,.8)">⚠️ Falsche Antwort = Punkte−</span> · Sorgfalt schlägt Tempo – genau wie im echten Test.
+  </div>
+  <div id="karriere-trainer-area"></div>
+</div>
 </div>`;
   buildCountdown(document.getElementById('karriere-countdown'));
   restoreCL();
+  const ta = document.getElementById('karriere-trainer-area');
+  if(ta) _trainerHome(ta);
 }
 
 // ==================== KARRIERE-MATCHING ====================
@@ -7617,7 +7630,7 @@ function _trainerHome(a){
 function trainerStart(catId){
   trainerCat=catId; trainerQIdx=0; trainerAnswers=[]; trainerMerkPhase=0; trainerSelected=null;
   trainerMode='quiz';
-  renderTrainer(document.getElementById('ga'));
+  renderTrainer((document.getElementById('karriere-trainer-area')||document.getElementById('ga')));
 }
 
 function _trainerQuiz(a){
@@ -7631,7 +7644,7 @@ function _trainerQuiz(a){
   a.innerHTML=`
 <div style="max-width:580px;margin:0 auto">
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
-    <button onclick="trainerMode='home';trainerCat=null;renderTrainer(document.getElementById('ga'))" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 12px;color:rgba(255,255,255,.6);cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;font-size:12px">← Zurück</button>
+    <button onclick="trainerMode='home';trainerCat=null;renderTrainer((document.getElementById('karriere-trainer-area')||document.getElementById('ga')))" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 12px;color:rgba(255,255,255,.6);cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;font-size:12px">← Zurück</button>
     <div style="flex:1;height:6px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden"><div style="height:100%;width:${Math.round((trainerQIdx/qs.length)*100)}%;background:${cat.color};border-radius:100px;transition:width .4s ease"></div></div>
     <div style="font-size:11px;font-family:'Space Mono',monospace;font-weight:700;color:rgba(255,255,255,.45)">${trainerQIdx+1}/${qs.length}</div>
   </div>
@@ -7673,7 +7686,7 @@ function _trainerMerk(a){
     a.innerHTML=`
 <div style="max-width:580px;margin:0 auto">
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
-    <button onclick="trainerMode='home';renderTrainer(document.getElementById('ga'))" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 12px;color:rgba(255,255,255,.6);cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;font-size:12px">← Zurück</button>
+    <button onclick="trainerMode='home';renderTrainer((document.getElementById('karriere-trainer-area')||document.getElementById('ga')))" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 12px;color:rgba(255,255,255,.6);cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;font-size:12px">← Zurück</button>
     <div style="font-size:11px;font-family:'Space Mono',monospace;font-weight:700;color:rgba(255,255,255,.45)">🧠 MERKFÄHIGKEIT</div>
   </div>
   <div style="background:rgba(255,217,74,.07);border:1.5px solid rgba(255,217,74,.25);border-radius:14px;padding:16px;margin-bottom:14px">
@@ -7685,7 +7698,7 @@ function _trainerMerk(a){
   <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 13px;font-size:11px;font-weight:700;color:rgba(255,255,255,.5);margin-bottom:14px;line-height:1.6">
     💡 Präge dir alle Angaben ein. Danach wird die Karte verborgen und du wirst abgefragt. Im echten Test hast du oft nur wenige Sekunden pro Information.
   </div>
-  <button onclick="trainerMerkPhase=1;renderTrainer(document.getElementById('ga'))" style="width:100%;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--yellow),#c8900a);color:var(--navy);font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Karte verbergen – Quiz starten →</button>
+  <button onclick="trainerMerkPhase=1;renderTrainer((document.getElementById('karriere-trainer-area')||document.getElementById('ga')))" style="width:100%;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--yellow),#c8900a);color:var(--navy);font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Karte verbergen – Quiz starten →</button>
 </div>`;
     return;
   }
@@ -7696,7 +7709,7 @@ function _trainerMerk(a){
   a.innerHTML=`
 <div style="max-width:580px;margin:0 auto">
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
-    <button onclick="trainerMode='home';renderTrainer(document.getElementById('ga'))" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 12px;color:rgba(255,255,255,.6);cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;font-size:12px">← Zurück</button>
+    <button onclick="trainerMode='home';renderTrainer((document.getElementById('karriere-trainer-area')||document.getElementById('ga')))" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 12px;color:rgba(255,255,255,.6);cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;font-size:12px">← Zurück</button>
     <div style="flex:1;height:6px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden"><div style="height:100%;width:${Math.round((trainerQIdx/questions.length)*100)}%;background:var(--yellow);border-radius:100px"></div></div>
     <div style="font-size:11px;font-family:'Space Mono',monospace;font-weight:700;color:rgba(255,255,255,.45)">${trainerQIdx+1}/${questions.length}</div>
   </div>
@@ -7730,13 +7743,13 @@ function trainerAnswer(optIdx){
   const qs=trainerCat==='merk'?D_TRAINER_QS.merk.questions:D_TRAINER_QS[trainerCat];
   const correct=optIdx===qs[trainerQIdx].ans;
   trainerAnswers.push(correct);
-  renderTrainer(document.getElementById('ga'));
+  renderTrainer((document.getElementById('karriere-trainer-area')||document.getElementById('ga')));
 }
 
 function trainerNext(){
   trainerQIdx++;
   trainerSelected=null;
-  renderTrainer(document.getElementById('ga'));
+  renderTrainer((document.getElementById('karriere-trainer-area')||document.getElementById('ga')));
 }
 
 function _trainerResult(a){
@@ -7758,7 +7771,7 @@ function _trainerResult(a){
   </div>
   <div style="display:flex;flex-direction:column;gap:8px">
     <button onclick="trainerStart('${trainerCat}')" style="width:100%;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,${cat.color},rgba(0,0,0,.2));color:${['mathe','logik','konz'].includes(trainerCat)?'var(--navy)':'#fff'};font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">↺ Nochmal üben</button>
-    <button onclick="trainerMode='home';trainerCat=null;renderTrainer(document.getElementById('ga'))" style="width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(255,255,255,.2);background:transparent;color:rgba(255,255,255,.7);font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">← Alle Kategorien</button>
+    <button onclick="trainerMode='home';trainerCat=null;renderTrainer((document.getElementById('karriere-trainer-area')||document.getElementById('ga')))" style="width:100%;padding:13px;border-radius:12px;border:1.5px solid rgba(255,255,255,.2);background:transparent;color:rgba(255,255,255,.7);font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">← Alle Kategorien</button>
   </div>
 </div>`;
 }
