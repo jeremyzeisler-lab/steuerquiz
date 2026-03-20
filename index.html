@@ -60,18 +60,24 @@
   </header>
 
   <div class="score-bar" id="tour-scorebar">
-    <div class="score-item"><div class="label" id="score-mode-label">Punkte</div><div class="value" id="totSc">0</div></div>
+    <div class="score-item">
+      <div class="label">Serie</div>
+      <div class="value" id="streakCt" style="transition:color .3s">0 🔥</div>
+    </div>
     <div class="score-divider"></div>
-    <div class="score-item"><div class="label">Richtig</div><div class="value" class="u-green" id="corrCt">0</div></div>
+    <div class="score-item">
+      <div class="label" id="score-mode-label">Richtig</div>
+      <div class="value" style="color:var(--green)" id="score-ratio">0/0</div>
+    </div>
     <div class="score-divider"></div>
-    <div class="score-item"><div class="label">Falsch</div><div class="value" id="wrongCt" style="color:var(--red)">0</div></div>
+    <button onclick="sw('badges')" title="Abzeichen" class="score-badge-btn">🏅 <span id="badge-count-chip" style="font-size:10px;font-family:'Space Mono',monospace"></span></button>
     <div class="score-divider"></div>
-    <div class="score-item"><div class="label">Serie</div><div class="value" id="streakCt" style="transition:color .3s">0 🔥</div></div>
-    <div class="score-divider"></div>
-    <button onclick="resetScore()" title="Punkte zurücksetzen" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.55);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:13px;transition:all .2s;font-family:'Nunito',sans-serif;font-weight:700" onmouseover="this.style.background='rgba(255,77,109,.25)';this.style.color='#ff4d6d';this.style.borderColor='#ff4d6d'" onmouseout="this.style.background='rgba(255,255,255,.08)';this.style.color='rgba(255,255,255,.55)';this.style.borderColor='rgba(255,255,255,.18)'">↺</button>
-    <button onclick="sw('badges')" title="Abzeichen" style="background:rgba(255,217,74,.12);border:1px solid rgba(255,217,74,.3);color:var(--yellow);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:16px;transition:all .2s" onmouseover="this.style.background='rgba(255,217,74,.25)'" onmouseout="this.style.background='rgba(255,217,74,.12)'">🏅</button>
-    <div class="score-divider"></div>
-    <span class="daily-streak-chip" id="streak-chip" onclick="sw('meinbereich')" title="Mein Bereich – Daily & Fortschritt">🔥 <span id="daily-streak-disp">0</span></span>
+    <span class="daily-streak-chip" id="streak-chip" onclick="sw('meinbereich')" title="Mein Bereich">🔥 <span id="daily-streak-disp">0</span></span>
+    <button onclick="resetScore()" title="Zurücksetzen" class="score-reset-btn">↺</button>
+    <!-- Hidden: kept for JS compatibility -->
+    <span id="totSc" style="display:none">0</span>
+    <span id="corrCt" style="display:none">0</span>
+    <span id="wrongCt" style="display:none">0</span>
   </div>
 
   <div class="mode-tabs" id="tour-tabs">
@@ -228,12 +234,13 @@
 </div>
 
 <nav class="mobile-nav" id="mobileNav">
-    <div class="mobile-nav-inner">
+    <div class="mobile-nav-inner" style="grid-template-columns:repeat(4,1fr)">
       <button class="mnav-btn active" id="mnav-basics" onclick="sw('basics')"><span class="mni">📚</span>Basics</button>
-      <button class="mnav-btn" id="mnav-quiz" onclick="openQuiz()"><span class="mni">🎯</span>Üben</button>
-      <button class="mnav-btn" id="mnav-fehler" onclick="sw('fehler')"><span class="mni">🔁</span>Fehler<span class="mnav-badge" id="fehler-nav-badge" style="display:none">0</span></button>
-      <button class="mnav-btn" id="mnav-meinbereich" onclick="sw('meinbereich')"><span class="mni">⭐</span>Ich</button>
       <button class="mnav-btn" id="mnav-karriere" onclick="sw('karriere')"><span class="mni">🎓</span>Karriere</button>
+      <button class="mnav-btn" id="mnav-quiz" onclick="openQuiz()"><span class="mni">🎯</span>Üben</button>
+      <button class="mnav-btn" id="mnav-meinbereich" onclick="sw('meinbereich')"><span class="mni">⭐</span>Ich</button>
+      <!-- Fehler: hidden in nav, still accessible via drawer -->
+      <button class="mnav-btn" id="mnav-fehler" onclick="sw('fehler')" style="display:none"><span class="mni">🔁</span>Fehler<span class="mnav-badge" id="fehler-nav-badge" style="display:none">0</span></button>
     </div>
 </nav>
 <div class="cc" id="cc"></div>

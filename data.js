@@ -2495,6 +2495,10 @@ function updSc(ok){
   document.getElementById('totSc').textContent=totSc;
   document.getElementById('corrCt').textContent=corr;
   document.getElementById('wrongCt').textContent=wrong;
+  const ratioEl=document.getElementById('score-ratio');
+  if(ratioEl) ratioEl.textContent=(corr+wrong)>0?(corr+'/'+(corr+wrong)):'0/0';
+  const ratio = document.getElementById('score-ratio');
+  if(ratio) ratio.textContent = corr+'/'+(corr+wrong);
   const sc=document.getElementById('streakCt');
   sc.textContent=streak+' 🔥';
   if(streak>=3){sc.classList.add('streak-hot');}else{sc.classList.remove('streak-hot');}
@@ -2502,12 +2506,14 @@ function updSc(ok){
 }
 const MODE_ORDER = ['basics','meinbereich','est','ust','bilanz','ao','kurios','recht','gewst','gesellschaft','flashcard','karriere','badges','glossar'];
 function resetScore(){
-  totSc=0;corr=0;wrong=0;streak=0;
+  totSc=0;corr=0;wrong=0;streak=0;steveWrongStreak=0;
   document.getElementById('totSc').textContent=0;
   document.getElementById('corrCt').textContent=0;
   document.getElementById('wrongCt').textContent=0;
   document.getElementById('streakCt').textContent='0 🔥';
   document.getElementById('streakCt').classList.remove('streak-hot');
+  const ratioEl=document.getElementById('score-ratio');
+  if(ratioEl) ratioEl.textContent='0/0';
 }
 const SCORE_LABELS={'est':'ESt','ust':'USt','bilanz':'Bilanz','ao':'AO','kurios':'Kurioses','recht':'Recht','speed':'Speed','flashcard':'Karten','pruefung':'Prüfung'};
 function updateScoreLabel(m){
@@ -3629,7 +3635,8 @@ function renderKarriere(a){
 </div>
 
 <!-- BEWERBUNGS-WEGWEISER -->
-<div id="karriere-wegweiser" class="u-section-head">🗺️ Bewerbungs-Wegweiser<span class="u-divider"></span></div>
+<div id="karriere-wegweiser" class="u-section-head u-collapsible" onclick="karToggle('wegweiser')" style="cursor:pointer">🗺️ Bewerbungs-Wegweiser<span class="u-divider"></span><span id="kar-chev-wegweiser" style="margin-left:auto;font-size:12px;transition:transform .2s">▼</span></div>
+<div id="kar-body-wegweiser">
 <div style="margin-bottom:20px">
 
   <!-- Weg-Auswahl -->
@@ -3903,8 +3910,11 @@ function renderKarriere(a){
 
 </div>
 
+</div>
+
 <!-- ABLAUF -->
-<div class="u-section-head">📅 Ablauf<span class="u-divider"></span></div>
+<div id="karriere-ablauf" class="u-section-head u-collapsible" onclick="karToggle('ablauf')" style="cursor:pointer">📅 Ablauf<span class="u-divider"></span><span id="kar-chev-ablauf" style="margin-left:auto;font-size:12px;transition:transform .2s">▼</span></div>
+<div id="kar-body-ablauf">
 <div style="display:flex;gap:8px;margin-bottom:12px">
   <button id="ablauf-btn-md" onclick="showAblauf('md')" style="flex:1;padding:10px;border-radius:11px;border:2px solid rgba(0,201,123,.5);background:rgba(0,201,123,.15);color:#00c97b;font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer">🏫 Ausbildung (MD)</button>
   <button id="ablauf-btn-gd" onclick="showAblauf('gd')" style="flex:1;padding:10px;border-radius:11px;border:2px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer">🎓 Studium (GD)</button>
@@ -3937,8 +3947,11 @@ function renderKarriere(a){
   </div>
 </div>
 
+</div>
+
 <!-- VORAUSSETZUNGEN -->
-<div id="karriere-voraussetzungen" style="font-size:14px;font-weight:900;color:rgba(255,255,255,.9);margin:4px 0 12px;display:flex;align-items:center;gap:8px">✅ Voraussetzungen<span class="u-divider"></span></div>
+<div id="karriere-voraussetzungen" class="u-section-head u-collapsible" onclick="karToggle('voraussetzungen')" style="cursor:pointer">✅ Voraussetzungen<span class="u-divider"></span><span id="kar-chev-voraussetzungen" style="margin-left:auto;font-size:12px;transition:transform .2s;transform:rotate(-90deg)">▼</span></div>
+<div id="kar-body-voraussetzungen" style="display:none">
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
   <div style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:11px;display:flex;gap:9px;align-items:flex-start"><span class="u-icon-lg u-shrink-0">🇩🇪</span><div><div class="u-label-white u-mb-xs">Staatsangehörigkeit</div><div class="u-caption">Deutsch oder EU-Mitgliedstaat</div></div></div>
   <div style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:12px;padding:11px;display:flex;gap:9px;align-items:flex-start"><span class="u-icon-lg u-shrink-0">🎂</span><div><div class="u-label-white u-mb-xs">Altersgrenze</div><div class="u-caption">Berlin: max. 47 J. · Brandenburg: max. 39 J.</div></div></div>
@@ -3951,8 +3964,11 @@ function renderKarriere(a){
   💡 <b>Kein Mathegenie nötig!</b> Gefragt sind juristisches Denken, Sprachverständnis und Sorgfalt. Die Computer übernehmen das Rechnen.
 </div>
 
+</div>
+
 <!-- TIMELINE -->
-<div id="karriere-timeline" class="u-section-head">📈 Dein Karriereweg<span class="u-divider"></span></div>
+<div id="karriere-timeline" class="u-section-head u-collapsible" onclick="karToggle('timeline')" style="cursor:pointer">📈 Dein Karriereweg<span class="u-divider"></span><span id="kar-chev-timeline" style="margin-left:auto;font-size:12px;transition:transform .2s;transform:rotate(-90deg)">▼</span></div>
+<div id="kar-body-timeline" style="display:none">
 <div style="margin-bottom:16px">
   <div class="u-row-12"><div class="u-col-center-shrink"><div style="width:32px;height:32px;border-radius:50%;background:var(--yellow);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:var(--navy)">1</div><div class="u-tl-line"></div></div><div class="u-pad-bottom"><div class="u-label-white u-mb-xs">📝 Bewerbung einreichen</div><div class="u-caption u-mb-xs">Online-Bewerbung · Berlin: Senatsportal · Brandenburg: fhf.brandenburg.de</div><span class="u-badge-ghost">Brandenburg: Aug–Dez des Vorjahres</span></div></div>
   <div class="u-row-12"><div class="u-col-center-shrink"><div style="width:32px;height:32px;border-radius:50%;background:var(--cyan);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:var(--navy)">2</div><div class="u-tl-line"></div></div><div class="u-pad-bottom"><div class="u-label-white u-mb-xs">🏆 Auswahltest &amp; Gespräch</div><div class="u-caption u-mb-xs">Schriftl. Test (Deutsch, Logik, Allgemeinwissen) + mündl. Gespräch. Kein komplexes Mathe!</div><span class="u-badge-ghost">Test + Gespräch</span></div></div>
@@ -3963,8 +3979,11 @@ function renderKarriere(a){
   <div class="u-row-12"><div class="u-col-center-shrink"><div style="width:32px;height:32px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#fff">6</div></div><div style="padding:0 0 0"><div class="u-label-white u-mb-xs">🌟 Beamter auf Lebenszeit</div><div class="u-caption u-mb-xs">Verbeamtung auf Lebenszeit nach Probezeit · Hohes Maß an Sicherheit, Pension, Aufstieg möglich</div><span class="u-badge-ghost">Unkündbar · Pensionsanspruch · Beihilfe</span></div></div>
 </div>
 
+</div>
+
 <!-- FHF -->
-<div id="karriere-fhf" class="u-section-head">🏛️ FHF Königs Wusterhausen<span class="u-divider"></span></div>
+<div id="karriere-fhf" class="u-section-head u-collapsible" onclick="karToggle('fhf')" style="cursor:pointer">🏛️ FHF Königs Wusterhausen<span class="u-divider"></span><span id="kar-chev-fhf" style="margin-left:auto;font-size:12px;transition:transform .2s;transform:rotate(-90deg)">▼</span></div>
+<div id="kar-body-fhf" style="display:none">
 <div style="background:linear-gradient(135deg,rgba(123,94,167,.2),rgba(80,40,140,.15));border:2px solid rgba(123,94,167,.3);border-radius:14px;padding:14px;margin-bottom:16px">
   <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
     <div style="font-size:38px;flex-shrink:0">🏫</div>
@@ -3984,7 +4003,10 @@ function renderKarriere(a){
 </div>
 
 <!-- FINANZÄMTER -->
-<div id="karriere-aemter" class="u-section-head">🗺️ Wo du arbeiten kannst<span class="u-divider"></span></div>
+<div id="karriere-aemter" class="u-section-head u-collapsible" onclick="karToggle('aemter')" style="cursor:pointer">🗺️ Wo du arbeiten kannst<span class="u-divider"></span><span id="kar-chev-aemter" style="margin-left:auto;font-size:12px;transition:transform .2s;transform:rotate(-90deg)">▼</span></div>
+</div>
+
+<div id="kar-body-aemter" style="display:none">
 <div class="fa-acc-wrap" id="fa-wrap-berlin" style="margin-bottom:8px">
   <button class="fa-acc-btn" onclick="toggleAmt('berlin')" aria-expanded="false">
     <span class="fa-acc-left"><span class="fa-acc-icon">🏛️</span><span><span class="fa-acc-name">Berlin</span><span class="fa-acc-sub">17 Regional- + 6 Sonderfinanzämter</span></span></span>
@@ -4045,7 +4067,10 @@ function renderKarriere(a){
 </div>
 
 <!-- GEHALTSVISUALISIERUNG -->
-<div id="karriere-gehalt" class="u-section-head">💰 Gehaltsentwicklung A 7 → A 13<span class="u-divider"></span></div>
+<div id="karriere-gehalt" class="u-section-head u-collapsible" onclick="karToggle('gehalt')" style="cursor:pointer">💰 Gehaltsentwicklung A 7 → A 13<span class="u-divider"></span><span id="kar-chev-gehalt" style="margin-left:auto;font-size:12px;transition:transform .2s;transform:rotate(-90deg)">▼</span></div>
+</div>
+
+<div id="kar-body-gehalt" style="display:none">
 <div style="margin-bottom:16px">
   <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.4);margin-bottom:10px;line-height:1.6">
     Brutto-Grundgehalt Berlin · Stufe 1 → Stufe 8 · Stand 2026 · ohne Zulagen<br>
@@ -4098,7 +4123,10 @@ function renderKarriere(a){
 </div>
 
 <!-- VORTEILE -->
-<div id="karriere-vorteile" class="u-section-head">🌟 Deine Vorteile<span class="u-divider"></span></div>
+<div id="karriere-vorteile" class="u-section-head u-collapsible" onclick="karToggle('vorteile')" style="cursor:pointer">🌟 Deine Vorteile<span class="u-divider"></span><span id="kar-chev-vorteile" style="margin-left:auto;font-size:12px;transition:transform .2s;transform:rotate(-90deg)">▼</span></div>
+</div>
+
+<div id="kar-body-vorteile" style="display:none">
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
   <div class="u-card-blue"><div class="u-icon-lg">🔒</div><div class="u-label-white">Jobsicherheit</div><div class="u-caption">Praktisch unkündbar als Beamter/in auf Lebenszeit.</div></div>
   <div class="u-card-blue"><div class="u-icon-lg">💰</div><div class="u-label-white">Stabile Besoldung</div><div class="u-caption">Gesetzl. Erhöhungen. Berlin: Sonderzahlung 1.550 € (A5–A9) + Familienzuschlag.</div></div>
@@ -4114,6 +4142,8 @@ function renderKarriere(a){
 </div>
 
 <!-- FRISTEN -->
+</div>
+
 <div id="karriere-fristen" class="u-section-head">⏱️ Fristen &amp; Termine<span class="u-divider"></span></div>
 <div id="karriere-countdown" style="margin-bottom:16px"></div>
 
@@ -5482,9 +5512,41 @@ function initSplash(){
         showConsentBanner();
       } else {
         checkTour();
+        // §teve Onboarding für neue Besucher (nach Consent)
+        steveOnboarding();
       }
     },700);
   },2200);
+}
+
+// §teve Onboarding – erscheint 4s nach Ladestart beim allerersten Besuch
+function steveOnboarding(){
+  try {
+    if(localStorage.getItem('steve_intro_done')) return;
+    setTimeout(()=>{
+      if(steveOpen) return;
+      // Auto-open §teve panel for first-time visitors
+      steveOpen = true;
+      const panel = document.getElementById('steve-panel');
+      const wrap  = document.getElementById('steve-btn-wrap');
+      const bubble = document.getElementById('steve-bubble');
+      if(!panel) return;
+      if(bubble) bubble.classList.add('hidden');
+      panel.style.display = 'flex';
+      requestAnimationFrame(() => panel.classList.add('open'));
+      if(wrap) wrap.classList.add('active');
+      steveIntroDone = false;
+      steveIntroStep = 0;
+      const msgs = document.getElementById('steve-msgs');
+      if(msgs) msgs.innerHTML = '';
+      const step = STEVE_INTRO[0];
+      steveAddMsg('steve', step.msg);
+      const chipsEl = document.getElementById('steve-chips');
+      if(chipsEl) chipsEl.innerHTML = step.chips.map(c =>
+        `<button onclick="steveIntroNext('${c.replace(/'/g,"\\'")}\')" class="steve-chip">${c}</button>`
+      ).join('');
+    }, 3500);
+  } catch(e){}
 }
 
 function showConsentBanner(){
@@ -5598,6 +5660,16 @@ function grUpdate(brutto){
 }
 
 // ==================== GEHALTSVISUALISIERUNG ====================
+// ── Karriere collapsible sections ──────────────────────────────
+function karToggle(id){
+  const body = document.getElementById('kar-body-'+id);
+  const chev = document.getElementById('kar-chev-'+id);
+  if(!body) return;
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  if(chev) chev.style.transform = open ? 'rotate(-90deg)' : 'rotate(0deg)';
+}
+
 function gehaltBar(r){
   const max = 6000;
   const pct1 = Math.round(r.stufe1/max*100);
@@ -8226,6 +8298,16 @@ setTimeout(() => {
   const bubble = document.getElementById('steve-bubble');
   if (bubble && !steveOpen) bubble.classList.add('hidden');
 }, 5000);
+
+// Auto-open §teve for first-time visitors after 2.5s
+setTimeout(() => {
+  try {
+    const done = localStorage.getItem('steve_intro_done');
+    if (!done && !steveOpen) {
+      steveToggle();
+    }
+  } catch(e) {}
+}, 2500);
 
 function steveSetCtx(m) {
   steveCurrentCtx = m;
