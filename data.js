@@ -8208,12 +8208,13 @@ let steveIntroDone = false;
 let steveIntroStep = 0;
 
 const STEVE_INTRO = [
-  // Schritt 0: §teve stellt sich vor
+  // Schritt 0: §teve stellt sich vor + Tour direkt anbieten
   {
-    msg: `Hey! 👋 Ich bin <b>§teve</b> – das Paragraphenzeichen mit Aktentasche.<br><br>
-Ich zeige dir gleich was diese Seite kann – und warum sie sich von allem unterscheidet was du bisher zum Thema Steuern & Finanzamt gesehen hast.<br><br>
-Kurze Tour gefällig? Dauert 2 Minuten.`,
-    chips: ['Ja, zeig mir die Seite! →', 'Nein danke, ich schau selbst']
+    msg: `Hey! 👋 Ich bin <b>§teve</b> – dein Steuer-Assistent.<br><br>
+Ich kann dir die Seite zeigen, Fragen beantworten und helfe dir beim Lernen.<br><br>
+<button onclick="steveLaunchTour()" style="width:100%;padding:12px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:var(--navy);font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer;margin-bottom:6px">🔍 Seiten-Tour starten</button>
+<button onclick="steveIntroNext('usp')" style="width:100%;padding:10px;border-radius:12px;border:1.5px solid rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.6);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">Zeig mir die Highlights →</button>`,
+    chips: []
   },
   // Schritt 1: USP 1 – Karriere & Bewerbung
   {
@@ -8270,7 +8271,12 @@ function steveIntroNext(choice) {
     if(chipsEl) chipsEl.innerHTML = steveChipsHtml(ctx.chips);
     return;
   }
-  steveIntroStep++;
+  // 'usp' = skip to USP slides
+  if (choice === 'usp') {
+    steveIntroStep = 1;
+  } else {
+    steveIntroStep++;
+  }
   if (steveIntroStep >= STEVE_INTRO.length) {
     steveIntroDone = true;
     try { localStorage.setItem('steve_intro_done','1'); } catch(e) {}
@@ -8284,47 +8290,6 @@ function steveIntroNext(choice) {
   ).join('');
 }
 
-function steveToggle() {
-  steveOpen = !steveOpen;
-  const panel = document.getElementById('steve-panel');
-  const wrap = document.getElementById('steve-btn-wrap');
-  const bubble = document.getElementById('steve-bubble');
-  if (steveOpen) {
-    if (bubble) bubble.classList.add('hidden');
-    panel.style.display = 'flex';
-    requestAnimationFrame(() => panel.classList.add('open'));
-    wrap.classList.add('active');
-    const msgs = document.getElementById('steve-msgs');
-    // Check if intro was already done (localStorage or session)
-    try { if (localStorage.getItem('steve_intro_done')) steveIntroDone = true; } catch(e) {}
-    if (msgs && msgs.children.length === 0) {
-      if (!steveIntroDone) {
-        // Show intro
-        steveIntroStep = 0;
-        const step = STEVE_INTRO[0];
-        steveAddMsg('steve', step.msg);
-        const chipsEl = document.getElementById('steve-chips');
-        if (chipsEl) chipsEl.innerHTML = step.chips.map(c =>
-          `<button onclick="steveIntroNext('${c.replace(/'/g,"\\'")}\')" class="steve-chip">${c}</button>`
-        ).join('');
-      } else {
-        steveSetCtx(typeof mode !== 'undefined' ? mode : 'default');
-      }
-    }
-  } else {
-    panel.classList.remove('open');
-    wrap.classList.remove('active');
-    setTimeout(() => { if (!steveOpen) panel.style.display = 'none'; }, 300);
-  }
-}
-
-// Auto-hide bubble after 5s
-setTimeout(() => {
-  const bubble = document.getElementById('steve-bubble');
-  if (bubble && !steveOpen) bubble.classList.add('hidden');
-}, 5000);
-
-// §teve auto-open: handled by steveOnboarding() in initSplash
 
 function steveChipsHtml(chips){
   const base = chips.map(c =>
