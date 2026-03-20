@@ -1877,20 +1877,32 @@ function startStory(id, resume){
   render();
 }
 
-function storyNext(){
+function storyNext(btn){
+  if(btn){ btn.disabled=true; btn.style.opacity='.5'; }
   const story = D_STORY.find(s=>s.id===storyOpen);
   if(!story) return;
   storyScene++;
   storyChosen = null;
   if(storyScene >= story.scenes.length){
-    // Mark done
     storyProgress[storyOpen] = { done: true, ts: Date.now() };
     saveStoryProgress();
-    render(); // shows result
+    render();
     return;
   }
   storyProgress[storyOpen] = { done: false, scene: storyScene };
   saveStoryProgress();
+  render();
+}
+
+function storyBack(){
+  if(storyScene <= 0){
+    // Back to story overview
+    storyOpen = null;
+    render();
+    return;
+  }
+  storyScene--;
+  storyChosen = null;
   render();
 }
 
@@ -1991,10 +2003,10 @@ function renderStoryScene(a, story){
         +'<div style="font-size:14px;font-weight:900;color:var(--navy);margin-bottom:8px">'+resultIcon+' '+chosen.outcome+'</div>'
         +'<div style="font-size:12px;font-weight:700;color:#555;line-height:1.65">'+chosen.explain+'</div>'
         +'</div>';
-      nextHtml = '<button onclick="storyNext()" style="width:100%;padding:13px;border-radius:13px;border:none;background:'+story.color+';color:#fff;font-family:Nunito,sans-serif;font-weight:900;font-size:14px;cursor:pointer;margin-bottom:8px">'+(storyScene+1<total?'Weiter ➜':'Abschluss 🎓')+'</button>';
+      nextHtml = '<button onclick="storyNext(this)" style="width:100%;padding:13px;border-radius:13px;border:none;background:'+story.color+';color:#fff;font-family:Nunito,sans-serif;font-weight:900;font-size:14px;cursor:pointer;margin-bottom:8px">'+(storyScene+1<total?'Weiter ➜':'Abschluss 🎓')+'</button>';
     }
   } else {
-    nextHtml = '<button onclick="storyNext()" style="width:100%;padding:13px;border-radius:13px;border:none;background:'+story.color+';color:#fff;font-family:Nunito,sans-serif;font-weight:900;font-size:14px;cursor:pointer;margin-bottom:8px">'+(storyScene+1<total?'Weiter ➜':'Abschluss 🎓')+'</button>';
+    nextHtml = '<button onclick="storyNext(this)" style="width:100%;padding:13px;border-radius:13px;border:none;background:'+story.color+';color:#fff;font-family:Nunito,sans-serif;font-weight:900;font-size:14px;cursor:pointer;margin-bottom:8px">'+(storyScene+1<total?'Weiter ➜':'Abschluss 🎓')+'</button>';
   }
 
   a.innerHTML = `
@@ -2023,7 +2035,10 @@ function renderStoryScene(a, story){
     </div>` : ''}
 
     ${nextHtml}
-    <button onclick="storyOpen=null;sw('basics')" style="width:100%;padding:10px;border-radius:11px;border:2px solid #dde5f5;background:#f0f4ff;color:var(--navy);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer;margin-bottom:90px">← Zurück zu Basics</button>`;
+    <div style="display:flex;gap:8px;margin-bottom:90px">
+      <button onclick="storyBack()" style="flex:1;padding:10px;border-radius:11px;border:2px solid #dde5f5;background:#f0f4ff;color:var(--navy);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">← ${storyScene===0?'Zur Übersicht':'Zurück'}</button>
+      <button onclick="storyOpen=null;render()" style="flex:1;padding:10px;border-radius:11px;border:2px solid #dde5f5;background:#f0f4ff;color:var(--navy);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">📚 Alle Stories</button>
+    </div>`;
 }
 
 function renderStoryEnd(a, story){
@@ -2956,7 +2971,8 @@ function renderBasicsEinsteiger(a){
       <div style="font-size:12px;font-weight:900;color:#fff">≈ Netto</div>
       <div style="font-size:20px;font-weight:900;color:#00c97b;font-family:'Space Mono',monospace" id="gr-netto-lbl">—</div>
     </div>
-    <div style="margin-top:8px;font-size:9px;font-weight:700;color:rgba(255,255,255,.25);line-height:1.6">⚠️ Schematische Darstellung · Steuerklasse I · ledig · keine Kinder · kein Kirchenmitglied · keine Freibeträge. Tatsächliches Netto kann abweichen.</div>
+    <div id="gr-hint" style="display:none;margin-top:6px;font-size:10px;font-weight:700;color:#00c97b;background:rgba(0,201,123,.08);border-radius:8px;padding:6px 10px"></div>
+    <div style="margin-top:8px;font-size:9px;font-weight:700;color:rgba(255,255,255,.25);line-height:1.6">⚠️ Schematische Darstellung · § 32a EStG 2026 · Grundfreibetrag 12.336 € · AN-Pauschbetrag 1.230 € · Steuerklasse I · ledig · ohne Kinder · ohne Kirchensteuer. Tatsächliches Netto kann abweichen.</div>
   </div>
 </div>
 
@@ -5602,52 +5618,97 @@ function toggleCLgd(item){
 
 // ==================== SCHEMATISCHER GEHALTSRECHNER ====================
 function grUpdate(brutto){
-  brutto=parseInt(brutto);
-  document.getElementById('gr-brutto-lbl').textContent=brutto.toLocaleString('de-DE')+' €';
-  // Schematic approximations (Steuerklasse I, 2026)
-  const rv=Math.round(brutto*0.093);      // Rentenversicherung 9,3%
-  const kv=Math.round(brutto*0.073);      // Krankenversicherung ~7,3%
-  const av=Math.round(brutto*0.013);      // Arbeitslosenversicherung 1,3%
-  const pv=Math.round(brutto*0.018);      // Pflegeversicherung ~1,8%
-  const sv=rv+kv+av+pv;
-  // Schematic LSt: progressive approximation
-  const jb=brutto*12;
-  let lst=0;
-  if(jb>11784){
-    if(jb<=17005)lst=Math.round((0.14+(jb-11784)*0.000009766)*( jb-11784)/12);
-    else if(jb<=66760)lst=Math.round((0.2397+(jb-17005)*0.0000039667)*(jb-17005)/12+880/12);
-    else if(jb<=277826)lst=Math.round((0.42*(jb-66760)+17543)/12);
-    else lst=Math.round((0.45*(jb-277826)+106112)/12);
-    lst=Math.max(0,Math.round(lst));
-  }
-  const soli=lst>18130/12?Math.round(lst*0.055):0;
-  const netto=Math.max(0,brutto-sv-lst-soli);
-  const total=sv+lst+soli;
+  brutto = parseInt(brutto);
+  document.getElementById('gr-brutto-lbl').textContent = brutto.toLocaleString('de-DE') + ' €';
 
-  const bars=[
-    {label:'Rentenversicherung',val:rv,color:'#c8a0ff',pct:rv/brutto},
-    {label:'Krankenversicherung',val:kv,color:'#7eb8ff',pct:kv/brutto},
-    {label:'Pflege- & Arbeitslosenvers.',val:av+pv,color:'#60d0e4',pct:(av+pv)/brutto},
-    {label:'Lohnsteuer (ca.)',val:lst,color:'#ff8c42',pct:lst/brutto},
-    ...(soli>0?[{label:'Solidaritätszuschlag',val:soli,color:'#ff4d6d',pct:soli/brutto}]:[]),
-    {label:'Netto (ca.)',val:netto,color:'#00c97b',pct:netto/brutto,highlight:true},
+  // ── Sozialversicherung 2026 (AN-Anteil, Steuerklasse I) ──────────
+  const rv = Math.round(brutto * 0.093);          // RV 9,3 %
+  const kv = Math.round(brutto * 0.0815);         // KV 7,3 % + ø 1,7 % Zusatzbeitrag / 2
+  const av = Math.round(brutto * 0.013);          // AV 1,3 %
+  // PV: 1,7 % + 0,6 % Kinderlosenzuschlag ab 23 J. → ø 2,0 % (ohne Kind)
+  const pv = Math.round(brutto * 0.020);
+  const sv = rv + kv + av + pv;
+
+  // ── Lohnsteuer nach § 32a EStG 2026 ─────────────────────────────
+  // Grundfreibetrag 2026: 12.336 €
+  // AN-Pauschbetrag: 1.230 € → mindert das zvE
+  const jb  = brutto * 12;
+  const zve = Math.max(0, jb - 1230);  // zvE nach AN-Pauschbetrag
+  const GFB = 12336;                   // Grundfreibetrag 2026
+
+  let lstJahr = 0;
+  if (zve > GFB) {
+    const x = zve;
+    if (x <= 17443) {
+      // Zone 2: Progressionszone 1
+      const y = (x - GFB) / 10000;
+      lstJahr = Math.round((922.98 * y + 1400) * y);
+    } else if (x <= 68430) {
+      // Zone 3: Progressionszone 2
+      const z = (x - 17443) / 10000;
+      lstJahr = Math.round((181.19 * z + 2397) * z + 1025);
+    } else if (x <= 277825) {
+      // Zone 4: 42 %
+      lstJahr = Math.round(0.42 * x - 10636);
+    } else {
+      // Zone 5: 45 %
+      lstJahr = Math.round(0.45 * x - 18971);
+    }
+  }
+  const lst = Math.max(0, Math.round(lstJahr / 12));
+
+  // ── Solidaritätszuschlag ─────────────────────────────────────────
+  // Freigrenze 2026: 18.130 € Jahres-LSt
+  // Milderungszone bis ~35.250 € Jahres-LSt
+  let soliJahr = 0;
+  if (lstJahr > 18130) {
+    if (lstJahr <= 35250) {
+      // Milderungszone: max. 11,9 % der Differenz über Freigrenze
+      soliJahr = Math.min(lstJahr * 0.055, (lstJahr - 18130) * 0.119);
+    } else {
+      soliJahr = Math.round(lstJahr * 0.055);
+    }
+  }
+  const soli = Math.round(soliJahr / 12);
+
+  const netto = Math.max(0, brutto - sv - lst - soli);
+
+  const bars = [
+    { label:'Rentenversicherung (9,3 %)',          val:rv,      color:'#c8a0ff', pct:rv/brutto },
+    { label:'Krankenversicherung (8,15 %)',         val:kv,      color:'#7eb8ff', pct:kv/brutto },
+    { label:'Pflege- & Arbeitslosenvers. (3,3 %)',  val:av+pv,   color:'#60d0e4', pct:(av+pv)/brutto },
+    { label:'Lohnsteuer (§ 32a EStG 2026)',         val:lst,     color:'#ff8c42', pct:lst/brutto },
+    ...(soli > 0 ? [{ label:'Solidaritätszuschlag', val:soli, color:'#ff4d6d', pct:soli/brutto }] : []),
+    { label:'Netto (ca.)', val:netto, color:'#00c97b', pct:netto/brutto, highlight:true },
   ];
 
-  document.getElementById('gr-bars').innerHTML=bars.map(b=>`
+  document.getElementById('gr-bars').innerHTML = bars.map(b => `
     <div>
       <div style="display:flex;justify-content:space-between;margin-bottom:3px">
         <div style="font-size:10px;font-weight:700;color:${b.highlight?'#00c97b':'rgba(255,255,255,.55)'}">
-          ${b.highlight?'<b>':''}${b.label}${b.highlight?'</b>':''}
+          ${b.highlight ? '<b>' : ''}${b.label}${b.highlight ? '</b>' : ''}
         </div>
         <div style="font-size:10px;font-weight:900;color:${b.color};font-family:'Space Mono',monospace">
-          −${b.val.toLocaleString('de-DE')} €
+          ${b.highlight ? '' : '−'}${b.val.toLocaleString('de-DE')} €
         </div>
       </div>
       <div style="height:${b.highlight?8:5}px;background:rgba(255,255,255,.08);border-radius:100px;overflow:hidden">
-        <div style="height:100%;width:${Math.round(b.pct*100)}%;background:${b.color};border-radius:100px;transition:width .4s ease"></div>
+        <div style="height:100%;width:${Math.min(100,Math.round(b.pct*100))}%;background:${b.color};border-radius:100px;transition:width .4s ease"></div>
       </div>
     </div>`).join('');
-  document.getElementById('gr-netto-lbl').textContent='≈ '+netto.toLocaleString('de-DE')+' €';
+
+  document.getElementById('gr-netto-lbl').textContent = '≈ ' + netto.toLocaleString('de-DE') + ' €';
+
+  // Show hint when below Grundfreibetrag
+  const hintEl = document.getElementById('gr-hint');
+  if (hintEl) {
+    if (zve <= GFB) {
+      hintEl.textContent = '✅ Unter dem Grundfreibetrag (12.336 €/Jahr) – keine Lohnsteuer.';
+      hintEl.style.display = 'block';
+    } else {
+      hintEl.style.display = 'none';
+    }
+  }
 }
 
 // ==================== GEHALTSVISUALISIERUNG ====================
@@ -8392,14 +8453,16 @@ function steveToggle() {
   steveOpen = !steveOpen;
   const panel = document.getElementById('steve-panel');
   const bubble = document.getElementById('steve-bubble');
+  const qBtn = document.querySelector('.tour-restart-btn');
   if (!panel) return;
 
   if (steveOpen) {
     if (bubble) bubble.classList.add('hidden');
+    // ? becomes §
+    if (qBtn) { qBtn.textContent = '§'; qBtn.classList.add('steve-is-open'); }
     panel.style.display = 'flex';
     requestAnimationFrame(() => panel.classList.add('open'));
 
-    // First time: show intro
     try { if (localStorage.getItem('steve_intro_done')) steveIntroDone = true; } catch(e) {}
     const msgs = document.getElementById('steve-msgs');
     if (msgs && msgs.children.length === 0) {
@@ -8416,6 +8479,8 @@ function steveToggle() {
       }
     }
   } else {
+    // § becomes ?
+    if (qBtn) { qBtn.textContent = '?'; qBtn.classList.remove('steve-is-open'); }
     panel.classList.remove('open');
     setTimeout(() => { if (!steveOpen) panel.style.display = 'none'; }, 300);
   }
