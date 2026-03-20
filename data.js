@@ -8240,9 +8240,7 @@ function steveIntroNext(choice) {
     const ctx = STEVE_CTX[typeof mode !== 'undefined' ? mode : 'default'] || STEVE_CTX.default;
     steveAddMsg('steve', ctx.greeting);
     const chipsEl = document.getElementById('steve-chips');
-    if (chipsEl) chipsEl.innerHTML = ctx.chips.map(c =>
-      `<button onclick="steveAsk('${c.replace(/'/g,"\\'")}\')" class="steve-chip">${c}</button>`
-    ).join('');
+    if(chipsEl) chipsEl.innerHTML = steveChipsHtml(ctx.chips);
     return;
   }
   steveIntroStep++;
@@ -8309,6 +8307,27 @@ setTimeout(() => {
   } catch(e) {}
 }, 2500);
 
+function steveChipsHtml(chips){
+  const base = chips.map(c =>
+    `<button onclick="steveAsk('${c.replace(/'/g,"\\'")}')" class="steve-chip">${c}</button>`
+  ).join('');
+  const tour = `<button onclick="steveRestartIntro()" class="steve-chip" style="border-color:rgba(255,217,74,.3);color:rgba(255,217,74,.8);background:rgba(255,217,74,.06)">📋 Seiten-Tour</button>`;
+  return base + tour;
+}
+
+function steveRestartIntro(){
+  const msgs = document.getElementById('steve-msgs');
+  if(msgs) msgs.innerHTML = '';
+  steveIntroStep = 0;
+  steveIntroDone = false;
+  const step = STEVE_INTRO[0];
+  steveAddMsg('steve', step.msg);
+  const chipsEl = document.getElementById('steve-chips');
+  if(chipsEl) chipsEl.innerHTML = step.chips.map(c =>
+    `<button onclick="steveIntroNext('${c.replace(/'/g,"\\'")}')" class="steve-chip">${c}</button>`
+  ).join('');
+}
+
 function steveSetCtx(m) {
   steveCurrentCtx = m;
   const ctx = STEVE_CTX[m] || STEVE_CTX.default;
@@ -8318,11 +8337,7 @@ function steveSetCtx(m) {
     steveAddMsg('steve', ctx.greeting);
   }
   const chipsEl = document.getElementById('steve-chips');
-  if (chipsEl) {
-    chipsEl.innerHTML = ctx.chips.map(c =>
-      `<button onclick="steveAsk('${c.replace(/'/g,"\\'")}')" class="steve-chip">${c}</button>`
-    ).join('');
-  }
+  if(chipsEl) chipsEl.innerHTML = steveChipsHtml(ctx.chips);
 }
 
 function steveAddMsg(role, html) {
@@ -8376,38 +8391,13 @@ function steveOnSwitch(m) {
     steveCurrentCtx = m;
     const ctx = STEVE_CTX[m] || STEVE_CTX.default;
     const chipsEl = document.getElementById('steve-chips');
-    if (chipsEl) {
-      chipsEl.innerHTML = ctx.chips.map(c =>
-        `<button onclick="steveAsk('${c.replace(/'/g,"\\'")}')" class="steve-chip">${c}</button>`
-      ).join('');
-    }
-    // Add context switch hint
-    const ctxName = {basics:'Basics',est:'ESt',ust:'USt',ao:'AO',bilanz:'Bilanz',recht:'Recht',karriere:'Karriere',kurios:'Kurioses',speed:'Speed',pruefung:'Prüfungsmodus',trainer:'Testtrainer',meinbereich:'Mein Bereich'}[m] || m;
-    steveAddMsg('steve', `📍 Du bist jetzt bei <b>${ctxName}</b>. Meine Schnell-Antworten habe ich entsprechend aktualisiert.`);
+    if(chipsEl) chipsEl.innerHTML = steveChipsHtml(ctx.chips);
+    const ctxName = {basics:'Basics',est:'ESt',ust:'USt',ao:'AO',bilanz:'Bilanz',
+      recht:'Recht',karriere:'Karriere',kurios:'Kurioses',speed:'Speed',
+      pruefung:'Prüfungsmodus',trainer:'Testtrainer',meinbereich:'Mein Bereich'}[m] || m;
+    steveAddMsg('steve', `📍 Du bist jetzt bei <b>${ctxName}</b>. Meine Schnell-Antworten habe ich angepasst.`);
   }
 }
-
-// ==================== §TEVE ====================
-
-
-const STEVE_QA = [
-  {q:/unterschied.*md.*gd|md.*gd|mittlerer.*gehobener|md vs gd/i, a:'<b>Mittlerer Dienst (MD)</b> = 2-jährige Ausbildung, Voraussetzung: MSA. Einstieg A 7, Start 15. August.<br><br><b>Gehobener Dienst (GD)</b> = 3-jähriges Studium FHF, Voraussetzung: Abitur/FHR. Abschluss: Diplom-Finanzwirt/in (FH), Einstieg A 9, Start 1. September.<br><br>§teve-Tipp: GD hat mehr Karrierepotenzial, MD ist der schnellere Einstieg.'},
-  {q:/einstellungstest|auswahltest|was.*kommt.*test/i, a:'Der Test hat 6 Bereiche: <b>Sprachverständnis, Mathematik, Logik, Merkfähigkeit, Konzentration, Allgemeinwissen</b>.<br><br>⚠️ <b>Falsche Antworten kosten Punkte!</b> Lieber überspringen als raten. Berlin: computergestützt, Finanzschule Bismarckstraße 48. Tipp: Übe täglich 20–30 Min. im Testtrainer.'},
-  {q:/zwischenprüfung/i, a:'Nach Semester 1 des GD-Studiums: <b>5 Klausuren à 3 Stunden</b>. Fächer: AO, ESt, USt, Bilanzsteuerrecht, Privatrecht/öff. Recht.<br><br>⚠️ Nicht bestanden: <b>1× Wiederholung möglich</b>, danach Ende des Studiums.<br><br>§teve-Rat: Nicht unterschätzen – das ist kein Probelauf.'},
-  {q:/verdien|gehalt|bezüge|anwärter/i, a:'Als Anwärter erhältst du <b>Anwärterbezüge</b> (§ 59 BBesG):<br>• MD Berlin: <b>1.467 €</b> brutto/Mo.<br>• GD Berlin: <b>1.527 €</b> brutto/Mo.<br><br>Als Beamter auf Widerruf zahlst du keine Sozialversicherung → Netto überproportional hoch.<br><br>Nach der Ausbildung: A 7 (MD) oder A 9 (GD) – bis A 13 ist alles drin.'},
-  {q:/bewerb|bewerbung|frist|wann.*bewerben/i, a:'🏛️ <b>Berlin:</b> ca. August–Januar des Vorjahres · Senatsportal<br>🌿 <b>Brandenburg (GD):</b> 1. Aug–31. Dez · fhf.brandenburg.de<br><br>§teve-Tipp: Lieber früh bewerben – Berlin hat ~180 GD-Plätze, die sind begehrt.'},
-  {q:/grundfreibetrag/i, a:'Der <b>Grundfreibetrag 2026: 11.784 €</b> (§ 32a Abs. 1 EStG). Bis zu diesem Betrag fällt keine Einkommensteuer an – das sichert das Existenzminimum.<br><br>Über dem Grundfreibetrag startet der Tarif bei 14 % und steigt progressiv bis 42 %.'},
-  {q:/7.*prozent|sieben.*prozent|umsatzsteuer.*satz|ermäßigt/i, a:'<b>7 %</b>: Lebensmittel, Bücher, ÖPNV, Zeitungen, Gastronomie (ab 2026 dauerhaft).<br><b>19 %</b>: Alles andere – Elektronik, Kleidung, Dienstleistungen.<br><br>§teve-Kuriosität: Tee = 7 %, Kaffeebohnen = 19 %. Gleiches Getränk, anderer Satz.'},
-  {q:/vorsteuer|vorsteuerabzug/i, a:'<b>Vorsteuerabzug (§ 15 UStG)</b>: Unternehmer können die an sie berechnete USt zurückfordern. Nur der <b>Endverbraucher</b> trägt die USt wirtschaftlich.<br><br>§teve-Formel: Zahllast = USt auf Verkäufe − Vorsteuer aus Einkäufen.'},
-  {q:/einspruch/i, a:'Einspruch (§ 347 AO): <b>1 Monat Frist</b> ab Bekanntgabe (§ 355 AO). Schriftlich beim Finanzamt.<br><br>⚠️ Das FA prüft den <b>gesamten Bescheid</b> neu – auch zu deinen Ungunsten (Verböserung § 367 Abs. 2 AO)!'},
-  {q:/außenprüfung|betriebsprüfung/i, a:'<b>Außenprüfung (§§ 193 ff. AO)</b>: FA prüft Bücher vor Ort. Prüfungszeitraum: i.d.R. 3 Jahre, bei Hinterziehung bis 10 Jahre.<br><br>§teve-Warnung: Ab Bekanntgabe der Prüfungsanordnung ist eine strafbefreiende Selbstanzeige gesperrt!'},
-  {q:/schwach|themen.*vorschlag|was.*üben|wo.*üben/i, a(){return steveWeakTopics();}},
-  {q:/was kann.*seite|usp|besonderheit|was gibt.*hier/i, a:'§teve listet die USPs auf: 🎯<br>• <b>300+ Quizfragen</b> in 8 Themengebieten<br>• <b>Karriere-Modul</b> mit verifizierten Bewerbungsinfos<br>• <b>Einstellungstest-Trainer</b> für alle 6 Testbereiche<br>• <b>Schematischer Gehaltsrechner</b><br>• <b>Steuer-Stories</b><br>• Kostenlos, kein Login, offline-fähig<br>• Und ich, §teve 😎'},
-  {q:/wo.*anfangen|einstieg|anfänger|neuling/i, a:'§teve empfiehlt:<br>1️⃣ <b>Basics</b> – Steuer-Tour (20 Min.)<br>2️⃣ <b>Karriere</b> – Bewerbungsweg anschauen<br>3️⃣ <b>Testtrainer</b> – üben wo du stehst<br>4️⃣ <b>ESt-Quiz</b> – Einkunftsarten vertiefen'},
-];
-
-let steveConsecWrong = 0;
-let steveLastContext = '';
 
 function steveToggle() {
   steveOpen = !steveOpen;
