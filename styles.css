@@ -696,9 +696,9 @@ header p{color:rgba(255,255,255,.55);font-size:var(--tx-base)}
 .spot-next{padding:9px 18px;border-radius:var(--r-pill);background:var(--navy);color:#fff;border:none;font-family:'Nunito',sans-serif;font-weight:900;font-size:var(--tx-sm);cursor:pointer;transition:all .2s}
 .spot-next:hover{background:var(--blue);transform:translateY(-1px)}
 /* ? button */
-.tour-restart-btn{position:fixed;bottom:90px;right:16px;z-index:500;width:40px;height:40px;border-radius:50%;background:rgba(13,27,62,.95);border:2px solid rgba(0,194,224,.4);color:var(--cyan);font-family:"Space Mono",monospace;font-weight:900;font-size:18px;cursor:pointer;box-shadow:0 4px 14px rgba(0,194,224,.25);transition:all .2s;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
+.tour-restart-btn{position:fixed;bottom:90px;right:16px;z-index:500;width:40px;height:40px;border-radius:50%;background:rgba(13,27,62,.95);border:2px solid rgba(0,194,224,.4);color:var(--cyan);font-family:"Space Mono",monospace;font-weight:900;font-size:18px;cursor:pointer;box-shadow:0 4px 14px rgba(0,194,224,.25);transition:all .2s;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
 .tour-restart-btn:hover{background:var(--blue);border-color:var(--cyan);transform:scale(1.1)}
-@media(max-width:640px){.tour-restart-btn{display:flex;bottom:calc(70px + env(safe-area-inset-bottom,16px));right:12px}}
+@media(max-width:640px){.tour-restart-btn{bottom:calc(70px + env(safe-area-inset-bottom,16px));right:12px}}
 /* ===== BASICS – QUIZ CATEGORIES ===== */
 .quiz-cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-sm);margin-bottom:var(--sp-lg)}
 @media(max-width:400px){.quiz-cat-grid{grid-template-columns:1fr}}
@@ -1552,14 +1552,14 @@ header p{color:rgba(255,255,255,.55);font-size:var(--tx-base)}
 }
 .steve-close, .steve-clear {
   background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.12);
-  color: rgba(255,255,255,.45);
+  border: 1px solid rgba(255,255,255,.2);
+  color: rgba(255,255,255,.7);
   border-radius: 7px;
-  padding: 4px 8px;
+  padding: 5px 10px;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 14px;
   font-family: 'Nunito', sans-serif;
-  font-weight: 700;
+  font-weight: 800;
   flex-shrink: 0;
   transition: all .15s;
 }

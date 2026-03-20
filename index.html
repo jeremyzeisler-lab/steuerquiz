@@ -600,7 +600,7 @@
 </div>
 
 <!-- ===== §TEVE PANEL ===== -->
-<div id="steve-btn-wrap" onclick="steveToggle()" title="§teve – dein Steuer-Assistent" aria-label="§teve öffnen">
+<button id="steve-btn-wrap" onclick="steveToggle()" title="§teve – dein Steuer-Assistent" aria-label="§teve öffnen" style="background:none;border:none;padding:0;cursor:pointer">
   <div id="steve-bubble" class="steve-bubble">Hast du eine Frage? 💡</div>
   <button id="steve-btn" aria-label="§teve">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 170" width="80" height="106" overflow="visible" style="display:block">
@@ -702,7 +702,7 @@
       </g>
     </svg>
   </button>
-</div>
+</button>
 
 <div id="steve-panel" style="display:none">
   <div class="steve-header">
@@ -712,7 +712,7 @@
       <div class="steve-sub">Dein Steuer-Assistent · immer dabei</div>
     </div>
     <button class="steve-clear" onclick="steveClear()" title="Gespräch zurücksetzen">↺</button>
-    <button class="steve-close" onclick="steveToggle()">✕</button>
+    <button class="steve-close" onclick="steveToggle()" title="Schließen">✕</button>
   </div>
   <div id="steve-msgs" class="steve-msgs"></div>
   <div id="steve-chips" class="steve-chips"></div>
