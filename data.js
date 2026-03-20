@@ -5523,43 +5523,20 @@ function initSplash(){
         showConsentBanner();
       } else {
         checkTour();
-        // §teve Onboarding für neue Besucher (nach Consent)
-        steveOnboarding();
       }
+      // Speech bubble appears briefly, then hides after 5s
+      setTimeout(()=>{
+        const bubble = document.getElementById('steve-bubble');
+        if(bubble && !steveOpen) bubble.classList.add('hidden');
+      }, 5000);
     },700);
   },2200);
 }
 
 // §teve Onboarding – erscheint 4s nach Ladestart beim allerersten Besuch
 function steveOnboarding(){
-  try {
-    if(localStorage.getItem('steve_intro_done')) return;
-    setTimeout(()=>{
-      if(steveOpen) return;
-      // Only open §teve if Basics tour is not currently active
-      if(document.querySelector('.tour-active')) return;
-      // Auto-open §teve panel for first-time visitors
-      steveOpen = true;
-      const panel = document.getElementById('steve-panel');
-      const wrap  = document.getElementById('steve-btn-wrap');
-      const bubble = document.getElementById('steve-bubble');
-      if(!panel) return;
-      if(bubble) bubble.classList.add('hidden');
-      panel.style.display = 'flex';
-      requestAnimationFrame(() => panel.classList.add('open'));
-      if(wrap) wrap.classList.add('active');
-      steveIntroDone = false;
-      steveIntroStep = 0;
-      const msgs = document.getElementById('steve-msgs');
-      if(msgs) msgs.innerHTML = '';
-      const step = STEVE_INTRO[0];
-      steveAddMsg('steve', step.msg);
-      const chipsEl = document.getElementById('steve-chips');
-      if(chipsEl) chipsEl.innerHTML = step.chips.map(c =>
-        `<button onclick="steveIntroNext('${c.replace(/'/g,"\\'")}\')" class="steve-chip">${c}</button>`
-      ).join('');
-    }, 3500);
-  } catch(e){}
+  // Auto-open disabled – §teve only opens on manual tap of § button
+  // The speech bubble already hints at §teve's presence
 }
 
 function showConsentBanner(){
