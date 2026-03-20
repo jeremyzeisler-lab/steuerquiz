@@ -2898,10 +2898,10 @@ function renderBasicsEinsteiger(a){
       <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:2px">Weiterbildung</div>
       <div style="font-size:9px;color:var(--cyan);font-family:'Space Mono',monospace;font-weight:700">§ 9 Abs.1 Nr.6 EStG</div>
     </div>
-    <div onclick="absetzOv('spende')" style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;cursor:pointer;transition:all .2s;text-align:center" onmouseover="this.style.background='rgba(0,194,224,.08)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
-      <div style="font-size:26px;margin-bottom:6px">🎁</div>
-      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:2px">Spenden</div>
-      <div style="font-size:9px;color:var(--cyan);font-family:'Space Mono',monospace;font-weight:700">§ 10b EStG</div>
+    <div onclick="absetzOv('ausbildung')" style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;cursor:pointer;transition:all .2s;text-align:center" onmouseover="this.style.background='rgba(0,194,224,.08)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
+      <div style="font-size:26px;margin-bottom:6px">🎓</div>
+      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:2px">Ausbildungskosten</div>
+      <div style="font-size:9px;color:var(--cyan);font-family:'Space Mono',monospace;font-weight:700">§ 10 · § 9 EStG</div>
     </div>
     <div onclick="absetzOv('krank')" style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:14px;cursor:pointer;transition:all .2s;text-align:center" onmouseover="this.style.background='rgba(0,194,224,.08)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
       <div style="font-size:26px;margin-bottom:6px">🩺</div>
@@ -3241,13 +3241,16 @@ const ABSETZ_OV = {
 <b>Zweitausbildung/Zweitstudium:</b> Vollständig WK, auch vorweggenommen (Verlustvortrag § 10d EStG).`,
     example:'Azubi Kai: 450 € Kursgebühr + 120 € Literatur + 80 € Fahrten = <b>650 € WK</b>.'
   },
-  spende:{
-    icon:'🎁', title:'Spenden – Sonderausgaben',
-    norm:'§ 10b EStG · § 50 EStDV · §§ 52–54 AO',
-    recht:`<b>Sonderausgaben:</b> weder WK/BA noch AuBe, aber gesetzlich zum Abzug zugelassen (abschließend).<br><br>
-<b>Max. 20 % des GdE</b> oder 4 ‰ der Summe aus Umsätzen + Löhnen. Überhang: Spendenübertrag (§ 10b Abs. 1 Satz 9 EStG).<br><br>
-<b>Nachweis (§ 50 EStDV):</b> Bis 300 € Kontoauszug ausreichend. Ab 300 € zwingend amtliche Zuwendungsbestätigung.`,
-    example:'Max (30.000 € GdE) spendet 4.500 €. Max. 20 % × 30.000 € = 6.000 € → voll absetzbar. Steuerersparnis ca. <b>1.125 €</b> (25 % Grenzsteuersatz).'
+  ausbildung:{
+    icon:'🎓', title:'Ausbildungskosten – Werbungskosten oder Sonderausgaben',
+    norm:'§ 9 Abs. 1 EStG · § 10 Abs. 1 Nr. 7 EStG · BFH GrS 7/89',
+    recht:`<b>Entscheidende Unterscheidung:</b><br><br>
+<b>1. Erstausbildung / Erststudium (§ 10 Abs. 1 Nr. 7 EStG):</b><br>
+Keine Berufsausbildung zuvor → Kosten sind <b>Sonderausgaben</b>, max. <b>6.000 €/Jahr</b>. Kein Verlustvortrag möglich (BVerfG 2012). Typisch: duales Studium direkt nach Abitur, erste Berufsausbildung.<br><br>
+<b>2. Fortbildung / Zweitausbildung (§ 9 Abs. 1 EStG):</b><br>
+Bereits eine abgeschlossene Berufsausbildung → Kosten sind <b>Werbungskosten</b>, unbegrenzt, mit <b>Verlustvortrag</b> (§ 10d EStG). Z. B. Aufstiegsstudium MD→GD, Meisterkurs, Masterstudium nach Bachelor.<br><br>
+<b>Abgrenzung ist entscheidend:</b> Das duale Studium an der FHF ist in der Regel Erstausbildung → § 10 Abs. 1 Nr. 7 EStG, max. 6.000 €.`,
+    example:'Azubi Tim (Erstausbildung, FHF-Studium): Fahrtkosten 1.800 € + Lernmittel 400 € = 2.200 € → als Sonderausgaben (§ 10 Abs. 1 Nr. 7 EStG), max. 6.000 €. Da Tim unter dem Grundfreibetrag liegt, keine sofortige Steuerersparnis – aber <b>kein Verlustvortrag</b> möglich (anders als bei WK).'
   },
   krank:{
     icon:'🩺', title:'Außergewöhnliche Belastungen – Krankheitskosten',
