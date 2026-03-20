@@ -1424,7 +1424,8 @@ header p{color:rgba(255,255,255,.55);font-size:var(--tx-base)}
 @media(max-width:640px) {
   #steve-btn-wrap {
     bottom: calc(70px + env(safe-area-inset-bottom, 16px));
-    right: 12px;
+    right: auto;
+    left: 12px;
   }
 }
 
@@ -1509,7 +1510,7 @@ header p{color:rgba(255,255,255,.55);font-size:var(--tx-base)}
     right: 8px;
     left: 8px;
     width: auto;
-    bottom: calc(140px + env(safe-area-inset-bottom, 16px));
+    bottom: calc(134px + env(safe-area-inset-bottom, 16px));
     max-height: 55vh;
   }
 }
