@@ -6912,37 +6912,37 @@ const TOUR_STEPS = [
   {
     el: 'tour-tabs', desktopOnly: true,
     title: '📍 Deine Navigation',
-    text: 'Alle Themenbereiche auf einen Blick – aufgeteilt in Gruppen: Einstieg, Vertiefung und Tools. Grüne Häkchen erscheinen bei Bereichen, die du schon besucht hast.'
+    text: 'Alle Themenbereiche auf einen Blick – aufgeteilt in Gruppen: Einstieg, Quiz-Bereiche und mehr. Aktiver Tab ist blau hervorgehoben.'
   },
   {
     el: 'tour-scorebar',
-    title: '🏆 Punkte & Streak',
-    text: 'Punkte, Richtig/Falsch-Quote und deine aktuelle Serie. Je länger dein Streak, desto mehr leuchtet das Feuer 🔥 Tipp auf den farbigen Level-Chip um dein Level zu wechseln.'
+    title: '🏆 Deine Serie & Fortschritt',
+    text: 'Deine aktuelle Treffer-Serie und Richtig/Falsch-Quote. Je länger dein Streak, desto mehr Punkte pro Frage. Tippe auf 🏅 für deine Abzeichen.'
   },
   {
     el: 'level-banner',
     title: '🎓 Einsteiger oder Fortgeschritten?',
-    text: 'Als Einsteiger startest du Schritt für Schritt. Bist du Azubi, Student oder bereitest du dich auf Prüfungen vor? Dann wechsle auf Fortgeschritten – dort schaltest du AO, Bilanz, Recht, Speed-Quiz und den vollständigen Prüfungsmodus frei!'
+    text: 'Als Einsteiger startest du Schritt für Schritt. Bist du Azubi oder bereitest dich auf Prüfungen vor? Wechsle auf Fortgeschritten für AO, Bilanz, Recht, Speed-Quiz und Prüfungsmodus!'
   },
   {
     el: 'tab-karriere', desktopOnly: true,
     title: '🎓 Karriere im Finanzamt',
-    text: 'Alles über Ausbildung, Studium und Bewerbung. Gehalt, Fristen, Voraussetzungen – und ein direkter Bewerbungslink am Ende der Seite.'
+    text: 'Alles über Ausbildung, Studium und Bewerbung. Bewerbungsweg, Fristen, Einstellungstest-Trainer, Gehalt von A 7 bis A 13 – und direkter Bewerbungslink.'
   },
   {
     el: 'tab-est', desktopOnly: true,
     title: '💼 Quiz starten',
-    text: 'Klicke auf einen Tab und leg direkt los. Nach jeder Antwort kommt eine ausführliche Erklärung mit Paragrafenverweis. Falsche Antworten landen automatisch im Fehlerspeicher.'
+    text: 'Klicke auf einen Tab und leg direkt los. Nach jeder Antwort kommt eine Erklärung mit Paragrafenverweis. Falsche Antworten landen im Fehlerspeicher.'
   },
   {
-    el: 'tab-einfuehrung', desktopOnly: true,
-    title: '🔒 Einführungstag (E-Tag)',
-    text: 'Passwortgeschützter Bereich für Dozenten und Lehrkräfte – mit moderiertem Klassen-Quiz für den Unterricht. Als Schüler kannst du alle anderen Bereiche jederzeit frei nutzen.'
+    el: 'steve-btn-wrap',
+    title: '§ Ich – §teve – bin immer dabei!',
+    text: 'Tippe mich jederzeit an für Fragen zu Steuerrecht und Karriere. Ich erkläre Begriffe, zeige deine Schwachstellen und melde mich automatisch wenn du 3× falsch liegst.'
   },
   {
     el: 'mobileNav', mobileOnly: true,
     title: '📱 Schnell-Navigation',
-    text: 'Hier unten wechselst du zwischen den wichtigsten Bereichen. Das „?"-Symbol oben rechts bringt dich jederzeit zurück zu dieser Tour.'
+    text: 'Hier unten wechselst du zwischen den wichtigsten Bereichen. §teve unten links beantwortet jederzeit deine Fragen.'
   },
 ];
 
@@ -8353,8 +8353,13 @@ function steveChipsHtml(chips){
   const base = chips.map(c =>
     `<button onclick="steveAsk('${c.replace(/'/g,"\\'")}')" class="steve-chip">${c}</button>`
   ).join('');
-  const tour = `<button onclick="steveRestartIntro()" class="steve-chip" style="border-color:rgba(255,217,74,.3);color:rgba(255,217,74,.8);background:rgba(255,217,74,.06)">📋 Seiten-Tour</button>`;
+  const tour = `<button onclick="steveLaunchTour()" class="steve-chip" style="border-color:rgba(255,217,74,.3);color:rgba(255,217,74,.8);background:rgba(255,217,74,.06)">🔍 Seiten-Tour starten</button>`;
   return base + tour;
+}
+
+function steveLaunchTour(){
+  if(steveOpen) steveToggle();
+  setTimeout(() => spotStart(), 350);
 }
 
 function steveRestartIntro(){
