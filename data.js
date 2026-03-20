@@ -8231,29 +8231,54 @@ let steveIntroDone = false;
 let steveIntroStep = 0;
 
 const STEVE_INTRO = [
-  // Schritt 0: §teve stellt sich vor – wer bin ich?
+  // Schritt 0: §teve stellt sich vor
   {
-    msg: `Hey! 👋 Ich bin <b>§teve</b> – das Paragraphenzeichen mit Aktentasche und einem leichten Hang zu Steuerrecht-Witzen.<br><br>Ich begleite dich durch das <b>Steuer-Lernspiel der Finanzverwaltung Berlin &amp; Brandenburg</b> – und bin immer hier wenn du eine Frage hast.<br><br>Darf ich dir kurz zeigen was es hier alles gibt?`,
-    chips: ['Ja, zeig mal! →', 'Nein danke, ich schau selbst']
+    msg: `Hey! 👋 Ich bin <b>§teve</b> – das Paragraphenzeichen mit Aktentasche.<br><br>
+Ich zeige dir gleich was diese Seite kann – und warum sie sich von allem unterscheidet was du bisher zum Thema Steuern & Finanzamt gesehen hast.<br><br>
+Kurze Tour gefällig? Dauert 2 Minuten.`,
+    chips: ['Ja, zeig mir die Seite! →', 'Nein danke, ich schau selbst']
   },
-  // Schritt 1: Wofür ist die Seite?
+  // Schritt 1: USP 1 – Karriere & Bewerbung
   {
-    msg: `Diese Seite hat <b>zwei Zielgruppen</b> – vielleicht bist du beides:<br><br>🎓 <b>Du willst zur Finanzverwaltung?</b><br>→ Alles zur Bewerbung, Ausbildung, Studium und dem Einstellungstest findest du unter <b>Karriere</b>.<br><br>📚 <b>Du willst Steuerrecht lernen?</b><br>→ 300+ Quizfragen, Lernkarten, Stories und Prüfungsmodus warten auf dich im <b>Quiz-Bereich</b>.<br><br>Beides geht natürlich auch! 😄`,
+    msg: `<b>USP #1: Der vollständigste Karriere-Guide für die Finanzverwaltung.</b><br><br>
+🗺️ Schritt-für-Schritt Bewerbungsweg (MD & GD)<br>
+📅 Alle Fristen, Unterlagen, Testinfos<br>
+🧪 Einstellungstest-Trainer für alle 6 Testbereiche<br>
+💰 Gehaltsvisualisierung von A 7 bis A 13<br><br>
+<button onclick="sw('karriere');steveToggle()" style="width:100%;padding:9px;border-radius:10px;border:none;background:linear-gradient(135deg,#00c97b,#005c36);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:12px;cursor:pointer">→ Karriere jetzt ansehen</button>`,
     chips: ['Weiter →']
   },
-  // Schritt 2: Karriere-Highlight
+  // Schritt 2: USP 2 – Quiz & Lernen
   {
-    msg: `Der <b>Karriere-Bereich</b> ist besonders ausführlich – weil er wirklich hilft:<br><br>🗺️ <b>Bewerbungs-Wegweiser</b> – Schritt für Schritt was wann zu tun ist<br>🧪 <b>Einstellungstest-Trainer</b> – alle 6 Testbereiche üben<br>📅 <b>Ablauf-Übersicht</b> – was passiert in Ausbildung und Studium?<br>💰 <b>Gehaltsvisualisierung</b> – von A 7 bis A 13<br><br>⚠️ Wichtig für den echten Test: <b>Falsche Antworten kosten Punkte!</b> Lieber überspringen als raten.`,
+    msg: `<b>USP #2: 300+ Quizfragen – direkt auf Prüfungsniveau.</b><br><br>
+💼 Einkommensteuer · 🛒 USt · ⚖️ AO · 📋 Bilanz · 🏛️ Recht<br><br>
+Besonderheiten die kein anderes Portal hat:<br>
+📖 <b>Steuer-Stories</b> – Steuern durch echte Alltagssituationen lernen<br>
+🔁 <b>Fehlerspeicher</b> – nur deine falschen Antworten wiederholen<br>
+⚡ <b>Speed-Quiz</b> & 🎓 <b>Prüfungsmodus</b> mit Zeitdruck<br><br>
+<button onclick="sw('est');steveToggle()" style="width:100%;padding:9px;border-radius:10px;border:none;background:linear-gradient(135deg,#1a3a8f,#0d2b5e);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:12px;cursor:pointer">→ Quiz ausprobieren</button>`,
     chips: ['Weiter →']
   },
-  // Schritt 3: Quiz & Lernen
+  // Schritt 3: USP 3 – Basics & Einstieg
   {
-    msg: `Der <b>Quiz-Bereich</b> deckt alle Prüfungsthemen ab:<br><br>💼 ESt · 🛒 USt · ⚖️ AO · 📋 Bilanz · 🏛️ Recht · 🏭 GewSt<br><br>Plus Extras: ⚡ <b>Speed-Quiz</b>, 🎓 <b>Prüfungsmodus</b>, 📖 <b>Stories</b>, 🃏 <b>Lernkarten</b> und ein komplettes <b>Glossar</b>.<br><br>Ich melde mich übrigens automatisch wenn du mehrmals hintereinander falsch liegst – dann erkläre ich dir genau wo der Knoten ist. 😉`,
+    msg: `<b>USP #3: Auch für absolute Einsteiger.</b><br><br>
+Der <b>Basics-Bereich</b> erklärt Steuern ohne Vorwissen:<br><br>
+🗺️ <b>Steuer-Tour</b> – interaktives Einführungs-Tutorial<br>
+💶 <b>Gehaltsrechner</b> – was bleibt von deinem Bruttogehalt?<br>
+💡 <b>„Was kann ich absetzen?"</b> – mit rechtlicher Erklärung<br>
+🤯 <b>Kurioses</b> – Fakten die überraschen<br><br>
+<button onclick="sw('basics');steveToggle()" style="width:100%;padding:9px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:var(--navy);font-family:'Nunito',sans-serif;font-weight:900;font-size:12px;cursor:pointer">→ Basics ansehen</button>`,
     chips: ['Weiter →']
   },
-  // Schritt 4: Abschluss
+  // Schritt 4: USP 4 – Was ich kann
   {
-    msg: `Das war's von mir – kurz und knapp! 🎉<br><br>Ich sitze <b>immer unten rechts</b> und passe meine Fragen-Vorschläge je nach Tab automatisch an. Einfach antippen wenn du etwas wissen willst.<br><br>Noch eine Sache: Alle deine Daten bleiben <b>lokal in deinem Browser</b> – kein Login, nichts wird hochgeladen. Versprochen! 🔒<br><br>Viel Erfolg beim Lernen und bei der Bewerbung! 💪`,
+    msg: `<b>USP #4: Ich – §teve – bin immer dabei.</b> 😄<br><br>
+✅ Beantworte Fragen zu Steuerrecht & Karriere<br>
+✅ Erkläre Begriffe mit Paragraphen-Referenzen<br>
+✅ Melde mich automatisch wenn du 3× falsch liegst<br>
+✅ Zeige dir welche Themen du am meisten üben solltest<br><br>
+Einfach jederzeit antippen – ich bin unten links auf dem Handy, unten rechts auf dem Desktop.<br><br>
+<span style="font-size:10px;color:rgba(255,255,255,.35);font-family:'Space Mono',monospace">Kostenlos · Kein Login · Alle Daten bleiben lokal in deinem Browser</span>`,
     chips: ['Los geht\'s! 🚀']
   }
 ];
