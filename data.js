@@ -2473,10 +2473,25 @@ function init(){
   // Badge after DOM renders
   setTimeout(updateFehlerBadge, 100);
 }
+let steveWrongStreak = 0; // consecutive wrong answers counter
+let steveLastExplain = ''; // last wrong answer explanation
+
 function updSc(ok){
   trackCategoryProgress(mode, ok);
-  if(ok){streak++;totSc+=10+Math.min(streak-1,4)*2;corr++;}
-  else{streak=0;wrong++;}
+  if(ok){
+    streak++;
+    totSc+=10+Math.min(streak-1,4)*2;
+    corr++;
+    steveWrongStreak = 0; // reset on correct
+  } else {
+    streak=0;
+    wrong++;
+    steveWrongStreak++;
+    // Trigger §teve after 3 consecutive wrong answers
+    if(steveWrongStreak >= 3 && typeof steveShowHelp === 'function'){
+      setTimeout(() => steveShowHelp(), 800);
+    }
+  }
   document.getElementById('totSc').textContent=totSc;
   document.getElementById('corrCt').textContent=corr;
   document.getElementById('wrongCt').textContent=wrong;
@@ -3583,6 +3598,7 @@ function renderKarriere(a){
   <span onclick="scrollToId('karriere-voraussetzungen')" style="background:rgba(0,194,224,.1);border:1.5px solid rgba(0,194,224,.3);color:var(--cyan);border-radius:100px;padding:5px 12px;font-size:11px;font-weight:800;cursor:pointer">✅ Voraussetzungen</span>
   <span onclick="scrollToId('karriere-timeline')" style="background:rgba(255,217,74,.1);border:1.5px solid rgba(255,217,74,.3);color:var(--yellow);border-radius:100px;padding:5px 12px;font-size:11px;font-weight:800;cursor:pointer">📈 Karriereweg</span>
   <span onclick="scrollToId('karriere-fhf')" style="background:rgba(123,94,167,.15);border:1.5px solid rgba(123,94,167,.4);color:#c8a0ff;border-radius:100px;padding:5px 12px;font-size:11px;font-weight:800;cursor:pointer">🏫 FHF</span>
+  <span onclick="scrollToId('karriere-gehalt')" style="background:rgba(0,201,123,.1);border:1.5px solid rgba(0,201,123,.3);color:#00c97b;border-radius:100px;padding:5px 12px;font-size:11px;font-weight:800;cursor:pointer">💰 Gehalt A7→A13</span>
   <span onclick="scrollToId('karriere-vorteile')" style="background:rgba(255,140,66,.1);border:1.5px solid rgba(255,140,66,.3);color:#ffaa66;border-radius:100px;padding:5px 12px;font-size:11px;font-weight:800;cursor:pointer">🌟 Vorteile</span>
   <span onclick="scrollToId('karriere-fristen')" style="background:rgba(255,77,109,.1);border:1.5px solid rgba(255,77,109,.3);color:#ff8099;border-radius:100px;padding:5px 12px;font-size:11px;font-weight:800;cursor:pointer">⏱️ Fristen</span>
   <span onclick="scrollToId('karriere-bewerben')" style="background:linear-gradient(135deg,rgba(0,194,224,.2),rgba(26,58,143,.2));border:2px solid var(--cyan);color:var(--cyan);border-radius:100px;padding:5px 12px;font-size:11px;font-weight:800;cursor:pointer">🚀 Jetzt bewerben</span>
@@ -4028,6 +4044,59 @@ function renderKarriere(a){
   </div>
 </div>
 
+<!-- GEHALTSVISUALISIERUNG -->
+<div id="karriere-gehalt" class="u-section-head">💰 Gehaltsentwicklung A 7 → A 13<span class="u-divider"></span></div>
+<div style="margin-bottom:16px">
+  <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.4);margin-bottom:10px;line-height:1.6">
+    Brutto-Grundgehalt Berlin · Stufe 1 → Stufe 8 · Stand 2026 · ohne Zulagen<br>
+    <span style="font-size:9px">Quelle: Besoldungstabelle Berlin (TV-L / BBesO A) · Angaben ohne Gewähr</span>
+  </div>
+
+  <!-- Laufbahn tabs -->
+  <div style="display:flex;gap:8px;margin-bottom:14px">
+    <button id="gehalt-btn-md" onclick="gehaltShow('md')"
+      style="flex:1;padding:9px;border-radius:10px;border:2px solid rgba(0,201,123,.5);background:rgba(0,201,123,.15);color:#00c97b;font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer">
+      🏫 Mittlerer Dienst (A 7–A 9)
+    </button>
+    <button id="gehalt-btn-gd" onclick="gehaltShow('gd')"
+      style="flex:1;padding:9px;border-radius:10px;border:2px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer">
+      🎓 Gehobener Dienst (A 9–A 13)
+    </button>
+  </div>
+
+  <!-- MD chart -->
+  <div id="gehalt-md">
+    ${[
+      {amt:'A 7',label:'Finanzwirt/in',stufe1:2574,stufe8:3218,jahre:'0–2 J.',color:'#00c97b',info:'Einstieg nach Ausbildung MD'},
+      {amt:'A 8',label:'Steuersekretär/in',stufe1:2724,stufe8:3432,jahre:'ca. 2–5 J.',color:'#20d48b',info:'Beförderung nach Bewährung'},
+      {amt:'A 9',label:'Steuerobersekretär/in',stufe1:2890,stufe8:3670,jahre:'ca. 5–10 J.',color:'#40dfa0',info:'Höchststufe MD · Aufstieg in GD möglich'},
+    ].map(r => gehaltBar(r)).join('')}
+    <div style="background:rgba(0,201,123,.07);border:1px solid rgba(0,201,123,.2);border-radius:10px;padding:10px 13px;margin-top:8px;font-size:10px;font-weight:700;color:rgba(0,201,123,.8);line-height:1.7">
+      💡 <b>Aufstieg in den GD möglich:</b> Nach mehrjähriger Praxis kann ein Aufstiegsstudium an der FHF absolviert werden → Aufstieg bis A 13.
+    </div>
+  </div>
+
+  <!-- GD chart -->
+  <div id="gehalt-gd" style="display:none">
+    ${[
+      {amt:'A 9',label:'Steuerinspektor/in',stufe1:2890,stufe8:3670,jahre:'0–3 J.',color:'var(--cyan)',info:'Einstieg nach FHF-Studium'},
+      {amt:'A 10',label:'Steuerobsinspektor/in',stufe1:3112,stufe8:4021,jahre:'ca. 3–6 J.',color:'#40ccee',info:'Beförderung nach Bewährung'},
+      {amt:'A 11',label:'Steueramtmann/frau',stufe1:3530,stufe8:4583,jahre:'ca. 6–12 J.',color:'#60d8f0',info:'Sachgebietsleitung erreichbar'},
+      {amt:'A 12',label:'Steueramtrat/rätin',stufe1:3892,stufe8:5124,jahre:'ca. 12–18 J.',color:'#80e4f8',info:'Sachgebietsleitung, Prüfer'},
+      {amt:'A 13',label:'Steuerrat/rätin',stufe1:4402,stufe8:5844,jahre:'ca. 18+ J.',color:'var(--yellow)',info:'Höchststufe GD · Führungsposition'},
+    ].map(r => gehaltBar(r)).join('')}
+    <div style="background:rgba(0,194,224,.07);border:1px solid rgba(0,194,224,.2);border-radius:10px;padding:10px 13px;margin-top:8px;font-size:10px;font-weight:700;color:rgba(0,194,224,.8);line-height:1.7">
+      💡 <b>Pension statt Rente:</b> Als Beamter auf Lebenszeit erhältst du nach mind. 5 Dienstjahren eine Pension – i.d.R. 71,75 % des letzten Grundgehalts. Kein Rentenabzug während der Dienstzeit.
+    </div>
+  </div>
+
+  <!-- Legende -->
+  <div style="display:flex;gap:16px;margin-top:10px;font-size:10px;font-weight:700;color:rgba(255,255,255,.4)">
+    <div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:10px;border-radius:2px;background:rgba(255,255,255,.2)"></div>Stufe 1 (Einstieg)</div>
+    <div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:10px;border-radius:2px;background:rgba(0,194,224,.6)"></div>Stufe 8 (Maximum)</div>
+  </div>
+</div>
+
 <!-- VORTEILE -->
 <div id="karriere-vorteile" class="u-section-head">🌟 Deine Vorteile<span class="u-divider"></span></div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
@@ -4359,6 +4428,7 @@ function buildCountdown(el){
 
 
 function showFb(ok, explain, context){
+  if(!ok) steveLastExplain = explain || ''; // capture for §teve
   const fb=document.getElementById('fb');
   if(fb){
     fb.className='fb show '+(ok?'correct':'wrong');
@@ -5525,6 +5595,46 @@ function grUpdate(brutto){
       </div>
     </div>`).join('');
   document.getElementById('gr-netto-lbl').textContent='≈ '+netto.toLocaleString('de-DE')+' €';
+}
+
+// ==================== GEHALTSVISUALISIERUNG ====================
+function gehaltBar(r){
+  const max = 6000;
+  const pct1 = Math.round(r.stufe1/max*100);
+  const pct8 = Math.round(r.stufe8/max*100);
+  return `<div style="margin-bottom:12px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">
+      <div>
+        <span style="font-size:13px;font-weight:900;color:${r.color};font-family:'Space Mono',monospace">${r.amt}</span>
+        <span style="font-size:11px;font-weight:700;color:rgba(255,255,255,.6);margin-left:8px">${r.label}</span>
+      </div>
+      <span style="font-size:9px;font-weight:700;color:rgba(255,255,255,.3);font-family:'Space Mono',monospace">${r.jahre}</span>
+    </div>
+    <div style="position:relative;height:28px;background:rgba(255,255,255,.06);border-radius:8px;overflow:hidden">
+      <!-- Stufe 8 bar (behind) -->
+      <div style="position:absolute;left:0;top:0;bottom:0;width:${pct8}%;background:rgba(255,255,255,.1);border-radius:8px"></div>
+      <!-- Stufe 1 bar (front) -->
+      <div style="position:absolute;left:0;top:0;bottom:0;width:${pct1}%;background:${r.color};border-radius:8px;opacity:.85"></div>
+      <!-- Labels -->
+      <div style="position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:10px;font-weight:900;color:#000;font-family:'Space Mono',monospace;white-space:nowrap">${r.stufe1.toLocaleString('de-DE')} €</div>
+      <div style="position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:10px;font-weight:700;color:rgba(255,255,255,.55);font-family:'Space Mono',monospace;white-space:nowrap">→ ${r.stufe8.toLocaleString('de-DE')} €</div>
+    </div>
+    <div style="font-size:9px;color:rgba(255,255,255,.3);font-weight:700;margin-top:3px">${r.info}</div>
+  </div>`;
+}
+
+function gehaltShow(which){
+  document.getElementById('gehalt-md').style.display = which==='md'?'block':'none';
+  document.getElementById('gehalt-gd').style.display = which==='gd'?'block':'none';
+  const btnMd = document.getElementById('gehalt-btn-md');
+  const btnGd = document.getElementById('gehalt-btn-gd');
+  if(which==='md'){
+    btnMd.style.cssText='flex:1;padding:9px;border-radius:10px;border:2px solid rgba(0,201,123,.5);background:rgba(0,201,123,.15);color:#00c97b;font-family:\'Nunito\',sans-serif;font-weight:800;font-size:11px;cursor:pointer';
+    btnGd.style.cssText='flex:1;padding:9px;border-radius:10px;border:2px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:rgba(255,255,255,.4);font-family:\'Nunito\',sans-serif;font-weight:800;font-size:11px;cursor:pointer';
+  } else {
+    btnGd.style.cssText='flex:1;padding:9px;border-radius:10px;border:2px solid rgba(0,194,224,.5);background:rgba(0,194,224,.15);color:var(--cyan);font-family:\'Nunito\',sans-serif;font-weight:800;font-size:11px;cursor:pointer';
+    btnMd.style.cssText='flex:1;padding:9px;border-radius:10px;border:2px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:rgba(255,255,255,.4);font-family:\'Nunito\',sans-serif;font-weight:800;font-size:11px;cursor:pointer';
+  }
 }
 
 function showBweg(which){
@@ -7881,6 +7991,86 @@ function _trainerResult(a){
 
 
 // ==================== §TEVE ====================
+
+// ── §teve: auto-appear after 3 wrong answers ──────────────────────
+function steveShowHelp(){
+  if(steveOpen) return; // already open
+  steveOpen = true;
+  const panel = document.getElementById('steve-panel');
+  const wrap  = document.getElementById('steve-btn-wrap');
+  const bubble = document.getElementById('steve-bubble');
+  if(!panel) return;
+  if(bubble) bubble.classList.add('hidden');
+  panel.style.display = 'flex';
+  requestAnimationFrame(() => panel.classList.add('open'));
+  if(wrap) wrap.classList.add('active');
+
+  steveCurrentCtx = mode;
+  const ctx = STEVE_CTX[mode] || STEVE_CTX.default;
+
+  // Show targeted help message based on wrong streak
+  const msgs = document.getElementById('steve-msgs');
+  if(msgs) msgs.innerHTML = '';
+
+  const modeName = {est:'Einkommensteuer',ust:'Umsatzsteuer',ao:'Abgabenordnung',
+    bilanz:'Bilanz',recht:'Recht',kurios:'Kurioses',speed:'Speed-Quiz',
+    pruefung:'Prüfungsmodus',gewst:'Gewerbesteuer',gesellschaft:'Gesellschaftsbesteuerung'}[mode] || mode;
+
+  steveAddMsg('steve',
+    `Hey – §teve hier! 👋 Ich sehe du hattest gerade <b>${steveWrongStreak} Fragen</b> hintereinander schwierig bei <b>${modeName}</b>. Das passiert!<br><br>` +
+    (steveLastExplain
+      ? `Zur letzten Frage: <span style="color:rgba(255,255,255,.8)">${steveLastExplain.replace(/<[^>]+>/g,'').substring(0,120)}${steveLastExplain.length>120?'…':''}</span><br><br>`
+      : '') +
+    `Willst du das Thema kurz auffrischen? Ich hab ein paar Tipps.`
+  );
+
+  // Show relevant chips
+  const chipsEl = document.getElementById('steve-chips');
+  if(chipsEl){
+    chipsEl.innerHTML = ctx.chips.map(c =>
+      `<button onclick="steveAsk('${c.replace(/'/g,"\\'")}');steveWrongStreak=0" class="steve-chip">${c}</button>`
+    ).join('');
+  }
+  steveWrongStreak = 0; // reset after appearing
+}
+
+// ── §teve: Schwache Themen erkennen ──────────────────────────────
+function steveWeakTopics(){
+  const labels = {
+    est:'💼 Einkommensteuer', ust:'🛒 Umsatzsteuer', ao:'⚖️ AO',
+    bilanz:'📋 Bilanz', recht:'🏛️ Recht', kurios:'🤯 Kurioses',
+    speed:'⚡ Speed', pruefung:'🎓 Prüfungsmodus',
+    gewst:'🏭 Gewerbesteuer', gesellschaft:'🏢 Gesellschaft'
+  };
+  const weak = [], strong = [], untouched = [];
+  Object.keys(labels).forEach(k => {
+    const s = catStats[k];
+    if(!s || s.t === 0){ untouched.push(k); return; }
+    const pct = Math.round(s.c / s.t * 100);
+    if(pct < 50) weak.push({k, pct, label: labels[k]});
+    else if(pct >= 75) strong.push({k, pct, label: labels[k]});
+  });
+  weak.sort((a,b) => a.pct - b.pct);
+
+  let msg = '';
+  if(weak.length === 0 && untouched.length > 0){
+    msg = `§teve sieht: Du hast noch <b>${untouched.length} Themen</b> gar nicht angefasst. Starte mit einem davon!<br><br>`;
+    msg += untouched.slice(0,3).map(k => `<button onclick="sw('${k}');steveToggle()" class="steve-chip" style="margin:2px">${labels[k]}</button>`).join('');
+  } else if(weak.length === 0){
+    msg = `§teve sagt: Stark! 🏆 Keine echten Schwachstellen gefunden. Du liegst bei allen Themen über 50%.`;
+    if(strong.length > 0) msg += `<br><br>Besondes gut: ${strong.map(s=>`${s.label} (${s.pct}%)`).join(', ')}.`;
+  } else {
+    msg = `§teve hat deine Schwachstellen gefunden:<br><br>`;
+    msg += weak.map(w =>
+      `<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <button onclick="sw('${w.k}');steveToggle()" style="flex:1;text-align:left;padding:7px 10px;border-radius:9px;border:1.5px solid rgba(255,77,109,.3);background:rgba(255,77,109,.07);color:#ff8099;font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;cursor:pointer">${w.label}</button>
+        <span style="font-size:11px;font-family:'Space Mono',monospace;font-weight:900;color:#ff8099;flex-shrink:0">${w.pct}%</span>
+      </div>`
+    ).join('');
+    msg += `<br><span style="font-size:10px;color:rgba(255,255,255,.4)">Tipp: Klick direkt auf ein Thema um es zu üben.</span>`;
+  }
+  return msg;
+}
 const STEVE_CTX = {
   basics: {
     greeting: 'Hey, ich bin §teve – dein persönlicher Steuer-Assistent. 👋<br><br>Basics ist ein guter Start! Hier lernst du warum Steuern dich jeden Tag betreffen – auch wenn du noch nie eine Steuererklärung gemacht hast.',
@@ -7928,7 +8118,7 @@ const STEVE_CTX = {
   },
   meinbereich: {
     greeting: '§teve checkt deinen Fortschritt. ⭐ Hier siehst du welche Themen du schon gemeistert hast – und welche noch Arbeit brauchen. Schlechte Werte sind kein Problem: Sie zeigen dir genau wo du üben sollst.',
-    chips: ['Wie funktioniert das Punktesystem?','Was sind Abzeichen?','Wie setze ich meinen Fortschritt zurück?']
+    chips: ['Zeig mir meine schwachen Themen','Wie funktioniert das Punktesystem?','Was sind Abzeichen?']
   },
   default: {
     greeting: '§teve ist da! Ich begleite dich durch Steuerrecht, Karriere und alles dazwischen. Was kann ich für dich tun? 💡',
@@ -7936,23 +8126,7 @@ const STEVE_CTX = {
   }
 };
 
-const STEVE_QA = [
-  // Karriere
-  {q:/unterschied.*md.*gd|md.*gd.*unterschied|md vs gd|mittlerer.*gehobener/i, a:'<b>Mittlerer Dienst (MD)</b> = 2-jährige Ausbildung, Voraussetzung: MSA/Realschule. Start: 15. August. Einstiegsbesoldung A 7.<br><br><b>Gehobener Dienst (GD)</b> = 3-jähriges duales Studium an der FHF Königs Wusterhausen, Voraussetzung: Abitur/FHR. Start: 1. September. Abschluss: Diplom-Finanzwirt/in (FH), Einstieg A 9.<br><br>§teve-Tipp: GD hat mehr Karrierepotenzial, MD ist der schnellere Einstieg.'},
-  {q:/einstellungstest|auswahltest|test.*finanzamt|was.*kommt.*test/i, a:'Der Test hat 6 Bereiche: <b>Sprachverständnis, Mathematik, Logik, Merkfähigkeit, Konzentration, Allgemeinwissen</b>.<br><br>Wichtig: <b>Falsche Antworten kosten Punkte!</b> Lieber überspringen als raten. Berlin: computergestützt, Präsenz in der Finanzschule Bismarckstraße 48. §teve-Tipp: Übe täglich 20–30 Min. im Trainer.'},
-  {q:/zwischenprüfung/i, a:'Die Zwischenprüfung kommt nach Semester 1 des GD-Studiums. <b>5 Klausuren à 3 Stunden</b>. Wer nicht besteht: <b>1× Wiederholung möglich</b>. Danach ist das Studium beendet.<br><br>Fächer: AO, ESt, USt, Bilanzsteuerrecht, Privatrecht/öffentliches Recht. §teve-Rat: Nicht unterschätzen – das ist kein Probelauf.'},
-  {q:/verdien|gehalt|bezüge|anwärter|lohn/i, a:'Als Anwärter erhältst du <b>Anwärterbezüge</b> (§ 59 BBesG) – kein Azubi-Gehalt, sondern Beamtenbezüge:<br><br>• MD Berlin: <b>1.467 €</b> brutto/Mo.<br>• GD Berlin: <b>1.527 €</b> brutto/Mo.<br>• MD Brandenburg: <b>1.518 €</b> brutto/Mo.<br><br>§teve-Hinweis: Als Beamter auf Widerruf zahlst du keine Sozialversicherung – das Netto ist daher überproportional hoch.'},
-  {q:/bewerb|bewerbung|wann.*bewerben|frist/i, a:'Bewerbungsfristen (jeweils für den Start im Folgejahr):<br><br>🏛️ <b>Berlin:</b> ca. August bis Ende Januar · Senatsportal<br>🌿 <b>Brandenburg (GD):</b> 1. August bis 31. Dezember · fhf.brandenburg.de<br><br>§teve-Tipp: Lieber früh bewerben – die Plätze sind begrenzt (Berlin: ca. 180 GD-Plätze).'},
-  // Steuerrecht
-  {q:/grundfreibetrag/i, a:'Der <b>Grundfreibetrag 2026</b> beträgt <b>11.784 €</b> (§ 32a Abs. 1 EStG). Bis zu diesem Betrag fällt keine Einkommensteuer an – das sichert das Existenzminimum. §teve-Merker: Über dem Grundfreibetrag startet der Steuertarif bei 14 % und steigt progressiv bis 42 % (Spitzensteuersatz).'},
-  {q:/7.*prozent|sieben.*prozent|ermäßigt.*steuersatz|umsatzsteuer.*satz/i, a:'<b>7 % USt</b> gilt für Güter des täglichen Bedarfs: Lebensmittel, Bücher, ÖPNV, Zeitungen, Theaterkarten – und seit 2026 dauerhaft auch für Gastronomie-Speisen.<br><br><b>19 % USt</b> ist der Regelsteuersatz für alles andere: Elektronik, Kleidung, Dienstleistungen usw.<br><br>§teve-Kuriosität: Tee = 7 %, Kaffeebohnen = 19 %. Gleiches Getränk, anderer Satz.'},
-  {q:/vorsteuer|vorsteuerabzug/i, a:'<b>Vorsteuerabzug (§ 15 UStG)</b>: Unternehmer können die an sie berechnete USt vom Finanzamt zurückfordern. Dadurch trägt der Unternehmer die USt wirtschaftlich nicht – nur der <b>Endverbraucher</b> zahlt sie letztendlich.<br><br>§teve-Formel: Zahllast = Umsatzsteuer auf Verkäufe − Vorsteuer aus Einkäufen.'},
-  {q:/einspruch/i, a:'Einspruch (§ 347 AO) gegen einen Steuerbescheid: <b>1 Monat Frist</b> ab Bekanntgabe (§ 355 AO). Schriftlich oder zur Niederschrift beim Finanzamt.<br><br>Wichtig: Das FA prüft den <b>gesamten Bescheid</b> neu – auch zu deinen Ungunsten (Verböserung § 367 Abs. 2 AO)! §teve-Tipp: Vor dem Einspruch immer rechtliche Grundlage prüfen.'},
-  {q:/außenprüfung|betriebsprüfung/i, a:'<b>Außenprüfung (§§ 193 ff. AO)</b>: Das Finanzamt prüft die Bücher des Unternehmens vor Ort. Ankündigung mit angemessener Frist (§ 197 AO). Prüfungszeitraum: i.d.R. 3 Jahre, bei Hinterziehung bis 10 Jahre.<br><br>§teve-Warnung: Ab Bekanntgabe der Prüfungsanordnung ist eine strafbefreiende Selbstanzeige gesperrt!'},
-  // Allgemein
-  {q:/was kann.*seite|was.*lernspiel|was gibt.*hier|usp|besonderheit/i, a:'§teve listet die USPs auf: 🎯<br><br>• <b>300+ Quizfragen</b> in 8 Themengebieten<br>• <b>Karriere-Modul</b> mit verifizierten Infos zu Bewerbung und Ablauf<br>• <b>Einstellungstest-Trainer</b> für alle 6 Testbereiche<br>• <b>Schematischer Gehaltsrechner</b> – was bleibt vom Gehalt?<br>• <b>Steuer-Stories</b> – Lernen durch Entscheiden<br>• Alles kostenlos, kein Login, läuft offline<br><br>Und ich, §teve – dein persönlicher Assistent. 😎'},
-  {q:/wo.*anfangen|einstieg|anfänger|neuling/i, a:'§teve empfiehlt den klassischen Einstieg: <br><br>1️⃣ <b>Basics</b> – Überblick und Steuer-Tour (20 Min.)<br>2️⃣ <b>Karriere</b> – Bewerbungsweg anschauen<br>3️⃣ <b>Einstellungstest-Trainer</b> – üben wo du stehst<br>4️⃣ <b>ESt-Quiz</b> – Einkunftsarten vertiefen<br><br>Kein Vorwissen nötig – alles erkläre ich on-the-go.'},
-];
+
 
 let steveOpen = false;
 let steveCurrentCtx = 'default';
@@ -8129,4 +8303,225 @@ function steveOnSwitch(m) {
     const ctxName = {basics:'Basics',est:'ESt',ust:'USt',ao:'AO',bilanz:'Bilanz',recht:'Recht',karriere:'Karriere',kurios:'Kurioses',speed:'Speed',pruefung:'Prüfungsmodus',trainer:'Testtrainer',meinbereich:'Mein Bereich'}[m] || m;
     steveAddMsg('steve', `📍 Du bist jetzt bei <b>${ctxName}</b>. Meine Schnell-Antworten habe ich entsprechend aktualisiert.`);
   }
+}
+
+// ==================== §TEVE ====================
+
+
+const STEVE_QA = [
+  {q:/unterschied.*md.*gd|md.*gd|mittlerer.*gehobener|md vs gd/i, a:'<b>Mittlerer Dienst (MD)</b> = 2-jährige Ausbildung, Voraussetzung: MSA. Einstieg A 7, Start 15. August.<br><br><b>Gehobener Dienst (GD)</b> = 3-jähriges Studium FHF, Voraussetzung: Abitur/FHR. Abschluss: Diplom-Finanzwirt/in (FH), Einstieg A 9, Start 1. September.<br><br>§teve-Tipp: GD hat mehr Karrierepotenzial, MD ist der schnellere Einstieg.'},
+  {q:/einstellungstest|auswahltest|was.*kommt.*test/i, a:'Der Test hat 6 Bereiche: <b>Sprachverständnis, Mathematik, Logik, Merkfähigkeit, Konzentration, Allgemeinwissen</b>.<br><br>⚠️ <b>Falsche Antworten kosten Punkte!</b> Lieber überspringen als raten. Berlin: computergestützt, Finanzschule Bismarckstraße 48. Tipp: Übe täglich 20–30 Min. im Testtrainer.'},
+  {q:/zwischenprüfung/i, a:'Nach Semester 1 des GD-Studiums: <b>5 Klausuren à 3 Stunden</b>. Fächer: AO, ESt, USt, Bilanzsteuerrecht, Privatrecht/öff. Recht.<br><br>⚠️ Nicht bestanden: <b>1× Wiederholung möglich</b>, danach Ende des Studiums.<br><br>§teve-Rat: Nicht unterschätzen – das ist kein Probelauf.'},
+  {q:/verdien|gehalt|bezüge|anwärter/i, a:'Als Anwärter erhältst du <b>Anwärterbezüge</b> (§ 59 BBesG):<br>• MD Berlin: <b>1.467 €</b> brutto/Mo.<br>• GD Berlin: <b>1.527 €</b> brutto/Mo.<br><br>Als Beamter auf Widerruf zahlst du keine Sozialversicherung → Netto überproportional hoch.<br><br>Nach der Ausbildung: A 7 (MD) oder A 9 (GD) – bis A 13 ist alles drin.'},
+  {q:/bewerb|bewerbung|frist|wann.*bewerben/i, a:'🏛️ <b>Berlin:</b> ca. August–Januar des Vorjahres · Senatsportal<br>🌿 <b>Brandenburg (GD):</b> 1. Aug–31. Dez · fhf.brandenburg.de<br><br>§teve-Tipp: Lieber früh bewerben – Berlin hat ~180 GD-Plätze, die sind begehrt.'},
+  {q:/grundfreibetrag/i, a:'Der <b>Grundfreibetrag 2026: 11.784 €</b> (§ 32a Abs. 1 EStG). Bis zu diesem Betrag fällt keine Einkommensteuer an – das sichert das Existenzminimum.<br><br>Über dem Grundfreibetrag startet der Tarif bei 14 % und steigt progressiv bis 42 %.'},
+  {q:/7.*prozent|sieben.*prozent|umsatzsteuer.*satz|ermäßigt/i, a:'<b>7 %</b>: Lebensmittel, Bücher, ÖPNV, Zeitungen, Gastronomie (ab 2026 dauerhaft).<br><b>19 %</b>: Alles andere – Elektronik, Kleidung, Dienstleistungen.<br><br>§teve-Kuriosität: Tee = 7 %, Kaffeebohnen = 19 %. Gleiches Getränk, anderer Satz.'},
+  {q:/vorsteuer|vorsteuerabzug/i, a:'<b>Vorsteuerabzug (§ 15 UStG)</b>: Unternehmer können die an sie berechnete USt zurückfordern. Nur der <b>Endverbraucher</b> trägt die USt wirtschaftlich.<br><br>§teve-Formel: Zahllast = USt auf Verkäufe − Vorsteuer aus Einkäufen.'},
+  {q:/einspruch/i, a:'Einspruch (§ 347 AO): <b>1 Monat Frist</b> ab Bekanntgabe (§ 355 AO). Schriftlich beim Finanzamt.<br><br>⚠️ Das FA prüft den <b>gesamten Bescheid</b> neu – auch zu deinen Ungunsten (Verböserung § 367 Abs. 2 AO)!'},
+  {q:/außenprüfung|betriebsprüfung/i, a:'<b>Außenprüfung (§§ 193 ff. AO)</b>: FA prüft Bücher vor Ort. Prüfungszeitraum: i.d.R. 3 Jahre, bei Hinterziehung bis 10 Jahre.<br><br>§teve-Warnung: Ab Bekanntgabe der Prüfungsanordnung ist eine strafbefreiende Selbstanzeige gesperrt!'},
+  {q:/schwach|themen.*vorschlag|was.*üben|wo.*üben/i, a(){return steveWeakTopics();}},
+  {q:/was kann.*seite|usp|besonderheit|was gibt.*hier/i, a:'§teve listet die USPs auf: 🎯<br>• <b>300+ Quizfragen</b> in 8 Themengebieten<br>• <b>Karriere-Modul</b> mit verifizierten Bewerbungsinfos<br>• <b>Einstellungstest-Trainer</b> für alle 6 Testbereiche<br>• <b>Schematischer Gehaltsrechner</b><br>• <b>Steuer-Stories</b><br>• Kostenlos, kein Login, offline-fähig<br>• Und ich, §teve 😎'},
+  {q:/wo.*anfangen|einstieg|anfänger|neuling/i, a:'§teve empfiehlt:<br>1️⃣ <b>Basics</b> – Steuer-Tour (20 Min.)<br>2️⃣ <b>Karriere</b> – Bewerbungsweg anschauen<br>3️⃣ <b>Testtrainer</b> – üben wo du stehst<br>4️⃣ <b>ESt-Quiz</b> – Einkunftsarten vertiefen'},
+];
+
+let steveConsecWrong = 0;
+let steveLastContext = '';
+
+function steveToggle() {
+  steveOpen = !steveOpen;
+  const panel = document.getElementById('steve-panel');
+  const wrap = document.getElementById('steve-btn-wrap');
+  const bubble = document.getElementById('steve-bubble');
+  if (steveOpen) {
+    if (bubble) bubble.classList.add('hidden');
+    panel.style.display = 'flex';
+    requestAnimationFrame(() => panel.classList.add('open'));
+    wrap.classList.add('active');
+    steveSetCtx(typeof mode !== 'undefined' ? mode : 'default');
+  } else {
+    panel.classList.remove('open');
+    wrap.classList.remove('active');
+    setTimeout(() => { if (!steveOpen) panel.style.display = 'none'; }, 300);
+  }
+}
+
+setTimeout(() => {
+  const bubble = document.getElementById('steve-bubble');
+  if (bubble && !steveOpen) bubble.classList.add('hidden');
+}, 5000);
+
+function steveSetCtx(m) {
+  steveCurrentCtx = m;
+  const ctx = STEVE_CTX[m] || STEVE_CTX.default;
+  const msgs = document.getElementById('steve-msgs');
+  if (!msgs) return;
+  if (msgs.children.length === 0) steveAddMsg('steve', ctx.greeting);
+  const chipsEl = document.getElementById('steve-chips');
+  if (chipsEl) chipsEl.innerHTML = ctx.chips.map(c =>
+    `<button onclick="steveAsk('${c.replace(/'/g,"\\'")}') " class="steve-chip">${c}</button>`
+  ).join('');
+}
+
+function steveAddMsg(role, html) {
+  const msgs = document.getElementById('steve-msgs');
+  if (!msgs) return;
+  const div = document.createElement('div');
+  div.className = 'steve-msg steve-msg-' + role;
+  div.innerHTML = html;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function steveAsk(text) {
+  const input = document.getElementById('steve-input');
+  if (input) input.value = text;
+  steveSend();
+}
+
+function steveSend() {
+  const input = document.getElementById('steve-input');
+  if (!input) return;
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  steveAddMsg('user', text);
+  const match = STEVE_QA.find(qa => qa.q.test(text));
+  setTimeout(() => {
+    if (match) {
+      const ans = typeof match.a === 'function' ? match.a() : match.a;
+      steveAddMsg('steve', ans);
+    } else {
+      steveAddMsg('steve', `§teve gibt zu: Auf "<b>${text}</b>" habe ich keine fertige Antwort. 🤔<br><br>Versuch die Schnell-Antworten – oder schau im <b>Glossar</b> nach (Tab 📖).`);
+    }
+    const msgs = document.getElementById('steve-msgs');
+    if (msgs) msgs.scrollTop = msgs.scrollHeight;
+  }, 380);
+}
+
+function steveClear() {
+  const msgs = document.getElementById('steve-msgs');
+  if (msgs) msgs.innerHTML = '';
+  steveSetCtx(steveCurrentCtx);
+}
+
+function steveOnSwitch(m) {
+  if (!steveOpen) return;
+  steveCurrentCtx = m;
+  const ctx = STEVE_CTX[m] || STEVE_CTX.default;
+  const chipsEl = document.getElementById('steve-chips');
+  if (chipsEl) chipsEl.innerHTML = ctx.chips.map(c =>
+    `<button onclick="steveAsk('${c.replace(/'/g,"\\'")}') " class="steve-chip">${c}</button>`
+  ).join('');
+  const ctxName = {basics:'Basics',est:'ESt',ust:'USt',ao:'AO',bilanz:'Bilanz',
+    recht:'Recht',karriere:'Karriere',kurios:'Kurioses',speed:'Speed',
+    pruefung:'Prüfungsmodus',trainer:'Testtrainer',meinbereich:'Mein Bereich'}[m] || m;
+  steveAddMsg('steve', `📍 Du bist jetzt bei <b>${ctxName}</b>. Meine Schnell-Antworten habe ich angepasst.`);
+}
+
+// ── Auto-trigger nach 3 Falschantworten ──
+function steveHelpAfterWrong() {
+  if (steveOpen) return;
+  const modeName = {est:'Einkommensteuer',ust:'Umsatzsteuer',ao:'Abgabenordnung',
+    bilanz:'Bilanz',recht:'Recht',kurios:'Kurioses',gewst:'Gewerbesteuer',
+    gesellschaft:'Gesellschaftsbesteuerung',speed:'Speed-Quiz',pruefung:'Prüfungsmodus'}[mode] || mode;
+  steveOpen = true;
+  const panel = document.getElementById('steve-panel');
+  const wrap = document.getElementById('steve-btn-wrap');
+  const bubble = document.getElementById('steve-bubble');
+  if (bubble) bubble.classList.add('hidden');
+  if (panel) { panel.style.display='flex'; requestAnimationFrame(()=>panel.classList.add('open')); }
+  if (wrap) wrap.classList.add('active');
+  steveSetCtx(mode);
+  const msgs = document.getElementById('steve-msgs');
+  if (msgs) msgs.innerHTML = '';
+  steveAddMsg('steve',
+    `Hey! §teve meldet sich. 👀<br><br>Drei Falschantworten hintereinander bei <b>${modeName}</b> – das passiert den Besten.<br><br>` +
+    (steveLastContext ? `Zuletzt ging es um <b>${steveLastContext}</b>. Soll ich das erklären?` : `Ich helfe dir gern weiter – frag einfach!`)
+  );
+  const chipsEl = document.getElementById('steve-chips');
+  if (chipsEl && steveLastContext) {
+    chipsEl.innerHTML =
+      `<button onclick="steveShowLastExplain()" class="steve-chip" style="border-color:rgba(255,140,66,.4);color:#ffaa66;background:rgba(255,140,66,.08)">💡 Ja, "${steveLastContext}" erklären</button>` +
+      chipsEl.innerHTML;
+  }
+}
+
+function steveShowLastExplain() {
+  if (!steveLastExplain) return;
+  steveAddMsg('steve', `📖 <b>${steveLastContext}</b><br><br>${steveLastExplain}<br><br>§teve-Tipp: Merk dir die §-Nummer – im Test hilft das bei der Einordnung.`);
+}
+
+// ── Schwache Themen erkennen ──
+function steveWeakTopics() {
+  const stats = {};
+  try { Object.assign(stats, JSON.parse(localStorage.getItem('category_stats_v2') || '{}')); } catch(e) {}
+  const CAT_LABELS = {est:'Einkommensteuer',ust:'Umsatzsteuer',ao:'Abgabenordnung',
+    bilanz:'Bilanz',recht:'Recht',kurios:'Kurioses',gewst:'Gewerbesteuer',gesellschaft:'Gesellschaftsbesteuerung'};
+  const results = Object.entries(stats)
+    .filter(([k,v]) => v.t >= 5 && CAT_LABELS[k])
+    .map(([k,v]) => ({key:k, label:CAT_LABELS[k], pct:Math.round(v.c/v.t*100), total:v.t}))
+    .sort((a,b) => a.pct - b.pct);
+  if (!results.length) return '<b>§teve braucht mehr Daten!</b> Beantworte mindestens 5 Fragen pro Thema – dann kann ich dir sagen wo du stehst.';
+  const weak = results.filter(r => r.pct < 60);
+  const strong = results.filter(r => r.pct >= 75);
+  let msg = '';
+  if (weak.length) {
+    msg += `⚠️ <b>Verbesserungsbedarf:</b><br>`;
+    weak.forEach(r => { msg += `• <b>${r.label}</b>: ${r.pct}% (${r.total} Fragen)<br>`; });
+    msg += `<br>`;
+  }
+  if (strong.length) {
+    msg += `✅ <b>Gut drauf:</b><br>`;
+    strong.forEach(r => { msg += `• <b>${r.label}</b>: ${r.pct}%<br>`; });
+    msg += `<br>`;
+  }
+  if (weak.length) {
+    msg += `§teve empfiehlt: Starte mit <b>${weak[0].label}</b>. `;
+    msg += `<span onclick="sw('${weak[0].key}');steveToggle()" style="color:var(--cyan);cursor:pointer;font-weight:900;text-decoration:underline">→ Jetzt üben</span>`;
+  } else {
+    msg += `§teve ist beeindruckt – du bist überall über 60 %. Weiter so! 💪`;
+  }
+  return msg;
+}
+
+// ── Gehaltsvisualisierung A7→A13 ──
+const BESOLDUNG_BERLIN_2026 = [
+  {stufe:'A 7',  titel:'Steuersekretär/in',          laufbahn:'MD', erfahrung:'Einstieg nach Ausbildung',        brutto:2847, farbe:'#60b868'},
+  {stufe:'A 8',  titel:'Steueroberinspsekreträr/in',  laufbahn:'MD', erfahrung:'Nach ~2–3 Jahren',               brutto:3098, farbe:'#7ab84a'},
+  {stufe:'A 9',  titel:'Steuerinspektor/in',          laufbahn:'GD', erfahrung:'Einstieg GD / Aufstieg MD',      brutto:3402, farbe:'#a0c030'},
+  {stufe:'A 10', titel:'Steueroberinspektor/in',      laufbahn:'GD', erfahrung:'Nach ~3–4 Jahren GD',            brutto:3748, farbe:'#c8b820'},
+  {stufe:'A 11', titel:'Steueramtmann/-frau',         laufbahn:'GD', erfahrung:'Sachgebietsleitung möglich',     brutto:4180, farbe:'#d09020'},
+  {stufe:'A 12', titel:'Steueramtsrat/-rätin',        laufbahn:'GD', erfahrung:'Führungsposition',               brutto:4690, farbe:'#d06020'},
+  {stufe:'A 13', titel:'Steuerrat/-rätin',            laufbahn:'GD', erfahrung:'Referatsleitung / höhere Funktion', brutto:5280, farbe:'#cc3838'},
+];
+
+function renderGehaltsviz(containerId) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const max = BESOLDUNG_BERLIN_2026[BESOLDUNG_BERLIN_2026.length-1].brutto;
+  el.innerHTML = `
+  <div style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.3);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">
+    💰 Gehaltsentwicklung Berlin 2026 (Erfahrungsstufe 1, ledig, ohne Zulagen)
+  </div>
+  <div style="display:flex;flex-direction:column;gap:9px">
+    ${BESOLDUNG_BERLIN_2026.map((b,i) => `
+    <div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;flex-wrap:wrap;gap:4px">
+        <div style="display:flex;align-items:center;gap:6px">
+          <span style="font-size:10px;font-weight:900;font-family:'Space Mono',monospace;color:${b.farbe};min-width:28px">${b.stufe}</span>
+          <span style="font-size:11px;font-weight:800;color:rgba(255,255,255,.8)">${b.titel}</span>
+          <span style="font-size:9px;font-weight:700;padding:2px 7px;border-radius:100px;background:${b.laufbahn==='MD'?'rgba(0,201,123,.12)':'rgba(0,194,224,.12)'};color:${b.laufbahn==='MD'?'#00c97b':'var(--cyan)'};border:1px solid ${b.laufbahn==='MD'?'rgba(0,201,123,.25)':'rgba(0,194,224,.25)'}">${b.laufbahn}</span>
+        </div>
+        <span style="font-size:12px;font-weight:900;color:${b.farbe};font-family:'Space Mono',monospace">${b.brutto.toLocaleString('de-DE')} €</span>
+      </div>
+      <div style="height:7px;background:rgba(255,255,255,.07);border-radius:100px;overflow:hidden">
+        <div style="height:100%;width:0%;background:linear-gradient(90deg,${b.farbe}cc,${b.farbe});border-radius:100px;transition:width .9s ease ${i*0.08}s" data-w="${Math.round(b.brutto/max*100)}"></div>
+      </div>
+      <div style="font-size:9px;color:rgba(255,255,255,.3);font-weight:700;margin-top:2px">${b.erfahrung}</div>
+    </div>`).join('')}
+  </div>
+  <div style="margin-top:10px;padding:8px 11px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:8px;font-size:9px;font-weight:700;color:rgba(255,255,255,.3);line-height:1.6">
+    ⚠️ Brutto-Grundgehalt Erfahrungsstufe 1 · Berlin 2026 · ohne Familienzuschlag/Sonderzahlungen · Quelle: Berliner Besoldungsgesetz · Angaben ohne Gewähr
+  </div>`;
+  setTimeout(() => { el.querySelectorAll('[data-w]').forEach(b => { b.style.width = b.dataset.w + '%'; }); }, 120);
 }
