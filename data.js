@@ -1862,10 +1862,12 @@ let storyChosen = null; // chosen option index for choice scene, or null
 
 function openStoryDirect(id){
   storyOpen=id;
+  window._storyExplicitOpen = true;
   _doSw('story');
 }
 function startStory(id, resume){
   storyOpen = id;
+  window._storyExplicitOpen = true;
   if(resume && storyProgress[id] && !storyProgress[id].done){
     storyScene = storyProgress[id].scene || 0;
   } else {
@@ -2154,8 +2156,7 @@ function markTabVisited(m){
 }
 
 function restoreTabVisited(){
-  const visited = JSON.parse(localStorage.getItem('tabs_visited_v1')||'[]');
-  visited.forEach(m=>{ const el=document.getElementById('tab-'+m); if(el) el.classList.add('visited'); });
+  // visited checkmarks removed – function kept for compatibility
 }
 
 function updateResumeBanner(){
@@ -2600,7 +2601,12 @@ function _doSw(m){
   else if(m==='recht')sh_recht=filtShuffle(D_RECHT);
   else if(m==='gewst')sh_gewst=filtShuffle(D_GEWST);
   else if(m==='gesellschaft')sh_gesellschaft=filtShuffle(D_GESELLSCHAFT);
-  else if(m==='story'){ /* storyOpen set by openStory() or caller */ }
+  else if(m==='story'){
+    // Only keep storyOpen if it was explicitly set by startStory() or einstGoStep2()
+    // If coming from tab/drawer without explicit story set, show overview
+    if(!window._storyExplicitOpen) storyOpen = null;
+    window._storyExplicitOpen = false;
+  }
   else if(m==='flashcard'){fcIdx=0;fcFlipped=false;fcKnown=[];}
   else if(m==='praxis'){ if(mode!=='praxis') praxisOpen=null; praxisStep=0; praxisAnswered=false; praxisScore=0; }
   else if(m==='meinbereich'){loadDailyData();updateStreakChip();}
@@ -2755,6 +2761,7 @@ function getEinstProgress(){ try{ return JSON.parse(localStorage.getItem(EINST_P
 function setEinstStep(step){ const p=getEinstProgress(); p[step]=true; localStorage.setItem(EINST_PROGRESS_KEY,JSON.stringify(p)); }
 
 function einstGoStep1(){
+  if(steveOpen) steveToggle(); // §teve aus dem Weg
   const allDone = Object.keys(para1Answers).length >= PARA1_CASES.length;
   if(allDone){ para1Answers = {}; }
   // Open the collapsed section
@@ -2770,6 +2777,7 @@ function einstGoStep1(){
 function einstGoStep2(){
   einstLaunched='step2';
   storyOpen = 'lohnzettel';
+  window._storyExplicitOpen = true;
   updateEinstBackBar('step2');
   _doSw('story');
 }
@@ -5525,6 +5533,8 @@ function steveOnboarding(){
     if(localStorage.getItem('steve_intro_done')) return;
     setTimeout(()=>{
       if(steveOpen) return;
+      // Only open §teve if Basics tour is not currently active
+      if(document.querySelector('.tour-active')) return;
       // Auto-open §teve panel for first-time visitors
       steveOpen = true;
       const panel = document.getElementById('steve-panel');
@@ -5556,6 +5566,7 @@ function acceptConsent(){
   localStorage.setItem('nutzung_accepted_v1','1');
   document.getElementById('consent-banner').style.display='none';
   checkTour();
+  steveOnboarding();
 }
 function toggleConsentCheck(){
   const cb = document.getElementById('consent-check');
@@ -7270,6 +7281,8 @@ let tourStep = 0;
 let tourAnswers = {};
 
 function startSteuerTour(){
+  // Close §teve if open so it doesn't cover the tour
+  if(steveOpen) steveToggle();
   tourStep = 0;
   tourAnswers = {};
   const a = document.getElementById('ga');
@@ -7311,6 +7324,15 @@ function tourDone(a){
     <button onclick="sw('est')" style="width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer;margin-bottom:10px">Zum ESt-Quiz →</button>
     <button onclick="startSteuerTour()" style="width:100%;padding:12px;border-radius:14px;border:1.5px solid rgba(255,255,255,.12);background:transparent;color:rgba(255,255,255,.35);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">↺ Tour nochmal starten</button>
   </div>`;
+  // §teve gratuliert
+  setTimeout(() => {
+    if(!steveOpen) steveToggle();
+    const msgs = document.getElementById('steve-msgs');
+    if(msgs) msgs.innerHTML = '';
+    steveAddMsg('steve', '🎉 Tour abgeschlossen! Du hast die Grundlagen drauf.<br><br>Mein Tipp: Schau dir als nächstes das <b>ESt-Quiz</b> an – Einkunftsarten sind das Herzstück der Einkommensteuer. Und ich bin jetzt immer hier wenn du Fragen hast! 💪');
+    const chipsEl = document.getElementById('steve-chips');
+    if(chipsEl) chipsEl.innerHTML = steveChipsHtml(['Was sind Einkunftsarten?','Wo bewerbe ich mich?','Was kann ich absetzen?']);
+  }, 800);
 }
 
 // ── Helper ──────────────────────────────────────────────────────
@@ -8297,15 +8319,7 @@ setTimeout(() => {
   if (bubble && !steveOpen) bubble.classList.add('hidden');
 }, 5000);
 
-// Auto-open §teve for first-time visitors after 2.5s
-setTimeout(() => {
-  try {
-    const done = localStorage.getItem('steve_intro_done');
-    if (!done && !steveOpen) {
-      steveToggle();
-    }
-  } catch(e) {}
-}, 2500);
+// §teve auto-open: handled by steveOnboarding() in initSplash
 
 function steveChipsHtml(chips){
   const base = chips.map(c =>
