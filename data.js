@@ -8391,17 +8391,32 @@ function steveOnSwitch(m) {
 function steveToggle() {
   steveOpen = !steveOpen;
   const panel = document.getElementById('steve-panel');
-  const wrap = document.getElementById('steve-btn-wrap');
   const bubble = document.getElementById('steve-bubble');
+  if (!panel) return;
+
   if (steveOpen) {
     if (bubble) bubble.classList.add('hidden');
     panel.style.display = 'flex';
     requestAnimationFrame(() => panel.classList.add('open'));
-    wrap.classList.add('active');
-    steveSetCtx(typeof mode !== 'undefined' ? mode : 'default');
+
+    // First time: show intro
+    try { if (localStorage.getItem('steve_intro_done')) steveIntroDone = true; } catch(e) {}
+    const msgs = document.getElementById('steve-msgs');
+    if (msgs && msgs.children.length === 0) {
+      if (!steveIntroDone) {
+        steveIntroStep = 0;
+        const step = STEVE_INTRO[0];
+        steveAddMsg('steve', step.msg);
+        const chipsEl = document.getElementById('steve-chips');
+        if (chipsEl) chipsEl.innerHTML = step.chips.map(c =>
+          `<button onclick="steveIntroNext('${c.replace(/'/g,"\\'")}\')" class="steve-chip">${c}</button>`
+        ).join('');
+      } else {
+        steveSetCtx(typeof mode !== 'undefined' ? mode : 'default');
+      }
+    }
   } else {
     panel.classList.remove('open');
-    wrap.classList.remove('active');
     setTimeout(() => { if (!steveOpen) panel.style.display = 'none'; }, 300);
   }
 }
