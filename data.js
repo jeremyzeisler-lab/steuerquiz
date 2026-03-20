@@ -8206,37 +8206,37 @@ let steveIntroDone = false;
 let steveIntroStep = 0;
 
 const STEVE_INTRO = [
+  // Schritt 0: §teve stellt sich vor – wer bin ich?
   {
-    msg: `Hey! Ich bin <b>§teve</b> – dein persönlicher Steuer-Assistent. 👋<br><br>Ich begleite dich durch diese Seite, erkläre Funktionen und beantworte Fragen zu Steuerrecht und Karriere. Kurze Tour gefällig?`,
-    chips: ['Ja, kurz zeigen! →', 'Nein danke, direkt loslegen']
+    msg: `Hey! 👋 Ich bin <b>§teve</b> – das Paragraphenzeichen mit Aktentasche und einem leichten Hang zu Steuerrecht-Witzen.<br><br>Ich begleite dich durch das <b>Steuer-Lernspiel der Finanzverwaltung Berlin &amp; Brandenburg</b> – und bin immer hier wenn du eine Frage hast.<br><br>Darf ich dir kurz zeigen was es hier alles gibt?`,
+    chips: ['Ja, zeig mal! →', 'Nein danke, ich schau selbst']
   },
+  // Schritt 1: Wofür ist die Seite?
   {
-    msg: `Die Seite hat <b>zwei Hauptbereiche</b>:<br><br>📚 <b>Basics</b> – Dein Einstieg. Steuer-Tour, Gehaltsrechner, Kurioses. Ideal wenn du noch nie eine Steuererklärung gemacht hast.<br><br>🎓 <b>Karriere</b> – Alles zur Bewerbung bei der Finanzverwaltung: Bewerbungsweg, Ablauf, Einstellungstest.`,
+    msg: `Diese Seite hat <b>zwei Zielgruppen</b> – vielleicht bist du beides:<br><br>🎓 <b>Du willst zur Finanzverwaltung?</b><br>→ Alles zur Bewerbung, Ausbildung, Studium und dem Einstellungstest findest du unter <b>Karriere</b>.<br><br>📚 <b>Du willst Steuerrecht lernen?</b><br>→ 300+ Quizfragen, Lernkarten, Stories und Prüfungsmodus warten auf dich im <b>Quiz-Bereich</b>.<br><br>Beides geht natürlich auch! 😄`,
     chips: ['Weiter →']
   },
+  // Schritt 2: Karriere-Highlight
   {
-    msg: `Im <b>Quiz-Bereich</b> übst du die Inhalte:<br><br>💼 <b>ESt</b> – Einkunftsarten, Werbungskosten<br>🛒 <b>USt</b> – Steuersätze, Vorsteuer<br>⚖️ <b>AO</b> – Fristen, Bescheide, Einspruch<br>📋 <b>Bilanz</b> – Buchungssätze, Abschreibung<br>🏛️ <b>Recht</b> – Privatrecht vs. öffentliches Recht<br><br>⚡ <b>Speed-Quiz</b> und 🎓 <b>Prüfungsmodus</b> für Fortgeschrittene.`,
+    msg: `Der <b>Karriere-Bereich</b> ist besonders ausführlich – weil er wirklich hilft:<br><br>🗺️ <b>Bewerbungs-Wegweiser</b> – Schritt für Schritt was wann zu tun ist<br>🧪 <b>Einstellungstest-Trainer</b> – alle 6 Testbereiche üben<br>📅 <b>Ablauf-Übersicht</b> – was passiert in Ausbildung und Studium?<br>💰 <b>Gehaltsvisualisierung</b> – von A 7 bis A 13<br><br>⚠️ Wichtig für den echten Test: <b>Falsche Antworten kosten Punkte!</b> Lieber überspringen als raten.`,
     chips: ['Weiter →']
   },
+  // Schritt 3: Quiz & Lernen
   {
-    msg: `Für Bewerber besonders interessant:<br><br>🧪 <b>Einstellungstest-Trainer</b> – direkt auf der Karriereseite. Übe alle 6 Testbereiche: Sprache, Mathe, Logik, Merkfähigkeit, Konzentration, Allgemeinwissen.<br><br>⚠️ Wichtig: Im echten Test kosten <b>falsche Antworten Punkte</b> – lieber überspringen als raten!`,
+    msg: `Der <b>Quiz-Bereich</b> deckt alle Prüfungsthemen ab:<br><br>💼 ESt · 🛒 USt · ⚖️ AO · 📋 Bilanz · 🏛️ Recht · 🏭 GewSt<br><br>Plus Extras: ⚡ <b>Speed-Quiz</b>, 🎓 <b>Prüfungsmodus</b>, 📖 <b>Stories</b>, 🃏 <b>Lernkarten</b> und ein komplettes <b>Glossar</b>.<br><br>Ich melde mich übrigens automatisch wenn du mehrmals hintereinander falsch liegst – dann erkläre ich dir genau wo der Knoten ist. 😉`,
     chips: ['Weiter →']
   },
+  // Schritt 4: Abschluss
   {
-    msg: `Noch ein paar Extras:<br><br>🃏 <b>Lernkarten</b> – Karteikarten-System zum Einprägen<br>📖 <b>Glossar</b> – alle Fachbegriffe mit Merkhilfen<br>📖 <b>Stories</b> – Steuerrecht durch Alltagsszenarien<br>⭐ <b>Mein Bereich</b> – dein Fortschritt, Abzeichen, Daily Challenge<br><br>Alles kostenlos, kein Login, alle Daten bleiben lokal in deinem Browser.`,
-    chips: ['Weiter →']
-  },
-  {
-    msg: `Das war die Tour! 🎉<br><br>Ich bin jetzt immer hier unten rechts. Wenn du eine Frage hast – einfach antippen. Ich passe meine Schnell-Antworten je nach Tab automatisch an.<br><br>Viel Erfolg beim Lernen und bei der Bewerbung! 💪`,
+    msg: `Das war's von mir – kurz und knapp! 🎉<br><br>Ich sitze <b>immer unten rechts</b> und passe meine Fragen-Vorschläge je nach Tab automatisch an. Einfach antippen wenn du etwas wissen willst.<br><br>Noch eine Sache: Alle deine Daten bleiben <b>lokal in deinem Browser</b> – kein Login, nichts wird hochgeladen. Versprochen! 🔒<br><br>Viel Erfolg beim Lernen und bei der Bewerbung! 💪`,
     chips: ['Los geht\'s! 🚀']
   }
 ];
 
 function steveIntroNext(choice) {
-  if (choice === 'Nein danke, direkt loslegen' || choice === 'Los geht\'s! 🚀') {
+  if (choice === 'Nein danke, ich schau selbst' || choice === 'Los geht\'s! 🚀') {
     steveIntroDone = true;
     try { localStorage.setItem('steve_intro_done','1'); } catch(e) {}
-    // Show context for current tab
     const ctx = STEVE_CTX[typeof mode !== 'undefined' ? mode : 'default'] || STEVE_CTX.default;
     steveAddMsg('steve', ctx.greeting);
     const chipsEl = document.getElementById('steve-chips');
