@@ -4644,6 +4644,1559 @@ function ansUst(chosen){
 }
 
 // ─── ABGABENORDNUNG ────────────────────────────────────────────
+// ==================== BASICS LERNMODULE ====================
+// State
+let basicsStep = {}; // {moduleKey: caseIdx}
+let basicsShown = {}; // {moduleKey_caseIdx: bool}
+let aoIntroStep = 0;
+let aoGeheimAnswers = {};
+
+function renderAoBasics(a) {
+  if (aoIntroStep === 0) renderAoIntro0(a);
+  else if (aoIntroStep === 1) renderAoIntro1(a);
+  else if (aoIntroStep === 2) renderAoIntro2(a);
+  else if (aoIntroStep === 3) renderAoIntro3(a);
+  else if (aoIntroStep === 4) renderAoIntro4(a);
+  else renderBasicsModule(a, 'ao');
+}
+function aoNext(s){ aoIntroStep=s; render(); }
+
+// renderXxxBasics: now handled by full intro sequences below
+
+function basicsNext(key) {
+  basicsStep[key] = (basicsStep[key]||0) + 1;
+  basicsShown[key+'_'+(basicsStep[key]-1)] = false;
+  render();
+}
+function basicsShowWuerdigung(key) {
+  const idx = basicsStep[key] || 0;
+  basicsShown[key+'_'+idx] = true;
+  render();
+}
+function basicsReset(key) {
+  basicsStep[key] = 0;
+  basicsShown = {};
+  render();
+}
+
+function renderBasicsModule(a, key) {
+  const mod = BASICS_DATA[key];
+  if (!mod) return;
+  if (!(key in basicsStep)) basicsStep[key] = 0;
+  const idx = basicsStep[key];
+
+  // Header
+  const prog = Math.min(idx, mod.cases.length);
+  const progPct = Math.round(prog / mod.cases.length * 100);
+  const header = `
+    <div style="background:linear-gradient(135deg,${mod.color}dd,${mod.color}99);border-radius:16px;padding:16px 18px;margin-bottom:16px">
+      <div style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.6);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px">${mod.icon} ${mod.title} · ${prog}/${mod.cases.length} Fälle</div>
+      <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:10px">${mod.intro_short}</div>
+      <div style="height:4px;background:rgba(255,255,255,.15);border-radius:100px"><div style="height:100%;width:${progPct}%;background:#fff;border-radius:100px;transition:width .4s"></div></div>
+    </div>`;
+
+  // Done screen
+  if (idx >= mod.cases.length) {
+    a.innerHTML = header + `
+      <div style="background:rgba(0,201,123,.07);border:2px solid rgba(0,201,123,.3);border-radius:16px;padding:24px;text-align:center;margin-bottom:16px">
+        <div style="font-size:48px;margin-bottom:10px">🎉</div>
+        <div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:6px">Alle Fälle durchgearbeitet!</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.6">Du hast alle ${mod.cases.length} Fälle des ${mod.title}-Moduls abgeschlossen.<br>Jetzt im richtigen Quiz anwenden!</div>
+      </div>
+      <button onclick="basicsReset('${key}')" style="width:100%;padding:12px;border-radius:13px;border:1.5px solid rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.5);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer;margin-bottom:8px">↺ Nochmal von vorne</button>
+      <button onclick="sw('${key}')" style="width:100%;padding:13px;border-radius:13px;border:none;background:${mod.color};color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Zum ${mod.title.replace(' Basics','')} Quiz →</button>`;
+    return;
+  }
+
+  const c = mod.cases[idx];
+  const shown = !!basicsShown[key+'_'+idx];
+  const isLast = idx === mod.cases.length - 1;
+
+  a.innerHTML = header + `
+    <!-- Sachverhalt -->
+    <div style="background:#fff;border-radius:14px;border-left:5px solid ${mod.color};padding:16px;margin-bottom:12px">
+      <div style="font-size:9px;font-family:'Space Mono',monospace;color:${mod.color};font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">📋 Sachverhalt · Fall ${idx+1}</div>
+      <div style="font-size:13px;font-weight:700;color:#333;line-height:1.7">${c.sachverhalt}</div>
+    </div>
+
+    <!-- Frage -->
+    <div style="background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);border-radius:14px;padding:14px;margin-bottom:12px">
+      <div style="font-size:14px;font-weight:900;color:#fff;line-height:1.5">❓ ${c.frage}</div>
+    </div>
+
+    ${!shown ? `
+    <!-- Auflösung Button -->
+    <button onclick="basicsShowWuerdigung('${key}')"
+      style="width:100%;padding:14px;border-radius:13px;border:none;background:${mod.color};color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer;margin-bottom:8px">
+      💡 Auflösung & rechtliche Würdigung anzeigen
+    </button>
+    <div style="text-align:center;font-size:10px;color:rgba(255,255,255,.3);font-weight:700">Versuche erst selbst nachzudenken!</div>
+    ` : `
+    <!-- Würdigung -->
+    <div style="background:#fff;border-radius:14px;border-left:5px solid #00c97b;padding:16px;margin-bottom:12px">
+      <div style="font-size:9px;font-family:'Space Mono',monospace;color:#00c97b;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">⚖️ Rechtliche Würdigung</div>
+      <div style="font-size:12px;font-weight:700;color:#333;line-height:1.75">${c.wuerdigung}</div>
+      <div style="margin-top:10px;font-size:10px;font-family:'Space Mono',monospace;color:#888;font-weight:700;border-top:1px solid #eee;padding-top:8px">📖 ${c.norm}</div>
+    </div>
+    <button onclick="basicsNext('${key}')"
+      style="width:100%;padding:13px;border-radius:13px;border:none;background:${mod.color};color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer;margin-bottom:8px">
+      ${isLast ? '🎉 Modul abschließen' : 'Nächster Fall →'}
+    </button>
+    `}`;
+}
+
+const BASICS_DATA = {
+  ao: {
+    icon:'⚖️', color:'#3a78c0', title:'AO Basics',
+    intro_short:'Abgabenordnung – das Verfahrensrecht der Besteuerung',
+    cases:[
+      {
+        sachverhalt:'Finanzbeamtin Karin erfährt bei einer Betriebsprüfung, dass Bäcker Müller 120.000 € Jahresgewinn macht. Beim Abendessen erzählt sie ihrem Mann davon – er ist ja kein Fremder.',
+        frage:'Hat Karin damit etwas falsch gemacht?',
+        wuerdigung:`<b>Ja – klarer Verstoß gegen § 30 AO (Steuergeheimnis).</b><br><br>
+§ 30 Abs. 1 AO verpflichtet alle Amtsträger zur Verschwiegenheit über alle im Besteuerungsverfahren erlangten Informationen. <b>„Geheimnis" schützt hier das Persönlichkeitsrecht und die Privatsphäre der Steuerpflichtigen.</b><br><br>
+Die Weitergabe gilt auch gegenüber Familienangehörigen als Verstoß – es gibt keine „Familienausnahme".<br><br>
+<b>Rechtsfolge:</b> § 355 StGB – Verletzung des Steuergeheimnisses → Freiheitsstrafe bis 2 Jahre oder Geldstrafe. Karin riskiert ihren Beamtenstatus (Disziplinarverfahren).<br><br>
+<b>Ausnahmen (§ 30 Abs. 4 AO):</b> Weitergabe nur zulässig z.B. bei ausdrücklicher Einwilligung, zur Strafverfolgung oder im Gerichtsverfahren.`,
+        norm:'§ 30 AO (Steuergeheimnis) · § 355 StGB · § 30 Abs. 4 AO (Ausnahmen)'
+      },
+      {
+        sachverhalt:'Tom gibt seine Steuererklärung 2023 am 31. August 2024 ab – ohne Steuerberater. Das Finanzamt schickt einen Verspätungszuschlagsbescheid.',
+        frage:'Zu Recht? Wann läuft die Abgabefrist?',
+        wuerdigung:`<b>Zu Unrecht – Toms Erklärung ist rechtzeitig.</b><br><br>
+§ 149 Abs. 2 Satz 1 AO: Steuerpflichtige ohne steuerlichen Berater müssen ihre Erklärung bis zum <b>31. Juli des Folgejahres</b> einreichen. Für 2023 = 31. Juli 2024.<br><br>
+Tom hat am 31. August 2024 eingereicht → <b>einen Monat zu spät</b> → Verspätungszuschlag nach § 152 AO ist tatsächlich möglich!<br><br>
+<b>§ 152 Abs. 2 AO:</b> Mindestens 25 € pro angefangenem Monat der Verspätung, maximal 25.000 €.<br><br>
+<b>Ausweg:</b> Tom hätte rechtzeitig einen Antrag auf Fristverlängerung (§ 109 AO) stellen müssen. Mit Steuerberater gilt automatisch der 28./29. Februar des übernächsten Jahres (§ 149 Abs. 3 AO).<br><br>
+<b>Merkhilfe:</b> Ohne Berater → 31. Juli · Mit Berater → letzter Februar-Tag übernächstes Jahr.`,
+        norm:'§ 149 Abs. 2, 3 AO · § 109 AO · § 152 AO (Verspätungszuschlag)'
+      },
+      {
+        sachverhalt:'Sandra erhält 2026 einen Einkommensteuerbescheid für 2022 und ist empört – sie möchte sofort Einspruch einlegen. Der Bescheid wurde ihr am 10. Januar 2023 zugestellt.',
+        frage:'Kann Sandra noch Einspruch einlegen?',
+        wuerdigung:`<b>Nein – die Einspruchsfrist ist seit Jahren abgelaufen.</b><br><br>
+§ 355 Abs. 1 AO: Einspruch ist innerhalb eines Monats nach Bekanntgabe des Verwaltungsakts einzulegen.<br><br>
+§ 122 Abs. 2 AO: Bekanntgabe gilt am <b>dritten Tag</b> nach Aufgabe zur Post (bei schriftlichem Bescheid). Zustellung 10.01.2023 → Frist bis 10.02.2023.<br><br>
+2026 ist diese Frist längst verstrichen. <b>Bestandskraft</b> des Bescheids (§ 124 AO) ist eingetreten.<br><br>
+<b>Einziger Ausweg:</b> Änderungsantrag nach § 172 ff. AO (z.B. neue Tatsachen) oder Antrag auf schlichte Änderung – aber nur in engen Grenzen.<br><br>
+<b>Achtung beim Einspruch:</b> § 367 Abs. 2 AO – <b>Verböserung möglich!</b> Das FA kann den Bescheid auch zu Ungunsten des Steuerpflichtigen ändern.`,
+        norm:'§ 355 AO · § 122 AO · § 124 AO · § 367 Abs. 2 AO (Verböserung)'
+      }
+    ]
+  },
+
+  recht: {
+    icon:'🏛️', color:'#7b5ea7', title:'Recht Basics',
+    intro_short:'BGB-Grundlagen – Geschäftsfähigkeit & Verträge',
+    cases:[
+      {
+        sachverhalt:'Der 15-jährige Max kauft ohne Wissen seiner Eltern ein E-Bike für 1.200 € auf Ratenzahlung. Er unterschreibt den Kaufvertrag selbst beim Händler.',
+        frage:'Ist der Kaufvertrag wirksam?',
+        wuerdigung:`<b>Der Vertrag ist schwebend unwirksam – Genehmigung der Eltern erforderlich.</b><br><br>
+§ 106 BGB: Max ist als 15-Jähriger beschränkt geschäftsfähig. Er kann Willenserklärungen abgeben, aber sie bedürfen für Wirksamkeit der Zustimmung des gesetzlichen Vertreters.<br><br>
+§ 107 BGB: Ausnahme nur wenn der Vertrag dem Minderjährigen <b>lediglich rechtlich vorteilhaft</b> ist. Ein Kauf auf Raten begründet Verbindlichkeiten → <b>rechtlich nachteilig</b> → Zustimmung nötig.<br><br>
+§ 108 Abs. 1 BGB: Ohne Genehmigung ist der Vertrag schwebend unwirksam.<br><br>
+<b>Szenarien:</b><br>
+• Eltern genehmigen → Vertrag wirksam rückwirkend (§ 184 BGB)<br>
+• Eltern verweigern → Vertrag endgültig unwirksam → Max gibt E-Bike zurück<br><br>
+<b>Nicht anwendbar:</b> § 110 BGB (Taschengeldparagraf) – Max zahlt auf Raten, nicht aus eigenen Mitteln.`,
+        norm:'§§ 104–108 BGB · § 107 BGB · § 110 BGB · § 184 BGB'
+      },
+      {
+        sachverhalt:'Anna (16) hat eine Ausbildung zur Kauffrau begonnen. Die Eltern haben zugestimmt. Vom Lohn kauft sie Kleidung, bezahlt ihr Handy-Abo und überweist 150 € an eine Freundin.',
+        frage:'Darf Anna das alles ohne erneute Elternzustimmung?',
+        wuerdigung:`<b>Ja – § 113 BGB ermächtigt Anna zur vollen Rechtsgeschäftsfähigkeit im Bereich des Arbeitsverhältnisses.</b><br><br>
+§ 113 Abs. 1 BGB: Ermächtigt der gesetzliche Vertreter den Minderjährigen, ein Arbeitsverhältnis einzugehen, ist dieser für alle Rechtsgeschäfte unbeschränkt geschäftsfähig, die der Abwicklung des Arbeitsverhältnisses dienen.<br><br>
+Das umfasst: <b>Verwaltung des Lohns</b>, Kauf von Berufskleidung, alltägliche Ausgaben aus eigenem Einkommen, Bankgeschäfte.<br><br>
+Die Überweisung an die Freundin (Schenkung aus eigenem Einkommen) fällt ebenfalls darunter – solange Anna aus ihrem eigenen Lohn handelt.<br><br>
+<b>Grenze des § 113 BGB:</b> Kreditaufnahme, Bürgschaften, größere Investitionen außerhalb des Arbeitsverhältnisses → weiter Zustimmung erforderlich.<br><br>
+<b>Unterschied § 110 zu § 113:</b> § 110 = Mittel wurden für den Zweck überlassen · § 113 = eigener Lohn aus Arbeit.`,
+        norm:'§ 113 BGB · § 110 BGB · § 106, § 107 BGB'
+      },
+      {
+        sachverhalt:'Herr Wagner unterschreibt stark betrunken auf einer Party einen Kaufvertrag über ein gebrauchtes Auto für 8.000 €. Am nächsten Morgen möchte er den Vertrag rückgängig machen.',
+        frage:'Welche rechtlichen Möglichkeiten hat Herr Wagner?',
+        wuerdigung:`<b>Wagner kann sich auf vorübergehende Geschäftsunfähigkeit (§ 105 Abs. 2 BGB) berufen – oder anfechten (§ 119 BGB).</b><br><br>
+<b>Weg 1 – Nichtigkeit (§ 105 Abs. 2 BGB):</b><br>
+§ 104 Nr. 2 BGB: Geschäftsunfähig ist, wer sich in einem die freie Willensbestimmung ausschließenden Zustand befindet – auch vorübergehend (starke Trunkenheit).<br>
+Folge: Willenserklärung ist <b>nichtig</b> (§ 105 Abs. 1 BGB) – kein Vertrag entstanden.<br>
+Problem: Wagner muss den Grad der Trunkenheit beweisen (Zeugen, ggf. Promille-Schätzung).<br><br>
+<b>Weg 2 – Anfechtung (§ 119 BGB):</b><br>
+Irrtum über Erklärungsgehalt möglich, wenn Wagner sich an nichts erinnert. Anfechtung binnen Jahresfrist (§ 121 BGB), wirkt rückwirkend (§ 142 BGB) – aber Schadensersatzpflicht (§ 122 BGB) möglich!<br><br>
+<b>Empfehlung:</b> Vorrangig auf § 105 Abs. 2 BGB stützen – Nichtigkeit ist stärker als Anfechtung.`,
+        norm:'§ 104 Nr. 2, § 105 BGB · § 119, § 121, § 122, § 142 BGB'
+      }
+    ]
+  },
+
+  ust: {
+    icon:'🛒', color:'#e67e22', title:'USt Basics',
+    intro_short:'Umsatzsteuer – Lieferung, Leistung, Ort, Befreiung',
+    cases:[
+      {
+        sachverhalt:'Bäcker Bernd betreibt in Berlin eine Bäckerei. Er verkauft Brötchen über die Theke (Mitnehmen) und betreibt einen kleinen Café-Bereich, wo Kunden sitzen und Kaffee trinken.',
+        frage:'Welcher USt-Satz gilt für was – und warum?',
+        wuerdigung:`<b>Brötchen zum Mitnehmen: 7 % · Café-Leistung (Kaffee, Sitzverzehr): 19 %</b><br><br>
+§ 1 Abs. 1 Nr. 1 UStG: Steuerbar sind Lieferungen und sonstige Leistungen eines Unternehmers im Inland gegen Entgelt.<br><br>
+<b>Brötchen Theke (Lieferung, § 3 Abs. 1 UStG):</b><br>
+→ Lieferung von Lebensmitteln → <b>7 % USt</b> nach § 12 Abs. 2 Nr. 1 UStG i.V.m. Anlage 2<br><br>
+<b>Café-Bereich (Restaurationsleistung):</b><br>
+→ Dienstleistungscharakter überwiegt (Service, Ambiente, Sitzmöglichkeit)<br>
+→ Sonstige Leistung (§ 3 Abs. 9 UStG) → <b>19 % USt</b> (§ 12 Abs. 1 UStG)<br><br>
+<b>Abgrenzung:</b> Entscheidend ist ob die Lieferung oder die Dienstleistung überwiegt. Essen zum Mitnehmen = 7 %, Essen mit Service/Ambiente = 19 %.<br><br>
+<b>Vorsteuer:</b> Bernd zieht die ihm berechnete USt (Mehl, Ofen, Strom) als Vorsteuer ab (§ 15 UStG).`,
+        norm:'§ 1, § 3 Abs. 1, § 3 Abs. 9, § 12 UStG · Anlage 2 UStG · § 15 UStG'
+      },
+      {
+        sachverhalt:'IT-Beraterin Jana (D) berät Firma Alpha in den USA (B2B). Sie stellt 15.000 € Honorar in Rechnung. Außerdem berät sie Privatperson Bob in Frankreich.',
+        frage:'Wo liegen die Leistungsorte? Muss Jana deutsche USt berechnen?',
+        wuerdigung:`<b>Firma Alpha (B2B): Leistungsort USA – keine deutsche USt.<br>Bob (B2C): Leistungsort Deutschland – 19 % deutsche USt.</b><br><br>
+§ 3a UStG regelt den Ort sonstiger Leistungen:<br><br>
+<b>B2B (Unternehmer an Unternehmer) – § 3a Abs. 2 UStG:</b><br>
+Empfängerortprinzip: Leistungsort = Ort wo Empfänger sein Unternehmen hat → USA.<br>
+Jana schreibt: „Steuerschuldnerschaft des Leistungsempfängers (Reverse Charge § 13b UStG)".<br>
+Alpha versteuert die Leistung selbst in den USA nach dortigen Regeln.<br><br>
+<b>B2C (Unternehmer an Privatperson) – § 3a Abs. 1 UStG:</b><br>
+Unternehmerortprinzip (Grundregel): Leistungsort = Ort von Janas Unternehmen = Deutschland.<br>
+→ Jana stellt Bob 19 % deutsche USt in Rechnung.<br><br>
+<b>Ausnahme OSS (§ 3a Abs. 5 UStG):</b> Bei B2C-Leistungen an EU-Bürger über Schwellenwert → Empfängerort, One-Stop-Shop-Meldung.`,
+        norm:'§ 3a Abs. 1, 2 UStG · § 13b UStG (Reverse Charge) · § 18j UStG (OSS)'
+      },
+      {
+        sachverhalt:'Dr. Meyer ist niedergelassener Arzt. Er behandelt Patienten (GKV & privat), schreibt aber auch kostenpflichtige Gutachten für Versicherungen und führt Botox-Behandlungen durch.',
+        frage:'Welche Leistungen sind steuerfrei – und was ist die Konsequenz?',
+        wuerdigung:`<b>Heilbehandlungen: steuerfrei · Gutachten für Versicherungen: 19 % · Botox ohne med. Indikation: 19 %</b><br><br>
+§ 4 Nr. 14 Buchst. a UStG: Steuerbefreit sind Heilbehandlungen im Bereich der Humanmedizin durch zugelassene Ärzte – wenn Zweck Diagnose, Behandlung, Heilung oder Prävention ist.<br><br>
+<b>Steuerfrei:</b> Patientenbehandlung (Kassenleistungen und private Behandlung bei med. Indikation)<br><br>
+<b>Steuerpflichtig (19 %):</b><br>
+• Versicherungsgutachten → kein Heilzweck, sondern Beweissicherung<br>
+• Botox/ästhetische OPs ohne medizinische Notwendigkeit → kein Heilzweck (BFH-Rechtsprechung)<br><br>
+<b>Kritische Konsequenz der Steuerbefreiung:</b><br>
+§ 15 Abs. 2 UStG: Für steuerfreie Umsätze besteht <b>kein Vorsteuerabzug</b>! Dr. Meyer kann die USt auf Praxismiete, Geräte etc. nicht abziehen – soweit sie den steuerfreien Umsätzen zuzuordnen sind.<br><br>
+<b>Merkhilfe:</b> Steuerbefreiung klingt gut – aber kein Vorsteuerabzug ist der Preis dafür.`,
+        norm:'§ 4 Nr. 14 UStG · § 15 Abs. 2 UStG · BFH V R 27/09 (ästhetische OPs)'
+      }
+    ]
+  },
+
+  bilanz: {
+    icon:'📋', color:'#27ae60', title:'Bilanz Basics',
+    intro_short:'Doppelte Buchführung – Soll, Haben, Buchungssätze',
+    cases:[
+      {
+        sachverhalt:'Unternehmer Klaus kauft eine Maschine für 59.500 € brutto (50.000 € netto + 19 % USt) und zahlt per Überweisung sofort.',
+        frage:'Wie lautet der vollständige Buchungssatz?',
+        wuerdigung:`<b>Maschinen 50.000 + Vorsteuer 9.500 an Bank 59.500</b><br><br>
+<b>Analyse der Konten:</b><br>
+• <b>Maschinen</b> = Aktivkonto (Anlagevermögen) → Zugang → Soll<br>
+• <b>Vorsteuer</b> = Aktivkonto (Forderung ggü. Finanzamt) → Zugang → Soll<br>
+• <b>Bank</b> = Aktivkonto (Umlaufvermögen) → Abgang → Haben<br><br>
+<b>Bilanzwirkung:</b> Aktivtausch – Maschine + Vorsteuer steigen, Bank sinkt. Bilanzsumme bleibt gleich.<br><br>
+<b>Steuerrecht:</b> Vorsteuerabzug nach § 15 UStG, Maschine wird über Nutzungsdauer abgeschrieben (§ 7 EStG, lineare AfA).<br><br>
+<b>Grundregel:</b><br>
+Aktivkonto: Zugang → Soll / Abgang → Haben<br>
+Passivkonto: Zugang → Haben / Abgang → Soll<br>
+Aufwand → immer Soll · Ertrag → immer Haben`,
+        norm:'§ 238 HGB · § 266 HGB · § 15 UStG · § 7 EStG'
+      },
+      {
+        sachverhalt:'Die Müller GmbH kauft Büromaterial (Verbrauchsgut) für 595 € brutto (500 € + 19 % USt) auf Ziel – die Rechnung wird erst nächsten Monat bezahlt.',
+        frage:'Wie wird gebucht und welche Konten werden berührt?',
+        wuerdigung:`<b>Bürobedarf 500 + Vorsteuer 95 an Verbindlichkeiten aus LuL 595</b><br><br>
+<b>Analyse:</b><br>
+• <b>Bürobedarf</b> = Aufwandskonto → Soll (mindert Gewinn sofort, da Verbrauchsgut)<br>
+• <b>Vorsteuer</b> = Aktivkonto → Soll (Forderung ggü. FA)<br>
+• <b>Verbindlichkeiten aus LuL</b> = Passivkonto → Haben (neue Schuld)<br><br>
+<b>Bilanzwirkung:</b><br>
+→ Passiva steigen (neue Verbindlichkeit 595 €)<br>
+→ Eigenkapital sinkt (Aufwand 500 € mindert Gewinn)<br>
+→ Aktiva steigen (Vorsteuer 95 €)<br><br>
+<b>Wichtig:</b> Büromaterial = sofortiger Aufwand (kein AV). Würde die GmbH dagegen Büromöbel kaufen, müsste sie aktivieren und abschreiben!<br><br>
+<b>Merkhilfe:</b> Verbrauchsgüter → sofortiger Aufwand · Langlebige Güter (>1 Jahr, >800 € netto) → Aktivierung + AfA.`,
+        norm:'§ 238, § 246, § 266 HGB · § 6 Abs. 2 EStG (GWG) · § 7 EStG'
+      },
+      {
+        sachverhalt:'Die AG schafft eine Maschine für 120.000 € an (Nutzungsdauer 8 Jahre, lineare AfA). Nach 3 Jahren soll der Restbuchwert ermittelt werden.',
+        frage:'Wie hoch ist der Restbuchwert? Wie lautet der jährliche Buchungssatz?',
+        wuerdigung:`<b>Jährliche AfA: 15.000 € · Restbuchwert nach 3 Jahren: 75.000 €</b><br><br>
+<b>Berechnung (lineare AfA, § 7 Abs. 1 EStG):</b><br>
+120.000 € ÷ 8 Jahre = <b>15.000 € AfA pro Jahr</b><br><br>
+<b>Jährlicher Buchungssatz:</b><br>
+Abschreibungen auf Sachanlagen 15.000 an Maschinen 15.000<br><br>
+• Abschreibungen = Aufwandskonto → Soll<br>
+• Maschinen = Aktivkonto → Wertminderung → Haben<br><br>
+<b>Restbuchwert nach 3 Jahren:</b><br>
+120.000 – (3 × 15.000) = <b>75.000 €</b><br><br>
+<b>Steuerliche Bedeutung:</b> AfA mindert jährlich den Gewinn → weniger ESt/KSt. Nach 8 Jahren = Erinnerungswert 1 €.<br><br>
+<b>Alternative:</b> Degressive AfA bis 31.12.2024 möglich (§ 7 Abs. 2 EStG) – höhere AfA in frühen Jahren. Ab 2025 wieder zulässig (JStG 2024).`,
+        norm:'§ 7 EStG · § 253 HGB · AfA-Tabellen der Finanzverwaltung · § 6 Abs. 1 EStG'
+      }
+    ]
+  },
+
+  est: {
+    icon:'💼', color:'#1a3a8f', title:'ESt Basics',
+    intro_short:'Einkommensteuer – Einkünfte, zvE, Tarif, Abzüge',
+    cases:[
+      {
+        sachverhalt:'Werkstudent Lukas (22, ledig) verdient 12.500 € brutto im Jahr. Dazu hat er 900 € Zinsen vom Tagesgeldkonto. Er ist 30 km von der Uni entfernt beschäftigt und pendelt 180 Tage.',
+        frage:'Muss Lukas eine Steuererklärung abgeben? Und zahlt er Steuern?',
+        wuerdigung:`<b>Keine Pflicht, aber freiwillige Abgabe lohnt sich – Lukas zahlt keine ESt.</b><br><br>
+<b>Einkünfte aus nichtselbständiger Arbeit (§ 19 EStG):</b><br>
+12.500 € brutto – AN-Pauschbetrag 1.230 € = 11.270 € Einkünfte<br><br>
+<b>Kapitalerträge (§ 20 EStG):</b><br>
+900 € Zinsen – Sparerpauschbetrag 1.000 € (§ 20 Abs. 9 EStG) = 0 € (wenn Freistellungsauftrag gestellt!)<br><br>
+<b>zvE:</b> 11.270 € < Grundfreibetrag 12.336 € → <b>0 € Einkommensteuer</b><br><br>
+<b>Lohnsteuer:</b> Durch den AN-Pauschbetrag und Grundfreibetrag wurde vom AG evt. Lohnsteuer einbehalten → Erklärung ergibt Erstattung!<br><br>
+<b>Fahrtkosten (§ 9 Abs. 1 Nr. 4 EStG):</b><br>
+30 km × 0,38 € × 180 Tage = 2.052 € Werbungskosten → übersteigt Pauschbetrag → Verlust feststellbar für Folgejahre (§ 10d EStG)!`,
+        norm:'§ 2, § 9a, § 19 EStG · § 20 Abs. 9 EStG · § 32a EStG · § 10d EStG'
+      },
+      {
+        sachverhalt:'Lehrerin Petra (Beamtin, 48.000 € Jahresgehalt, Steuerklasse I) pendelt 38 km zur Schule (200 Arbeitstage). Sie hat 750 € Fachliteratur und 1.200 € für ein Fortbildungsseminar ausgegeben.',
+        frage:'Wie hoch sind ihre Werbungskosten? Was ergibt sich steuerlich?',
+        wuerdigung:`<b>Tatsächliche WK: 5.834 € – deutlich über Pauschbetrag (1.230 €) → Erklärung ist Pflicht und lohnt sich!</b><br><br>
+<b>Pendlerpauschale (§ 9 Abs. 1 Nr. 4 EStG 2026):</b><br>
+38 km × 0,38 € × 200 Tage = <b>2.888 €</b><br><br>
+<b>Fachliteratur (§ 9 Abs. 1 Nr. 6 EStG):</b><br>
+<b>750 €</b><br><br>
+<b>Fortbildung (§ 9 Abs. 1 Nr. 6 EStG):</b><br>
+<b>1.200 €</b> (berufliche Fortbildung, keine Erstausbildung → WK!)<br><br>
+<b>Summe tatsächliche WK: 4.838 €</b><br>
+Abzgl. Pauschbetrag: 4.838 – 1.230 = <b>3.608 € zusätzlicher Abzug</b><br><br>
+<b>Steuerersparnis</b> (ca. Grenzsteuersatz 35 %):<br>
+3.608 € × 35 % ≈ <b>ca. 1.263 € Erstattung</b><br><br>
+<b>Pflichtveranlagung:</b> § 46 Abs. 2 Nr. 4 EStG – bei Arbeitnehmer mit WK > 1.230 € ist Abgabe ggf. verpflichtend.`,
+        norm:'§ 9 Abs. 1 Nr. 4, Nr. 6 EStG · § 9a EStG · § 32a EStG · § 46 EStG'
+      },
+      {
+        sachverhalt:'Klaus (ledig, keine Kinder, keine Kirchensteuer) hat 2026 ein zvE von 52.000 €. Er versteht nicht warum er nicht 42 % auf alles zahlt – schließlich ist sein Steuersatz „42 %".',
+        frage:'Wie funktioniert der progressive Tarif wirklich? Was zahlt Klaus tatsächlich?',
+        wuerdigung:`<b>Klaus zahlt ca. 13.100 € ESt – sein Durchschnittssatz liegt bei ca. 25 %, nicht 42 %!</b><br><br>
+<b>§ 32a EStG – Tarifzonen 2026:</b><br>
+• 0 – 12.336 €: <b>0 %</b> (Grundfreibetrag)<br>
+• 12.337 – 17.443 €: <b>14 – 24 %</b> (1. Progressionszone)<br>
+• 17.444 – 68.430 €: <b>24 – 42 %</b> (2. Progressionszone)<br>
+• 68.431 – 277.825 €: <b>42 %</b> flach<br>
+• ab 277.826 €: <b>45 %</b> flach<br><br>
+<b>Der 42%-Grenzsteuersatz gilt nur für den letzten zusätzlichen Euro</b> – nicht für das gesamte Einkommen!<br><br>
+Bei Klaus (52.000 €) liegt der Grenzsteuersatz bei ca. 38 %, der Durchschnittssatz bei ca. 25 %.<br><br>
+<b>Praktische Bedeutung:</b> Wenn Klaus 1.000 € mehr verdient, zahlt er ca. 380 € mehr Steuern – aber nicht 420 €, und schon gar nicht 420 € auf alle 52.000 €.<br><br>
+<b>Merkhilfe:</b> Progressiv = stufenweise steigend. Jede Zone hat ihren eigenen Satz. Nur der letzte Euro wird mit dem „Grenzsteuersatz" besteuert.`,
+        norm:'§ 32a EStG · § 2 Abs. 5 EStG (zvE) · § 51a EStG (SolZ-Berechnung)'
+      }
+    ]
+  }
+};
+
+
+// ══════════════════════════════════════════════════════════════════
+// BASICS LERNMODULE – Einführung + Sachverhalt + Auflösung mit §§
+// ══════════════════════════════════════════════════════════════════
+
+const BASICS_MODULES = {
+
+  ao_basics: {
+    color:'#1a3a8f', icon:'⚖️', title:'AO Basics',
+    intro:`<b>Was ist die AO?</b> Die Abgabenordnung ist das „Grundgesetz des Steuerrechts" – sie regelt <em>nicht</em> wie viel Steuer du zahlst, sondern <em>wie</em> das Finanzamt mit dir umgeht: Fristen, Bescheide, Einsprüche, Prüfungen.<br><br>
+<b>§ 1 AO:</b> Die AO gilt für alle Steuern, die durch Bundesrecht geregelt sind – also ESt, USt, KSt und viele mehr.<br><br>
+<b>Drei Kernbegriffe zum Start:</b><br>
+• <b>Verwaltungsakt (§ 118 AO)</b> – z. B. dein Steuerbescheid<br>
+• <b>Einspruch (§ 347 AO)</b> – dein Widerspruch gegen einen Bescheid, <b>1 Monat Frist</b><br>
+• <b>Bestandskraft (§ 172 ff. AO)</b> – nach Ablauf der Einspruchsfrist ist der Bescheid „eingefroren"`,
+    cases:[
+      {
+        sachverhalt:`Mia erhält am 15. März 2026 ihren Einkommensteuerbescheid für 2025. Sie findet darin einen Fehler – der Arbeitnehmer-Pauschbetrag wurde nicht berücksichtigt. Ihr Freund rät ihr: „Warte noch, du hast ja 3 Monate Zeit."`,
+        frage:'Bis wann muss Mia spätestens Einspruch einlegen?',
+        opts:['15. April 2026 (1 Monat)','15. Juni 2026 (3 Monate)','31. Dezember 2026 (Jahresende)','15. März 2027 (1 Jahr)'],
+        ans:0,
+        aufloesung:`<b>✅ Richtig: 15. April 2026 – 1 Monat (§ 355 Abs. 1 AO).</b><br><br>
+Der Freund irrt. Die <b>Einspruchsfrist beträgt 1 Monat</b> ab Bekanntgabe (§ 355 Abs. 1 S. 1 AO). Der Bescheid gilt am dritten Tag nach Aufgabe zur Post als bekanntgegeben (§ 122 Abs. 2 AO) – hier also am 18. März 2026.<br><br>
+<b>⚠️ Wichtig:</b> Der Einspruch hat <em>keine automatische aufschiebende Wirkung</em> – Mia muss die Steuer zunächst trotzdem zahlen, es sei denn, sie beantragt zusätzlich <b>Aussetzung der Vollziehung (AdV) nach § 361 AO</b>.<br><br>
+<b>Verböserungsrisiko (§ 367 Abs. 2 AO):</b> Das Finanzamt darf den Bescheid im Einspruchsverfahren auch zu Mias Ungunsten ändern – sie sollte das prüfen bevor sie Einspruch einlegt.`
+      },
+      {
+        sachverhalt:`Tom hat seit 3 Jahren keine Steuererklärung abgegeben. Das Finanzamt hat ihn nie gemahnt. Tom glaubt: „Nach 4 Jahren können die doch nichts mehr von mir wollen."`,
+        frage:'Ist Toms Einschätzung zur Verjährung korrekt?',
+        opts:['Ja – nach 4 Jahren ist alles verjährt (§ 169 AO)','Nein – die Frist beginnt erst mit Ablauf des Jahres der Steuererklärung','Nein – Nichtabgabe verlängert die Frist auf 10 Jahre','Ja – das Finanzamt hätte ihn mahnen müssen'],
+        ans:1,
+        aufloesung:`<b>✅ Nein – die Anlaufhemmung (§ 170 Abs. 2 AO) schützt das Finanzamt.</b><br><br>
+Die reguläre <b>Festsetzungsverjährung beträgt 4 Jahre (§ 169 Abs. 2 Nr. 2 AO)</b>. Aber: Wenn eine Steuererklärungspflicht besteht und keine Erklärung abgegeben wurde, beginnt die Frist erst mit Ablauf des 3. Jahres nach dem Steuerjahr (§ 170 Abs. 2 Nr. 1 AO).<br><br>
+<b>Beispiel:</b> Für VZ 2022 (keine Erklärung abgegeben) beginnt die 4-Jahres-Frist erst am 31.12.2025 → Verjährung erst Ende 2029!<br><br>
+<b>Bei Steuerhinterziehung (§ 370 AO):</b> Verlängerung auf <b>10 Jahre</b> (§ 169 Abs. 2 S. 2 AO). Tom sollte dringend nachträglich Erklärungen abgeben.`
+      },
+      {
+        sachverhalt:`Lisa arbeitet beim Finanzamt und erfährt dort, dass ihr Nachbar Max erhebliche Steuerschulden hat. Beim nächsten Treffen erwähnt sie es gegenüber einer gemeinsamen Bekannten.`,
+        frage:'Was hat Lisa damit verletzt?',
+        opts:['Nichts – Steuerdaten sind öffentlich','Das Steuergeheimnis (§ 30 AO)','Den Datenschutz (DSGVO) – nicht das Steuerrecht','Die Verschwiegenheitspflicht nach BGB'],
+        ans:1,
+        aufloesung:`<b>✅ Das Steuergeheimnis (§ 30 AO) – ein Straftatbestand!</b><br><br>
+<b>§ 30 AO</b> verpflichtet alle Amtsträger (und ihnen gleichgestellte Personen) zur absoluten Verschwiegenheit über steuerliche Verhältnisse Dritter. Steuerdaten sind <em>keine</em> öffentlichen Informationen.<br><br>
+<b>Folgen für Lisa:</b> Verletzung des Steuergeheimnisses ist nach <b>§ 355 StGB</b> eine Straftat – Freiheitsstrafe bis zu 2 Jahren oder Geldstrafe. Dazu kommt das dienstrechtliche Verfahren.<br><br>
+<b>Ausnahmen (§ 30 Abs. 4 AO):</b> Offenbarung nur zulässig z. B. für Strafverfolgung (Nr. 1), zur Durchführung eines Besteuerungsverfahrens (Nr. 1a) oder mit Zustimmung des Betroffenen (Nr. 3).`
+      }
+    ]
+  },
+
+  recht_basics: {
+    color:'#005c5c', icon:'🏛️', title:'Recht Basics',
+    intro:`<b>Warum Privatrecht im Steuerrecht?</b> Steuerrecht setzt immer bei einem <em>zivilrechtlichen Sachverhalt</em> an – einem Kauf, einem Vertrag, einer Leistung. Wer diese Grundbegriffe kennt, versteht auch das Steuerrecht besser.<br><br>
+<b>Grundbegriffe (BGB):</b><br>
+• <b>Geschäftsfähigkeit (§§ 104 ff. BGB)</b> – Unter 7: keine GF. 7–17: beschränkte GF. Ab 18: voll geschäftsfähig.<br>
+• <b>Angebot + Annahme (§§ 145 ff. BGB)</b> – Ein Vertrag kommt durch zwei übereinstimmende Willenserklärungen zustande.<br>
+• <b>Nichtigkeit vs. Anfechtbarkeit</b> – nichtig = von Anfang an unwirksam; anfechtbar = schwebend wirksam bis zur Anfechtung.`,
+    cases:[
+      {
+        sachverhalt:`Der 15-jährige Jonas kauft ohne Wissen seiner Eltern ein Smartphone für 800 € auf Raten. Der Verkäufer freut sich über das Geschäft. Jonas' Eltern erfahren davon und sind dagegen.`,
+        frage:'Was ist die rechtliche Folge?',
+        opts:['Der Kauf ist nichtig – Minderjährige dürfen nie Verträge schließen','Der Kauf ist wirksam – Jonas konnte selbst entscheiden','Der Kauf ist schwebend unwirksam – Eltern können zustimmen oder ablehnen (§ 108 BGB)','Der Kauf ist anfechtbar – Jonas kann ihn anfechten'],
+        ans:2,
+        aufloesung:`<b>✅ Schwebend unwirksam – Genehmigung der Eltern erforderlich (§ 108 BGB).</b><br><br>
+Jonas ist 15 Jahre alt, also beschränkt geschäftsfähig (§ 106 BGB). Rechtsgeschäfte, die ihm <em>nicht lediglich rechtlich vorteilhaft</em> sind (hier: er geht eine Ratenzahlungspflicht ein!), bedürfen der Genehmigung seiner Eltern als gesetzliche Vertreter.<br><br>
+<b>§ 108 BGB:</b> Schließt ein Minderjähriger ohne Einwilligung einen Vertrag, hängt seine Wirksamkeit von der Genehmigung der Eltern ab.<br><br>
+<b>Lehnen die Eltern ab:</b> Vertrag ist endgültig unwirksam. Jonas muss das Handy zurückgeben, der Verkäufer muss eventuelle Zahlungen erstatten.<br><br>
+<b>Steuerrechtliche Relevanz:</b> Sind Rechtsgeschäfte mit Minderjährigen zivilrechtlich unwirksam, können sie steuerlich nicht anerkannt werden (§ 41 AO: wirtschaftliche Betrachtungsweise hat Grenzen).`
+      },
+      {
+        sachverhalt:`Unternehmerin Paula schließt mit Lieferant Karl einen Kaufvertrag: „500 Stühle à 80 € netto, Lieferung in 4 Wochen." Als Karl liefert, stellt Paula fest, dass die Stühle Kratzer haben und verweigert die Abnahme.`,
+        frage:'Welches Recht hat Paula gegenüber Karl?',
+        opts:['Kein Recht – sie hat den Vertrag unterschrieben','Rücktritt oder Minderung (Sachmängelgewährleistung §§ 437 ff. BGB)','Nur Schadensersatz, kein Rücktritt','Anfechtung wegen Irrtums (§ 119 BGB)'],
+        ans:1,
+        aufloesung:`<b>✅ Sachmängelgewährleistung (§§ 434, 437 BGB) – Paula hat ein Wahlrecht.</b><br><br>
+Die Stühle haben einen <b>Sachmangel (§ 434 BGB)</b> – sie entsprechen nicht der vereinbarten Beschaffenheit. Paula kann nach <b>§ 437 BGB</b> wählen:<br><br>
+1. <b>Nacherfüllung (§ 439 BGB)</b> – Reparatur oder neue Lieferung<br>
+2. <b>Rücktritt (§ 440, 323 BGB)</b> – Vertrag rückabwickeln<br>
+3. <b>Minderung (§ 441 BGB)</b> – Kaufpreis reduzieren<br>
+4. <b>Schadensersatz (§§ 440, 280 BGB)</b> – bei Verschulden<br><br>
+<b>Frist:</b> Paula muss Karl zuerst eine angemessene Frist zur Nacherfüllung setzen, bevor sie zurücktreten kann (§ 323 Abs. 1 BGB) – außer bei Unzumutbarkeit.<br><br>
+<b>Verjährung:</b> Mängelansprüche verjähren bei beweglichen Sachen in <b>2 Jahren</b> (§ 438 Abs. 1 Nr. 3 BGB) ab Übergabe.`
+      },
+      {
+        sachverhalt:`Selbstständiger Ben schreibt eine Rechnung über „Beratungsleistungen" für seinen Freund Nico. Nico zahlt nie. Ben geht zum Anwalt. Der fragt: „Haben Sie einen schriftlichen Vertrag?"`,
+        frage:'Ist ein mündlicher Vertrag über Beratungsleistungen rechtlich wirksam?',
+        opts:['Nein – Verträge über 500 € müssen schriftlich sein','Ja – Verträge sind grundsätzlich formfrei (§ 311 Abs. 1 BGB)','Nein – Dienstleistungsverträge brauchen immer eine Unterschrift','Nur wenn ein Notar zugegen war'],
+        ans:1,
+        aufloesung:`<b>✅ Ja – das BGB kennt Formfreiheit als Grundsatz (§ 311 Abs. 1 BGB).</b><br><br>
+Verträge kommen grundsätzlich durch zwei übereinstimmende Willenserklärungen zustande – <b>ohne Formerfordernis</b>. Mündliche Verträge sind genauso wirksam wie schriftliche.<br><br>
+<b>Ausnahmen (gesetzliche Schriftformerfordernisse):</b><br>
+• Grundstückskauf: notarielle Beurkundung (§ 311b BGB)<br>
+• Bürgschaft: Schriftform (§ 766 BGB)<br>
+• Mietvertrag über 1 Jahr: Schriftform für Kündbarkeit (§ 550 BGB)<br><br>
+<b>Bens Problem ist Beweislast:</b> Er muss beweisen, dass ein Vertrag zustande kam und welcher Preis vereinbart war. Ohne Schriftform wird das vor Gericht schwierig. <b>Steuerlich</b> erkennt das Finanzamt mündliche Verträge zwischen Nahestehenden oft nicht an – hier wäre ein schriftlicher Vertrag essenziell.`
+      }
+    ]
+  },
+
+  ust_basics: {
+    color:'#c05800', icon:'🛒', title:'USt Basics',
+    intro:`<b>Das Prinzip der Umsatzsteuer:</b> USt ist eine Verbrauchsteuer – wirtschaftlich trägt sie der Endverbraucher. Unternehmer sind nur <em>Inkassostellen</em> des Staates.<br><br>
+<b>Prüfungsschema (§ 1 UStG):</b><br>
+① Lieferung oder sonstige Leistung?<br>
+② Gegen Entgelt?<br>
+③ Im Inland?<br>
+④ Von einem Unternehmer?<br>
+⑤ Im Rahmen des Unternehmens?<br><br>
+<b>Steuersätze (§ 12 UStG):</b> 19 % (Regelsteuersatz) oder 7 % (ermäßigt – z. B. Lebensmittel, Bücher, ÖPNV). Ab 2026: Gastronomie dauerhaft 7 %.`,
+    cases:[
+      {
+        sachverhalt:`Bäckerin Hanna verkauft ein belegtes Brötchen für 3 € an einen Kunden, der es an einem Stehtisch vor der Bäckerei isst. Ihr Steuerberater sagt: „Das ist 19 %, nicht 7 %." Hanna ist überrascht.`,
+        frage:'Warum gilt hier 19 % statt 7 %?',
+        opts:['Weil Brötchen keine Lebensmittel sind','Weil Restaurationsleistungen (Verzehr vor Ort) als sonstige Leistung 19 % unterliegen','Weil der Preis über 2 € liegt','Der Steuerberater irrt – es sind 7 %'],
+        ans:1,
+        aufloesung:`<b>✅ Restaurationsleistung = sonstige Leistung = 19 % (§ 3 Abs. 9 UStG, § 12 Abs. 1 UStG).</b><br><br>
+Das UStG unterscheidet:<br>
+• <b>Mitnahme (Lieferung, § 3 Abs. 1 UStG):</b> Brötchen wird verkauft und mitgenommen → <b>7 %</b> (Lebensmittel, § 12 Abs. 2 Nr. 1 UStG)<br>
+• <b>Vor Ort verzehren (sonstige Leistung, § 3 Abs. 9 UStG):</b> Infrastruktur (Stehtisch, Servietten, Besteck) prägt die Leistung → <b>19 %</b><br><br>
+<b>Abgrenzungskriterium:</b> Werden dem Kunden „Dienstleistungselemente" geboten (Platz, Besteck, Service), liegt eine <b>Restaurationsleistung</b> vor. Der EuGH hat diese Abgrenzung bestätigt.<br><br>
+<b>Ab 2026:</b> Gastronomie innerhalb von Gebäuden dauerhaft 7 % – aber Außer-Haus-Lieferung bleibt strittig je nach Sachverhalt.`
+      },
+      {
+        sachverhalt:`Unternehmerin Sara kauft einen neuen Firmenwagen für 50.000 € zzgl. 9.500 € USt. Sie fragt ihren Berater: „Bekomme ich die 9.500 € zurück?"`,
+        frage:'Kann Sara die 9.500 € als Vorsteuer abziehen?',
+        opts:['Nein – Vorsteuerabzug gilt nur für Waren, nicht für Fahrzeuge','Ja – Unternehmer können Vorsteuer aus allen Eingangsrechnungen abziehen (§ 15 UStG)','Ja, aber nur wenn das Auto ausschließlich betrieblich genutzt wird','Nein – der Vorsteuerabzug für PKW ist generell ausgeschlossen'],
+        ans:1,
+        aufloesung:`<b>✅ Ja – Vorsteuerabzug nach § 15 Abs. 1 UStG, aber mit einer wichtigen Einschränkung.</b><br><br>
+<b>Voraussetzungen § 15 Abs. 1 UStG:</b><br>
+① Eingangsrechnung mit USt-Ausweis<br>
+② Leistung für das Unternehmen<br>
+③ Sara ist Unternehmerin (§ 2 UStG)<br><br>
+<b>Die Einschränkung:</b> Wird das Auto auch privat genutzt, muss Sara eine <b>unentgeltliche Wertabgabe (§ 3 Abs. 9a UStG)</b> versteuern – der private Nutzungsanteil ist wie eine Lieferung an sich selbst zu behandeln.<br><br>
+<b>Wichtig:</b> Keine Vorsteuer bei steuerfreien Ausgangsumsätzen (§ 15 Abs. 2 UStG) – z. B. Arzt oder Versicherungsmakler. Sara muss also prüfen, ob sie voll vorsteuerabzugsberechtigt ist.`
+      },
+      {
+        sachverhalt:`Programmierer Felix wohnt in Berlin und entwickelt eine Website für ein US-Unternehmen ohne deutsche Niederlassung. Er stellt 5.000 € in Rechnung. Muss er USt ausweisen?`,
+        frage:'Wie ist diese Leistung umsatzsteuerlich zu beurteilen?',
+        opts:['Ja – 19 % USt, weil Felix in Deutschland wohnt','Nein – sonstige Leistung an ausländischen Unternehmer: Leistungsort ist beim Empfänger (§ 3a Abs. 2 UStG), kein dt. USt-Ausweis','Ja – 7 % weil digitale Leistungen ermäßigt sind','Nein – erst ab 22.000 € Kleinunternehmer-Freigrenze'],
+        ans:1,
+        aufloesung:`<b>✅ Kein USt-Ausweis – der Leistungsort liegt bei dem US-Unternehmen (§ 3a Abs. 2 UStG).</b><br><br>
+<b>Grundregel B2B (§ 3a Abs. 2 UStG):</b> Bei sonstigen Leistungen zwischen Unternehmern liegt der Ort dort, wo der <em>Empfänger</em> sein Unternehmen betreibt – also in den USA.<br><br>
+<b>Folge:</b> Die Leistung ist in Deutschland <b>nicht steuerbar</b> – Felix darf keine deutsche USt ausweisen und muss auch keine abführen. Die Rechnung erhält den Hinweis „Steuerschuldnerschaft des Leistungsempfängers" (<em>reverse charge</em>).<br><br>
+<b>In den USA</b> gilt das Reverse-Charge-Verfahren: Das US-Unternehmen schuldet die dortige Steuer selbst.<br><br>
+<b>Felix muss aber:</b> Die Leistung in der Zusammenfassenden Meldung (ZM) angeben (§ 18a UStG) – sofern Leistungsempfänger in der EU sitzt; bei USA entfällt die ZM.`
+      }
+    ]
+  },
+
+  bilanz_basics: {
+    color:'#5c2d8f', icon:'📋', title:'Bilanz Basics',
+    intro:`<b>Doppelte Buchführung – warum?</b> Jeder Geschäftsvorfall wird auf <em>zwei</em> Konten gebucht: Soll und Haben. Das Ergebnis: die Bilanz ist immer ausgeglichen (Aktiva = Passiva).<br><br>
+<b>Die Grundgleichung:</b><br>
+<code>Aktiva (Vermögen) = Passiva (Kapital + Schulden)</code><br><br>
+<b>Merkhilfe Buchungssatz:</b> „<b>Soll an Haben</b>" – das Konto das zunächst genannt wird (Soll) wird links gebucht, das zweite (Haben) rechts.<br><br>
+<b>Bestandskonten:</b> Aktiv- und Passivkonten bilden die Bilanz.<br>
+<b>Erfolgskonten:</b> Ertrags- und Aufwandskonten bilden die GuV (Gewinn- und Verlustrechnung).`,
+    cases:[
+      {
+        sachverhalt:`Das Unternehmen Müller GmbH kauft einen Laptop für 1.200 € und zahlt sofort per Banküberweisung. Buchhalter Tim muss den Buchungssatz erstellen.`,
+        frage:'Wie lautet der korrekte Buchungssatz?',
+        opts:['Kasse 1.200 € an Bank 1.200 €','Büroausstattung 1.200 € an Bank 1.200 €','Bank 1.200 € an Büroausstattung 1.200 €','Aufwand 1.200 € an Eigenkapital 1.200 €'],
+        ans:1,
+        aufloesung:`<b>✅ Büroausstattung (Soll) 1.200 € an Bank (Haben) 1.200 €</b><br><br>
+<b>Analyse des Geschäftsvorfalls:</b><br>
+• Ein Aktivkonto steigt: <b>Büroausstattung +1.200 €</b> (Anlagevermögen, Soll-Buchung)<br>
+• Ein Aktivkonto sinkt: <b>Bank −1.200 €</b> (Umlaufvermögen, Haben-Buchung)<br><br>
+<b>Merkhilfe:</b><br>
+→ Aktivkonten: Zugänge im Soll, Abgänge im Haben<br>
+→ Passivkonten: Zugänge im Haben, Abgänge im Soll<br><br>
+<b>Steuerrechtlich (§ 7 EStG):</b> Der Laptop (≤ 800 € netto → GWG) dürfte je nach Nettowert sofort abgeschrieben oder über die Nutzungsdauer verteilt werden. Bei 1.200 € brutto (ca. 1.008 € netto) ist nach dem BMF-Schreiben 2022 eine Nutzungsdauer von 1 Jahr möglich → Sofortabschreibung!`
+      },
+      {
+        sachverhalt:`Die Bau GmbH nimmt am 1. Januar ein Darlehen über 100.000 € bei der Bank auf. Das Geld landet auf dem Geschäftskonto.`,
+        frage:'Wie verändert sich die Bilanz der Bau GmbH?',
+        opts:['Aktiva steigen um 100.000 €, Passiva sinken um 100.000 €','Aktiva und Passiva steigen beide um 100.000 € (Bilanzverlängerung)','Nur die Aktiva steigen, die Passiva bleiben gleich','Die Bilanz verändert sich nicht – ein Darlehen ist kein Gewinn'],
+        ans:1,
+        aufloesung:`<b>✅ Bilanzverlängerung – beide Seiten steigen um 100.000 €.</b><br><br>
+<b>Buchungssatz:</b> Bank (A) 100.000 € an Verbindlichkeiten ggü. Kreditinstituten (P) 100.000 €<br><br>
+<b>Bilanzwirkung:</b><br>
+• Aktiva: Bank +100.000 € → Bilanz wird länger<br>
+• Passiva: Verbindlichkeit +100.000 € → Bilanz bleibt ausgeglichen<br><br>
+<b>Es gibt 4 Bilanzveränderungen:</b><br>
+① Aktivtausch (A+ gegen A−) – z. B. Kauf gegen Kasse<br>
+② Passivtausch (P+ gegen P−) – z. B. Umschuldung<br>
+③ <b>Bilanzverlängerung (A+ gegen P+)</b> – hier: Darlehensaufnahme<br>
+④ Bilanzverkürzung (A− gegen P−) – z. B. Darlehenstilgung`
+      },
+      {
+        sachverhalt:`Händler Klaus kauft Waren für 10.000 € auf Ziel (Zahlung in 30 Tagen) und verkauft sie sofort für 15.000 € auf Ziel. Welchen Gewinn hat Klaus?`,
+        frage:'Wie hoch ist der Gewinn aus diesem Geschäft?',
+        opts:['0 € – Klaus hat noch nichts bezahlt und noch nichts erhalten','5.000 € – Erlöse minus Wareneinsatz (Realisationsprinzip)','15.000 € – erst wenn er bezahlt wird','10.000 € – der Einkaufspreis ist der Gewinn'],
+        ans:1,
+        aufloesung:`<b>✅ 5.000 € – nach dem Realisationsprinzip (§ 252 Abs. 1 Nr. 4 HGB).</b><br><br>
+<b>Buchungssätze:</b><br>
+Einkauf: Wareneinsatz 10.000 € / Verbindlichkeiten 10.000 €<br>
+Verkauf: Forderungen 15.000 € / Umsatzerlöse 15.000 €<br><br>
+<b>GuV-Effekt:</b> Umsatzerlöse 15.000 € − Wareneinsatz 10.000 € = <b>Gewinn 5.000 €</b><br><br>
+<b>Realisationsprinzip (§ 252 Abs. 1 Nr. 4 HGB):</b> Gewinne dürfen erst ausgewiesen werden, wenn sie realisiert sind – d. h. wenn die Leistung erbracht wurde. Die Zahlung spielt keine Rolle!<br><br>
+<b>Steuerlich:</b> Dieser Gewinn erhöht das zu versteuernde Einkommen im Jahr des Verkaufs – auch wenn Klaus das Geld noch nicht kassiert hat (Sollbesteuerung).`
+      }
+    ]
+  },
+
+  est_basics: {
+    color:'#0d2b5e', icon:'💼', title:'ESt Basics',
+    intro:`<b>Wie funktioniert Einkommensteuer?</b> Das EStG besteuert das Einkommen natürlicher Personen nach einem progressiven Tarif (§ 32a EStG).<br><br>
+<b>Der Weg zum zvE (§ 2 EStG):</b><br>
+Einkünfte aus 7 Einkunftsarten<br>
+<b>./.</b> Werbungskosten / Betriebsausgaben<br>
+= Summe der Einkünfte<br>
+<b>./.</b> Sonderausgaben, AuBe<br>
+= <b>Zu versteuerndes Einkommen (zvE)</b><br><br>
+<b>Grundfreibetrag 2026: 12.336 €</b> – bis hierher 0 % Steuer. Dann: 14 % → bis 42 % (Spitzensteuersatz) → 45 % (Reichensteuersatz ab ~278.000 €).`,
+    cases:[
+      {
+        sachverhalt:`Lehrerin Anna verdient 45.000 € brutto im Jahr. Sie hat Fahrtkosten (32 km zur Schule, 220 Tage) und hat Fachbücher für 280 € gekauft. Sie fragt: „Lohnt sich die Steuererklärung für mich?"`,
+        frage:'Wie hoch sind Annas Werbungskosten?',
+        opts:['1.230 € – Arbeitnehmer-Pauschbetrag, mehr lohnt sich nicht','3.963,20 € – Pendlerpauschale + Bücher (höher als Pauschbetrag, Erklärung lohnt sich)','280 € – nur die tatsächlich nachweisbaren Kosten','1.510 € – nur Fahrtkosten, Bücher sind Sonderausgaben'],
+        ans:1,
+        aufloesung:`<b>✅ 3.963,20 € – die Erklärung lohnt sich!</b><br><br>
+<b>Berechnung:</b><br>
+• Pendlerpauschale: 32 km × 0,38 €/km × 220 Tage = <b>2.675,20 €</b> (§ 9 Abs. 1 Nr. 4 EStG, 2026)<br>
+  <em>Hinweis: Ab 2026 einheitlich 0,38 €/km ab km 1 (StÄndG 2025)</em><br>
+• Fachbücher: <b>280 €</b> (§ 9 Abs. 1 S. 3 Nr. 7 EStG)<br>
+• Gesamt: <b>2.955,20 €</b><br>
+• Arbeitnehmer-Pauschbetrag: 1.230 € (§ 9a Nr. 1 EStG)<br>
+• Da 2.955 € > 1.230 €: <b>Einzelnachweis lohnt sich!</b><br><br>
+<b>Steuerersparnis:</b> 2.955 − 1.230 = 1.725 € zusätzliche WK × ca. 30 % Grenzsteuersatz ≈ <b>518 € Erstattung mehr</b> als mit Pauschbetrag.`
+      },
+      {
+        sachverhalt:`Freelancer Marco hat im Jahr 2026 folgende Einkünfte: Honorare 60.000 €, davon Betriebsausgaben 15.000 €. Außerdem Mieteinnahmen 12.000 €, davon Werbungskosten 8.000 €. Er zahlt Krankenversicherung 4.800 €/Jahr.`,
+        frage:'Wie hoch ist Marcos zu versteuerndes Einkommen (zvE)?',
+        opts:['72.000 € – alle Einnahmen zusammen','44.200 € – nach Abzug aller Kosten und Sonderausgaben','49.000 € – nur Betriebsausgaben werden abgezogen','60.000 € – nur die Honorare zählen'],
+        ans:1,
+        aufloesung:`<b>✅ 44.200 € zvE</b><br><br>
+<b>Berechnung nach § 2 EStG:</b><br><br>
+Selbstständige Arbeit (§ 18 EStG): 60.000 − 15.000 = <b>45.000 €</b><br>
+Vermietung & Verpachtung (§ 21 EStG): 12.000 − 8.000 = <b>4.000 €</b><br>
+<b>Summe der Einkünfte: 49.000 €</b><br><br>
+./. KV als Sonderausgabe (§ 10 Abs. 1 Nr. 3 EStG): <b>4.800 €</b><br>
+<em>(Hinweis: Nur der Basisschutz ist unbegrenzt abzugsfähig – hier vereinfacht.)</em><br><br>
+<b>Einkommen: 44.200 €</b><br>
+./. Grundfreibetrag 12.336 € → steuerpflichtiges zvE: <b>31.864 €</b><br><br>
+<b>Einkommensteuer ca.:</b> ~5.800 € (Durchschnittssteuersatz ~18 %)`
+      },
+      {
+        sachverhalt:`Student Ben macht ein Praktikum und verdient 800 €/Monat (9.600 €/Jahr). Sein Vater sagt: „Du brauchst keine Steuererklärung – du liegst unter dem Grundfreibetrag." Stimmt das?`,
+        frage:'Muss Ben eine Steuererklärung abgeben?',
+        opts:['Nein – 9.600 € < Grundfreibetrag 12.336 €, keine Pflicht und kein Sinn','Nein – Studenten sind grundsätzlich steuerfrei','Ja – unter Umständen freiwillig sinnvoll wegen Verlustvortrag','Ja – ab 400 €/Monat besteht immer Abgabepflicht'],
+        ans:2,
+        aufloesung:`<b>✅ Keine Pflicht – aber freiwillig sehr sinnvoll (§ 46 Abs. 2 Nr. 8 EStG)!</b><br><br>
+Der Vater hat Recht, dass <b>keine Abgabepflicht</b> besteht (9.600 € < Grundfreibetrag 12.336 €, keine Lohnsteuer einbehalten).<br><br>
+<b>Aber:</b> Wenn Ben Werbungskosten hat (Fahrtkosten, Fachliteratur), die den WK-Pauschbetrag (1.230 €) übersteigen, kann er einen <b>verbleibenden Verlustabzug (§ 10d EStG)</b> feststellen lassen.<br><br>
+<b>Beispiel:</b> Ben fährt 28 km × 220 Tage × 0,38 € = 2.338 € WK. Überhang: 2.338 − 1.230 = 1.108 € → wird als Verlustvortrag festgestellt. Im nächsten Job mit höherem Einkommen spart Ben damit Steuern!<br><br>
+<b>Frist:</b> Freiwillige Erklärung bis zu <b>4 Jahre rückwirkend</b> (§ 169 AO). Ben hat also Zeit.`
+      }
+    ]
+  }
+
+};
+
+// ── Basics Lernmodul Renderer ───────────────────────────────────
+let _basicsCase = 0;
+let _basicsAnswered = false;
+let _basicsMode = '';
+
+function _renderBasicsModule(a, modeKey) {
+  _basicsMode = modeKey;
+  _basicsCase = 0;
+  _basicsAnswered = false;
+  const mod = BASICS_MODULES[modeKey];
+  if (!mod) { a.innerHTML = '<p style="color:#fff">Inhalt folgt bald.</p>'; return; }
+  a.innerHTML = `
+    <div style="background:linear-gradient(135deg,${mod.color}dd,${mod.color}88);border-radius:18px;padding:18px 20px;margin-bottom:16px">
+      <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,.55);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px">${mod.icon} Lernmodul</div>
+      <div style="font-size:20px;font-weight:900;color:#fff;margin-bottom:10px">${mod.title}</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.85);font-weight:700;line-height:1.7">${mod.intro}</div>
+    </div>
+    <button onclick="_basicsStartCases(document.getElementById('ga'))" style="width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:var(--navy);font-family:'Nunito',sans-serif;font-weight:900;font-size:15px;cursor:pointer;margin-bottom:8px">➜ Jetzt Sachverhalte lösen</button>
+    <button onclick="sw('basics')" style="width:100%;padding:11px;border-radius:12px;border:2px solid rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.45);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer;margin-bottom:80px">← Zurück</button>
+  `;
+}
+
+function _basicsStartCases(a) {
+  _basicsCase = 0;
+  _basicsAnswered = false;
+  _basicsRenderCase(a);
+}
+
+function _basicsRenderCase(a) {
+  const mod = BASICS_MODULES[_basicsMode];
+  if (!mod) return;
+  const cases = mod.cases;
+  if (_basicsCase >= cases.length) {
+    // Done
+    a.innerHTML = `
+      <div style="text-align:center;padding:40px 20px 80px">
+        <div style="font-size:52px;margin-bottom:16px">🎓</div>
+        <div style="font-size:22px;font-weight:900;color:#fff;margin-bottom:8px">Lernmodul abgeschlossen!</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:24px;line-height:1.6">Du hast alle ${cases.length} Sachverhalte bearbeitet.</div>
+        <button onclick="_basicsCase=0;_basicsAnswered=false;_basicsRenderCase(document.getElementById('ga'))" style="width:100%;padding:13px;border-radius:13px;border:1.5px solid rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.5);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer;margin-bottom:8px">↺ Nochmal durchgehen</button>
+        <button onclick="sw('ao')" style="width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:var(--navy);font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">→ Zum Quiz wechseln</button>
+      </div>`;
+    return;
+  }
+  const c = cases[_basicsCase];
+  const total = cases.length;
+  const pct = Math.round(_basicsCase / total * 100);
+  _basicsAnswered = false;
+
+  const optsHtml = c.opts.map((o, i) =>
+    `<button onclick="_basicsAnswer(${i},${c.ans},this)" style="display:block;width:100%;text-align:left;padding:12px 15px;border-radius:12px;border:2px solid #dde5f5;background:#fff;margin-bottom:8px;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer;color:var(--navy);transition:all .18s">${o}</button>`
+  ).join('');
+
+  a.innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+      <span style="font-size:10px;font-weight:700;color:rgba(255,255,255,.4);font-family:'Space Mono',monospace">Sachverhalt ${_basicsCase+1} / ${total}</span>
+      <div style="flex:1;height:4px;background:rgba(255,255,255,.1);border-radius:100px"><div style="height:100%;width:${pct}%;background:var(--cyan);border-radius:100px;transition:width .4s"></div></div>
+    </div>
+    <div style="background:#f4f7ff;border-radius:14px;padding:14px 16px;margin-bottom:12px;border-left:4px solid ${mod.color}">
+      <div style="font-size:9px;font-weight:900;color:${mod.color};text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px">📋 Sachverhalt</div>
+      <div style="font-size:13px;font-weight:700;color:var(--navy);line-height:1.65">${c.sachverhalt}</div>
+    </div>
+    <div style="font-size:13px;font-weight:900;color:#fff;margin-bottom:10px">❓ ${c.frage}</div>
+    <div id="basics-opts">${optsHtml}</div>
+    <div id="basics-aufloesung" style="display:none"></div>
+    <div id="basics-next" style="display:none;margin-top:12px">
+      <button onclick="_basicsCase++;_basicsRenderCase(document.getElementById('ga'))" style="width:100%;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,${mod.color}dd,${mod.color}88);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer;margin-bottom:80px">${_basicsCase+1 < total ? 'Nächster Sachverhalt ➜' : 'Abschluss 🎓'}</button>
+    </div>`;
+}
+
+function _basicsAnswer(chosen, correct, btn) {
+  if (_basicsAnswered) return;
+  _basicsAnswered = true;
+  const mod = BASICS_MODULES[_basicsMode];
+  const c = mod.cases[_basicsCase];
+  const ok = chosen === correct;
+
+  // Color all buttons
+  document.querySelectorAll('#basics-opts button').forEach((b, i) => {
+    b.disabled = true;
+    if (i === correct) { b.style.background='#e6faf2'; b.style.borderColor='#00c97b'; b.style.color='#005c36'; }
+    else if (i === chosen && !ok) { b.style.background='#fff0f3'; b.style.borderColor='#ff4d6d'; b.style.color='#c00'; }
+  });
+
+  // Show Auflösung
+  const aufEl = document.getElementById('basics-aufloesung');
+  if (aufEl) {
+    aufEl.style.display = 'block';
+    aufEl.innerHTML = `
+      <div style="background:${ok?'rgba(0,201,123,.07)':'rgba(255,77,109,.07)'};border:2px solid ${ok?'rgba(0,201,123,.35)':'rgba(255,77,109,.3)'};border-radius:14px;padding:15px 16px;margin-top:10px">
+        <div style="font-size:13px;font-weight:900;color:var(--navy);margin-bottom:10px">${ok?'✅ Richtig!':'❌ Leider nicht – hier ist die Auflösung:'}</div>
+        <div style="font-size:12px;font-weight:700;color:#444;line-height:1.75">${c.aufloesung}</div>
+      </div>`;
+    aufEl.scrollIntoView({ behavior:'smooth', block:'nearest' });
+  }
+  document.getElementById('basics-next').style.display = 'block';
+  updSc(ok);
+}
+
+function renderAoBasics(a)    { _renderBasicsModule(a, 'ao_basics'); }
+
+
+// ──────────────────────────────────────────────────────────────────
+
+// ── AO Intro Szene 0: Hook ────────────────────────────────────────
+function renderAoIntro0(a){
+  a.innerHTML=`
+  <div style="background:linear-gradient(160deg,#0a1635,#1a3a8f);border-radius:20px;overflow:hidden;margin-bottom:14px">
+    <svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+      <rect x="0" y="0" width="360" height="200" fill="#0d1830"/>
+      <!-- Schreibtisch -->
+      <rect x="0" y="148" width="360" height="52" fill="#2a1a08" rx="0"/>
+      <rect x="0" y="143" width="360" height="10" fill="#3d2510"/>
+      <!-- Akte links -->
+      <rect x="30" y="58" width="180" height="110" fill="#f5f0e8" rx="6" transform="rotate(-3 120 113)"/>
+      <rect x="35" y="55" width="180" height="110" fill="#fffef9" rx="6" transform="rotate(-1 125 110)"/>
+      <!-- Text-Linien auf Akte -->
+      <line x1="52" y1="74" x2="195" y2="74" stroke="#ddd" stroke-width="1.5"/>
+      <line x1="52" y1="84" x2="210" y2="84" stroke="#ddd" stroke-width="1.5"/>
+      <line x1="52" y1="94" x2="165" y2="94" stroke="#ddd" stroke-width="1.5"/>
+      <line x1="52" y1="104" x2="200" y2="104" stroke="#ddd" stroke-width="1.5"/>
+      <line x1="52" y1="114" x2="175" y2="114" stroke="#ddd" stroke-width="1.5"/>
+      <line x1="52" y1="124" x2="205" y2="124" stroke="#ddd" stroke-width="1.5"/>
+      <!-- Highlighted "Jahreseinkommen" -->
+      <rect x="50" y="88" width="165" height="13" fill="rgba(255,217,74,.4)" rx="2"/>
+      <text x="53" y="98" font-size="8.5" fill="#6a5000" font-family="monospace" font-weight="700">Jahreseinkommen: 87.400 EUR</text>
+      <!-- Akte-Reiter -->
+      <rect x="35" y="48" width="78" height="14" fill="#3a78c0" rx="3 3 0 0"/>
+      <text x="74" y="59" font-size="8" fill="#fff" font-family="sans-serif" font-weight="700" text-anchor="middle">MUELLER, Hans</text>
+      <!-- VERTRAULICH Stempel -->
+      <rect x="148" y="62" width="82" height="19" fill="none" stroke="#c0392b" stroke-width="2.2" rx="3" transform="rotate(10 189 71)"/>
+      <text x="189" y="73" font-size="9" fill="#c0392b" font-family="monospace" font-weight="900" text-anchor="middle" transform="rotate(10 189 71)">VERTRAULICH</text>
+      <!-- Monitor -->
+      <rect x="252" y="65" width="88" height="68" fill="#1a2a4a" rx="5"/>
+      <rect x="257" y="70" width="78" height="54" fill="#0d1830" rx="3"/>
+      <text x="296" y="91" font-size="7" fill="#00c97b" font-family="monospace" text-anchor="middle">FINANZAMT BERLIN</text>
+      <text x="296" y="103" font-size="6" fill="#3a88cc" font-family="monospace" text-anchor="middle">STEUERNR: *** *** ***</text>
+      <text x="296" y="114" font-size="6" fill="#3a88cc" font-family="monospace" text-anchor="middle">Einkommen: XXXXXX EUR</text>
+      <!-- Kaffeebecher -->
+      <ellipse cx="32" cy="143" rx="14" ry="4" fill="#3d2510"/>
+      <rect x="20" y="122" width="24" height="21" fill="#4a2f18" rx="3"/>
+      <ellipse cx="32" cy="122" rx="12" ry="3.5" fill="#6b3f20"/>
+      <path d="M44,127 Q52,125 51,132 Q52,138 44,137" fill="none" stroke="#4a2f18" stroke-width="2"/>
+      <path d="M28,119 Q26,115 28,111" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M32,118 Q30,113 32,109" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- Handy -->
+      <rect x="200" y="148" width="32" height="18" fill="#1a1a2e" rx="4"/>
+      <rect x="203" y="150" width="26" height="13" fill="#1e3a6a" rx="2"/>
+      <rect x="204" y="151" width="10" height="4" fill="#0d9bc0" rx="1.5"/>
+      <rect x="218" y="157" width="9" height="3.5" fill="#2a7a3a" rx="1.5"/>
+    </svg>
+    <div style="padding:0 18px 18px">
+      <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">AO Basics · Einführung</div>
+      <div style="font-size:18px;font-weight:900;color:#fff;line-height:1.3;margin-bottom:6px">Dieser Schreibtisch kennt mehr Geheimnisse als jeder Freund.</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.65">Als Finanzbeamter weißt du was dein Nachbar verdient, was dein Chef wirklich besitzt – und ob der Fußballer Steuern hinterzieht. Und du darfst <b style="color:#ff8c42">keinem Menschen</b> davon erzählen.</div>
+    </div>
+  </div>
+  <div style="background:rgba(255,77,109,.07);border:1.5px solid rgba(255,77,109,.2);border-radius:13px;padding:12px;margin-bottom:14px">
+    <div style="font-size:12px;font-weight:900;color:#ff8099;margin-bottom:3px">🔒 Das Steuergeheimnis – die wichtigste Regel im Job</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.6">§ 30 AO schützt alles was das Finanzamt über dich weiß. Eine einzige Indiskretion kann Freiheitsstrafe und den Verlust der Beamtenstelle bedeuten.</div>
+  </div>
+  <button onclick="aoNext(1)" style="width:100%;padding:14px;border-radius:13px;border:none;background:linear-gradient(135deg,#3a78c0,#1a4a9f);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:15px;cursor:pointer">Was steckt dahinter? →</button>`;
+}
+
+// ── Szene 1: Was ist die AO? ──────────────────────────────────────
+function renderAoIntro1(a){
+  a.innerHTML=`
+  <div style="background:linear-gradient(135deg,#0d1f4a,#1a3a8f);border-radius:18px;padding:18px;margin-bottom:14px">
+    <div style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">Was ist die Abgabenordnung?</div>
+    <svg viewBox="0 0 320 145" xmlns="http://www.w3.org/2000/svg" style="width:100%;margin-bottom:14px">
+      <!-- Fundament -->
+      <rect x="8" y="118" width="304" height="24" fill="#3a78c0" rx="4"/>
+      <text x="160" y="134" font-size="10.5" fill="#fff" font-family="sans-serif" font-weight="900" text-anchor="middle">AO – Abgabenordnung (Das Fundament)</text>
+      <!-- Zimmer -->
+      <rect x="12" y="72" width="88" height="46" fill="#1a4a8f" stroke="#5a9ad4" stroke-width="1.5" rx="3"/>
+      <text x="56" y="92" font-size="10" fill="#7eb8ff" font-family="sans-serif" font-weight="900" text-anchor="middle">ESt</text>
+      <text x="56" y="106" font-size="7.5" fill="rgba(255,255,255,.45)" font-family="sans-serif" text-anchor="middle">Einkommensteuer</text>
+      <rect x="116" y="72" width="88" height="46" fill="#1a4a8f" stroke="#5a9ad4" stroke-width="1.5" rx="3"/>
+      <text x="160" y="92" font-size="10" fill="#7eb8ff" font-family="sans-serif" font-weight="900" text-anchor="middle">USt</text>
+      <text x="160" y="106" font-size="7.5" fill="rgba(255,255,255,.45)" font-family="sans-serif" text-anchor="middle">Umsatzsteuer</text>
+      <rect x="220" y="72" width="88" height="46" fill="#1a4a8f" stroke="#5a9ad4" stroke-width="1.5" rx="3"/>
+      <text x="264" y="92" font-size="10" fill="#7eb8ff" font-family="sans-serif" font-weight="900" text-anchor="middle">KSt</text>
+      <text x="264" y="106" font-size="7.5" fill="rgba(255,255,255,.45)" font-family="sans-serif" text-anchor="middle">Körperschaftsteuer</text>
+      <!-- Dach -->
+      <polygon points="160,10 8,72 312,72" fill="#0a1635" stroke="#3a78c0" stroke-width="1.5"/>
+      <text x="160" y="52" font-size="10" fill="rgba(255,255,255,.35)" font-family="sans-serif" text-anchor="middle">Deutsches Steuerrecht</text>
+    </svg>
+    <div style="font-size:13px;font-weight:900;color:#fff;margin-bottom:6px">Das Steuerrecht ist ein Haus.</div>
+    <div style="font-size:12px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.7">ESt, USt und KSt sind die Zimmer – jedes mit eigenen Regeln. Die <b style="color:var(--cyan)">AO</b> ist das Fundament und die Hausordnung: Sie regelt <i>wie</i> besteuert wird, welche Fristen gelten, welche Rechte du als Bürger hast – und welche Pflichten Finanzbeamte haben.</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+    ${[['📅','Fristen','Wann muss was eingereicht werden?'],['📬','Bescheide','Wie werden Steuern festgesetzt?'],['🔒','Steuergeheimnis','Was darf niemand erfahren?'],['⚖️','Einspruch','Wie wehr ich mich gegen Bescheide?']].map(([icon,title,txt])=>`
+    <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:11px">
+      <div style="font-size:22px;margin-bottom:4px">${icon}</div>
+      <div style="font-size:11px;font-weight:900;color:#fff;margin-bottom:2px">${title}</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700;line-height:1.4">${txt}</div>
+    </div>`).join('')}
+  </div>
+  <div style="display:flex;gap:8px">
+    <button onclick="aoNext(0)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">← Zurück</button>
+    <button onclick="aoNext(2)" style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#3a78c0,#1a4a9f);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Das Steuergeheimnis →</button>
+  </div>`;
+}
+
+// ── Szene 2: §30 AO tief ─────────────────────────────────────────
+function renderAoIntro2(a){
+  a.innerHTML=`
+  <div style="background:linear-gradient(135deg,#1a0a2e,#3a1060);border-radius:18px;padding:18px;margin-bottom:14px;border:1.5px solid rgba(255,77,109,.25)">
+    <div style="font-size:10px;font-family:'Space Mono',monospace;color:#ff8099;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">§ 30 AO · Steuergeheimnis</div>
+    <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:12px">Was Finanzbeamte wissen – und warum sie es schweigen müssen.</div>
+    <!-- WhatsApp Szenario -->
+    <div style="background:#0d1117;border-radius:14px;padding:12px;margin-bottom:12px">
+      <div style="font-size:9px;color:rgba(255,255,255,.25);text-align:center;margin-bottom:10px;font-family:'Space Mono',monospace">WhatsApp · Heute 18:42</div>
+      <div style="display:flex;margin-bottom:8px">
+        <div style="background:#1e3a2a;border-radius:12px 12px 12px 3px;padding:9px 12px;max-width:78%">
+          <div style="font-size:9px;color:#00b09b;font-weight:700;margin-bottom:2px">Lisa</div>
+          <div style="font-size:11px;color:#e0e0e0;line-height:1.45">Hey du arbeitest doch im Finanzamt... Verdient der Müller vom Bäcker wirklich so viel? 👀</div>
+          <div style="font-size:8px;color:rgba(255,255,255,.25);text-align:right;margin-top:3px">18:42</div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;margin-bottom:6px">
+        <div style="background:#1a3a6f;border-radius:12px 12px 3px 12px;padding:9px 12px;max-width:78%">
+          <div style="font-size:11px;color:#e0e0e0;line-height:1.45">Lisa, dazu darf ich absolut nichts sagen. Nicht mal ob er überhaupt Kunde bei uns ist. 🙅‍♀️</div>
+          <div style="font-size:8px;color:rgba(255,255,255,.25);text-align:right;margin-top:3px">18:44 ✓✓</div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:flex-end">
+        <div style="background:#1a3a6f;border-radius:12px 12px 3px 12px;padding:9px 12px;max-width:78%">
+          <div style="font-size:11px;color:#e0e0e0">§ 30 AO. Das ist mein Job und meine Freiheit. 🔒</div>
+          <div style="font-size:8px;color:rgba(255,255,255,.25);text-align:right;margin-top:3px">18:44 ✓✓</div>
+        </div>
+      </div>
+    </div>
+    <div style="font-size:12px;color:rgba(255,255,255,.7);font-weight:700;line-height:1.7">Die Beamtin macht alles richtig. <b style="color:var(--cyan)">§ 30 Abs. 1 AO</b> gilt absolut – sie darf nicht mal bestätigen ob jemand überhaupt Steuern zahlt. Auch nicht gegenüber Familie oder Freunden.</div>
+  </div>
+  <div style="background:rgba(255,255,255,.04);border-radius:14px;padding:14px;margin-bottom:14px">
+    <div style="font-size:11px;font-weight:900;color:#fff;margin-bottom:10px">Was fällt alles unter das Steuergeheimnis?</div>
+    ${[['💰','Einkommen & Vermögen','Gehalt, Gewinne, Kontostände, Immobilienwerte'],['🏦','Bankverbindungen','Kontonummern, Überweisungen, Daueraufträge'],['💔','Familiäres','Familienstand, Kinder, Unterhaltsleistungen'],['🏥','Gesundheitskosten','Abgesetzte Krankheitskosten, Behinderungen'],['📊','Unternehmensdaten','Umsätze, Gewinne, Betriebsprüfungsergebnisse']].map(([icon,title,txt])=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06)">
+      <span style="font-size:20px;flex-shrink:0">${icon}</span>
+      <div><div style="font-size:11px;font-weight:800;color:#fff">${title}</div><div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700">${txt}</div></div>
+    </div>`).join('')}
+  </div>
+  <div style="display:flex;gap:8px">
+    <button onclick="aoNext(1)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">← Zurück</button>
+    <button onclick="aoNext(3);aoGeheimAnswers={}" style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#c0392b,#7b1a1a);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">„Darf er das?" – Test →</button>
+  </div>`;
+}
+
+// ── Szene 3: Interaktives Quiz ─────────────────────────────────────
+const AO_GEHEIM_CASES=[
+  {sit:'Finanzbeamter Tom trifft auf einer Party seine Ex. Sie fragt: „Stimmt es dass dein Chef Schulden beim Finanzamt hat?"',darf:false,icon:'😬',ok:'§ 30 Abs. 1 AO gilt absolut – auch auf Partys. Tom darf nicht bestätigen, nicht verneinen, nicht mal andeutungsweise antworten.',nok:'§ 30 Abs. 1 AO gilt absolut – kein Unterschied ob auf der Arbeit oder privat. Tom darf weder bestätigen noch verneinen.'},
+  {sit:'Die Staatsanwaltschaft Köln ermittelt wegen Steuerhinterziehung. Das FA übermittelt die Steuerdaten des Verdächtigen.',darf:true,icon:'⚖️',ok:'§ 30 Abs. 4 Nr. 4 AO: Weitergabe zur Verfolgung von Straftaten ist erlaubt. Steuerhinterziehung (§ 370 AO) ist eine Straftat – das FA darf helfen.',nok:'§ 30 Abs. 4 Nr. 4 AO erlaubt die Weitergabe zur Strafverfolgung ausdrücklich. Das ist eine der wenigen gesetzlichen Ausnahmen.'},
+  {sit:'Beamtin Anna macht ein Selfie im Büro. Im Hintergrund sieht man unscharf einen Bildschirm mit Steuerdaten eines Kunden.',darf:false,icon:'📸',ok:'§ 30 AO schützt auch vor ungewollter Preisgabe. Selbst versehentliche Weitergabe ist strafbar. Anna riskiert § 355 StGB.',nok:'§ 30 AO schützt auch vor ungewollter Preisgabe. Selbst versehentliche Weitergabe auf Fotos ist ein Verstoß – Anna riskiert § 355 StGB.'},
+  {sit:'Steuerpflichtiger Max bittet das FA ausdrücklich schriftlich: „Mein Steuerberater darf alle meine Daten bekommen."',darf:true,icon:'✅',ok:'§ 30 Abs. 4 Nr. 3 AO: Einwilligung des Betroffenen hebt das Steuergeheimnis für diesen Fall auf. Max hat schriftlich zugestimmt.',nok:'§ 30 Abs. 4 Nr. 3 AO: Die Einwilligung des Betroffenen ist eine ausdrückliche Ausnahme. Max hat zugestimmt – FA darf weitergeben.'},
+];
+
+function renderAoIntro3(a){
+  const all=AO_GEHEIM_CASES.every((_,i)=>i in aoGeheimAnswers);
+  let html=`<div style="background:linear-gradient(135deg,#1a0a2e,#2a1a50);border-radius:16px;padding:14px 16px;margin-bottom:14px"><div style="font-size:10px;font-family:'Space Mono',monospace;color:#c8a0ff;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px">Interaktiv · § 30 AO</div><div style="font-size:15px;font-weight:900;color:#fff;margin-bottom:3px">Darf der Beamte das – oder nicht?</div><div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:700">Tippe auf Ja oder Nein und erhalte die Erklärung</div></div>`;
+  AO_GEHEIM_CASES.forEach((c,i)=>{
+    const ans=aoGeheimAnswers[i];
+    const answered=i in aoGeheimAnswers;
+    const correct=ans===c.darf;
+    html+=`<div style="background:#fff;border-radius:14px;border-left:5px solid ${answered?(correct?'#00c97b':'#ff4d6d'):'#dde5f5'};padding:14px;margin-bottom:10px">
+      <div style="font-size:12px;font-weight:700;color:#333;line-height:1.6;margin-bottom:10px"><span style="font-size:20px;margin-right:6px">${c.icon}</span>${c.sit}</div>
+      ${!answered?`<div style="display:flex;gap:8px">
+        <button onclick="aoGeheimAnswers[${i}]=true;render()" style="flex:1;padding:10px;border-radius:10px;border:2px solid #00c97b;background:rgba(0,201,123,.07);color:#007a48;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">✅ Ja, darf er</button>
+        <button onclick="aoGeheimAnswers[${i}]=false;render()" style="flex:1;padding:10px;border-radius:10px;border:2px solid #ff4d6d;background:rgba(255,77,109,.06);color:#c0392b;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">❌ Nein, verboten</button>
+      </div>`:`<div style="background:${correct?'rgba(0,201,123,.07)':'rgba(255,77,109,.07)'};border:1.5px solid ${correct?'rgba(0,201,123,.3)':'rgba(255,77,109,.3)'};border-radius:10px;padding:10px">
+        <div style="font-size:12px;font-weight:900;color:${correct?'#007a48':'#c0392b'};margin-bottom:4px">${correct?'✅ Richtig!':'❌ Leider falsch.'} – ${c.darf?'Erlaubt (§ 30 Abs. 4 AO)':'Verboten (§ 30 Abs. 1 AO)'}</div>
+        <div style="font-size:11px;font-weight:700;color:#555;line-height:1.65">${correct?c.ok:c.nok}</div>
+      </div>`}
+    </div>`;
+  });
+  html+=`<div style="display:flex;gap:8px"><button onclick="aoNext(2)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">← Zurück</button><button onclick="aoNext(4)" ${!all?'disabled style="opacity:.4;cursor:not-allowed;"':''} style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#c0392b,#7b1a1a);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Was droht bei Verletzung? →</button></div>`;
+  a.innerHTML=html;
+}
+
+// ── Szene 4: Konsequenzen + Übergang zu Fällen ────────────────────
+function renderAoIntro4(a){
+  const score=AO_GEHEIM_CASES.filter((_,i)=>aoGeheimAnswers[i]===AO_GEHEIM_CASES[i].darf).length;
+  a.innerHTML=`
+  <div style="background:linear-gradient(135deg,#2a0808,#6b1a1a);border-radius:18px;padding:18px;margin-bottom:14px;border:1.5px solid rgba(255,77,109,.3)">
+    <div style="font-size:10px;font-family:'Space Mono',monospace;color:#ff8099;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">§ 355 StGB · Die Konsequenzen</div>
+    <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:14px">Eine Nachricht kann eine Karriere beenden.</div>
+    <div style="position:relative;padding-left:28px">
+      <div style="position:absolute;left:9px;top:0;bottom:0;width:2px;background:rgba(255,77,109,.3)"></div>
+      ${[
+        ['💬','Tag 1','Die Indiskretion','Beamtin Anna schreibt ihrer Freundin: „Ja, Müller verdient 180k."'],
+        ['📞','Tag 3','Die Anzeige','Müllers Anwalt stellt Strafanzeige nach § 355 StGB.'],
+        ['🏛️','Woche 2','Ermittlungsverfahren','Staatsanwaltschaft ermittelt. Freiheitsstrafe bis 2 Jahre möglich.'],
+        ['📋','Monat 1','Disziplinarverfahren','Gleichzeitig läuft das Verfahren beim Dienstherrn.'],
+        ['🚫','Urteil','Karriere vorbei','Verurteilung → Verlust der Verbeamtung. Rente weg. Keine öffentliche Stelle mehr.'],
+      ].map(([icon,time,title,txt],i)=>`
+        <div style="position:relative;margin-bottom:13px">
+          <div style="position:absolute;left:-22px;top:2px;width:20px;height:20px;border-radius:50%;background:${i===4?'#ff4d6d':'rgba(255,77,109,.2)'};border:2px solid rgba(255,77,109,.35);display:flex;align-items:center;justify-content:center;font-size:10px">${icon}</div>
+          <div style="font-size:8px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.3);font-weight:700">${time}</div>
+          <div style="font-size:12px;font-weight:900;color:#ff8099;margin-bottom:2px">${title}</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.5">${txt}</div>
+        </div>`).join('')}
+    </div>
+  </div>
+  <div style="background:rgba(58,120,192,.08);border:1.5px solid rgba(58,120,192,.25);border-radius:14px;padding:14px;margin-bottom:12px">
+    <div style="font-size:11px;font-weight:900;color:var(--cyan);margin-bottom:8px">📌 Merkhilfe – Die 3 Ausnahmen des § 30 Abs. 4 AO:</div>
+    <div style="font-size:12px;color:rgba(255,255,255,.7);font-weight:700;line-height:1.75">① Einwilligung des Steuerpflichtigen<br>② Strafverfolgung / Gerichtsverfahren<br>③ Zwingende öffentliche Interessen</div>
+  </div>
+  <div style="background:rgba(0,201,123,.06);border:1.5px solid rgba(0,201,123,.2);border-radius:14px;padding:12px;margin-bottom:14px;text-align:center">
+    <div style="font-size:28px;margin-bottom:4px">${score===4?'🏆':score>=2?'👍':'📚'}</div>
+    <div style="font-size:13px;font-weight:900;color:#fff">Quiz: ${score}/4 richtig</div>
+    <div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700;margin-top:3px">${score===4?'Perfekt! Du hast § 30 AO verstanden.':score>=2?'Gut! Die Ausnahmen kommen mit der Zeit.':'Kein Problem – jetzt kennst du die Antworten.'}</div>
+  </div>
+  <div style="display:flex;gap:8px">
+    <button onclick="aoNext(3)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">← Zurück</button>
+    <button onclick="aoNext(5)" style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#3a78c0,#1a4a9f);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Zu den AO-Fällen →</button>
+  </div>`;
+}
+
+
+// ==================== EST INTRO ====================
+let estIntroStep = 0;
+let estTarifAnswers = {};
+
+function renderEstBasics(a) {
+  if (estIntroStep === 0) renderEstIntro0(a);
+  else if (estIntroStep === 1) renderEstIntro1(a);
+  else if (estIntroStep === 2) renderEstIntro2(a);
+  else if (estIntroStep === 3) renderEstIntro3(a);
+  else renderBasicsModule(a, 'est');
+}
+function estNext(s){ estIntroStep=s; render(); }
+
+function renderEstIntro0(a){
+  a.innerHTML=`
+  <div style="background:linear-gradient(160deg,#0a1635,#1a3a8f);border-radius:20px;overflow:hidden;margin-bottom:14px">
+    <svg viewBox="0 0 360 190" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+      <rect width="360" height="190" fill="#0d1830"/>
+      <!-- Gehaltszettel -->
+      <rect x="40" y="25" width="200" height="145" fill="#fffef9" rx="8"/>
+      <rect x="40" y="25" width="200" height="30" fill="#1a3a8f" rx="8 8 0 0"/>
+      <text x="140" y="37" font-size="9" fill="#fff" font-family="sans-serif" font-weight="700" text-anchor="middle">GEHALTSABRECHNUNG</text>
+      <text x="140" y="49" font-size="8" fill="rgba(255,255,255,.6)" font-family="sans-serif" text-anchor="middle">Dezember 2026</text>
+      <!-- Zeilen -->
+      <text x="55" y="72" font-size="8.5" fill="#333" font-family="sans-serif">Bruttogehalt</text>
+      <text x="225" y="72" font-size="8.5" fill="#333" font-family="sans-serif" text-anchor="end">3.500,00 €</text>
+      <line x1="55" y1="75" x2="225" y2="75" stroke="#eee" stroke-width="0.8"/>
+      <text x="55" y="87" font-size="8" fill="#888" font-family="sans-serif">– Lohnsteuer</text>
+      <text x="225" y="87" font-size="8" fill="#c0392b" font-family="sans-serif" text-anchor="end">– 562,00 €</text>
+      <text x="55" y="99" font-size="8" fill="#888" font-family="sans-serif">– Rentenversicherung</text>
+      <text x="225" y="99" font-size="8" fill="#c0392b" font-family="sans-serif" text-anchor="end">– 325,50 €</text>
+      <text x="55" y="111" font-size="8" fill="#888" font-family="sans-serif">– Krankenversicherung</text>
+      <text x="225" y="111" font-size="8" fill="#c0392b" font-family="sans-serif" text-anchor="end">– 285,25 €</text>
+      <text x="55" y="123" font-size="8" fill="#888" font-family="sans-serif">– Pflegevers. (o. Kind)</text>
+      <text x="225" y="123" font-size="8" fill="#c0392b" font-family="sans-serif" text-anchor="end">– 70,00 €</text>
+      <text x="55" y="135" font-size="8" fill="#888" font-family="sans-serif">– Arbeitslosenvers.</text>
+      <text x="225" y="135" font-size="8" fill="#c0392b" font-family="sans-serif" text-anchor="end">– 45,50 €</text>
+      <line x1="55" y1="140" x2="225" y2="140" stroke="#aaa" stroke-width="1"/>
+      <rect x="45" y="144" width="185" height="20" fill="rgba(0,201,123,.15)" rx="3"/>
+      <text x="55" y="158" font-size="10" fill="#007a48" font-family="sans-serif" font-weight="900">Nettolohn</text>
+      <text x="225" y="158" font-size="10" fill="#007a48" font-family="sans-serif" font-weight="900" text-anchor="end">2.211,75 €</text>
+      <!-- Fragezeichen Bubble -->
+      <circle cx="285" cy="65" r="38" fill="#ff8c4230" stroke="#ff8c42" stroke-width="1.5"/>
+      <text x="285" y="55" font-size="11" fill="#ff8c42" font-family="sans-serif" font-weight="700" text-anchor="middle">Wo sind</text>
+      <text x="285" y="69" font-size="11" fill="#ff8c42" font-family="sans-serif" font-weight="700" text-anchor="middle">meine</text>
+      <text x="285" y="83" font-size="22" fill="#ff8c42" font-family="sans-serif" font-weight="900" text-anchor="middle">1.288€</text>
+      <text x="285" y="97" font-size="9" fill="#ff8c4280" font-family="sans-serif" text-anchor="middle">geblieben?</text>
+    </svg>
+    <div style="padding:0 18px 18px">
+      <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">💼 ESt Basics · Einführung</div>
+      <div style="font-size:18px;font-weight:900;color:#fff;line-height:1.3;margin-bottom:6px">Du verdienst 3.500 € – aber überwiesen bekommst du 2.211 €. Warum?</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.65">Das ist die Frage die <i>jeder</i> beim ersten Gehaltszettel stellt. Die Antwort liegt im Einkommensteuerrecht – und nach dieser Einheit verstehst du jeden Abzug.</div>
+    </div>
+  </div>
+  <div style="background:rgba(255,140,66,.07);border:1.5px solid rgba(255,140,66,.2);border-radius:13px;padding:12px;margin-bottom:14px">
+    <div style="font-size:12px;font-weight:900;color:#ffaa66;margin-bottom:3px">💡 Was du hier lernst</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.6">Wie die ESt berechnet wird · Was der Grundfreibetrag ist · Warum ein höheres Gehalt nicht immer proportional mehr bringt · Wie du Steuern legal sparst</div>
+  </div>
+  <button onclick="estNext(1)" style="width:100%;padding:14px;border-radius:13px;border:none;background:linear-gradient(135deg,#1a3a8f,#0a1a5a);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:15px;cursor:pointer">Los geht's →</button>`;
+}
+
+function renderEstIntro1(a){
+  a.innerHTML=`
+  <div style="background:linear-gradient(135deg,#0d1f4a,#1a3a8f);border-radius:18px;padding:18px;margin-bottom:14px">
+    <div style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Wie wird die ESt berechnet?</div>
+    <!-- ZvE Trichter -->
+    <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;margin-bottom:12px">
+      <!-- Stufen -->
+      <rect x="10" y="8" width="300" height="28" fill="#3a78c0" rx="5"/>
+      <text x="160" y="27" font-size="10" fill="#fff" font-family="sans-serif" font-weight="900" text-anchor="middle">① Einkünfte aus allen 7 Einkunftsarten (§ 2 EStG)</text>
+      <polygon points="90,36 230,36 210,52 110,52" fill="#2a5a9f"/>
+      <rect x="30" y="52" width="260" height="24" fill="#2a5a9f" rx="3"/>
+      <text x="160" y="68" font-size="9" fill="rgba(255,255,255,.8)" font-family="sans-serif" text-anchor="middle">– Werbungskosten / Betriebsausgaben</text>
+      <polygon points="100,76 220,76 205,90 115,90" fill="#1a4a8f"/>
+      <rect x="50" y="90" width="220" height="24" fill="#1a4a8f" rx="3"/>
+      <text x="160" y="106" font-size="9" fill="rgba(255,255,255,.8)" font-family="sans-serif" text-anchor="middle">– Sonderausgaben &amp; außergewöhnl. Belastungen</text>
+      <polygon points="110,114 210,114 198,128 122,128" fill="#0e3070"/>
+      <rect x="70" y="128" width="180" height="24" fill="#0e3070" rx="3"/>
+      <text x="160" y="144" font-size="9" fill="rgba(255,255,255,.8)" font-family="sans-serif" text-anchor="middle">– Grundfreibetrag (12.336 €, 2026)</text>
+      <polygon points="125,152 195,152 185,166 135,166" fill="#ffd94a"/>
+      <rect x="90" y="166" width="140" height="28" fill="#ffd94a" rx="5"/>
+      <text x="160" y="184" font-size="11" fill="#1a3a00" font-family="sans-serif" font-weight="900" text-anchor="middle">= Zu versteuerndes Einkommen</text>
+    </svg>
+    <div style="font-size:12px;color:rgba(255,255,255,.65);font-weight:700;line-height:1.7">Das <b style="color:#ffd94a">zvE</b> ist die Basis für die Steuerberechnung. Je mehr du legal abziehst, desto kleiner das zvE – desto weniger Steuern. Das ist kein Trick, das ist das Gesetz (§ 2 EStG).</div>
+  </div>
+  <!-- 7 Einkunftsarten -->
+  <div style="background:rgba(255,255,255,.04);border-radius:14px;padding:14px;margin-bottom:14px">
+    <div style="font-size:11px;font-weight:900;color:#fff;margin-bottom:10px">📋 Die 7 Einkunftsarten (§ 2 Abs. 1 EStG)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+    ${[
+      ['💼','§ 19','Nichtselbst. Arbeit','Dein Gehalt als Angestellter'],
+      ['🏭','§ 15','Gewerbebetrieb','Unternehmer, GmbH-Gesellschafter'],
+      ['📚','§ 18','Selbstständige Arbeit','Arzt, Anwalt, Architekt'],
+      ['🌾','§ 13','Land- & Forstwirtschaft','Bauer, Winzer'],
+      ['🏠','§ 21','Vermietung/Verpachtung','Vermieter einer Wohnung'],
+      ['💰','§ 20','Kapitalvermögen','Zinsen, Dividenden'],
+      ['✨','§ 22','Sonstige Einkünfte','Rente, Spekulationsgewinne'],
+    ].map(([icon,para,name,bsp])=>`
+      <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:8px">
+        <div style="font-size:16px">${icon}</div>
+        <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700">${para}</div>
+        <div style="font-size:10px;font-weight:800;color:#fff">${name}</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.35);font-weight:700">${bsp}</div>
+      </div>`).join('')}
+    </div>
+  </div>
+  <div style="display:flex;gap:8px">
+    <button onclick="estNext(0)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">← Zurück</button>
+    <button onclick="estNext(2)" style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#1a3a8f,#0a1a5a);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Der Tarif & Grundfreibetrag →</button>
+  </div>`;
+}
+
+function renderEstIntro2(a){
+  a.innerHTML=`
+  <div style="background:linear-gradient(135deg,#0d1f4a,#1a3a8f);border-radius:18px;padding:18px;margin-bottom:14px">
+    <div style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">§ 32a EStG · Progressiver Tarif</div>
+    <div style="font-size:15px;font-weight:900;color:#fff;margin-bottom:12px">Mehr verdienen → proportional mehr Steuern? <span style="color:#ffd94a">Nein.</span></div>
+    <!-- Tarifzonen Balken -->
+    <div style="margin-bottom:14px">
+      ${[
+        {zone:'0 – 12.336 €',rate:'0 %',color:'#00c97b',w:'22',label:'Grundfreibetrag – keine Steuer'},
+        {zone:'12.337 – 17.443 €',rate:'14–24 %',color:'#ffd94a',w:'38',label:'1. Progressionszone'},
+        {zone:'17.444 – 68.430 €',rate:'24–42 %',color:'#ff8c42',w:'72',label:'2. Progressionszone'},
+        {zone:'68.431 – 277.825 €',rate:'42 %',color:'#ff6030',w:'90',label:'Spitzensteuersatz'},
+        {zone:'ab 277.826 €',rate:'45 %',color:'#ff4d6d',w:'100',label:'Reichensteuersatz'},
+      ].map(z=>`
+        <div style="margin-bottom:7px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:2px">
+            <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.6)">${z.zone}</div>
+            <div style="font-size:10px;font-weight:900;color:${z.color};font-family:'Space Mono',monospace">${z.rate}</div>
+          </div>
+          <div style="height:8px;background:rgba(255,255,255,.08);border-radius:100px;overflow:hidden">
+            <div style="height:100%;width:${z.w}%;background:${z.color};border-radius:100px"></div>
+          </div>
+          <div style="font-size:9px;color:rgba(255,255,255,.35);font-weight:700;margin-top:1px">${z.label}</div>
+        </div>`).join('')}
+    </div>
+    <div style="background:rgba(255,217,74,.08);border:1px solid rgba(255,217,74,.25);border-radius:10px;padding:10px">
+      <div style="font-size:11px;font-weight:900;color:#ffd94a;margin-bottom:4px">💡 Der Grenzsteuersatz-Irrtum</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.65);font-weight:700;line-height:1.65">Wer 70.000 € verdient und „42 % Steuersatz" hat, zahlt NICHT 42 % auf alle 70.000 €. Die 42 % gelten nur für den Euro über 68.430 €. Alle darunter liegenden Euros werden mit niedrigeren Sätzen besteuert. Der <b>Durchschnittssteuersatz</b> liegt bei ca. 27 %.</div>
+    </div>
+  </div>
+  <!-- Alltagsbeispiele -->
+  <div style="background:rgba(255,255,255,.04);border-radius:14px;padding:14px;margin-bottom:14px">
+    <div style="font-size:11px;font-weight:900;color:#fff;margin-bottom:10px">🧮 Drei Alltagsbeispiele</div>
+    ${[
+      {name:'Azubi Lena',zvE:'10.200 €',lst:'0 €',grund:'Unter Grundfreibetrag 12.336 €',color:'#00c97b'},
+      {name:'Angestellter Max',zvE:'38.000 €',lst:'ca. 7.200 €',grund:'Ø-Steuersatz ~19 %',color:'#ffd94a'},
+      {name:'Manager Sarah',zvE:'95.000 €',lst:'ca. 31.500 €',grund:'Grenzsteuersatz 42 %, Ø ~33 %',color:'#ff8c42'},
+    ].map(e=>`
+      <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06)">
+        <div style="width:8px;height:8px;border-radius:50%;background:${e.color};flex-shrink:0"></div>
+        <div style="flex:1">
+          <div style="font-size:11px;font-weight:800;color:#fff">${e.name} · zvE: ${e.zvE}</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700">${e.grund}</div>
+        </div>
+        <div style="font-size:11px;font-weight:900;color:${e.color};font-family:'Space Mono',monospace;flex-shrink:0">${e.lst}</div>
+      </div>`).join('')}
+  </div>
+  <div style="display:flex;gap:8px">
+    <button onclick="estNext(1)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">← Zurück</button>
+    <button onclick="estNext(3);estTarifAnswers={}" style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#1a3a8f,#0a1a5a);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Steuern sparen – wie? →</button>
+  </div>`;
+}
+
+function renderEstIntro3(a){
+  const cases=[
+    {sit:'Pendlerin Anna fährt täglich 28 km zur Arbeit, 220 Arbeitstage, kein Steuerberater. Welchen Abzug hat sie?',ans:'2.339 €',explain:'§ 9 Abs. 1 Nr. 4 EStG – Pendlerpauschale 2026: 28 km × 0,38 € × 220 Tage = 2.339 €. Das übersteigt den AN-Pauschbetrag (1.230 €) → Erklärung lohnt sich!',icon:'🚗'},
+    {sit:'Student Tim (22) verdient 13.500 € im Jahr als Werkstudent. Er zahlt Lohnsteuer. Was kann er tun?',ans:'Steuererklärung!',explain:'Da sein zvE nach AN-Pauschbetrag (13.500 – 1.230 = 12.270 €) unter dem Grundfreibetrag liegt, bekommt er die gezahlte Lohnsteuer vollständig zurück. Freiwillige Abgabe lohnt immer.',icon:'🎓'},
+    {sit:'Lehrerin Petra kauft für 800 € Fachliteratur und zahlt 1.500 € für eine Fortbildung. Kann sie das absetzen?',ans:'Ja – volle WK',explain:'§ 9 Abs. 1 Nr. 6 EStG: Arbeitsmittel und berufliche Fortbildung sind Werbungskosten. 2.300 € WK übersteigen den AN-Pauschbetrag (1.230 €) – 1.070 € zusätzlicher Abzug → ca. 320–380 € Ersparnis.',icon:'📚'},
+  ];
+  const allDone = cases.every((_,i)=>i in estTarifAnswers);
+  let html=`<div style="background:linear-gradient(135deg,#0d1f4a,#1a3a8f);border-radius:16px;padding:14px 16px;margin-bottom:14px"><div style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.5);letter-spacing:2px;text-transform:uppercase;margin-bottom:5px">Interaktiv · Werbungskosten & Sparen</div><div style="font-size:15px;font-weight:900;color:#fff">Was kann man absetzen?</div><div style="font-size:11px;color:rgba(255,255,255,.4);font-weight:700;margin-top:3px">Tippe auf „Auflösung" wenn du nachgedacht hast</div></div>`;
+  cases.forEach((c,i)=>{
+    const shown=!!estTarifAnswers[i];
+    html+=`<div style="background:#fff;border-radius:14px;border-left:5px solid ${shown?'#00c97b':'#dde5f5'};padding:14px;margin-bottom:10px">
+      <div style="font-size:12px;font-weight:700;color:#333;line-height:1.6;margin-bottom:10px"><span style="font-size:20px;margin-right:6px">${c.icon}</span>${c.sit}</div>
+      ${!shown?`<button onclick="estTarifAnswers[${i}]=true;render()" style="width:100%;padding:10px;border-radius:10px;border:2px solid #1a3a8f;background:rgba(26,58,143,.06);color:#1a3a8f;font-family:'Nunito',sans-serif;font-weight:900;font-size:12px;cursor:pointer">💡 Auflösung anzeigen</button>`
+      :`<div style="background:rgba(0,201,123,.07);border:1.5px solid rgba(0,201,123,.3);border-radius:10px;padding:10px">
+        <div style="font-size:12px;font-weight:900;color:#007a48;margin-bottom:4px">→ ${c.ans}</div>
+        <div style="font-size:11px;font-weight:700;color:#555;line-height:1.65">${c.explain}</div>
+      </div>`}
+    </div>`;
+  });
+  html+=`<div style="display:flex;gap:8px">
+    <button onclick="estNext(2)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">← Zurück</button>
+    <button onclick="estNext(4)" ${!allDone?'disabled style="opacity:.4;cursor:not-allowed;"':''} style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#1a3a8f,#0a1a5a);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Zu den ESt-Fällen →</button>
+  </div>`;
+  a.innerHTML=html;
+}
+
+// ==================== RECHT INTRO ====================
+let rechtIntroStep = 0;
+let rechtQuizAnswers = {};
+
+function renderRechtBasics(a) {
+  if (rechtIntroStep === 0) renderRechtIntro0(a);
+  else if (rechtIntroStep === 1) renderRechtIntro1(a);
+  else if (rechtIntroStep === 2) renderRechtIntro2(a);
+  else if (rechtIntroStep === 3) renderRechtIntro3(a);
+  else renderBasicsModule(a, 'recht');
+}
+function rechtNext(s){ rechtIntroStep=s; render(); }
+
+function renderRechtIntro0(a){
+  a.innerHTML=`
+  <div style="background:linear-gradient(160deg,#1a0a3e,#4a1a8f);border-radius:20px;overflow:hidden;margin-bottom:14px">
+    <svg viewBox="0 0 360 185" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+      <rect width="360" height="185" fill="#140828"/>
+      <!-- Fahrrad-Laden -->
+      <rect x="40" y="40" width="160" height="110" fill="#1a1a2e" rx="6"/>
+      <rect x="40" y="40" width="160" height="28" fill="#2a1a5e" rx="6 6 0 0"/>
+      <text x="120" y="58" font-size="10" fill="#c8a0ff" font-family="sans-serif" font-weight="900" text-anchor="middle">🚲 BIKE WORLD</text>
+      <!-- Fahrrad im Laden -->
+      <circle cx="110" cy="120" r="28" fill="none" stroke="#7eb8ff" stroke-width="3"/>
+      <circle cx="160" cy="120" r="28" fill="none" stroke="#7eb8ff" stroke-width="3"/>
+      <line x1="110" y1="120" x2="135" y2="95" stroke="#7eb8ff" stroke-width="2"/>
+      <line x1="135" y1="95" x2="160" y2="120" stroke="#7eb8ff" stroke-width="2"/>
+      <line x1="135" y1="95" x2="135" y2="80" stroke="#7eb8ff" stroke-width="2"/>
+      <line x1="125" y1="80" x2="148" y2="80" stroke="#7eb8ff" stroke-width="3"/>
+      <!-- Preisschild -->
+      <rect x="60" y="65" width="55" height="22" fill="#ffd94a" rx="4"/>
+      <text x="87" y="80" font-size="11" fill="#333" font-family="sans-serif" font-weight="900" text-anchor="middle">1.200 €</text>
+      <!-- Kind mit Vertrag -->
+      <circle cx="265" cy="75" r="20" fill="#ffaa66"/>
+      <text x="265" y="82" font-size="18" text-anchor="middle">🧒</text>
+      <rect x="235" y="100" width="70" height="50" fill="#fffef9" rx="4"/>
+      <text x="270" y="115" font-size="8" fill="#1a3a8f" font-family="sans-serif" font-weight="900" text-anchor="middle">KAUFVERTRAG</text>
+      <line x1="245" y1="123" x2="295" y2="123" stroke="#aaa" stroke-width="1"/>
+      <line x1="245" y1="131" x2="280" y2="131" stroke="#aaa" stroke-width="1"/>
+      <text x="270" y="143" font-size="8" fill="#c0392b" font-family="sans-serif" text-anchor="middle">Max, 15 J. ✍</text>
+      <!-- Fragezeichen -->
+      <text x="320" y="95" font-size="36" fill="#ff8c4260" font-family="sans-serif" font-weight="900">?</text>
+    </svg>
+    <div style="padding:0 18px 18px">
+      <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">🏛️ Recht Basics · Einführung</div>
+      <div style="font-size:18px;font-weight:900;color:#fff;line-height:1.3;margin-bottom:6px">Max ist 15 – er unterschreibt einen Kaufvertrag über 1.200 €. Gültig?</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.65">Das BGB bestimmt wer Verträge schließen darf – und wann sie trotzdem wirksam sind. Als Finanzbeamter begegnest du diesen Fragen täglich: bei Schenkungen, Erben, Firmenverträgen.</div>
+    </div>
+  </div>
+  <button onclick="rechtNext(1)" style="width:100%;padding:14px;border-radius:13px;border:none;background:linear-gradient(135deg,#4a1a8f,#2a0a5e);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:15px;cursor:pointer">Das BGB erklärt →</button>`;
+}
+
+function renderRechtIntro1(a){
+  a.innerHTML=`
+  <div style="background:linear-gradient(135deg,#1a0a3e,#3a1080);border-radius:18px;padding:18px;margin-bottom:14px">
+    <div style="font-size:10px;font-family:'Space Mono',monospace;color:#c8a0ff;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Geschäftsfähigkeit – §§ 104–113 BGB</div>
+    <!-- Altersstufen Visual -->
+    <div style="display:flex;align-items:stretch;gap:0;margin-bottom:14px;border-radius:12px;overflow:hidden">
+      ${[
+        {alter:'0–6',title:'Geschäftsunfähig',detail:'§ 104 Nr. 1 BGB',icon:'👶',color:'#c0392b',w:'18'},
+        {alter:'7–17',title:'Beschränkt',detail:'§§ 106–113 BGB',icon:'🧒',color:'#e67e22',w:'30'},
+        {alter:'ab 18',title:'Voll geschäftsfähig',detail:'§ 2 BGB',icon:'🧑',color:'#00c97b',w:'52'},
+      ].map(s=>`<div style="flex:${s.w};background:${s.color}22;border:1px solid ${s.color}44;padding:10px 8px;text-align:center">
+        <div style="font-size:20px;margin-bottom:3px">${s.icon}</div>
+        <div style="font-size:9px;font-weight:900;color:#fff;margin-bottom:1px">${s.alter} J.</div>
+        <div style="font-size:8px;font-weight:800;color:${s.color};line-height:1.3">${s.title}</div>
+        <div style="font-size:7px;color:rgba(255,255,255,.35);font-family:'Space Mono',monospace;margin-top:2px">${s.detail}</div>
+      </div>`).join('')}
+    </div>
+    <div style="font-size:12px;color:rgba(255,255,255,.65);font-weight:700;line-height:1.7;margin-bottom:12px">Der 7–17-Bereich ist der spannende: Verträge sind möglich – aber nur unter Bedingungen. Das hängt davon ab ob der Vertrag dem Minderjährigen <b style="color:#ffd94a">lediglich vorteilhaft</b> ist oder ihn verpflichtet.</div>
+    <!-- 3 Ausnahmen -->
+    ${[
+      {para:'§ 107 BGB',title:'Nur vorteilhaft',bsp:'Max bekommt etwas geschenkt. Schenkung bringt nur Vorteile → kein Nachteil → wirksam ohne Eltern.'},
+      {para:'§ 110 BGB',title:'Taschengeld-§',bsp:'Max kauft mit seinem eigenen Taschengeld ein Spiel für 20 €. Eigene Mittel, üblicher Kauf → sofort wirksam.'},
+      {para:'§ 113 BGB',title:'Arbeitslohn',bsp:'Anna (16) hat eine Lehrstelle. Mit ihrem Lohn kauft sie Kleidung, Handy-Abo, überweist Geld → alles wirksam ohne Eltern.'},
+    ].map(e=>`<div style="background:rgba(255,255,255,.05);border-radius:10px;padding:10px;margin-bottom:6px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">
+        <span style="font-size:9px;font-family:'Space Mono',monospace;font-weight:700;color:#c8a0ff;background:rgba(200,160,255,.12);padding:2px 7px;border-radius:100px">${e.para}</span>
+        <span style="font-size:11px;font-weight:900;color:#fff">${e.title}</span>
+      </div>
+      <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">${e.bsp}</div>
+    </div>`).join('')}
+  </div>
+  <div style="display:flex;gap:8px">
+    <button onclick="rechtNext(0)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">← Zurück</button>
+    <button onclick="rechtNext(2)" style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#4a1a8f,#2a0a5e);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Trunkenheit, Irrtum & Anfechtung →</button>
+  </div>`;
+}
+
+function renderRechtIntro2(a){
+  a.innerHTML=`
+  <div style="background:linear-gradient(135deg,#1a0a3e,#3a1080);border-radius:18px;padding:18px;margin-bottom:14px">
+    <div style="font-size:10px;font-family:'Space Mono',monospace;color:#c8a0ff;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Wenn Verträge scheitern</div>
+    <div style="font-size:15px;font-weight:900;color:#fff;margin-bottom:12px">Nicht jeder Vertrag ist was er scheint.</div>
+    ${[
+      {icon:'🍺',title:'Trunkenheit – § 105 Abs. 2 BGB',bsp:'Bernd unterschreibt betrunken auf einer Party einen Autokauf für 12.000 €.',law:'§ 104 Nr. 2 BGB: Wer die freie Willensbestimmung vorübergehend verliert (starke Trunkenheit), ist geschäftsunfähig. Willenserklärung → nichtig (§ 105 BGB). Bernd muss Trunkenheit beweisen (Zeugen, ärztl. Gutachten).',color:'#e67e22'},
+      {icon:'✍️',title:'Anfechtung – § 119 BGB',bsp:'Tom denkt er kauft ein gebrauchtes Auto, unterschreibt aber aus Versehen einen Leasingvertrag.',law:'§ 119 Abs. 1 BGB: Wer sich bei der Abgabe der Willenserklärung irrt, kann anfechten. Frist: unverzüglich (§ 121 BGB). Wirkung: rückwirkende Nichtigkeit (§ 142 BGB). Achtung: Schadensersatzpflicht (§ 122 BGB)!',color:'#3a78c0'},
+      {icon:'🧒‍♂️',title:'Selbstständig als Minderjähriger?',bsp:'Lea (17) möchte einen eigenen Online-Shop starten und dafür Lieferanten-Verträge unterschreiben.',law:'§ 112 BGB: Mit Genehmigung des Familiengerichts kann ein Minderjähriger für ein Erwerbsgeschäft unbeschränkt geschäftsfähig sein. Die Eltern müssen beim Familiengericht beantragen dass Lea als Unternehmerin anerkannt wird. Dann kann sie eigenständig handeln.',color:'#00c97b'},
+    ].map(e=>`<div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:13px;padding:12px;margin-bottom:8px">
+      <div style="font-size:22px;margin-bottom:5px">${e.icon}</div>
+      <div style="font-size:12px;font-weight:900;color:${e.color};margin-bottom:4px">${e.title}</div>
+      <div style="background:rgba(255,255,255,.04);border-radius:8px;padding:8px;margin-bottom:6px;font-size:11px;color:rgba(255,255,255,.55);font-weight:700;font-style:italic">${e.bsp}</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.65);font-weight:700;line-height:1.65">${e.law}</div>
+    </div>`).join('')}
+  </div>
+  <div style="display:flex;gap:8px">
+    <button onclick="rechtNext(1)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">← Zurück</button>
+    <button onclick="rechtNext(3);rechtQuizAnswers={}" style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#4a1a8f,#2a0a5e);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Vertrag gültig? – Quiz →</button>
+  </div>`;
+}
+
+function renderRechtIntro3(a){
+  const cases=[
+    {sit:'Kim (8) findet 5 € auf der Straße und kauft sich damit ein Eis für 2 €.',ok:true,icon:'🍦',ja:'§ 107 BGB: Das Eis ist lediglich vorteilhaft (Kim erwirbt etwas) und unter § 110 BGB fällt der Kauf mit überlassenem/gefundenem Geld. Der Kauf ist wirksam.',nein:'§ 107 BGB: Eis kaufen ist lediglich vorteilhaft – kein Nachteil für Kim. Wirksam ohne Eltern.'},
+    {sit:'Max (16) unterschreibt auf Ratenzahlung (24 × 50 €) ein Gaming-PC ohne Wissen der Eltern.',ok:false,icon:'💻',ja:'Ratenzahlung bedeutet Schulden eingehen – das ist rechtlich nachteilig. § 108 BGB: Schwebend unwirksam bis zur Genehmigung der Eltern.',nein:'Korrekt. Ratenzahlung = Verbindlichkeit = rechtlich nachteilig. § 108 BGB: Vertrag schwebend unwirksam ohne Elternzustimmung.'},
+    {sit:'Anna (17) hat seit 6 Monaten eine Ausbildung (Eltern haben zugestimmt). Sie kauft für ihren Lohn ein Fahrrad.',ok:true,icon:'🚲',ja:'§ 113 BGB: Der Lohn aus der Ausbildung kann frei verwaltet werden – das schließt alltägliche Käufe ein. Wirksam ohne Eltern.',nein:'§ 113 BGB: Nach Zustimmung der Eltern zur Ausbildung kann Anna über ihren Lohn frei verfügen. Kauf ist wirksam.'},
+    {sit:'Lars unterschreibt stark betrunken auf einer Feier eine Vereinsmitgliedschaft für 1.000 €/Jahr.',ok:false,icon:'🍻',ja:'Starke Trunkenheit kann zur vorübergehenden Geschäftsunfähigkeit führen (§ 104 Nr. 2 BGB). Die Willenserklärung wäre dann nichtig.',nein:'Richtig! § 104 Nr. 2 BGB: Starke Trunkenheit = vorübergehende Geschäftsunfähigkeit möglich. Lars kann auf Nichtigkeit der WE berufen.'},
+  ];
+  const allDone=cases.every((_,i)=>i in rechtQuizAnswers);
+  let html=`<div style="background:linear-gradient(135deg,#1a0a3e,#2a1050);border-radius:16px;padding:14px 16px;margin-bottom:14px"><div style="font-size:10px;font-family:'Space Mono',monospace;color:#c8a0ff;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px">Quiz · Vertrag wirksam?</div><div style="font-size:15px;font-weight:900;color:#fff">Ja oder Nein?</div></div>`;
+  cases.forEach((c,i)=>{
+    const ans=rechtQuizAnswers[i];
+    const answered=i in rechtQuizAnswers;
+    const correct=ans===c.ok;
+    html+=`<div style="background:#fff;border-radius:14px;border-left:5px solid ${answered?(correct?'#00c97b':'#ff4d6d'):'#dde5f5'};padding:14px;margin-bottom:10px">
+      <div style="font-size:12px;font-weight:700;color:#333;line-height:1.6;margin-bottom:10px"><span style="font-size:20px;margin-right:6px">${c.icon}</span>${c.sit}</div>
+      ${!answered?`<div style="display:flex;gap:8px">
+        <button onclick="rechtQuizAnswers[${i}]=true;render()" style="flex:1;padding:9px;border-radius:10px;border:2px solid #00c97b;background:rgba(0,201,123,.07);color:#007a48;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">✅ Wirksam</button>
+        <button onclick="rechtQuizAnswers[${i}]=false;render()" style="flex:1;padding:9px;border-radius:10px;border:2px solid #ff4d6d;background:rgba(255,77,109,.06);color:#c0392b;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">❌ Unwirksam</button>
+      </div>`:`<div style="background:${correct?'rgba(0,201,123,.07)':'rgba(255,77,109,.07)'};border:1.5px solid ${correct?'rgba(0,201,123,.3)':'rgba(255,77,109,.3)'};border-radius:10px;padding:10px">
+        <div style="font-size:11px;font-weight:900;color:${correct?'#007a48':'#c0392b'};margin-bottom:3px">${correct?'✅ Richtig!':'❌ Falsch!'} – Vertrag ist ${c.ok?'wirksam':'unwirksam'}</div>
+        <div style="font-size:11px;font-weight:700;color:#555;line-height:1.65">${correct?(c.ok?c.ja:c.nein):(c.ok?c.nein:c.ja)}</div>
+      </div>`}
+    </div>`;
+  });
+  html+=`<div style="display:flex;gap:8px"><button onclick="rechtNext(2)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">← Zurück</button><button onclick="rechtNext(4)" ${!allDone?'disabled style="opacity:.4;cursor:not-allowed;"':''} style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#4a1a8f,#2a0a5e);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Zu den Recht-Fällen →</button></div>`;
+  a.innerHTML=html;
+}
+
+// ==================== BILANZ INTRO ====================
+let bilanzIntroStep = 0;
+let bilanzQuizAnswers = {};
+
+function renderBilanzBasics(a) {
+  if (bilanzIntroStep === 0) renderBilanzIntro0(a);
+  else if (bilanzIntroStep === 1) renderBilanzIntro1(a);
+  else if (bilanzIntroStep === 2) renderBilanzIntro2(a);
+  else if (bilanzIntroStep === 3) renderBilanzIntro3(a);
+  else renderBasicsModule(a, 'bilanz');
+}
+function bilanzNext(s){ bilanzIntroStep=s; render(); }
+
+function renderBilanzIntro0(a){
+  a.innerHTML=`
+  <div style="background:linear-gradient(160deg,#0a2a18,#1a5a30);border-radius:20px;overflow:hidden;margin-bottom:14px">
+    <svg viewBox="0 0 360 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+      <rect width="360" height="175" fill="#071a10"/>
+      <!-- T-Konto Zeichnung -->
+      <rect x="30" y="20" width="300" height="145" fill="#0d2818" rx="8"/>
+      <text x="180" y="42" font-size="12" fill="#00c97b" font-family="monospace" font-weight="900" text-anchor="middle">BANK-KONTO (Aktivkonto)</text>
+      <!-- T Linie -->
+      <line x1="180" y1="50" x2="180" y2="165" stroke="#00c97b" stroke-width="2"/>
+      <line x1="30" y1="50" x2="330" y2="50" stroke="#00c97b" stroke-width="2"/>
+      <!-- Soll / Haben Header -->
+      <text x="105" y="66" font-size="10" fill="#7eb8ff" font-family="monospace" font-weight="900" text-anchor="middle">SOLL</text>
+      <text x="255" y="66" font-size="10" fill="#ff8c42" font-family="monospace" font-weight="900" text-anchor="middle">HABEN</text>
+      <!-- Einträge Soll -->
+      <text x="45" y="85" font-size="8.5" fill="rgba(255,255,255,.7)" font-family="monospace">AB 15.000</text>
+      <text x="45" y="100" font-size="8.5" fill="rgba(255,255,255,.7)" font-family="monospace">Kasse 5.000</text>
+      <text x="45" y="115" font-size="8.5" fill="rgba(255,255,255,.7)" font-family="monospace">Forderung 2.000</text>
+      <!-- Einträge Haben -->
+      <text x="195" y="85" font-size="8.5" fill="rgba(255,255,255,.7)" font-family="monospace">Miete 800</text>
+      <text x="195" y="100" font-size="8.5" fill="rgba(255,255,255,.7)" font-family="monospace">Maschine 8.000</text>
+      <text x="195" y="115" font-size="8.5" fill="rgba(255,255,255,.7)" font-family="monospace">SB 13.200</text>
+      <!-- Summen -->
+      <line x1="45" y1="130" x2="165" y2="130" stroke="#7eb8ff" stroke-width="1"/>
+      <line x1="195" y1="130" x2="315" y2="130" stroke="#ff8c42" stroke-width="1"/>
+      <text x="45" y="145" font-size="9" fill="#7eb8ff" font-family="monospace" font-weight="900">S: 22.000 €</text>
+      <text x="195" y="145" font-size="9" fill="#ff8c42" font-family="monospace" font-weight="900">H: 22.000 €</text>
+      <text x="180" y="160" font-size="8" fill="rgba(255,255,255,.3)" font-family="monospace" text-anchor="middle">Soll = Haben ✓</text>
+    </svg>
+    <div style="padding:0 18px 18px">
+      <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">📋 Bilanz Basics · Einführung</div>
+      <div style="font-size:17px;font-weight:900;color:#fff;line-height:1.3;margin-bottom:6px">Jede Zahlung landet auf zwei Konten. Immer. Das ist die doppelte Buchführung.</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.65">„Soll an Haben" – drei Worte, die Generationen von Buchhaltern geprägt haben. Hier lernst du warum das so ist und wie es funktioniert.</div>
+    </div>
+  </div>
+  <button onclick="bilanzNext(1)" style="width:100%;padding:14px;border-radius:13px;border:none;background:linear-gradient(135deg,#1a5a30,#0a2a18);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:15px;cursor:pointer">Das T-Konto verstehen →</button>`;
+}
+
+function renderBilanzIntro1(a){
+  a.innerHTML=`
+  <div style="background:linear-gradient(135deg,#0a2a18,#1a5a30);border-radius:18px;padding:18px;margin-bottom:14px">
+    <div style="font-size:10px;font-family:'Space Mono',monospace;color:#7effa0;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Das T-Konto – Aufbau</div>
+    <div style="font-size:13px;color:rgba(255,255,255,.65);font-weight:700;line-height:1.7;margin-bottom:14px">Jedes Konto hat zwei Seiten: <b style="color:#7eb8ff">SOLL (links)</b> und <b style="color:#ff8c42">HABEN (rechts)</b>. Ob ein Zugang ins Soll oder Haben gebucht wird, hängt von der Kontoart ab.</div>
+    <!-- Kontoarten Regeln -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+      ${[
+        {type:'Aktivkonto',regel:'Zugang → Soll\nAbgang → Haben',bsp:'Bank, Kasse, Maschinen, Vorräte',color:'#7eb8ff'},
+        {type:'Passivkonto',regel:'Zugang → Haben\nAbgang → Soll',bsp:'Eigenkapital, Verbindlichkeiten, Darlehen',color:'#ff8c42'},
+        {type:'Aufwandskonto',regel:'Buchung → Soll\n(mindert Gewinn)',bsp:'Miete, Löhne, Abschreibungen',color:'#ff6030'},
+        {type:'Ertragskonto',regel:'Buchung → Haben\n(erhöht Gewinn)',bsp:'Umsatzerlöse, Zinserträge',color:'#00c97b'},
+      ].map(k=>`<div style="background:rgba(255,255,255,.05);border:1.5px solid ${k.color}44;border-radius:12px;padding:10px">
+        <div style="font-size:9px;font-family:'Space Mono',monospace;font-weight:700;color:${k.color};margin-bottom:4px">${k.type}</div>
+        <div style="font-size:10px;font-weight:800;color:#fff;white-space:pre-line;margin-bottom:4px">${k.regel}</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.35);font-weight:700">${k.bsp}</div>
+      </div>`).join('')}
+    </div>
+    <!-- Bilanz-Struktur -->
+    <div style="font-size:11px;font-weight:900;color:#fff;margin-bottom:8px">📊 Bilanz = Momentaufnahme</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:10px;overflow:hidden">
+      <div style="background:#1a3a6f;padding:10px">
+        <div style="font-size:9px;font-family:'Space Mono',monospace;color:#7eb8ff;font-weight:700;margin-bottom:6px">AKTIVA (links)</div>
+        ${['Anlagevermögen: Maschinen, Gebäude','Umlaufvermögen: Kasse, Bank, Vorräte','Forderungen'].map(t=>`<div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700;padding:2px 0">• ${t}</div>`).join('')}
+      </div>
+      <div style="background:#5a2a00;padding:10px">
+        <div style="font-size:9px;font-family:'Space Mono',monospace;color:#ff8c42;font-weight:700;margin-bottom:6px">PASSIVA (rechts)</div>
+        ${['Eigenkapital','Langfristige Verbindlichkeiten','Kurzfristige Verbindlichkeiten'].map(t=>`<div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700;padding:2px 0">• ${t}</div>`).join('')}
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:8px;font-size:11px;font-weight:900;color:#ffd94a">Aktiva = Passiva (immer!)</div>
+  </div>
+  <div style="display:flex;gap:8px">
+    <button onclick="bilanzNext(0)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">← Zurück</button>
+    <button onclick="bilanzNext(2)" style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#1a5a30,#0a2a18);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Buchungssätze →</button>
+  </div>`;
+}
+
+function renderBilanzIntro2(a){
+  a.innerHTML=`
+  <div style="background:linear-gradient(135deg,#0a2a18,#1a5a30);border-radius:18px;padding:18px;margin-bottom:14px">
+    <div style="font-size:10px;font-family:'Space Mono',monospace;color:#7effa0;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Buchungssätze – Schritt für Schritt</div>
+    <div style="font-size:13px;color:rgba(255,255,255,.65);font-weight:700;line-height:1.7;margin-bottom:14px">Jeder Buchungssatz hat die Form: <b style="color:#ffd94a">Soll-Konto</b> an <b style="color:#ffd94a">Haben-Konto</b> · Betrag</div>
+    ${[
+      {titel:'Barkauf einer Maschine (5.000 €)',soll:'Maschinen 5.000',haben:'Kasse 5.000',erkl:'Maschine kommt rein (Aktivkonto, Zugang → Soll). Kasse geht raus (Aktivkonto, Abgang → Haben). → Aktivtausch, Bilanzsumme gleich.',typ:'Aktivtausch'},
+      {titel:'Banküberweisung an Lieferanten (2.000 €)',soll:'Verbindlichkeiten 2.000',haben:'Bank 2.000',erkl:'Schuld sinkt (Passivkonto, Abgang → Soll). Bank sinkt (Aktivkonto, Abgang → Haben). → Passivseite sinkt, Aktivseite sinkt.',typ:'Aktiv-Passiv-Minderung'},
+      {titel:'Miete per Überweisung (1.200 €)',soll:'Mietaufwand 1.200',haben:'Bank 1.200',erkl:'Miete ist Aufwand → immer Soll. Bank sinkt → Haben. Bilanzsumme sinkt, Gewinn sinkt.',typ:'Aufwandsbuchung'},
+      {titel:'Ware auf Ziel gekauft (800 €)',soll:'Warenaufwand 800',haben:'Verbindlichkeiten 800',erkl:'Aufwand → Soll. Neue Schuld beim Lieferanten → Passivkonto, Zugang → Haben. Noch keine Zahlung!',typ:'Aufwand auf Ziel'},
+    ].map(b=>`<div style="background:rgba(255,255,255,.04);border-radius:12px;padding:12px;margin-bottom:8px;border:1px solid rgba(255,255,255,.08)">
+      <div style="font-size:10px;font-weight:900;color:#00c97b;margin-bottom:6px">${b.titel}</div>
+      <div style="background:#0a1a10;border-radius:8px;padding:8px;margin-bottom:6px;font-family:'Space Mono',monospace;font-size:11px">
+        <span style="color:#7eb8ff">${b.soll}</span><span style="color:rgba(255,255,255,.4)"> an </span><span style="color:#ff8c42">${b.haben}</span>
+      </div>
+      <div style="font-size:10px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.6">${b.erkl}</div>
+      <div style="display:inline-block;margin-top:5px;font-size:9px;font-family:'Space Mono',monospace;font-weight:700;color:rgba(255,255,255,.3);background:rgba(255,255,255,.06);padding:2px 8px;border-radius:100px">${b.typ}</div>
+    </div>`).join('')}
+  </div>
+  <div style="display:flex;gap:8px">
+    <button onclick="bilanzNext(1)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">← Zurück</button>
+    <button onclick="bilanzNext(3);bilanzQuizAnswers={}" style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#1a5a30,#0a2a18);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Buchungssatz-Quiz →</button>
+  </div>`;
+}
+
+function renderBilanzIntro3(a){
+  const cases=[
+    {sit:'Klaus kauft Büromöbel für 2.400 € und zahlt sofort per Überweisung.',ans:'Büroeinrichtung 2.400 an Bank 2.400',erkl:'Büromöbel = Anlagevermögen (Aktivkonto) → Zugang → Soll. Bank = Aktivkonto → Abgang → Haben. Aktivtausch.',icon:'🪑'},
+    {sit:'Die Firma nimmt einen Bankkredit über 50.000 € auf. Das Geld geht auf das Konto.',ans:'Bank 50.000 an Darlehen 50.000',erkl:'Bank = Aktivkonto → Zugang → Soll. Darlehen = Passivkonto (Schuld) → Zugang → Haben. Bilanzverlängerung.',icon:'🏦'},
+    {sit:'Maschine (AK 60.000 €, ND 6 Jahre) wird linear abgeschrieben. Jahresbuchung?',ans:'Abschreibungen 10.000 an Maschinen 10.000',erkl:'60.000 ÷ 6 = 10.000 € AfA p.a. Abschreibung = Aufwand → Soll. Maschine verliert Wert → Aktivkonto, Abgang → Haben.',icon:'⚙️'},
+  ];
+  const allDone=cases.every((_,i)=>i in bilanzQuizAnswers);
+  let html=`<div style="background:linear-gradient(135deg,#0a2a18,#1a3a24);border-radius:16px;padding:14px 16px;margin-bottom:14px"><div style="font-size:10px;font-family:'Space Mono',monospace;color:#7effa0;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px">Quiz · Buchungssatz</div><div style="font-size:15px;font-weight:900;color:#fff">Was kommt ins Soll, was ins Haben?</div></div>`;
+  cases.forEach((c,i)=>{
+    const shown=!!bilanzQuizAnswers[i];
+    html+=`<div style="background:#fff;border-radius:14px;border-left:5px solid ${shown?'#00c97b':'#dde5f5'};padding:14px;margin-bottom:10px">
+      <div style="font-size:12px;font-weight:700;color:#333;line-height:1.6;margin-bottom:10px"><span style="font-size:20px;margin-right:6px">${c.icon}</span>${c.sit}</div>
+      ${!shown?`<button onclick="bilanzQuizAnswers[${i}]=true;render()" style="width:100%;padding:10px;border-radius:10px;border:2px solid #27ae60;background:rgba(39,174,96,.07);color:#1a5a30;font-family:'Nunito',sans-serif;font-weight:900;font-size:12px;cursor:pointer">💡 Buchungssatz aufdecken</button>`
+      :`<div style="background:rgba(0,201,123,.07);border:1.5px solid rgba(0,201,123,.3);border-radius:10px;padding:10px">
+        <div style="background:#0a1a10;border-radius:6px;padding:7px;margin-bottom:6px;font-family:'Space Mono',monospace;font-size:11px;font-weight:700"><span style="color:#7eb8ff">${c.ans.split(' an ')[0]}</span><span style="color:rgba(255,255,255,.5)"> an </span><span style="color:#ff8c42">${c.ans.split(' an ')[1]}</span></div>
+        <div style="font-size:11px;font-weight:700;color:#555;line-height:1.65">${c.erkl}</div>
+      </div>`}
+    </div>`;
+  });
+  html+=`<div style="display:flex;gap:8px"><button onclick="bilanzNext(2)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">← Zurück</button><button onclick="bilanzNext(4)" ${!allDone?'disabled style="opacity:.4;cursor:not-allowed;"':''} style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#1a5a30,#0a2a18);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Zu den Bilanz-Fällen →</button></div>`;
+  a.innerHTML=html;
+}
+
+// ==================== UST INTRO ====================
+let ustIntroStep = 0;
+let ustQuizAnswers = {};
+
+function renderUstBasics(a) {
+  if (ustIntroStep === 0) renderUstIntro0(a);
+  else if (ustIntroStep === 1) renderUstIntro1(a);
+  else if (ustIntroStep === 2) renderUstIntro2(a);
+  else if (ustIntroStep === 3) renderUstIntro3(a);
+  else renderBasicsModule(a, 'ust');
+}
+function ustNext(s){ ustIntroStep=s; render(); }
+
+function renderUstIntro0(a){
+  a.innerHTML=`
+  <div style="background:linear-gradient(160deg,#1a0a00,#4a2000);border-radius:20px;overflow:hidden;margin-bottom:14px">
+    <svg viewBox="0 0 360 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+      <rect width="360" height="175" fill="#0f0600"/>
+      <!-- Supermarkt Regal -->
+      <rect x="20" y="30" width="145" height="125" fill="#1a0c02" rx="6"/>
+      <rect x="20" y="30" width="145" height="25" fill="#2a1504" rx="6 6 0 0"/>
+      <text x="92" y="47" font-size="9" fill="#ff8c42" font-family="sans-serif" font-weight="700" text-anchor="middle">🛒 SUPERMARKT</text>
+      <!-- Produkte -->
+      <rect x="30" y="65" width="30" height="35" fill="#ffd94a" rx="3"/>
+      <text x="45" y="78" font-size="7" fill="#333" font-family="sans-serif" font-weight="700" text-anchor="middle">Brot</text>
+      <text x="45" y="90" font-size="8" fill="#333" font-family="sans-serif" font-weight="900" text-anchor="middle">7%</text>
+      <rect x="68" y="65" width="30" height="35" fill="#e74c3c" rx="3"/>
+      <text x="83" y="78" font-size="7" fill="#fff" font-family="sans-serif" font-weight="700" text-anchor="middle">Wein</text>
+      <text x="83" y="90" font-size="8" fill="#fff" font-family="sans-serif" font-weight="900" text-anchor="middle">19%</text>
+      <rect x="106" y="65" width="30" height="35" fill="#3a78c0" rx="3"/>
+      <text x="121" y="78" font-size="7" fill="#fff" font-family="sans-serif" font-weight="700" text-anchor="middle">Kaffee</text>
+      <text x="121" y="90" font-size="7" fill="#fff" font-family="sans-serif" font-weight="900" text-anchor="middle">19%?</text>
+      <text x="30" y="118" font-size="7" fill="#ffd94a" font-family="sans-serif" font-weight="700">Gurke: 7%</text>
+      <text x="30" y="129" font-size="7" fill="#ff8c42" font-family="sans-serif" font-weight="700">Chips: 7%</text>
+      <text x="30" y="140" font-size="7" fill="#ff6030" font-family="sans-serif" font-weight="700">Red Bull: 19%</text>
+      <text x="30" y="151" font-size="7" fill="#c8a0ff" font-family="sans-serif" font-weight="700">Kaugummi: 19%</text>
+      <!-- Kassenbon -->
+      <rect x="185" y="20" width="155" height="155" fill="#fffef9" rx="6"/>
+      <text x="262" y="38" font-size="8" fill="#333" font-family="sans-serif" font-weight="900" text-anchor="middle">KASSENBON</text>
+      <line x1="195" y1="42" x2="330" y2="42" stroke="#eee" stroke-width="1"/>
+      <text x="197" y="55" font-size="7.5" fill="#555" font-family="sans-serif">Brot (7%)</text><text x="328" y="55" font-size="7.5" fill="#555" font-family="sans-serif" text-anchor="end">2,14 €</text>
+      <text x="197" y="67" font-size="7.5" fill="#555" font-family="sans-serif">Wein (19%)</text><text x="328" y="67" font-size="7.5" fill="#555" font-family="sans-serif" text-anchor="end">11,90 €</text>
+      <text x="197" y="79" font-size="7.5" fill="#555" font-family="sans-serif">Kaffee (19%)</text><text x="328" y="79" font-size="7.5" fill="#555" font-family="sans-serif" text-anchor="end">5,95 €</text>
+      <line x1="195" y1="85" x2="330" y2="85" stroke="#aaa" stroke-width="1"/>
+      <text x="197" y="97" font-size="8" fill="#555" font-family="sans-serif">darin USt 7%:</text><text x="328" y="97" font-size="8" fill="#e67e22" font-family="sans-serif" text-anchor="end">0,14 €</text>
+      <text x="197" y="109" font-size="8" fill="#555" font-family="sans-serif">darin USt 19%:</text><text x="328" y="109" font-size="8" fill="#e67e22" font-family="sans-serif" text-anchor="end">2,83 €</text>
+      <rect x="192" y="118" width="141" height="20" fill="rgba(230,126,34,.15)" rx="3"/>
+      <text x="197" y="131" font-size="9" fill="#e67e22" font-family="sans-serif" font-weight="900">GESAMT: 19,99 €</text>
+    </svg>
+    <div style="padding:0 18px 18px">
+      <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">🛒 USt Basics · Einführung</div>
+      <div style="font-size:17px;font-weight:900;color:#fff;line-height:1.3;margin-bottom:6px">Du zahlst sie täglich – aber weißt du wofür genau?</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.65">Brot 7 %, Wein 19 %, Kaffeebohnen 19 %, aber Milch 7 %. Die Logik dahinter ist das UStG – und sie ist nicht immer intuitiv.</div>
+    </div>
+  </div>
+  <button onclick="ustNext(1)" style="width:100%;padding:14px;border-radius:13px;border:none;background:linear-gradient(135deg,#c0581a,#7a3000);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:15px;cursor:pointer">Wie funktioniert die USt? →</button>`;
+}
+
+function renderUstIntro1(a){
+  a.innerHTML=`
+  <div style="background:linear-gradient(135deg,#1a0c02,#4a2000);border-radius:18px;padding:18px;margin-bottom:14px">
+    <div style="font-size:10px;font-family:'Space Mono',monospace;color:#ff8c42;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Das USt-System</div>
+    <div style="font-size:13px;color:rgba(255,255,255,.65);font-weight:700;line-height:1.7;margin-bottom:12px">USt wird auf jeder Stufe der Wertschöpfungskette erhoben – aber nur der <b style="color:#ffd94a">Endverbraucher</b> trägt sie wirtschaftlich. Unternehmer zahlen durch und verechnen sie.</div>
+    <!-- Wertschöpfungskette -->
+    <div style="background:rgba(255,255,255,.04);border-radius:12px;padding:12px;margin-bottom:12px">
+      <div style="font-size:10px;font-weight:900;color:#ffd94a;margin-bottom:10px">🔄 Weg der USt am Beispiel Stuhl</div>
+      ${[
+        {from:'Holzfäller',to:'Schreinerei',netto:'100 €',ust:'19 €',vor:'0 €',zahlt:'19 €'},
+        {from:'Schreinerei',to:'Möbelladen',netto:'300 €',ust:'57 €',vor:'19 €',zahlt:'38 €'},
+        {from:'Möbelladen',to:'Kunde',netto:'500 €',ust:'95 €',vor:'57 €',zahlt:'38 €'},
+      ].map((s,i)=>`<div style="display:flex;align-items:center;gap:6px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06)">
+        <div style="font-size:18px">${['🌲','🪑','🏪'][i]}</div>
+        <div style="flex:1">
+          <div style="font-size:10px;font-weight:800;color:#fff">${s.from} → ${s.to}</div>
+          <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700">Netto ${s.netto} + USt ${s.ust} − Vorsteuer ${s.vor}</div>
+        </div>
+        <div style="font-size:11px;font-weight:900;color:#ff8c42;font-family:'Space Mono',monospace;flex-shrink:0">→ FA: ${s.zahlt}</div>
+      </div>`).join('')}
+      <div style="margin-top:8px;font-size:10px;font-weight:900;color:#ffd94a;text-align:center">Gesamt ans FA: 95 € = genau die USt die der Endkunde zahlt ✓</div>
+    </div>
+    <!-- 7% vs 19% -->
+    <div style="font-size:11px;font-weight:900;color:#fff;margin-bottom:8px">7 % vs. 19 % – die wichtigsten Gruppen</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+      <div style="background:rgba(255,217,74,.08);border:1px solid rgba(255,217,74,.2);border-radius:10px;padding:8px">
+        <div style="font-size:9px;font-family:'Space Mono',monospace;color:#ffd94a;font-weight:700;margin-bottom:4px">7 % – § 12 Abs. 2 UStG</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700">Lebensmittel · Bücher · ÖPNV · Zeitungen · Medikamente</div>
+      </div>
+      <div style="background:rgba(255,140,66,.08);border:1px solid rgba(255,140,66,.2);border-radius:10px;padding:8px">
+        <div style="font-size:9px;font-family:'Space Mono',monospace;color:#ff8c42;font-weight:700;margin-bottom:4px">19 % – § 12 Abs. 1 UStG</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700">Elektronik · Kleidung · Dienstleistungen · Alkohol · Kaffee</div>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;gap:8px">
+    <button onclick="ustNext(0)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">← Zurück</button>
+    <button onclick="ustNext(2)" style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#c0581a,#7a3000);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Lieferung vs. Leistung →</button>
+  </div>`;
+}
+
+function renderUstIntro2(a){
+  a.innerHTML=`
+  <div style="background:linear-gradient(135deg,#1a0c02,#4a2000);border-radius:18px;padding:18px;margin-bottom:14px">
+    <div style="font-size:10px;font-family:'Space Mono',monospace;color:#ff8c42;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">§ 3 UStG · Lieferung vs. Leistung</div>
+    <div style="font-size:13px;color:rgba(255,255,255,.65);font-weight:700;line-height:1.7;margin-bottom:12px">Ob etwas eine <b style="color:#ffd94a">Lieferung</b> oder eine <b style="color:#c8a0ff">sonstige Leistung</b> ist, bestimmt oft den USt-Satz und den Leistungsort.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+      <div style="background:rgba(255,217,74,.07);border:1.5px solid rgba(255,217,74,.2);border-radius:12px;padding:12px">
+        <div style="font-size:9px;font-family:'Space Mono',monospace;color:#ffd94a;font-weight:700;margin-bottom:6px">LIEFERUNG · § 3 Abs. 1</div>
+        <div style="font-size:11px;font-weight:800;color:#fff;margin-bottom:4px">Verschaffung der Verfügungsmacht</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">Ein körperlicher Gegenstand wechselt den Besitzer.<br><br>✓ Bäcker verkauft Brötchen<br>✓ Händler verkauft Laptop<br>✓ Bauer verkauft Kartoffeln</div>
+      </div>
+      <div style="background:rgba(200,160,255,.07);border:1.5px solid rgba(200,160,255,.2);border-radius:12px;padding:12px">
+        <div style="font-size:9px;font-family:'Space Mono',monospace;color:#c8a0ff;font-weight:700;margin-bottom:6px">LEISTUNG · § 3 Abs. 9</div>
+        <div style="font-size:11px;font-weight:800;color:#fff;margin-bottom:4px">Alles außer Lieferungen</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">Dienstleistungen, Nutzungsüberlassungen.<br><br>✓ Friseur schneidet Haare<br>✓ Anwalt berät<br>✓ Restaurant serviert</div>
+      </div>
+    </div>
+    <!-- Knifflige Fälle -->
+    <div style="background:rgba(255,255,255,.04);border-radius:12px;padding:12px">
+      <div style="font-size:11px;font-weight:900;color:#ffd94a;margin-bottom:8px">⚠️ Knifflige Abgrenzungen</div>
+      ${[
+        {bsp:'Bäcker: Brötchen mitnehmen',antwort:'Lieferung → 7 %'},
+        {bsp:'Bäcker: Brötchen mit Kaffee am Tisch',antwort:'Restaurant-Leistung → 19 %'},
+        {bsp:'Software-Download kaufen',antwort:'Sonstige Leistung (kein Körper) → 19 %'},
+        {bsp:'Arzt behandelt Patienten',antwort:'Steuerfrei! § 4 Nr. 14 UStG'},
+      ].map(f=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05)">
+        <div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700">${f.bsp}</div>
+        <div style="font-size:10px;font-weight:900;color:#ff8c42;font-family:'Space Mono',monospace;text-align:right;flex-shrink:0;margin-left:8px">${f.antwort}</div>
+      </div>`).join('')}
+    </div>
+  </div>
+  <div style="display:flex;gap:8px">
+    <button onclick="ustNext(1)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">← Zurück</button>
+    <button onclick="ustNext(3);ustQuizAnswers={}" style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#c0581a,#7a3000);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">7 % oder 19 %? – Quiz →</button>
+  </div>`;
+}
+
+function renderUstIntro3(a){
+  const cases=[
+    {sit:'Lea kauft im Buchladen einen Roman für 14,99 €.',ans:'7 %',erkl:'Bücher fallen unter § 12 Abs. 2 Nr. 14 UStG (Anlage 2) → ermäßigter Steuersatz 7 %. Gilt für alle Bücher, auch E-Books seit 2020.',icon:'📗'},
+    {sit:'Tom kauft bei Amazon einen Bluetooth-Lautsprecher für 49,99 €.',ans:'19 %',erkl:'Elektronik gehört nicht zu den begünstigten Gütern der Anlage 2 UStG → 19 % Regelsteuersatz (§ 12 Abs. 1 UStG).',icon:'🔊'},
+    {sit:'Zahnarzt Dr. Klein behandelt einen Patienten und berechnet 200 € für eine Füllung.',ans:'0 % – steuerfrei',erkl:'§ 4 Nr. 14 Buchst. a UStG: Heilbehandlungen durch zugelassene Ärzte sind steuerfrei. Kein USt-Ausweis, kein Vorsteuerabzug für die Praxis.',icon:'🦷'},
+    {sit:'Pizzabote Marco liefert eine Pizza nach Hause (kein Servicegedeck, keine Bedienung).',ans:'7 %',erkl:'Lieferung von Speisen zum Mitnehmen / Lieferservice = Lieferung → 7 % (Lebensmittel). Nur beim Essen im Restaurant (Dienstleistungscharakter) → 19 %.',icon:'🍕'},
+  ];
+  const allDone=cases.every((_,i)=>i in ustQuizAnswers);
+  let html=`<div style="background:linear-gradient(135deg,#1a0c02,#3a1800);border-radius:16px;padding:14px 16px;margin-bottom:14px"><div style="font-size:10px;font-family:'Space Mono',monospace;color:#ff8c42;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px">Quiz · USt-Satz</div><div style="font-size:15px;font-weight:900;color:#fff">7 %, 19 % oder steuerfrei?</div><div style="font-size:11px;color:rgba(255,255,255,.4);font-weight:700;margin-top:3px">Tippe auf Auflösung nach deiner Einschätzung</div></div>`;
+  cases.forEach((c,i)=>{
+    const shown=!!ustQuizAnswers[i];
+    html+=`<div style="background:#fff;border-radius:14px;border-left:5px solid ${shown?'#e67e22':'#dde5f5'};padding:14px;margin-bottom:10px">
+      <div style="font-size:12px;font-weight:700;color:#333;line-height:1.6;margin-bottom:10px"><span style="font-size:20px;margin-right:6px">${c.icon}</span>${c.sit}</div>
+      ${!shown?`<button onclick="ustQuizAnswers[${i}]=true;render()" style="width:100%;padding:10px;border-radius:10px;border:2px solid #e67e22;background:rgba(230,126,34,.06);color:#a04000;font-family:'Nunito',sans-serif;font-weight:900;font-size:12px;cursor:pointer">💡 Antwort aufdecken</button>`
+      :`<div style="background:rgba(230,126,34,.07);border:1.5px solid rgba(230,126,34,.3);border-radius:10px;padding:10px">
+        <div style="font-size:12px;font-weight:900;color:#a04000;margin-bottom:4px">→ ${c.ans}</div>
+        <div style="font-size:11px;font-weight:700;color:#555;line-height:1.65">${c.erkl}</div>
+      </div>`}
+    </div>`;
+  });
+  html+=`<div style="display:flex;gap:8px"><button onclick="ustNext(2)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">← Zurück</button><button onclick="ustNext(4)" ${!allDone?'disabled style="opacity:.4;cursor:not-allowed;"':''} style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#c0581a,#7a3000);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Zu den USt-Fällen →</button></div>`;
+  a.innerHTML=html;
+}
+
+
 function renderAo(a){
   if(idx>=sh_ao.length){a.innerHTML='';renderResult2('ga','⚖️ Abgabenordnung',sh_ao.length);return;}
   const q=sh_ao[idx];
