@@ -1676,9 +1676,10 @@ function _introNext(mod, step){ _introStep[mod]=step; render(); }
 function _introShowAnswer(mod, idx){ _introQuiz[mod+'_'+idx]=true; render(); }
 
 function renderAoBasics(a){
-  if(_introStep['ao']===0){ _renderIntro_ao_0(a); return; }
-  if(_introStep['ao']===1){ _renderIntro_ao_1(a); return; }
-  if(_introStep['ao']===2){ _renderIntro_ao_2(a); return; }
+  if(_introStep['ao']===0){ _renderIntro_ao_was(a); return; }
+  if(_introStep['ao']===1){ _renderIntro_ao_warum(a); return; }
+  if(_introStep['ao']===2){ _renderIntro_ao_0(a); return; }
+  if(_introStep['ao']===3){ _renderIntro_ao_1(a); return; }
   // else: show original content
   _renderIntro_ao_content(a);
 }
@@ -1833,9 +1834,10 @@ function getRbProgress(){try{return JSON.parse(localStorage.getItem(RB_KEY)||'{}
 function saveRbProgress(i){const p=getRbProgress();p[i]=true;localStorage.setItem(RB_KEY,JSON.stringify(p));}
 
 function renderRechtBasics(a){
-  if(_introStep['recht']===0){ _renderIntro_recht_0(a); return; }
-  if(_introStep['recht']===1){ _renderIntro_recht_1(a); return; }
-  if(_introStep['recht']===2){ _renderIntro_recht_2(a); return; }
+  if(_introStep['recht']===0){ _renderIntro_recht_was(a); return; }
+  if(_introStep['recht']===1){ _renderIntro_recht_warum(a); return; }
+  if(_introStep['recht']===2){ _renderIntro_recht_0(a); return; }
+  if(_introStep['recht']===3){ _renderIntro_recht_1(a); return; }
   // else: show original content
   _renderIntro_recht_content(a);
 }
@@ -2077,9 +2079,10 @@ function getUstProgress(){try{return JSON.parse(localStorage.getItem(UST_KEY)||'
 function saveUstProgress(i){const p=getUstProgress();p[i]=true;localStorage.setItem(UST_KEY,JSON.stringify(p));}
 
 function renderUstBasics(a){
-  if(_introStep['ust']===0){ _renderIntro_ust_0(a); return; }
-  if(_introStep['ust']===1){ _renderIntro_ust_1(a); return; }
-  if(_introStep['ust']===2){ _renderIntro_ust_2(a); return; }
+  if(_introStep['ust']===0){ _renderIntro_ust_was(a); return; }
+  if(_introStep['ust']===1){ _renderIntro_ust_warum(a); return; }
+  if(_introStep['ust']===2){ _renderIntro_ust_0(a); return; }
+  if(_introStep['ust']===3){ _renderIntro_ust_1(a); return; }
   // else: show original content
   _renderIntro_ust_content(a);
 }
@@ -2340,9 +2343,10 @@ function getBilanzProgress(){try{return JSON.parse(localStorage.getItem(BILANZ_K
 function saveBilanzProgress(i){const p=getBilanzProgress();p[i]=true;localStorage.setItem(BILANZ_KEY,JSON.stringify(p));}
 
 function renderBilanzBasics(a){
-  if(_introStep['bilanz']===0){ _renderIntro_bilanz_0(a); return; }
-  if(_introStep['bilanz']===1){ _renderIntro_bilanz_1(a); return; }
-  if(_introStep['bilanz']===2){ _renderIntro_bilanz_2(a); return; }
+  if(_introStep['bilanz']===0){ _renderIntro_bilanz_was(a); return; }
+  if(_introStep['bilanz']===1){ _renderIntro_bilanz_warum(a); return; }
+  if(_introStep['bilanz']===2){ _renderIntro_bilanz_0(a); return; }
+  if(_introStep['bilanz']===3){ _renderIntro_bilanz_1(a); return; }
   // else: show original content
   _renderIntro_bilanz_content(a);
 }
@@ -2645,9 +2649,10 @@ function getEstProgress(){try{return JSON.parse(localStorage.getItem(EST_BASICS_
 function saveEstProgress(i){const p=getEstProgress();p[i]=true;localStorage.setItem(EST_BASICS_KEY,JSON.stringify(p));}
 
 function renderEstBasics(a){
-  if(_introStep['est']===0){ _renderIntro_est_0(a); return; }
-  if(_introStep['est']===1){ _renderIntro_est_1(a); return; }
-  if(_introStep['est']===2){ _renderIntro_est_2(a); return; }
+  if(_introStep['est']===0){ _renderIntro_est_was(a); return; }
+  if(_introStep['est']===1){ _renderIntro_est_warum(a); return; }
+  if(_introStep['est']===2){ _renderIntro_est_0(a); return; }
+  if(_introStep['est']===3){ _renderIntro_est_1(a); return; }
   // else: show original content
   _renderIntro_est_content(a);
 }
@@ -3050,7 +3055,7 @@ function _renderIntro_ao_0(a){
     <div style="font-size:11px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.6">§ 30 AO schützt alles was das Finanzamt über dich weiß. Eine Indiskretion kann Freiheitsstrafe und Verlust der Beamtenstelle bedeuten.</div>
   </div>
   <div style="display:flex;gap:8px">
-    <button onclick="_introNext('ao',1)" style="flex:3;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#3a78c0,#1a4a9f);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Was steckt dahinter? →</button>
+    <button onclick="_introNext('ao',3)" style="flex:3;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#3a78c0,#1a4a9f);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Was steckt dahinter? →</button>
     <button onclick="_introNext('ao',99)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.35);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">Überspr.</button>
   </div>`;
 }
@@ -3091,7 +3096,7 @@ function _renderIntro_ao_1(a){
     <div style="font-size:11px;color:rgba(255,255,255,.65);font-weight:700;line-height:1.7">① Einwilligung des Steuerpflichtigen<br>② Strafverfolgung / Gerichtsverfahren<br>③ Offenbarung aus zwingendem öffentlichen Interesse (§ 30 Abs. 4 Nr. 5 AO)</div>
   </div>
   <div style="display:flex;gap:8px">
-    <button onclick="_introNext('ao',0)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">← Zurück</button>
+    <button onclick="_introNext('ao',2)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">← Zurück</button>
     <button onclick="_introNext('ao',99)" style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#3a78c0,#1a4a9f);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Zu den AO-Übungen →</button>
   </div>`;
   a.innerHTML=html;
@@ -3153,7 +3158,7 @@ function _renderIntro_recht_0(a){
     </div>`).join('')}
   </div>
   <div style="display:flex;gap:8px">
-    <button onclick="_introNext('recht',1)" style="flex:3;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#4a1a8f,#2a0a5e);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Quiz: Vertrag gültig? →</button>
+    <button onclick="_introNext('recht',3)" style="flex:3;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#4a1a8f,#2a0a5e);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Quiz: Vertrag gültig? →</button>
     <button onclick="_introNext('recht',99)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.35);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">Überspr.</button>
   </div>`;
 }
@@ -3188,7 +3193,7 @@ function _renderIntro_recht_1(a){
     </div>`;
   });
   html+=`<div style="display:flex;gap:8px">
-    <button onclick="_introNext('recht',0)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">← Zurück</button>
+    <button onclick="_introNext('recht',2)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">← Zurück</button>
     <button onclick="_introNext('recht',99)" style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#4a1a8f,#2a0a5e);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Zu den Recht-Übungen →</button>
   </div>`;
   a.innerHTML=html;
@@ -3247,7 +3252,7 @@ function _renderIntro_ust_0(a){
     <div style="margin-top:8px;font-size:10px;font-weight:900;color:#ffd94a;text-align:center">FA erhält insgesamt: 95 € = genau die USt des Endkunden ✓</div>
   </div>
   <div style="display:flex;gap:8px">
-    <button onclick="_introNext('ust',1)" style="flex:3;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#c0581a,#7a3000);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">7 % oder 19 %? – Quiz →</button>
+    <button onclick="_introNext('ust',3)" style="flex:3;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#c0581a,#7a3000);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">7 % oder 19 %? – Quiz →</button>
     <button onclick="_introNext('ust',99)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.35);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">Überspr.</button>
   </div>`;
 }
@@ -3277,7 +3282,7 @@ function _renderIntro_ust_1(a){
     </div>`;
   });
   html+=`<div style="display:flex;gap:8px">
-    <button onclick="_introNext('ust',0)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">← Zurück</button>
+    <button onclick="_introNext('ust',2)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">← Zurück</button>
     <button onclick="_introNext('ust',99)" style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#c0581a,#7a3000);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Zu den USt-Übungen →</button>
   </div>`;
   a.innerHTML=html;
@@ -3330,7 +3335,7 @@ function _renderIntro_bilanz_0(a){
     </div>
   </div>
   <div style="display:flex;gap:8px">
-    <button onclick="_introNext('bilanz',1)" style="flex:3;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#1a5a30,#0a2a18);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Buchungssätze üben →</button>
+    <button onclick="_introNext('bilanz',3)" style="flex:3;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#1a5a30,#0a2a18);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Buchungssätze üben →</button>
     <button onclick="_introNext('bilanz',99)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.35);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">Überspr.</button>
   </div>`;
 }
@@ -3361,7 +3366,7 @@ function _renderIntro_bilanz_1(a){
     </div>`;
   });
   html+=`<div style="display:flex;gap:8px">
-    <button onclick="_introNext('bilanz',0)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">← Zurück</button>
+    <button onclick="_introNext('bilanz',2)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">← Zurück</button>
     <button onclick="_introNext('bilanz',99)" style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#1a5a30,#0a2a18);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Zu den Bilanz-Übungen →</button>
   </div>`;
   a.innerHTML=html;
@@ -3443,7 +3448,7 @@ function _renderIntro_est_0(a){
     </div>`).join('')}
   </div>
   <div style="display:flex;gap:8px">
-    <button onclick="_introNext('est',1)" style="flex:3;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#1a3a8f,#0a1a5a);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Was kann ich absetzen? →</button>
+    <button onclick="_introNext('est',3)" style="flex:3;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#1a3a8f,#0a1a5a);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Was kann ich absetzen? →</button>
     <button onclick="_introNext('est',99)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.35);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">Überspr.</button>
   </div>`;
 }
@@ -3472,9 +3477,547 @@ function _renderIntro_est_1(a){
     </div>`;
   });
   html+=`<div style="display:flex;gap:8px">
-    <button onclick="_introNext('est',0)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">← Zurück</button>
+    <button onclick="_introNext('est',2)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">← Zurück</button>
     <button onclick="_introNext('est',99)" style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#1a3a8f,#0a1a5a);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Zu den ESt-Übungen →</button>
   </div>`;
   a.innerHTML=html;
 }
 function _renderIntro_est_2(a){ _introNext('est',99); }
+
+// ==================== NEUE EINFÜHRUNGSTIEFE ====================
+
+// ══════════════════════════════════════════════════════════════
+// AO – Was ist die Abgabenordnung?
+// ══════════════════════════════════════════════════════════════
+function _renderIntro_ao_was(a){
+  a.classList.add('basics-dark-mode');
+  a.innerHTML=`
+  <div style="background:linear-gradient(160deg,#0a1635,#1a3a8f);border-radius:20px;overflow:hidden;margin-bottom:14px">
+    <svg viewBox="0 0 360 185" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+      <defs>
+        <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <rect width="360" height="185" fill="#0a1225"/>
+      <!-- Haus-Fundament -->
+      <rect x="20" y="148" width="320" height="32" fill="#3a78c0" rx="4"/>
+      <text x="180" y="168" font-size="12" fill="#fff" font-family="sans-serif" font-weight="900" text-anchor="middle">AO – Abgabenordnung</text>
+      <text x="180" y="178" font-size="8" fill="rgba(255,255,255,.5)" font-family="sans-serif" text-anchor="middle">Das Fundament des gesamten Steuerrechts</text>
+      <!-- 3 Zimmer -->
+      <rect x="25" y="90" width="94" height="58" fill="#1a4a8f" stroke="#4a8ad4" stroke-width="1.5" rx="4"/>
+      <text x="72" y="116" font-size="16" text-anchor="middle">💼</text>
+      <text x="72" y="132" font-size="9" fill="#7eb8ff" font-family="sans-serif" font-weight="900" text-anchor="middle">Einkommensteuer</text>
+      <text x="72" y="143" font-size="7.5" fill="rgba(255,255,255,.4)" font-family="sans-serif" text-anchor="middle">EStG</text>
+      <rect x="133" y="90" width="94" height="58" fill="#1a4a8f" stroke="#4a8ad4" stroke-width="1.5" rx="4"/>
+      <text x="180" y="116" font-size="16" text-anchor="middle">🛒</text>
+      <text x="180" y="132" font-size="9" fill="#7eb8ff" font-family="sans-serif" font-weight="900" text-anchor="middle">Umsatzsteuer</text>
+      <text x="180" y="143" font-size="7.5" fill="rgba(255,255,255,.4)" font-family="sans-serif" text-anchor="middle">UStG</text>
+      <rect x="241" y="90" width="94" height="58" fill="#1a4a8f" stroke="#4a8ad4" stroke-width="1.5" rx="4"/>
+      <text x="288" y="116" font-size="16" text-anchor="middle">🏢</text>
+      <text x="288" y="132" font-size="9" fill="#7eb8ff" font-family="sans-serif" font-weight="900" text-anchor="middle">Körperschaft­steuer</text>
+      <text x="288" y="143" font-size="7.5" fill="rgba(255,255,255,.4)" font-family="sans-serif" text-anchor="middle">KStG</text>
+      <!-- Dach -->
+      <polygon points="180,12 18,90 342,90" fill="#0d1a3a" stroke="#3a78c0" stroke-width="1.5"/>
+      <text x="180" y="58" font-size="11" fill="rgba(255,255,255,.35)" font-family="sans-serif" font-weight="700" text-anchor="middle">Steuerrecht</text>
+      <!-- Pfeile vom Fundament zu Zimmern -->
+      <line x1="72" y1="148" x2="72" y2="165" stroke="rgba(255,255,255,.2)" stroke-width="1" stroke-dasharray="3,2"/>
+      <line x1="180" y1="148" x2="180" y2="165" stroke="rgba(255,255,255,.2)" stroke-width="1" stroke-dasharray="3,2"/>
+      <line x1="288" y1="148" x2="288" y2="165" stroke="rgba(255,255,255,.2)" stroke-width="1" stroke-dasharray="3,2"/>
+    </svg>
+    <div style="padding:0 18px 18px">
+      <div style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">⚖️ AO Basics · Was ist das?</div>
+      <div style="font-size:18px;font-weight:900;color:#fff;line-height:1.3;margin-bottom:6px">Die AO ist die Hausordnung des Steuerrechts.</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.65">ESt, USt, KSt regeln <i>wie viel</i> Steuer du zahlst. Die <b style="color:var(--cyan)">Abgabenordnung</b> regelt <i>wie</i> das Finanzamt mit dir umgeht – Fristen, Rechte, Pflichten, Verfahren.</div>
+    </div>
+  </div>
+
+  <div style="background:rgba(255,255,255,.04);border-radius:14px;padding:14px;margin-bottom:12px">
+    <div style="font-size:11px;font-weight:900;color:#fff;margin-bottom:10px">Die AO in 3 Sätzen:</div>
+    ${[
+      ['📅','Wann muss ich was einreichen?','Abgabefristen, Festsetzungsfristen, Verjährung – § 149 ff. AO'],
+      ['📬','Wie setzt das FA Steuern fest?','Steuerbescheid, Schätzung, Bekanntgabe – § 155 ff. AO'],
+      ['⚖️','Wie wehr ich mich?','Einspruch, Klage, Wiedereinsetzung – § 347 ff. AO'],
+      ['🔒','Was darf das FA über mich weitergeben?','Steuergeheimnis – § 30 AO'],
+      ['🔍','Darf das FA mich prüfen?','Betriebsprüfung, Mitwirkungspflichten – §§ 193 ff. AO'],
+    ].map(([icon,title,desc])=>`
+    <div style="display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06)">
+      <span style="font-size:18px;flex-shrink:0">${icon}</span>
+      <div><div style="font-size:11px;font-weight:800;color:#fff">${title}</div><div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700">${desc}</div></div>
+    </div>`).join('')}
+  </div>
+
+  <div style="display:flex;gap:8px">
+    <button onclick="_introNext('ao',1)" style="flex:3;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#3a78c0,#1a4a9f);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Warum brauche ich das? →</button>
+    <button onclick="_introNext('ao',99)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.35);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">Überspr.</button>
+  </div>`;
+}
+
+function _renderIntro_ao_warum(a){
+  a.classList.add('basics-dark-mode');
+  a.innerHTML=`
+  <div style="background:linear-gradient(135deg,#0d1f4a,#1a3a8f);border-radius:18px;padding:18px;margin-bottom:14px">
+    <div style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.45);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">⚖️ Warum brauche ich die AO?</div>
+    <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:12px">Als Finanzbeamter arbeitest du <b>täglich</b> mit der AO.</div>
+    ${[
+      {icon:'📬',szenario:'Ein Brief kommt zurück – wurde der Steuerbescheid trotzdem bekannt gegeben?',antwort:'§ 122 Abs. 2 AO: Bekanntgabe gilt am 3. Tag nach Aufgabe zur Post – auch wenn der Brief zurückkommt.',color:'#3a78c0'},
+      {icon:'⏰',szenario:'Jemand fragt: „Bin ich für 2019 noch steuerpflichtig?" – wie lange kann das FA festsetzen?',antwort:'§ 169 AO: 4 Jahre Festsetzungsfrist. Bei Hinterziehung: 10 Jahre. Ohne Abgabe: Anlaufhemmung § 170 Abs. 2.',color:'#e67e22'},
+      {icon:'🏭',szenario:'Eine Bäckerei wird geprüft – der Inhaber fragt, ob er die Bücher vorlegen muss.',antwort:'§ 200 AO: Ja, volle Mitwirkungspflicht. Aber: § 197 AO schreibt grundsätzlich Ankündigung vor.',color:'#27ae60'},
+      {icon:'💌',szenario:'Ein Steuerpflichtiger legt Einspruch ein – aber erst 6 Wochen nach Bescheiddatum.',antwort:'§ 355 AO: Frist 1 Monat ab Bekanntgabe. Einspruch wäre verfristet → Antrag auf Wiedereinsetzung § 110 AO prüfen.',color:'#c0392b'},
+    ].map(s=>`
+    <div style="background:rgba(255,255,255,.04);border-left:3px solid ${s.color};border-radius:0 10px 10px 0;padding:10px 12px;margin-bottom:8px">
+      <div style="font-size:10px;color:rgba(255,255,255,.55);font-weight:700;margin-bottom:4px"><span style="font-size:14px;margin-right:6px">${s.icon}</span>${s.szenario}</div>
+      <div style="font-size:10px;font-weight:800;color:${s.color};line-height:1.5">→ ${s.antwort}</div>
+    </div>`).join('')}
+  </div>
+
+  <div style="background:rgba(255,217,74,.07);border:1px solid rgba(255,217,74,.2);border-radius:12px;padding:12px;margin-bottom:14px">
+    <div style="font-size:11px;font-weight:900;color:#ffd94a;margin-bottom:5px">💡 Das Wichtigste auf einen Blick</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.65);font-weight:700;line-height:1.7">Die AO ist das <b>Rückgrat</b> deiner täglichen Arbeit. Egal ob du ESt, USt oder Körperschaftsteuer bearbeitest – die Verfahrensregeln kommen immer aus der AO. Ohne AO weißt du wie viel Steuer jemand zahlen muss, aber nicht wie du sie festsetzt oder wie du dich schützt.</div>
+  </div>
+
+  <div style="display:flex;gap:8px">
+    <button onclick="_introNext('ao',0)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">← Zurück</button>
+    <button onclick="_introNext('ao',2)" style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#3a78c0,#1a4a9f);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Das Steuergeheimnis →</button>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════════════════════
+// EST – Was ist die Einkommensteuer?
+// ══════════════════════════════════════════════════════════════
+function _renderIntro_est_was(a){
+  a.classList.add('basics-dark-mode');
+  a.innerHTML=`
+  <div style="background:linear-gradient(160deg,#0a1635,#1a3a8f);border-radius:20px;overflow:hidden;margin-bottom:14px">
+    <svg viewBox="0 0 360 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+      <rect width="360" height="175" fill="#0a1225"/>
+      <!-- Lebensweg mit Steuermomente -->
+      <line x1="30" y1="105" x2="330" y2="105" stroke="#3a78c0" stroke-width="2.5"/>
+      <!-- Punkte -->
+      ${[
+        [55,'🎓','Erster Job',true],
+        [120,'💰','Gehalts­erhöhung',true],
+        [185,'🏠','Wohnung kaufen',true],
+        [250,'💍','Heiraten',true],
+        [315,'👶','Kind bekommen',true],
+      ].map(([x,icon,label,active])=>`
+      <circle cx="${x}" cy="105" r="18" fill="${active?'#1a3a8f':'#0d1a3a'}" stroke="${active?'#4a8ad4':'#2a3a6a'}" stroke-width="1.5"/>
+      <text x="${x}" y="110" font-size="13" text-anchor="middle">${icon}</text>
+      <text x="${x}" y="128" font-size="7" fill="rgba(255,255,255,.45)" font-family="sans-serif" text-anchor="middle">${label}</text>`).join('')}
+      <!-- Steuer-Abzweigungen -->
+      <path d="M55,87 Q55,60 80,50" fill="none" stroke="rgba(255,77,109,.4)" stroke-width="1.5" stroke-dasharray="4,2"/>
+      <text x="85" y="46" font-size="8" fill="#ff8099" font-family="sans-serif">§ 19 EStG</text>
+      <path d="M120,87 Q120,55 145,45" fill="none" stroke="rgba(255,77,109,.4)" stroke-width="1.5" stroke-dasharray="4,2"/>
+      <text x="148" y="41" font-size="8" fill="#ff8099" font-family="sans-serif">mehr zvE</text>
+      <path d="M185,87 Q185,58 205,48" fill="none" stroke="rgba(0,201,123,.4)" stroke-width="1.5" stroke-dasharray="4,2"/>
+      <text x="208" y="44" font-size="8" fill="#7effa0" font-family="sans-serif">§ 21 EStG</text>
+      <path d="M250,87 Q250,62 270,52" fill="none" stroke="rgba(0,201,123,.4)" stroke-width="1.5" stroke-dasharray="4,2"/>
+      <text x="273" y="48" font-size="8" fill="#7effa0" font-family="sans-serif">Splittingtarif</text>
+      <path d="M315,87 Q315,60 295,50" fill="none" stroke="rgba(0,201,123,.4)" stroke-width="1.5" stroke-dasharray="4,2"/>
+      <text x="265" y="46" font-size="8" fill="#7effa0" font-family="sans-serif">Kinderfreibetrag</text>
+      <!-- Label -->
+      <text x="180" y="158" font-size="9" fill="rgba(255,255,255,.3)" font-family="sans-serif" text-anchor="middle">Die Einkommensteuer begleitet dich dein ganzes Leben</text>
+    </svg>
+    <div style="padding:0 18px 18px">
+      <div style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">💼 ESt Basics · Was ist das?</div>
+      <div style="font-size:18px;font-weight:900;color:#fff;line-height:1.3;margin-bottom:6px">Die Einkommensteuer begleitet jeden Menschen – von der ersten Ausbildung bis zur Rente.</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.65">§ 1 EStG: Alle natürlichen Personen mit Wohnsitz in Deutschland sind unbeschränkt einkommensteuerpflichtig. Das bist auch du – seit dem ersten Euro Einkommen.</div>
+    </div>
+  </div>
+
+  <div style="background:rgba(255,255,255,.04);border-radius:14px;padding:14px;margin-bottom:12px">
+    <div style="font-size:11px;font-weight:900;color:#fff;margin-bottom:10px">Die 7 Einkunftsarten (§ 2 Abs. 1 EStG)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px">
+    ${[
+      ['💼','§ 19','Nichtselbst. Arbeit','Azubi-Gehalt, Lohn, Gehalt'],
+      ['🏭','§ 15','Gewerbebetrieb','Bäcker, GmbH-Gesellschafter'],
+      ['📚','§ 18','Selbstständig','Arzt, Anwalt, Steuerberater'],
+      ['🌾','§ 13','Land- & Forstwirt.','Bauer, Winzer'],
+      ['🏠','§ 21','Vermietung','Vermieter einer Wohnung'],
+      ['💰','§ 20','Kapitalvermögen','Zinsen, Dividenden, Kursgewinne'],
+      ['✨','§ 22','Sonstige','Rente, Spekulationsgewinne'],
+    ].map(([icon,para,name,bsp])=>`
+    <div style="background:rgba(255,255,255,.05);border-radius:9px;padding:7px 8px">
+      <div style="display:flex;align-items:center;gap:5px;margin-bottom:2px">
+        <span style="font-size:14px">${icon}</span>
+        <span style="font-size:8px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700">${para}</span>
+      </div>
+      <div style="font-size:10px;font-weight:800;color:#fff">${name}</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.35);font-weight:700">${bsp}</div>
+    </div>`).join('')}
+    </div>
+  </div>
+
+  <div style="display:flex;gap:8px">
+    <button onclick="_introNext('est',1)" style="flex:3;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#1a3a8f,#0a1a5a);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Warum brauche ich das? →</button>
+    <button onclick="_introNext('est',99)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.35);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">Überspr.</button>
+  </div>`;
+}
+
+function _renderIntro_est_warum(a){
+  a.classList.add('basics-dark-mode');
+  a.innerHTML=`
+  <div style="background:linear-gradient(135deg,#0d1f4a,#1a3a8f);border-radius:18px;padding:18px;margin-bottom:14px">
+    <div style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.45);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">💼 Warum brauche ich die ESt?</div>
+    <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:12px">Die ESt ist die wichtigste Steuer – und die häufigste Arbeit im Finanzamt.</div>
+
+    <div style="background:rgba(255,255,255,.04);border-radius:12px;padding:12px;margin-bottom:10px">
+      <div style="font-size:10px;font-weight:900;color:#ffd94a;margin-bottom:8px">📊 Was du als Finanzbeamter täglich machst:</div>
+      ${[
+        ['Veranlagungssachbearbeiter (häufigster Einstieg)','Steuererklärungen prüfen und Bescheide erlassen – fast alles ESt'],
+        ['Betriebsprüfer','ESt bei Selbstständigen und Unternehmern prüfen'],
+        ['Rechtsbehelfsstelle','Einsprüche gegen ESt-Bescheide bearbeiten'],
+        ['Vollstreckung','Ausstehende ESt einfordern'],
+      ].map(([role,desc])=>`
+      <div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06)">
+        <div style="font-size:10px;font-weight:900;color:#fff">${role}</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.45);font-weight:700">${desc}</div>
+      </div>`).join('')}
+    </div>
+
+    <div style="font-size:11px;color:rgba(255,255,255,.65);font-weight:700;line-height:1.7">Die ESt ist keine abstrakte Materie – du wirst sie täglich auf echte Schicksale anwenden: der Pendler der seine Fahrtkosten absetzt, die Witwe deren Rentenbesteuerung geprüft wird, der Freiberufler der zwischen Sonderausgaben und Werbungskosten abgrenzen muss.</div>
+  </div>
+
+  <div style="background:rgba(255,217,74,.07);border:1px solid rgba(255,217,74,.2);border-radius:12px;padding:12px;margin-bottom:14px">
+    <div style="font-size:11px;font-weight:900;color:#ffd94a;margin-bottom:5px">🧮 Das ESt-Schema – dein tägliches Werkzeug</div>
+    <div style="display:flex;flex-direction:column;gap:3px">
+    ${[
+      ['Summe aller Einkünfte','§ 2 Abs. 1+2 EStG','#7eb8ff'],
+      '− Verlustausgleich',
+      '= Gesamtbetrag der Einkünfte',
+      '− Sonderausgaben (§§ 10–10b EStG)',
+      '− Außergewöhnliche Belastungen (§§ 33–33b EStG)',
+      '= Einkommen',
+      '− Kinderfreibeträge (§ 32 EStG)',
+      '= Zu versteuerndes Einkommen (zvE)',
+      '× Steuertarif § 32a EStG → Einkommensteuer',
+    ].map((row,i)=>typeof row === 'string'
+      ? `<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,${i===8?'.9':'0.5'});padding:2px 0;${i===8?'border-top:1px solid rgba(255,255,255,.2);margin-top:3px;padding-top:5px;color:#ffd94a;font-weight:900;':''}">${row}</div>`
+      : `<div style="font-size:10px;font-weight:900;color:${row[2]};padding:2px 0">${row[0]} <span style="color:rgba(255,255,255,.3);font-family:'Space Mono',monospace;font-size:9px">${row[1]}</span></div>`
+    ).join('')}
+    </div>
+  </div>
+
+  <div style="display:flex;gap:8px">
+    <button onclick="_introNext('est',0)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">← Zurück</button>
+    <button onclick="_introNext('est',2)" style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#1a3a8f,#0a1a5a);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Gehaltszettel & Tarif →</button>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════════════════════
+// UST – Was ist die Umsatzsteuer?
+// ══════════════════════════════════════════════════════════════
+function _renderIntro_ust_was(a){
+  a.classList.add('basics-dark-mode');
+  a.innerHTML=`
+  <div style="background:linear-gradient(160deg,#1a0c02,#4a2000);border-radius:20px;overflow:hidden;margin-bottom:14px">
+    <svg viewBox="0 0 360 170" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+      <rect width="360" height="170" fill="#0f0700"/>
+      <!-- Kassenzettel als Hauptelement -->
+      <rect x="20" y="15" width="145" height="148" fill="#fffef9" rx="8"/>
+      <rect x="20" y="15" width="145" height="24" fill="#e67e22" rx="8 8 0 0"/>
+      <text x="92" y="31" font-size="9" fill="#fff" font-family="sans-serif" font-weight="900" text-anchor="middle">MEIN SUPERMARKT</text>
+      <text x="92" y="42" font-size="7" fill="#555" font-family="sans-serif" text-anchor="middle">Quittung Nr. 2847</text>
+      <line x1="30" y1="47" x2="155" y2="47" stroke="#eee" stroke-width="0.8"/>
+      ${[
+        ['Brot 500g','1,79 €','7%'],
+        ['Milch 1L','1,09 €','7%'],
+        ['Wein Rotwein','7,99 €','19%'],
+        ['Schokolade','1,49 €','7%'],
+        ['Red Bull 250ml','1,89 €','19%'],
+        ['Zahnpasta','2,49 €','19%'],
+      ].map(([name,price,rate],i)=>`
+      <text x="30" y="${58+i*14}" font-size="7.5" fill="#444" font-family="sans-serif">${name}</text>
+      <text x="155" y="${58+i*14}" font-size="7.5" fill="#444" font-family="sans-serif" text-anchor="end">${price}</text>
+      <rect x="120" y="${50+i*14}" width="20" height="9" fill="${rate==='7%'?'rgba(39,174,96,.15)':'rgba(231,76,60,.12)'}" rx="2"/>
+      <text x="130" y="${58+i*14}" font-size="6.5" fill="${rate==='7%'?'#27ae60':'#c0392b'}" font-family="monospace" font-weight="700" text-anchor="middle">${rate}</text>`).join('')}
+      <line x1="30" y1="144" x2="155" y2="144" stroke="#ccc" stroke-width="1"/>
+      <text x="30" y="155" font-size="8" fill="#333" font-family="sans-serif" font-weight="700">SUMME</text>
+      <text x="155" y="155" font-size="9" fill="#e67e22" font-family="sans-serif" font-weight="900" text-anchor="end">16,74 €</text>
+      <!-- Rechte Seite: USt-Erklärung -->
+      <rect x="180" y="15" width="165" height="148" fill="rgba(255,255,255,.04)" rx="8" stroke="rgba(255,140,66,.2)" stroke-width="1"/>
+      <text x="262" y="33" font-size="9" fill="#ff8c42" font-family="monospace" font-weight="700" text-anchor="middle">UST IM KASSENBON</text>
+      <text x="192" y="50" font-size="7.5" fill="rgba(255,255,255,.5)" font-family="sans-serif">Nettobetrag 7%-Waren:</text>
+      <text x="335" y="50" font-size="7.5" fill="#ffd94a" font-family="monospace" text-anchor="end">4,99 €</text>
+      <text x="192" y="62" font-size="7.5" fill="rgba(255,255,255,.5)" font-family="sans-serif">darin USt 7%:</text>
+      <text x="335" y="62" font-size="7.5" fill="#27ae60" font-family="monospace" text-anchor="end">0,33 €</text>
+      <text x="192" y="78" font-size="7.5" fill="rgba(255,255,255,.5)" font-family="sans-serif">Nettobetrag 19%-Waren:</text>
+      <text x="335" y="78" font-size="7.5" fill="#ffd94a" font-family="monospace" text-anchor="end">10,41 €</text>
+      <text x="192" y="90" font-size="7.5" fill="rgba(255,255,255,.5)" font-family="sans-serif">darin USt 19%:</text>
+      <text x="335" y="90" font-size="7.5" fill="#c0392b" font-family="monospace" text-anchor="end">1,97 €</text>
+      <line x1="188" y1="98" x2="338" y2="98" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+      <text x="192" y="110" font-size="8" fill="rgba(255,255,255,.7)" font-family="sans-serif" font-weight="700">Gesamte USt:</text>
+      <text x="335" y="110" font-size="9" fill="#ff8c42" font-family="monospace" font-weight="900" text-anchor="end">2,30 €</text>
+      <text x="262" y="130" font-size="8" fill="rgba(255,255,255,.35)" font-family="sans-serif" text-anchor="middle">→ geht ans Finanzamt</text>
+      <text x="262" y="143" font-size="9" fill="#ffd94a" font-family="sans-serif" font-weight="900" text-anchor="middle">= Zahllast des Supermarkts</text>
+    </svg>
+    <div style="padding:0 18px 18px">
+      <div style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">🛒 USt Basics · Was ist das?</div>
+      <div style="font-size:18px;font-weight:900;color:#fff;line-height:1.3;margin-bottom:6px">Du zahlst sie bei jedem Einkauf. Aber sie landet nicht beim Supermarkt.</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.65">Die Umsatzsteuer ist eine <b style="color:#ff8c42">Verbrauchsteuer</b>: Du als Endkunde trägst sie wirtschaftlich. Der Unternehmer ist nur Inkassostelle für das Finanzamt.</div>
+    </div>
+  </div>
+
+  <div style="background:rgba(255,255,255,.04);border-radius:14px;padding:14px;margin-bottom:12px">
+    <div style="font-size:11px;font-weight:900;color:#fff;margin-bottom:8px">Die USt in einem Satz erklärt:</div>
+    <div style="background:rgba(230,126,34,.08);border-left:3px solid #e67e22;padding:10px 12px;border-radius:0 10px 10px 0;margin-bottom:10px">
+      <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.8);line-height:1.65">§ 1 Abs. 1 Nr. 1 UStG: Steuerbar sind <b style="color:#ff8c42">Lieferungen und sonstige Leistungen</b>, die ein <b style="color:#ff8c42">Unternehmer</b> im <b style="color:#ff8c42">Inland</b> gegen <b style="color:#ff8c42">Entgelt</b> im Rahmen seines <b style="color:#ff8c42">Unternehmens</b> ausführt.</div>
+    </div>
+    ${[
+      ['👤','Wer?','Unternehmer (§ 2 UStG) – kein Verbraucher'],
+      ['📍','Wo?','Inland – Leistungsort bestimmt Steuerpflicht (§ 3a UStG)'],
+      ['💵','Wofür?','Gegen Entgelt – kostenlose Leistungen meist nicht steuerbar'],
+      ['🏢','Womit?','Im Rahmen des Unternehmens – private Tätigkeiten nicht'],
+    ].map(([icon,frage,antwort])=>`
+    <div style="display:flex;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05)">
+      <span style="font-size:14px;flex-shrink:0">${icon}</span>
+      <div><span style="font-size:10px;font-weight:900;color:#ff8c42">${frage}</span><span style="font-size:10px;color:rgba(255,255,255,.55);font-weight:700;margin-left:6px">${antwort}</span></div>
+    </div>`).join('')}
+  </div>
+
+  <div style="display:flex;gap:8px">
+    <button onclick="_introNext('ust',1)" style="flex:3;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#c0581a,#7a3000);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Warum brauche ich das? →</button>
+    <button onclick="_introNext('ust',99)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.35);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">Überspr.</button>
+  </div>`;
+}
+
+function _renderIntro_ust_warum(a){
+  a.classList.add('basics-dark-mode');
+  a.innerHTML=`
+  <div style="background:linear-gradient(135deg,#1a0c02,#4a2000);border-radius:18px;padding:18px;margin-bottom:14px">
+    <div style="font-size:10px;font-family:'Space Mono',monospace;color:#ff8c42;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">🛒 Warum brauche ich die USt?</div>
+    <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:12px">Die USt ist umsatzstärkste Steuerquelle des Staates – und voller Fallstricke.</div>
+
+    <div style="background:rgba(255,255,255,.04);border-radius:12px;padding:12px;margin-bottom:10px">
+      <div style="font-size:10px;font-weight:900;color:#ffd94a;margin-bottom:8px">💰 Was die USt bringt</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div style="background:rgba(255,140,66,.1);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-size:22px;font-weight:900;color:#ff8c42;font-family:'Space Mono',monospace">~280 Mrd.</div>
+          <div style="font-size:9px;color:rgba(255,255,255,.5);font-weight:700">USt-Einnahmen 2024 (Deutschland)</div>
+        </div>
+        <div style="background:rgba(255,140,66,.1);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-size:22px;font-weight:900;color:#ff8c42;font-family:'Space Mono',monospace">~32%</div>
+          <div style="font-size:9px;color:rgba(255,255,255,.5);font-weight:700">aller Steuereinnahmen</div>
+        </div>
+      </div>
+    </div>
+
+    ${[
+      {icon:'🧾',title:'Voranmeldungen prüfen',desc:'Unternehmer melden USt monatlich/quartalsweise vorab – du prüfst Stimmigkeit und erkennst Auffälligkeiten.',color:'#e67e22'},
+      {icon:'🔍',title:'Vorsteuer-Betrug aufdecken',desc:'USt-Karusselle (Betrug mit Scheinfirmen) kosten den Staat Milliarden. Finanzbeamte erkennen die Muster.',color:'#c0392b'},
+      {icon:'📍',title:'Leistungsort bestimmen',desc:'Bei internationalen Transaktionen entscheidet der Leistungsort ob überhaupt deutsche USt anfällt (§ 3a UStG).',color:'#3a78c0'},
+    ].map(s=>`
+    <div style="display:flex;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06)">
+      <span style="font-size:22px;flex-shrink:0">${s.icon}</span>
+      <div>
+        <div style="font-size:11px;font-weight:900;color:${s.color}">${s.title}</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">${s.desc}</div>
+      </div>
+    </div>`).join('')}
+  </div>
+
+  <div style="background:rgba(255,217,74,.07);border:1px solid rgba(255,217,74,.2);border-radius:12px;padding:12px;margin-bottom:14px">
+    <div style="font-size:11px;font-weight:900;color:#ffd94a;margin-bottom:5px">🔑 Das USt-System auf einen Blick</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.65);font-weight:700;line-height:1.7">Unternehmer berechnen USt auf ihre Umsätze → dürfen aber die ihnen berechnete USt (<b>Vorsteuer</b>) abziehen. Ans FA zahlen sie nur die <b>Differenz (Zahllast)</b>. Der Endverbraucher kann keine Vorsteuer abziehen → er trägt die gesamte Steuerlast.</div>
+  </div>
+
+  <div style="display:flex;gap:8px">
+    <button onclick="_introNext('ust',0)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">← Zurück</button>
+    <button onclick="_introNext('ust',2)" style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#c0581a,#7a3000);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">7 % oder 19 %? →</button>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════════════════════
+// BILANZ – Was ist die Bilanz?
+// ══════════════════════════════════════════════════════════════
+function _renderIntro_bilanz_was(a){
+  a.classList.add('basics-dark-mode');
+  a.innerHTML=`
+  <div style="background:linear-gradient(160deg,#0a2a18,#1a5a30);border-radius:20px;overflow:hidden;margin-bottom:14px">
+    <svg viewBox="0 0 360 185" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+      <rect width="360" height="185" fill="#071a10"/>
+      <!-- Bilanz-Waage visual -->
+      <line x1="180" y1="30" x2="180" y2="75" stroke="#00c97b" stroke-width="3"/>
+      <circle cx="180" cy="28" r="6" fill="#00c97b"/>
+      <!-- Waagebalken -->
+      <line x1="70" y1="75" x2="290" y2="75" stroke="#00c97b" stroke-width="2.5"/>
+      <!-- Linke Schale: AKTIVA -->
+      <line x1="95" y1="75" x2="95" y2="105" stroke="#7eb8ff" stroke-width="1.5"/>
+      <rect x="50" y="105" width="90" height="55" fill="rgba(58,120,192,.2)" stroke="#3a78c0" stroke-width="1.5" rx="4"/>
+      <text x="95" y="122" font-size="9" fill="#7eb8ff" font-family="sans-serif" font-weight="900" text-anchor="middle">AKTIVA</text>
+      <text x="95" y="134" font-size="7.5" fill="rgba(255,255,255,.5)" font-family="sans-serif" text-anchor="middle">Was besitze ich?</text>
+      <text x="95" y="145" font-size="7" fill="rgba(255,255,255,.35)" font-family="sans-serif" text-anchor="middle">Maschinen, Bank,</text>
+      <text x="95" y="155" font-size="7" fill="rgba(255,255,255,.35)" font-family="sans-serif" text-anchor="middle">Forderungen...</text>
+      <!-- Rechte Schale: PASSIVA -->
+      <line x1="265" y1="75" x2="265" y2="105" stroke="#ff8c42" stroke-width="1.5"/>
+      <rect x="220" y="105" width="90" height="55" fill="rgba(230,126,34,.2)" stroke="#e67e22" stroke-width="1.5" rx="4"/>
+      <text x="265" y="122" font-size="9" fill="#ff8c42" font-family="sans-serif" font-weight="900" text-anchor="middle">PASSIVA</text>
+      <text x="265" y="134" font-size="7.5" fill="rgba(255,255,255,.5)" font-family="sans-serif" text-anchor="middle">Wie finanziert?</text>
+      <text x="265" y="145" font-size="7" fill="rgba(255,255,255,.35)" font-family="sans-serif" text-anchor="middle">Eigenkapital,</text>
+      <text x="265" y="155" font-size="7" fill="rgba(255,255,255,.35)" font-family="sans-serif" text-anchor="middle">Schulden...</text>
+      <!-- Gleichgewicht -->
+      <text x="180" y="100" font-size="18" text-anchor="middle">⚖️</text>
+      <!-- Goldene Regel -->
+      <text x="180" y="170" font-size="10" fill="#00c97b" font-family="monospace" font-weight="900" text-anchor="middle">AKTIVA = PASSIVA (immer!)</text>
+      <!-- Betrag Beispiele -->
+      <text x="95" y="168" font-size="9" fill="#7eb8ff" font-family="monospace" font-weight="900" text-anchor="middle">250.000 €</text>
+      <text x="265" y="168" font-size="9" fill="#ff8c42" font-family="monospace" font-weight="900" text-anchor="middle">250.000 €</text>
+    </svg>
+    <div style="padding:0 18px 18px">
+      <div style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">📋 Bilanz Basics · Was ist das?</div>
+      <div style="font-size:18px;font-weight:900;color:#fff;line-height:1.3;margin-bottom:6px">Die Bilanz ist eine Momentaufnahme: Was hat das Unternehmen – und wem gehört es?</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.65">§ 242 HGB: Jeder Kaufmann muss zu Beginn und zum Schluss jedes Geschäftsjahres eine Bilanz aufstellen. Aktiva = Passiva – diese Gleichung ist das Herzstück der doppelten Buchführung.</div>
+    </div>
+  </div>
+
+  <div style="background:rgba(255,255,255,.04);border-radius:14px;padding:14px;margin-bottom:12px">
+    <div style="font-size:11px;font-weight:900;color:#fff;margin-bottom:10px">Aktiva vs. Passiva – der Unterschied</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div style="background:rgba(58,120,192,.1);border:1px solid rgba(58,120,192,.3);border-radius:10px;padding:10px">
+        <div style="font-size:10px;font-family:'Space Mono',monospace;color:#7eb8ff;font-weight:700;margin-bottom:6px">AKTIVA (links)</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.6"><b style="color:#fff">Was gehört dem Unternehmen?</b><br><br>📦 Anlagevermögen:<br>Maschinen, Gebäude, Fuhrpark<br><br>💼 Umlaufvermögen:<br>Kasse, Bank, Vorräte, Forderungen</div>
+      </div>
+      <div style="background:rgba(230,126,34,.1);border:1px solid rgba(230,126,34,.3);border-radius:10px;padding:10px">
+        <div style="font-size:10px;font-family:'Space Mono',monospace;color:#ff8c42;font-weight:700;margin-bottom:6px">PASSIVA (rechts)</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.6"><b style="color:#fff">Wer hat es finanziert?</b><br><br>💰 Eigenkapital:<br>Einlagen der Eigentümer + Gewinne<br><br>📋 Fremdkapital:<br>Bankdarlehen, Verbindlichkeiten</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:8px">
+    <button onclick="_introNext('bilanz',1)" style="flex:3;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#1a5a30,#0a2a18);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Warum brauche ich das? →</button>
+    <button onclick="_introNext('bilanz',99)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.35);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">Überspr.</button>
+  </div>`;
+}
+
+function _renderIntro_bilanz_warum(a){
+  a.classList.add('basics-dark-mode');
+  a.innerHTML=`
+  <div style="background:linear-gradient(135deg,#0a2a18,#1a5a30);border-radius:18px;padding:18px;margin-bottom:14px">
+    <div style="font-size:10px;font-family:'Space Mono',monospace;color:#7effa0;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">📋 Warum brauche ich Bilanz/Buchführung?</div>
+    <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:12px">Buchführung ist die Sprache des Geldes – als Finanzbeamter musst du sie lesen können.</div>
+
+    <div style="background:rgba(255,255,255,.04);border-radius:12px;padding:12px;margin-bottom:12px">
+      <div style="font-size:10px;font-weight:900;color:#ffd94a;margin-bottom:8px">🔍 Was du in der Praxis prüfst:</div>
+      ${[
+        {icon:'📊',title:'Gewinnermittlung',desc:'Aus der GuV (Gewinn- und Verlustrechnung) liest du den steuerlichen Gewinn – Grundlage für ESt, KSt, GewSt.'},
+        {icon:'🕵️',title:'Manipulationen erkennen',desc:'Stimmige Buchführung vs. frisierte Bilanzen. „Wenn die Bank keinen Kredit mehr gibt, prüft das Finanzamt die Buchhaltung."'},
+        {icon:'💰',title:'Entnahmen prüfen',desc:'Hat der Unternehmer privat entnommen? Wurde es richtig gebucht? Privatentnahmen erhöhen den steuerpflichtigen Gewinn.'},
+      ].map(s=>`
+      <div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06)">
+        <span style="font-size:20px;flex-shrink:0">${s.icon}</span>
+        <div>
+          <div style="font-size:11px;font-weight:900;color:#00c97b">${s.title}</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">${s.desc}</div>
+        </div>
+      </div>`).join('')}
+    </div>
+
+    <div style="background:rgba(255,217,74,.07);border:1px solid rgba(255,217,74,.2);border-radius:12px;padding:12px">
+      <div style="font-size:11px;font-weight:900;color:#ffd94a;margin-bottom:6px">📐 Die Grundgleichung der Buchführung</div>
+      <div style="background:#0a1a10;border-radius:8px;padding:10px;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;text-align:center;line-height:2">
+        <span style="color:#7eb8ff">SOLL</span> = <span style="color:#ff8c42">HABEN</span><br>
+        <span style="color:rgba(255,255,255,.4);font-size:9px">Jeder Buchungssatz hat eine Soll- und eine Habenseite</span><br>
+        <span style="color:#00c97b">Aktiva = Passiva</span><br>
+        <span style="color:rgba(255,255,255,.4);font-size:9px">Die Bilanzsumme ist immer ausgeglichen</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:8px">
+    <button onclick="_introNext('bilanz',0)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">← Zurück</button>
+    <button onclick="_introNext('bilanz',2)" style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#1a5a30,#0a2a18);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">T-Konto & Buchungssätze →</button>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════════════════════
+// RECHT – Was ist Privatrecht?
+// ══════════════════════════════════════════════════════════════
+function _renderIntro_recht_was(a){
+  a.classList.add('basics-dark-mode');
+  a.innerHTML=`
+  <div style="background:linear-gradient(160deg,#1a0a3e,#4a1a8f);border-radius:20px;overflow:hidden;margin-bottom:14px">
+    <svg viewBox="0 0 360 175" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+      <rect width="360" height="175" fill="#100820"/>
+      <!-- Rechtssystem-Übersicht -->
+      <rect x="10" y="15" width="340" height="32" fill="#2a1a5e" rx="6"/>
+      <text x="180" y="36" font-size="11" fill="#c8a0ff" font-family="sans-serif" font-weight="900" text-anchor="middle">Rechtssystem Deutschland</text>
+      <!-- Zwei Hauptzweige -->
+      <line x1="90" y1="47" x2="90" y2="70" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>
+      <line x1="270" y1="47" x2="270" y2="70" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>
+      <line x1="90" y1="47" x2="270" y2="47" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+      <!-- Privatrecht Box -->
+      <rect x="15" y="70" width="155" height="95" fill="rgba(123,94,167,.2)" stroke="#7b5ea7" stroke-width="2" rx="8"/>
+      <text x="92" y="88" font-size="10" fill="#c8a0ff" font-family="sans-serif" font-weight="900" text-anchor="middle">PRIVATRECHT</text>
+      <text x="92" y="100" font-size="8" fill="rgba(255,255,255,.4)" font-family="sans-serif" text-anchor="middle">zwischen Bürger ↔ Bürger</text>
+      ${[['BGB','Kaufvertrag, Miete'],['HGB','Handelsrecht'],['GmbHG','Gesellschaftsrecht'],['InsO','Insolvenz']].map(([g,e],i)=>`
+      <text x="28" y="${115+i*13}" font-size="8" fill="#c8a0ff" font-family="monospace" font-weight="700">${g}</text>
+      <text x="70" y="${115+i*13}" font-size="7.5" fill="rgba(255,255,255,.4)" font-family="sans-serif">${e}</text>`).join('')}
+      <!-- Öffentliches Recht Box -->
+      <rect x="190" y="70" width="160" height="95" fill="rgba(58,120,192,.2)" stroke="#3a78c0" stroke-width="2" rx="8"/>
+      <text x="270" y="88" font-size="10" fill="#7eb8ff" font-family="sans-serif" font-weight="900" text-anchor="middle">ÖFFENTL. RECHT</text>
+      <text x="270" y="100" font-size="8" fill="rgba(255,255,255,.4)" font-family="sans-serif" text-anchor="middle">Staat ↔ Bürger</text>
+      ${[['AO','Abgabenordnung'],['EStG','Einkommensteuer'],['GG','Grundgesetz'],['VwGO','Verwaltungsgericht']].map(([g,e],i)=>`
+      <text x="203" y="${115+i*13}" font-size="8" fill="#7eb8ff" font-family="monospace" font-weight="700">${g}</text>
+      <text x="240" y="${115+i*13}" font-size="7.5" fill="rgba(255,255,255,.4)" font-family="sans-serif">${e}</text>`).join('')}
+      <!-- Du-Pfeil -->
+      <text x="180" y="158" font-size="20" text-anchor="middle">👆</text>
+      <text x="180" y="172" font-size="8" fill="rgba(255,255,255,.3)" font-family="sans-serif" text-anchor="middle">Als Finanzbeamter arbeitest du in beiden Bereichen</text>
+    </svg>
+    <div style="padding:0 18px 18px">
+      <div style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">🏛️ Recht Basics · Was ist das?</div>
+      <div style="font-size:18px;font-weight:900;color:#fff;line-height:1.3;margin-bottom:6px">Privatrecht regelt das Miteinander von Menschen. Öffentliches Recht regelt den Staat.</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.65">Im Finanzamt begegnest du beiden: Die <b style="color:#c8a0ff">AO ist öffentliches Recht</b> – das Verhältnis Staat/FA zu Bürger. Aber <b style="color:#7eb8ff">wer wirksam geschenkt, vererbt oder verkauft hat</b>, richtet sich nach dem BGB (Privatrecht).</div>
+    </div>
+  </div>
+
+  <div style="background:rgba(255,255,255,.04);border-radius:14px;padding:14px;margin-bottom:12px">
+    <div style="font-size:11px;font-weight:900;color:#fff;margin-bottom:10px">Warum das BGB im Finanzamt wichtig ist:</div>
+    ${[
+      ['🎁','Schenkung','Hat jemand wirksam geschenkt? BGB bestimmt Wirksamkeit → dann Schenkungsteuer.'],
+      ['⚰️','Erbschaft','Wer ist Erbe? BGB §§ 1922 ff. → dann ErbSt-Festsetzung durch FA.'],
+      ['🏢','GmbH-Gründung','Gesellschaftsvertrag wirksam? BGB/GmbHG → dann KSt-Pflicht.'],
+      ['📋','Mietvertrag','Vermieter vs. Mieter? Einkünfte § 21 EStG nur bei rechtswirksamem Mietverhältnis.'],
+    ].map(([icon,title,desc])=>`
+    <div style="display:flex;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06)">
+      <span style="font-size:18px;flex-shrink:0">${icon}</span>
+      <div><div style="font-size:10px;font-weight:900;color:#c8a0ff">${title}</div><div style="font-size:10px;color:rgba(255,255,255,.45);font-weight:700;line-height:1.4">${desc}</div></div>
+    </div>`).join('')}
+  </div>
+
+  <div style="display:flex;gap:8px">
+    <button onclick="_introNext('recht',1)" style="flex:3;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#4a1a8f,#2a0a5e);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Warum brauche ich das? →</button>
+    <button onclick="_introNext('recht',99)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.35);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">Überspr.</button>
+  </div>`;
+}
+
+function _renderIntro_recht_warum(a){
+  a.classList.add('basics-dark-mode');
+  a.innerHTML=`
+  <div style="background:linear-gradient(135deg,#1a0a3e,#3a1080);border-radius:18px;padding:18px;margin-bottom:14px">
+    <div style="font-size:10px;font-family:'Space Mono',monospace;color:#c8a0ff;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">🏛️ Warum brauche ich Privatrecht?</div>
+    <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:12px">Im Finanzamt brauchst du Privatrecht um steuerliche Sachverhalte überhaupt beurteilen zu können.</div>
+
+    <div style="background:rgba(255,255,255,.04);border-radius:12px;padding:12px;margin-bottom:10px">
+      <div style="font-size:10px;font-weight:900;color:#ffd94a;margin-bottom:8px">📚 Konkrete Praxis-Situationen:</div>
+      ${[
+        {icon:'📱',sit:'Vater schenkt seiner 16-jährigen Tochter ein Handy für 1.200 €.',frage:'Unterliegt das der Schenkungsteuer?',antwort:'Nur wenn die Schenkung zivilrechtlich wirksam ist (§§ 516 ff. BGB). Bei Minderjährigen: lediglich vorteilhaft → § 107 BGB → wirksam ohne Eltern → Schenkungsteuer prüfen.'},
+        {icon:'🤝',sit:'GmbH-Gesellschafter beschließen eine Gewinnausschüttung.',frage:'Wann unterliegt die Ausschüttung der KapESt?',antwort:'Nur wenn der Gesellschafterbeschluss wirksam ist (GmbHG, BGB). Formfehler bei der Beschlussfassung können steuerliche Wirkung verhindern.'},
+        {icon:'🏠',sit:'Eheleute verkaufen ein Grundstück, das nur einem gehört.',frage:'Wem sind die Einkünfte zuzurechnen?',antwort:'§ 39 AO: Einkünfte werden dem wirtschaftlichen Eigentümer zugerechnet. Das richtet sich nach Zivilrecht (§§ 929 ff. BGB – wem gehört es wirklich?).'},
+      ].map(s=>`
+      <div style="background:rgba(255,255,255,.03);border-radius:8px;padding:10px;margin-bottom:6px">
+        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.7);margin-bottom:5px"><span style="font-size:16px;margin-right:6px">${s.icon}</span>${s.sit}</div>
+        <div style="font-size:10px;font-weight:900;color:#c8a0ff;margin-bottom:3px">❓ ${s.frage}</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.5">→ ${s.antwort}</div>
+      </div>`).join('')}
+    </div>
+  </div>
+
+  <div style="background:rgba(255,217,74,.07);border:1px solid rgba(255,217,74,.2);border-radius:12px;padding:12px;margin-bottom:14px">
+    <div style="font-size:11px;font-weight:900;color:#ffd94a;margin-bottom:5px">💡 Grundsatz</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.65);font-weight:700;line-height:1.7">Das Steuerrecht knüpft an <b>zivilrechtliche Vorgänge</b> an. Bevor du die Steuerpflicht prüfst, musst du wissen: <i>Ist das rechtlich überhaupt passiert?</i> War der Vertrag wirksam? War die Person geschäftsfähig? Privatrecht kommt zuerst.</div>
+  </div>
+
+  <div style="display:flex;gap:8px">
+    <button onclick="_introNext('recht',0)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">← Zurück</button>
+    <button onclick="_introNext('recht',2)" style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#4a1a8f,#2a0a5e);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Geschäftsfähigkeit & BGB →</button>
+  </div>`;
+}
