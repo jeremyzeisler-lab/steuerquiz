@@ -1668,7 +1668,21 @@ const AOB_KEY='aoBasicsProgress';
 function getAobProgress(){try{return JSON.parse(localStorage.getItem(AOB_KEY)||'{}');}catch(e){return{};}}
 function saveAobProgress(i){const p=getAobProgress();p[i]=true;localStorage.setItem(AOB_KEY,JSON.stringify(p));}
 
+
+// ==================== BASICS INTRO STATE ====================
+let _introStep = {ao:0, recht:0, ust:0, bilanz:0, est:0};
+let _introQuiz = {}; // {ao_0: true, recht_2: false, ...}
+function _introNext(mod, step){ _introStep[mod]=step; render(); }
+function _introShowAnswer(mod, idx){ _introQuiz[mod+'_'+idx]=true; render(); }
+
 function renderAoBasics(a){
+  if(_introStep['ao']===0){ _renderIntro_ao_0(a); return; }
+  if(_introStep['ao']===1){ _renderIntro_ao_1(a); return; }
+  if(_introStep['ao']===2){ _renderIntro_ao_2(a); return; }
+  // else: show original content
+  _renderIntro_ao_content(a);
+}
+function _renderIntro_ao_content(a){
   a.classList.add('basics-dark-mode');
   const prog=getAobProgress();
   const done=Object.keys(prog).length;
@@ -1819,6 +1833,13 @@ function getRbProgress(){try{return JSON.parse(localStorage.getItem(RB_KEY)||'{}
 function saveRbProgress(i){const p=getRbProgress();p[i]=true;localStorage.setItem(RB_KEY,JSON.stringify(p));}
 
 function renderRechtBasics(a){
+  if(_introStep['recht']===0){ _renderIntro_recht_0(a); return; }
+  if(_introStep['recht']===1){ _renderIntro_recht_1(a); return; }
+  if(_introStep['recht']===2){ _renderIntro_recht_2(a); return; }
+  // else: show original content
+  _renderIntro_recht_content(a);
+}
+function _renderIntro_recht_content(a){
   a.classList.add('basics-dark-mode');
   const prog=getRbProgress();
   const done=Object.keys(prog).length;
@@ -2056,6 +2077,13 @@ function getUstProgress(){try{return JSON.parse(localStorage.getItem(UST_KEY)||'
 function saveUstProgress(i){const p=getUstProgress();p[i]=true;localStorage.setItem(UST_KEY,JSON.stringify(p));}
 
 function renderUstBasics(a){
+  if(_introStep['ust']===0){ _renderIntro_ust_0(a); return; }
+  if(_introStep['ust']===1){ _renderIntro_ust_1(a); return; }
+  if(_introStep['ust']===2){ _renderIntro_ust_2(a); return; }
+  // else: show original content
+  _renderIntro_ust_content(a);
+}
+function _renderIntro_ust_content(a){
   a.classList.add('basics-dark-mode');
   const prog=getUstProgress();
   const done=Object.keys(prog).length;
@@ -2312,6 +2340,13 @@ function getBilanzProgress(){try{return JSON.parse(localStorage.getItem(BILANZ_K
 function saveBilanzProgress(i){const p=getBilanzProgress();p[i]=true;localStorage.setItem(BILANZ_KEY,JSON.stringify(p));}
 
 function renderBilanzBasics(a){
+  if(_introStep['bilanz']===0){ _renderIntro_bilanz_0(a); return; }
+  if(_introStep['bilanz']===1){ _renderIntro_bilanz_1(a); return; }
+  if(_introStep['bilanz']===2){ _renderIntro_bilanz_2(a); return; }
+  // else: show original content
+  _renderIntro_bilanz_content(a);
+}
+function _renderIntro_bilanz_content(a){
   a.classList.add('basics-dark-mode');
   const prog=getBilanzProgress();
   const done=Object.keys(prog).length;
@@ -2610,6 +2645,13 @@ function getEstProgress(){try{return JSON.parse(localStorage.getItem(EST_BASICS_
 function saveEstProgress(i){const p=getEstProgress();p[i]=true;localStorage.setItem(EST_BASICS_KEY,JSON.stringify(p));}
 
 function renderEstBasics(a){
+  if(_introStep['est']===0){ _renderIntro_est_0(a); return; }
+  if(_introStep['est']===1){ _renderIntro_est_1(a); return; }
+  if(_introStep['est']===2){ _renderIntro_est_2(a); return; }
+  // else: show original content
+  _renderIntro_est_content(a);
+}
+function _renderIntro_est_content(a){
   a.classList.add('basics-dark-mode');
   const prog=getEstProgress();
   const done=Object.keys(prog).length;
@@ -2891,3 +2933,452 @@ async function aiSend() {
 
 init();
 render();
+
+// ==================== BASICS INTRO SCENES ====================
+
+// ── AO ────────────────────────────────────────────────────────────
+function _renderIntro_ao_0(a){
+  a.classList.add('basics-dark-mode');
+  a.innerHTML=`
+  <div style="background:linear-gradient(160deg,#0a1635,#1a3a8f);border-radius:20px;overflow:hidden;margin-bottom:14px">
+    <svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+      <rect width="360" height="200" fill="#0d1830"/>
+      <rect x="0" y="148" width="360" height="52" fill="#2a1a08"/>
+      <rect x="0" y="143" width="360" height="10" fill="#3d2510"/>
+      <rect x="35" y="55" width="180" height="110" fill="#fffef9" rx="6" transform="rotate(-1 125 110)"/>
+      <rect x="35" y="48" width="78" height="14" fill="#3a78c0" rx="3 3 0 0"/>
+      <text x="74" y="59" font-size="8" fill="#fff" font-family="sans-serif" font-weight="700" text-anchor="middle">MUELLER, Hans</text>
+      <line x1="52" y1="74" x2="195" y2="74" stroke="#ddd" stroke-width="1.5"/>
+      <line x1="52" y1="84" x2="210" y2="84" stroke="#ddd" stroke-width="1.5"/>
+      <rect x="50" y="88" width="165" height="13" fill="rgba(255,217,74,.4)" rx="2"/>
+      <text x="53" y="98" font-size="8.5" fill="#6a5000" font-family="monospace" font-weight="700">Jahreseinkommen: 87.400 EUR</text>
+      <line x1="52" y1="104" x2="200" y2="104" stroke="#ddd" stroke-width="1.5"/>
+      <line x1="52" y1="114" x2="175" y2="114" stroke="#ddd" stroke-width="1.5"/>
+      <line x1="52" y1="124" x2="205" y2="124" stroke="#ddd" stroke-width="1.5"/>
+      <rect x="148" y="62" width="82" height="19" fill="none" stroke="#c0392b" stroke-width="2.2" rx="3" transform="rotate(10 189 71)"/>
+      <text x="189" y="73" font-size="9" fill="#c0392b" font-family="monospace" font-weight="900" text-anchor="middle" transform="rotate(10 189 71)">VERTRAULICH</text>
+      <rect x="252" y="65" width="88" height="68" fill="#1a2a4a" rx="5"/>
+      <rect x="257" y="70" width="78" height="54" fill="#0d1830" rx="3"/>
+      <text x="296" y="88" font-size="7" fill="#00c97b" font-family="monospace" text-anchor="middle">FINANZAMT BERLIN</text>
+      <text x="296" y="100" font-size="6" fill="#3a88cc" font-family="monospace" text-anchor="middle">STEUERNR: *** ***</text>
+      <text x="296" y="112" font-size="6" fill="#3a88cc" font-family="monospace" text-anchor="middle">Einkommen: XXXXXX</text>
+      <ellipse cx="32" cy="143" rx="14" ry="4" fill="#3d2510"/>
+      <rect x="20" y="122" width="24" height="21" fill="#4a2f18" rx="3"/>
+      <ellipse cx="32" cy="122" rx="12" ry="3.5" fill="#6b3f20"/>
+      <path d="M28,119 Q26,115 28,111" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <div style="padding:0 18px 18px">
+      <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">AO Basics · Einführung</div>
+      <div style="font-size:18px;font-weight:900;color:#fff;line-height:1.3;margin-bottom:6px">Dieser Schreibtisch kennt mehr Geheimnisse als jeder Freund.</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.65">Als Finanzbeamter weißt du was dein Nachbar verdient – und du darfst <b style="color:#ff8c42">niemandem</b> davon erzählen.</div>
+    </div>
+  </div>
+  <div style="background:rgba(255,77,109,.07);border:1.5px solid rgba(255,77,109,.2);border-radius:13px;padding:12px;margin-bottom:14px">
+    <div style="font-size:12px;font-weight:900;color:#ff8099;margin-bottom:3px">🔒 Das Steuergeheimnis – die wichtigste Regel</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.6">§ 30 AO schützt alles was das Finanzamt über dich weiß. Eine Indiskretion kann Freiheitsstrafe und Verlust der Beamtenstelle bedeuten.</div>
+  </div>
+  <div style="display:flex;gap:8px">
+    <button onclick="_introNext('ao',1)" style="flex:3;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#3a78c0,#1a4a9f);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Was steckt dahinter? →</button>
+    <button onclick="_introNext('ao',99)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.35);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">Überspr.</button>
+  </div>`;
+}
+
+function _renderIntro_ao_1(a){
+  a.classList.add('basics-dark-mode');
+  const CASES=[
+    {sit:'Beamtin Anna erzählt ihrer Freundin beim Abendessen: „Der Bäcker Müller verdient 180k."',ok:false,icon:'😬',erkl:'§ 30 Abs. 1 AO – absolutes Verbot. Gilt auch gegenüber Familie und Freunden. § 355 StGB: bis 2 Jahre Freiheitsstrafe.'},
+    {sit:'Das FA übergibt der Staatsanwaltschaft Steuerdaten eines Verdächtigen wegen § 370 AO.',ok:true,icon:'⚖️',erkl:'§ 30 Abs. 4 Nr. 4 AO: Ausnahme für Strafverfolgung. Steuerhinterziehung ist eine Straftat → FA darf helfen.'},
+    {sit:'Beamter Tom macht ein Selfie im Büro – im Hintergrund sieht man unscharf einen Bildschirm mit Kundendaten.',ok:false,icon:'📸',erkl:'§ 30 AO schützt auch vor ungewollter Preisgabe. Selbst versehentliches Zeigen von Daten auf Fotos ist ein Verstoß.'},
+    {sit:'Steuerpflichtiger Max bittet schriftlich: „Mein Steuerberater darf alle meine Daten bekommen."',ok:true,icon:'✅',erkl:'§ 30 Abs. 4 Nr. 3 AO: Einwilligung des Betroffenen hebt das Steuergeheimnis für diesen Fall auf.'},
+  ];
+  const allDone = CASES.every((_,i) => ('ao_'+i) in _introQuiz);
+  let html=`
+  <div style="background:linear-gradient(135deg,#1a0a2e,#2a1a50);border-radius:16px;padding:14px;margin-bottom:14px">
+    <div style="font-size:9px;font-family:'Space Mono',monospace;color:#c8a0ff;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px">§ 30 AO · Interaktiv</div>
+    <div style="font-size:15px;font-weight:900;color:#fff;margin-bottom:3px">Darf der Beamte das – oder nicht?</div>
+    <div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700">Tippe auf Ja oder Nein um die Erklärung zu sehen</div>
+  </div>`;
+  CASES.forEach((c,i)=>{
+    const shown = !!_introQuiz['ao_'+i];
+    const userAns = _introQuiz['ao_ans_'+i];
+    const correct = userAns === c.ok;
+    html+=`<div style="background:#fff;border-radius:14px;border-left:5px solid ${shown?(correct?'#00c97b':'#e74c3c'):'#dde5f5'};padding:14px;margin-bottom:10px">
+      <div style="font-size:12px;font-weight:700;color:#333;line-height:1.6;margin-bottom:10px"><span style="font-size:18px;margin-right:6px">${c.icon}</span>${c.sit}</div>
+      ${!shown?`<div style="display:flex;gap:8px">
+        <button onclick="_introQuiz['ao_ans_${i}']=true;_introQuiz['ao_${i}']=true;render()" style="flex:1;padding:9px;border-radius:10px;border:2px solid #00c97b;background:rgba(0,201,123,.07);color:#007a48;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">✅ Erlaubt</button>
+        <button onclick="_introQuiz['ao_ans_${i}']=false;_introQuiz['ao_${i}']=true;render()" style="flex:1;padding:9px;border-radius:10px;border:2px solid #e74c3c;background:rgba(231,76,60,.06);color:#c0392b;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">❌ Verboten</button>
+      </div>`:`<div style="background:${correct?'rgba(0,201,123,.07)':'rgba(231,76,60,.07)'};border:1.5px solid ${correct?'rgba(0,201,123,.3)':'rgba(231,76,60,.3)'};border-radius:10px;padding:10px">
+        <div style="font-size:11px;font-weight:900;color:${correct?'#007a48':'#c0392b'};margin-bottom:3px">${correct?'✅ Richtig!':'❌ Falsch!'} – ${c.ok?'Erlaubt':'Verboten'} (§ 30 AO)</div>
+        <div style="font-size:11px;font-weight:700;color:#555;line-height:1.6">${c.erkl}</div>
+      </div>`}
+    </div>`;
+  });
+  html+=`
+  <div style="background:rgba(58,120,192,.08);border:1.5px solid rgba(58,120,192,.2);border-radius:12px;padding:12px;margin-bottom:12px">
+    <div style="font-size:10px;font-weight:900;color:var(--cyan);margin-bottom:5px">📌 Die 3 Ausnahmen des § 30 Abs. 4 AO</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.65);font-weight:700;line-height:1.7">① Einwilligung des Steuerpflichtigen<br>② Strafverfolgung / Gerichtsverfahren<br>③ Zwingende öffentliche Interessen</div>
+  </div>
+  <div style="display:flex;gap:8px">
+    <button onclick="_introNext('ao',0)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">← Zurück</button>
+    <button onclick="_introNext('ao',99)" style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#3a78c0,#1a4a9f);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Zu den AO-Übungen →</button>
+  </div>`;
+  a.innerHTML=html;
+}
+function _renderIntro_ao_2(a){ _introNext('ao',99); }
+
+// ── RECHT ─────────────────────────────────────────────────────────
+function _renderIntro_recht_0(a){
+  a.classList.add('basics-dark-mode');
+  a.innerHTML=`
+  <div style="background:linear-gradient(160deg,#1a0a3e,#4a1a8f);border-radius:20px;overflow:hidden;margin-bottom:14px">
+    <svg viewBox="0 0 360 170" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+      <rect width="360" height="170" fill="#140828"/>
+      <rect x="40" y="35" width="160" height="115" fill="#1a1a2e" rx="6"/>
+      <rect x="40" y="35" width="160" height="28" fill="#2a1a5e" rx="6 6 0 0"/>
+      <text x="120" y="53" font-size="10" fill="#c8a0ff" font-family="sans-serif" font-weight="900" text-anchor="middle">BIKE WORLD</text>
+      <circle cx="110" cy="115" r="26" fill="none" stroke="#7eb8ff" stroke-width="3"/>
+      <circle cx="155" cy="115" r="26" fill="none" stroke="#7eb8ff" stroke-width="3"/>
+      <line x1="110" y1="115" x2="132" y2="92" stroke="#7eb8ff" stroke-width="2"/>
+      <line x1="132" y1="92" x2="155" y2="115" stroke="#7eb8ff" stroke-width="2"/>
+      <line x1="132" y1="92" x2="132" y2="78" stroke="#7eb8ff" stroke-width="2"/>
+      <line x1="122" y1="78" x2="145" y2="78" stroke="#7eb8ff" stroke-width="3"/>
+      <rect x="55" y="60" width="55" height="20" fill="#ffd94a" rx="3"/>
+      <text x="82" y="74" font-size="11" fill="#333" font-family="sans-serif" font-weight="900" text-anchor="middle">1.200 €</text>
+      <circle cx="265" cy="70" r="22" fill="#ffaa66"/>
+      <text x="265" y="78" font-size="20" text-anchor="middle">🧒</text>
+      <rect x="235" y="95" width="70" height="50" fill="#fffef9" rx="4"/>
+      <text x="270" y="110" font-size="8" fill="#1a3a8f" font-family="sans-serif" font-weight="900" text-anchor="middle">KAUFVERTRAG</text>
+      <text x="270" y="135" font-size="8" fill="#c0392b" font-family="sans-serif" text-anchor="middle">Max, 15 J. ✍</text>
+      <text x="320" y="88" font-size="42" fill="rgba(255,140,66,.35)" font-family="sans-serif" font-weight="900">?</text>
+    </svg>
+    <div style="padding:0 18px 18px">
+      <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">Recht Basics · Einführung</div>
+      <div style="font-size:17px;font-weight:900;color:#fff;line-height:1.3;margin-bottom:6px">Max (15) unterschreibt einen Kaufvertrag über 1.200 € auf Raten. Gültig?</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.65">Das BGB regelt wer Verträge schließen darf. Die Antwort überrascht viele.</div>
+    </div>
+  </div>
+  <div style="background:rgba(255,255,255,.04);border-radius:14px;padding:14px;margin-bottom:14px">
+    <div style="font-size:11px;font-weight:900;color:#fff;margin-bottom:10px">Die 3 Stufen der Geschäftsfähigkeit</div>
+    <div style="display:flex;gap:0;border-radius:10px;overflow:hidden">
+      ${[{a:'0–6 J.',t:'Geschäfts-\nunfähig',p:'§ 104 Nr. 1',c:'#c0392b',i:'👶'},
+         {a:'7–17 J.',t:'Beschränkt\nfähig',p:'§§ 106–113',c:'#e67e22',i:'🧒'},
+         {a:'Ab 18 J.',t:'Voll\nfähig',p:'§ 2 BGB',c:'#00c97b',i:'🧑'}].map(s=>`
+      <div style="flex:1;background:${s.c}22;border:1px solid ${s.c}44;padding:10px 6px;text-align:center">
+        <div style="font-size:18px">${s.i}</div>
+        <div style="font-size:9px;font-weight:900;color:#fff;white-space:pre-line;line-height:1.3">${s.t}</div>
+        <div style="font-size:8px;color:${s.c};font-family:'Space Mono',monospace;font-weight:700;margin-top:3px">${s.p}</div>
+      </div>`).join('')}
+    </div>
+  </div>
+  <div style="background:rgba(200,160,255,.07);border:1px solid rgba(200,160,255,.2);border-radius:12px;padding:12px;margin-bottom:14px">
+    <div style="font-size:11px;font-weight:900;color:#c8a0ff;margin-bottom:6px">Die 3 wichtigsten Ausnahmen für 7–17-Jährige:</div>
+    ${[['§ 107','Nur vorteilhaft','Schenken bekommt – kein Nachteil → ohne Eltern OK'],
+       ['§ 110','Taschengeld','Eigenes Taschengeld ausgeben → sofort wirksam'],
+       ['§ 113','Arbeitslohn','Lehrling kann Lohn frei verwalten wenn Eltern Ausbildung OK']].map(([p,t,b])=>`
+    <div style="display:flex;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05)">
+      <span style="font-size:9px;font-family:'Space Mono',monospace;color:#c8a0ff;font-weight:700;background:rgba(200,160,255,.1);padding:2px 6px;border-radius:100px;flex-shrink:0;height:fit-content">${p}</span>
+      <div><div style="font-size:10px;font-weight:900;color:#fff">${t}</div><div style="font-size:10px;color:rgba(255,255,255,.45);font-weight:700">${b}</div></div>
+    </div>`).join('')}
+  </div>
+  <div style="display:flex;gap:8px">
+    <button onclick="_introNext('recht',1)" style="flex:3;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#4a1a8f,#2a0a5e);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Quiz: Vertrag gültig? →</button>
+    <button onclick="_introNext('recht',99)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.35);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">Überspr.</button>
+  </div>`;
+}
+
+function _renderIntro_recht_1(a){
+  a.classList.add('basics-dark-mode');
+  const CASES=[
+    {sit:'Kim (8) kauft für 2 € ein Eis mit gefundenem Geld.',ok:true,icon:'🍦',erkl:'§ 107 BGB: Kauf ist lediglich vorteilhaft. § 110 BGB: Kauf mit überlassenem Geld. Wirksam ohne Eltern.'},
+    {sit:'Max (16) kauft einen Gaming-PC (24 × 50 €) auf Raten, Eltern wissen nichts.',ok:false,icon:'💻',erkl:'§ 108 BGB: Ratenzahlung = Schulden eingehen = rechtlich nachteilig. Schwebend unwirksam bis zur Elterngenehmigung.'},
+    {sit:'Anna (17, Azubi, Eltern haben zugestimmt) kauft vom Lohn ein Fahrrad.',ok:true,icon:'🚲',erkl:'§ 113 BGB: Lohn aus Ausbildung kann frei verwaltet werden. Kauf eines Fahrrads ist alltägliche Verwaltung des Lohns.'},
+    {sit:'Lars unterschreibt stark betrunken auf einer Party einen Vereinsbeitrag für 800 €/Jahr.',ok:false,icon:'🍻',erkl:'§ 104 Nr. 2 BGB: Starke Trunkenheit = vorübergehende Geschäftsunfähigkeit möglich. Willenserklärung nichtig (§ 105 BGB).'},
+  ];
+  const allDone = CASES.every((_,i) => ('recht_'+i) in _introQuiz);
+  let html=`
+  <div style="background:linear-gradient(135deg,#1a0a3e,#2a1050);border-radius:16px;padding:14px;margin-bottom:14px">
+    <div style="font-size:10px;font-family:'Space Mono',monospace;color:#c8a0ff;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px">Quiz · Vertrag wirksam?</div>
+    <div style="font-size:15px;font-weight:900;color:#fff">Ja – wirksam oder Nein – unwirksam?</div>
+  </div>`;
+  CASES.forEach((c,i)=>{
+    const shown = !!_introQuiz['recht_'+i];
+    const ua = _introQuiz['recht_ans_'+i];
+    const correct = ua === c.ok;
+    html+=`<div style="background:#fff;border-radius:14px;border-left:5px solid ${shown?(correct?'#00c97b':'#e74c3c'):'#dde5f5'};padding:14px;margin-bottom:10px">
+      <div style="font-size:12px;font-weight:700;color:#333;line-height:1.6;margin-bottom:10px"><span style="font-size:18px;margin-right:6px">${c.icon}</span>${c.sit}</div>
+      ${!shown?`<div style="display:flex;gap:8px">
+        <button onclick="_introQuiz['recht_ans_${i}']=true;_introQuiz['recht_${i}']=true;render()" style="flex:1;padding:9px;border-radius:10px;border:2px solid #00c97b;background:rgba(0,201,123,.07);color:#007a48;font-family:'Nunito',sans-serif;font-weight:900;font-size:12px;cursor:pointer">✅ Wirksam</button>
+        <button onclick="_introQuiz['recht_ans_${i}']=false;_introQuiz['recht_${i}']=true;render()" style="flex:1;padding:9px;border-radius:10px;border:2px solid #e74c3c;background:rgba(231,76,60,.06);color:#c0392b;font-family:'Nunito',sans-serif;font-weight:900;font-size:12px;cursor:pointer">❌ Unwirksam</button>
+      </div>`:`<div style="background:${correct?'rgba(0,201,123,.07)':'rgba(231,76,60,.07)'};border:1.5px solid ${correct?'rgba(0,201,123,.3)':'rgba(231,76,60,.3)'};border-radius:10px;padding:10px">
+        <div style="font-size:11px;font-weight:900;color:${correct?'#007a48':'#c0392b'};margin-bottom:3px">${correct?'✅ Richtig!':'❌ Falsch!'} – ${c.ok?'Wirksam':'Unwirksam'}</div>
+        <div style="font-size:11px;font-weight:700;color:#555;line-height:1.6">${c.erkl}</div>
+      </div>`}
+    </div>`;
+  });
+  html+=`<div style="display:flex;gap:8px">
+    <button onclick="_introNext('recht',0)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">← Zurück</button>
+    <button onclick="_introNext('recht',99)" style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#4a1a8f,#2a0a5e);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Zu den Recht-Übungen →</button>
+  </div>`;
+  a.innerHTML=html;
+}
+function _renderIntro_recht_2(a){ _introNext('recht',99); }
+
+// ── UST ──────────────────────────────────────────────────────────
+function _renderIntro_ust_0(a){
+  a.classList.add('basics-dark-mode');
+  a.innerHTML=`
+  <div style="background:linear-gradient(160deg,#1a0c02,#4a2000);border-radius:20px;overflow:hidden;margin-bottom:14px">
+    <svg viewBox="0 0 360 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+      <rect width="360" height="160" fill="#0f0600"/>
+      <rect x="20" y="25" width="140" height="120" fill="#1a0c02" rx="6"/>
+      <rect x="20" y="25" width="140" height="24" fill="#2a1504" rx="6 6 0 0"/>
+      <text x="90" y="41" font-size="9" fill="#ff8c42" font-family="sans-serif" font-weight="700" text-anchor="middle">SUPERMARKT</text>
+      <rect x="30" y="60" width="28" height="32" fill="#ffd94a" rx="3"/>
+      <text x="44" y="72" font-size="7" fill="#333" font-family="sans-serif" font-weight="700" text-anchor="middle">Brot</text>
+      <text x="44" y="83" font-size="8" fill="#333" font-family="sans-serif" font-weight="900" text-anchor="middle">7%</text>
+      <rect x="65" y="60" width="28" height="32" fill="#e74c3c" rx="3"/>
+      <text x="79" y="72" font-size="7" fill="#fff" font-family="sans-serif" font-weight="700" text-anchor="middle">Wein</text>
+      <text x="79" y="83" font-size="8" fill="#fff" font-family="sans-serif" font-weight="900" text-anchor="middle">19%</text>
+      <rect x="100" y="60" width="28" height="32" fill="#3a78c0" rx="3"/>
+      <text x="114" y="72" font-size="6" fill="#fff" font-family="sans-serif" font-weight="700" text-anchor="middle">Kaffee</text>
+      <text x="114" y="84" font-size="7" fill="#ffd94a" font-family="sans-serif" font-weight="900" text-anchor="middle">19%?</text>
+      <text x="30" y="112" font-size="7" fill="#ffd94a" font-family="sans-serif" font-weight="700">Gurke: 7%</text>
+      <text x="30" y="123" font-size="7" fill="#ff8c42" font-family="sans-serif" font-weight="700">Red Bull: 19%</text>
+      <text x="30" y="134" font-size="7" fill="#c8a0ff" font-family="sans-serif" font-weight="700">Kaugummi: 19%</text>
+      <rect x="180" y="20" width="160" height="135" fill="#fffef9" rx="6"/>
+      <text x="260" y="36" font-size="8" fill="#333" font-family="sans-serif" font-weight="900" text-anchor="middle">KASSENBON</text>
+      <line x1="190" y1="40" x2="330" y2="40" stroke="#eee" stroke-width="1"/>
+      <text x="192" y="52" font-size="7.5" fill="#555" font-family="sans-serif">Brot (7%)</text><text x="328" y="52" font-size="7.5" fill="#555" font-family="sans-serif" text-anchor="end">2,14 €</text>
+      <text x="192" y="64" font-size="7.5" fill="#555" font-family="sans-serif">Wein (19%)</text><text x="328" y="64" font-size="7.5" fill="#555" font-family="sans-serif" text-anchor="end">11,90 €</text>
+      <text x="192" y="76" font-size="7.5" fill="#555" font-family="sans-serif">Kaffee (19%)</text><text x="328" y="76" font-size="7.5" fill="#555" font-family="sans-serif" text-anchor="end">5,95 €</text>
+      <line x1="190" y1="82" x2="328" y2="82" stroke="#aaa" stroke-width="1"/>
+      <text x="192" y="94" font-size="7.5" fill="#555" font-family="sans-serif">darin USt 7%:</text><text x="328" y="94" font-size="7.5" fill="#e67e22" font-family="sans-serif" text-anchor="end">0,14 €</text>
+      <text x="192" y="106" font-size="7.5" fill="#555" font-family="sans-serif">darin USt 19%:</text><text x="328" y="106" font-size="7.5" fill="#e67e22" font-family="sans-serif" text-anchor="end">2,83 €</text>
+      <rect x="187" y="115" width="138" height="18" fill="rgba(230,126,34,.15)" rx="3"/>
+      <text x="192" y="128" font-size="9" fill="#e67e22" font-family="sans-serif" font-weight="900">GESAMT: 19,99 €</text>
+    </svg>
+    <div style="padding:0 18px 18px">
+      <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">USt Basics · Einführung</div>
+      <div style="font-size:17px;font-weight:900;color:#fff;line-height:1.3;margin-bottom:6px">Brot 7 %, Wein 19 %, Kaffee 19 %. Was steckt dahinter?</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.65">Du zahlst USt täglich – aber weißt du wer sie wirklich trägt? Spoiler: nicht der Unternehmer.</div>
+    </div>
+  </div>
+  <div style="background:rgba(255,255,255,.04);border-radius:13px;padding:12px;margin-bottom:14px">
+    <div style="font-size:11px;font-weight:900;color:#ffd94a;margin-bottom:8px">🔄 Wer trägt die USt wirklich?</div>
+    ${[['🌲 Sägewerk','→ Schreinerei','Netto 100 € + 19 € USt','zahlt 19 € ans FA'],
+       ['🪑 Schreinerei','→ Möbelladen','Netto 300 € + 57 € USt','zahlt 38 € (57−19)'],
+       ['🏪 Möbelladen','→ Kunde','Netto 500 € + 95 € USt','zahlt 38 € (95−57)']].map(([from,to,preis,zahlt])=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06)">
+      <div style="flex:1"><div style="font-size:10px;font-weight:800;color:#fff">${from} ${to}</div><div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700">${preis}</div></div>
+      <div style="font-size:10px;font-weight:900;color:#ff8c42;font-family:'Space Mono',monospace">${zahlt}</div>
+    </div>`).join('')}
+    <div style="margin-top:8px;font-size:10px;font-weight:900;color:#ffd94a;text-align:center">FA erhält insgesamt: 95 € = genau die USt des Endkunden ✓</div>
+  </div>
+  <div style="display:flex;gap:8px">
+    <button onclick="_introNext('ust',1)" style="flex:3;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#c0581a,#7a3000);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">7 % oder 19 %? – Quiz →</button>
+    <button onclick="_introNext('ust',99)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.35);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">Überspr.</button>
+  </div>`;
+}
+
+function _renderIntro_ust_1(a){
+  a.classList.add('basics-dark-mode');
+  const CASES=[
+    {sit:'Lea kauft im Buchladen einen Roman für 14,99 €.',ans:'7 %',icon:'📗',erkl:'§ 12 Abs. 2 Nr. 14 UStG: Bücher (inkl. E-Books seit 2020) → 7 %. Gilt als Kulturgut.'},
+    {sit:'Tom kauft bei Amazon einen Bluetooth-Lautsprecher für 49,99 €.',ans:'19 %',icon:'🔊',erkl:'Elektronik gehört nicht zu Anlage 2 UStG → 19 % Regelsteuersatz (§ 12 Abs. 1 UStG).'},
+    {sit:'Zahnarzt Dr. Klein behandelt einen Patienten (Füllung, 200 €).',ans:'Steuerfrei',icon:'🦷',erkl:'§ 4 Nr. 14 UStG: Heilbehandlungen durch zugelassene Ärzte sind steuerfrei. Kein USt-Ausweis, kein Vorsteuerabzug!'},
+    {sit:'Pizzabote Marco liefert eine Pizza nach Hause (kein Tisch, keine Bedienung).',ans:'7 %',icon:'🍕',erkl:'Lieferung von Lebensmitteln → 7 %. Nur mit Service/Sitzverzehr (Restauration) → 19 %.'},
+  ];
+  let html=`
+  <div style="background:linear-gradient(135deg,#1a0c02,#3a1800);border-radius:16px;padding:14px;margin-bottom:14px">
+    <div style="font-size:10px;font-family:'Space Mono',monospace;color:#ff8c42;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px">Quiz · USt-Satz</div>
+    <div style="font-size:15px;font-weight:900;color:#fff">7 %, 19 % oder steuerfrei?</div>
+  </div>`;
+  CASES.forEach((c,i)=>{
+    const shown = !!_introQuiz['ust_'+i];
+    html+=`<div style="background:#fff;border-radius:14px;border-left:5px solid ${shown?'#e67e22':'#dde5f5'};padding:14px;margin-bottom:10px">
+      <div style="font-size:12px;font-weight:700;color:#333;line-height:1.6;margin-bottom:10px"><span style="font-size:18px;margin-right:6px">${c.icon}</span>${c.sit}</div>
+      ${!shown?`<button onclick="_introQuiz['ust_${i}']=true;render()" style="width:100%;padding:9px;border-radius:10px;border:2px solid #e67e22;background:rgba(230,126,34,.06);color:#a04000;font-family:'Nunito',sans-serif;font-weight:900;font-size:12px;cursor:pointer">💡 Auflösung anzeigen</button>`
+      :`<div style="background:rgba(230,126,34,.07);border:1.5px solid rgba(230,126,34,.3);border-radius:10px;padding:10px">
+        <div style="font-size:12px;font-weight:900;color:#a04000;margin-bottom:3px">→ ${c.ans}</div>
+        <div style="font-size:11px;font-weight:700;color:#555;line-height:1.6">${c.erkl}</div>
+      </div>`}
+    </div>`;
+  });
+  html+=`<div style="display:flex;gap:8px">
+    <button onclick="_introNext('ust',0)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">← Zurück</button>
+    <button onclick="_introNext('ust',99)" style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#c0581a,#7a3000);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Zu den USt-Übungen →</button>
+  </div>`;
+  a.innerHTML=html;
+}
+function _renderIntro_ust_2(a){ _introNext('ust',99); }
+
+// ── BILANZ ───────────────────────────────────────────────────────
+function _renderIntro_bilanz_0(a){
+  a.classList.add('basics-dark-mode');
+  a.innerHTML=`
+  <div style="background:linear-gradient(160deg,#0a2a18,#1a5a30);border-radius:20px;overflow:hidden;margin-bottom:14px">
+    <svg viewBox="0 0 360 170" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+      <rect width="360" height="170" fill="#071a10"/>
+      <rect x="20" y="15" width="320" height="148" fill="#0d2818" rx="8"/>
+      <text x="180" y="38" font-size="12" fill="#00c97b" font-family="monospace" font-weight="900" text-anchor="middle">BANK (Aktivkonto)</text>
+      <line x1="180" y1="45" x2="180" y2="163" stroke="#00c97b" stroke-width="2"/>
+      <line x1="20" y1="45" x2="340" y2="45" stroke="#00c97b" stroke-width="2"/>
+      <text x="100" y="60" font-size="10" fill="#7eb8ff" font-family="monospace" font-weight="900" text-anchor="middle">SOLL</text>
+      <text x="260" y="60" font-size="10" fill="#ff8c42" font-family="monospace" font-weight="900" text-anchor="middle">HABEN</text>
+      <text x="35" y="76" font-size="8.5" fill="rgba(255,255,255,.7)" font-family="monospace">AB 15.000</text>
+      <text x="35" y="90" font-size="8.5" fill="rgba(255,255,255,.7)" font-family="monospace">Kasse   5.000</text>
+      <text x="35" y="104" font-size="8.5" fill="rgba(255,255,255,.7)" font-family="monospace">Forder. 2.000</text>
+      <text x="195" y="76" font-size="8.5" fill="rgba(255,255,255,.7)" font-family="monospace">Miete     800</text>
+      <text x="195" y="90" font-size="8.5" fill="rgba(255,255,255,.7)" font-family="monospace">Maschine 8.000</text>
+      <text x="195" y="104" font-size="8.5" fill="rgba(255,255,255,.7)" font-family="monospace">SB      13.200</text>
+      <line x1="35" y1="118" x2="170" y2="118" stroke="#7eb8ff" stroke-width="1"/>
+      <line x1="195" y1="118" x2="330" y2="118" stroke="#ff8c42" stroke-width="1"/>
+      <text x="35" y="133" font-size="9" fill="#7eb8ff" font-family="monospace" font-weight="900">S: 22.000 €</text>
+      <text x="195" y="133" font-size="9" fill="#ff8c42" font-family="monospace" font-weight="900">H: 22.000 €</text>
+      <text x="180" y="153" font-size="9" fill="rgba(255,255,255,.4)" font-family="monospace" text-anchor="middle">Soll = Haben ✓</text>
+    </svg>
+    <div style="padding:0 18px 18px">
+      <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">Bilanz Basics · Einführung</div>
+      <div style="font-size:17px;font-weight:900;color:#fff;line-height:1.3;margin-bottom:6px">Jede Zahlung landet auf zwei Konten. Immer. Das ist doppelte Buchführung.</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.65">„Soll an Haben" – das klingt simpel, ist aber die Grundlage der gesamten Unternehmensrechnungslegung.</div>
+    </div>
+  </div>
+  <div style="background:rgba(255,255,255,.04);border-radius:13px;padding:14px;margin-bottom:14px">
+    <div style="font-size:11px;font-weight:900;color:#fff;margin-bottom:10px">Die 4 Kontoarten – Grundregel</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+    ${[{t:'Aktivkonto',r:'Zugang → Soll\nAbgang → Haben',b:'Bank, Maschinen, Kasse',c:'#7eb8ff'},
+       {t:'Passivkonto',r:'Zugang → Haben\nAbgang → Soll',b:'EK, Verbindlichkeiten',c:'#ff8c42'},
+       {t:'Aufwandskonto',r:'Buchung → Soll\nmindert Gewinn',b:'Miete, Löhne, AfA',c:'#ff6030'},
+       {t:'Ertragskonto',r:'Buchung → Haben\nerhöht Gewinn',b:'Umsatzerlöse, Zinsen',c:'#00c97b'}].map(k=>`
+    <div style="background:rgba(255,255,255,.05);border:1.5px solid ${k.c}44;border-radius:10px;padding:9px">
+      <div style="font-size:9px;font-family:'Space Mono',monospace;color:${k.c};font-weight:700;margin-bottom:3px">${k.t}</div>
+      <div style="font-size:10px;font-weight:800;color:#fff;white-space:pre-line;line-height:1.4;margin-bottom:3px">${k.r}</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.35);font-weight:700">${k.b}</div>
+    </div>`).join('')}
+    </div>
+  </div>
+  <div style="display:flex;gap:8px">
+    <button onclick="_introNext('bilanz',1)" style="flex:3;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#1a5a30,#0a2a18);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Buchungssätze üben →</button>
+    <button onclick="_introNext('bilanz',99)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.35);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">Überspr.</button>
+  </div>`;
+}
+
+function _renderIntro_bilanz_1(a){
+  a.classList.add('basics-dark-mode');
+  const CASES=[
+    {sit:'Klaus kauft eine Maschine für 5.000 € bar.',ans:'Maschinen 5.000 an Kasse 5.000',icon:'⚙️',erkl:'Maschine = Aktivkonto (Zugang → Soll). Kasse = Aktivkonto (Abgang → Haben). Aktivtausch – Bilanzsumme gleich.'},
+    {sit:'Die Firma zahlt Miete 1.200 € per Überweisung.',ans:'Mietaufwand 1.200 an Bank 1.200',icon:'🏢',erkl:'Mietaufwand = Aufwandskonto (→ Soll). Bank = Aktivkonto (Abgang → Haben). Bilanzsumme sinkt, Gewinn sinkt.'},
+    {sit:'Die Firma nimmt Bankkredit 50.000 € auf (Geld auf Konto).',ans:'Bank 50.000 an Darlehen 50.000',icon:'🏦',erkl:'Bank = Aktivkonto (Zugang → Soll). Darlehen = Passivkonto (Zugang → Haben). Bilanzverlängerung.'},
+  ];
+  let html=`
+  <div style="background:linear-gradient(135deg,#0a2a18,#1a3a24);border-radius:16px;padding:14px;margin-bottom:14px">
+    <div style="font-size:10px;font-family:'Space Mono',monospace;color:#7effa0;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px">Quiz · Buchungssatz</div>
+    <div style="font-size:15px;font-weight:900;color:#fff">Was kommt ins Soll, was ins Haben?</div>
+  </div>`;
+  CASES.forEach((c,i)=>{
+    const shown = !!_introQuiz['bilanz_'+i];
+    html+=`<div style="background:#fff;border-radius:14px;border-left:5px solid ${shown?'#27ae60':'#dde5f5'};padding:14px;margin-bottom:10px">
+      <div style="font-size:12px;font-weight:700;color:#333;line-height:1.6;margin-bottom:10px"><span style="font-size:18px;margin-right:6px">${c.icon}</span>${c.sit}</div>
+      ${!shown?`<button onclick="_introQuiz['bilanz_${i}']=true;render()" style="width:100%;padding:9px;border-radius:10px;border:2px solid #27ae60;background:rgba(39,174,96,.07);color:#1a5a30;font-family:'Nunito',sans-serif;font-weight:900;font-size:12px;cursor:pointer">💡 Buchungssatz aufdecken</button>`
+      :`<div style="background:rgba(0,201,123,.07);border:1.5px solid rgba(0,201,123,.3);border-radius:10px;padding:10px">
+        <div style="background:#0a1a10;border-radius:6px;padding:7px;margin-bottom:5px;font-family:'Space Mono',monospace;font-size:11px;font-weight:700">
+          <span style="color:#7eb8ff">${c.ans.split(' an ')[0]}</span><span style="color:rgba(255,255,255,.4)"> an </span><span style="color:#ff8c42">${c.ans.split(' an ')[1]}</span>
+        </div>
+        <div style="font-size:11px;font-weight:700;color:#555;line-height:1.6">${c.erkl}</div>
+      </div>`}
+    </div>`;
+  });
+  html+=`<div style="display:flex;gap:8px">
+    <button onclick="_introNext('bilanz',0)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">← Zurück</button>
+    <button onclick="_introNext('bilanz',99)" style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#1a5a30,#0a2a18);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Zu den Bilanz-Übungen →</button>
+  </div>`;
+  a.innerHTML=html;
+}
+function _renderIntro_bilanz_2(a){ _introNext('bilanz',99); }
+
+// ── EST ──────────────────────────────────────────────────────────
+function _renderIntro_est_0(a){
+  a.classList.add('basics-dark-mode');
+  a.innerHTML=`
+  <div style="background:linear-gradient(160deg,#0a1635,#1a3a8f);border-radius:20px;overflow:hidden;margin-bottom:14px">
+    <svg viewBox="0 0 360 185" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+      <rect width="360" height="185" fill="#0d1830"/>
+      <rect x="40" y="20" width="195" height="155" fill="#0d1a30" rx="8"/>
+      <rect x="40" y="20" width="195" height="28" fill="#1a3a8f" rx="8 8 0 0"/>
+      <text x="137" y="32" font-size="9" fill="#fff" font-family="sans-serif" font-weight="700" text-anchor="middle">GEHALTSABRECHNUNG</text>
+      <text x="137" y="43" font-size="8" fill="rgba(255,255,255,.5)" font-family="sans-serif" text-anchor="middle">Dezember 2026</text>
+      <text x="55" y="64" font-size="8.5" fill="rgba(255,255,255,.7)" font-family="sans-serif">Bruttogehalt</text>
+      <text x="225" y="64" font-size="8.5" fill="#ffd94a" font-family="sans-serif" text-anchor="end">3.500,00 €</text>
+      <line x1="55" y1="68" x2="225" y2="68" stroke="#333" stroke-width="0.8"/>
+      <text x="55" y="80" font-size="8" fill="rgba(255,255,255,.5)" font-family="sans-serif">– Lohnsteuer</text>
+      <text x="225" y="80" font-size="8" fill="#ff6030" font-family="sans-serif" text-anchor="end">– 562,00 €</text>
+      <text x="55" y="92" font-size="8" fill="rgba(255,255,255,.5)" font-family="sans-serif">– Rentenversicherung</text>
+      <text x="225" y="92" font-size="8" fill="#ff6030" font-family="sans-serif" text-anchor="end">– 325,50 €</text>
+      <text x="55" y="104" font-size="8" fill="rgba(255,255,255,.5)" font-family="sans-serif">– Krankenversicherung</text>
+      <text x="225" y="104" font-size="8" fill="#ff6030" font-family="sans-serif" text-anchor="end">– 285,25 €</text>
+      <text x="55" y="116" font-size="8" fill="rgba(255,255,255,.5)" font-family="sans-serif">– Pflege- &amp; Arbeitslosenvers.</text>
+      <text x="225" y="116" font-size="8" fill="#ff6030" font-family="sans-serif" text-anchor="end">– 115,50 €</text>
+      <line x1="55" y1="122" x2="225" y2="122" stroke="#aaa" stroke-width="1"/>
+      <rect x="47" y="127" width="180" height="20" fill="rgba(0,201,123,.15)" rx="3"/>
+      <text x="55" y="141" font-size="10" fill="#00c97b" font-family="sans-serif" font-weight="900">Nettolohn</text>
+      <text x="225" y="141" font-size="10" fill="#00c97b" font-family="sans-serif" font-weight="900" text-anchor="end">2.211,75 €</text>
+      <circle cx="305" cy="80" r="42" fill="rgba(255,140,66,.15)" stroke="#ff8c42" stroke-width="1.5"/>
+      <text x="305" y="68" font-size="10" fill="#ff8c42" font-family="sans-serif" font-weight="700" text-anchor="middle">Wo sind</text>
+      <text x="305" y="82" font-size="10" fill="#ff8c42" font-family="sans-serif" font-weight="700" text-anchor="middle">meine</text>
+      <text x="305" y="98" font-size="20" fill="#ff8c42" font-family="sans-serif" font-weight="900" text-anchor="middle">1.288€</text>
+      <text x="305" y="112" font-size="8" fill="rgba(255,140,66,.6)" font-family="sans-serif" text-anchor="middle">geblieben?</text>
+    </svg>
+    <div style="padding:0 18px 18px">
+      <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">ESt Basics · Einführung</div>
+      <div style="font-size:17px;font-weight:900;color:#fff;line-height:1.3;margin-bottom:6px">Du verdienst 3.500 € – bekommst aber 2.211 €. Wo sind 1.288 € hin?</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.65">Das ist die erste Frage die jeder beim ersten Gehaltszettel stellt. Nach dieser Einheit verstehst du jeden Abzug.</div>
+    </div>
+  </div>
+  <div style="background:rgba(255,255,255,.04);border-radius:13px;padding:12px;margin-bottom:14px">
+    <div style="font-size:11px;font-weight:900;color:#ffd94a;margin-bottom:8px">📊 Wie entsteht das zu versteuernde Einkommen?</div>
+    ${[['① Alle Einkünfte (7 Einkunftsarten § 2 EStG)','z.B. Lohn 42.000 €','#3a78c0'],
+       ['− Werbungskosten (§ 9 EStG)','Fahrtkosten, Arbeitsmittel','#5a9ad4'],
+       ['− Sonderausgaben (§ 10 EStG)','KV-Beiträge, Kirchensteuer','#1a5a8a'],
+       ['− Grundfreibetrag 12.336 € (2026)','steuerfrei','#0a3a6a'],
+       ['= zvE → Tarif § 32a EStG','14 % bis 45 %','#ffd94a']].map(([t,s,c])=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.06)">
+      <div style="width:8px;height:8px;border-radius:50%;background:${c};flex-shrink:0"></div>
+      <div><div style="font-size:10px;font-weight:800;color:${c==='#ffd94a'?'#ffd94a':'#fff'}">${t}</div><div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700">${s}</div></div>
+    </div>`).join('')}
+  </div>
+  <div style="display:flex;gap:8px">
+    <button onclick="_introNext('est',1)" style="flex:3;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#1a3a8f,#0a1a5a);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Was kann ich absetzen? →</button>
+    <button onclick="_introNext('est',99)" style="flex:1;padding:13px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.35);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">Überspr.</button>
+  </div>`;
+}
+
+function _renderIntro_est_1(a){
+  a.classList.add('basics-dark-mode');
+  const CASES=[
+    {sit:'Pendlerin Anna: 28 km zur Arbeit, 220 Arbeitstage. Welche Werbungskosten?',ans:'2.339 €',icon:'🚗',erkl:'§ 9 Abs. 1 Nr. 4 EStG – Pendlerpauschale 2026: 28 km × 0,38 € × 220 Tage = 2.339 €. Übersteigt AN-Pauschbetrag (1.230 €) → Steuererklärung lohnt sich!'},
+    {sit:'Werkstudent Tim (22) verdient 13.500 € brutto/Jahr. Zahlt er Einkommensteuer?',ans:'Nein – unter Grundfreibetrag',icon:'🎓',erkl:'zvE: 13.500 − 1.230 € AN-Pauschbetrag = 12.270 € → unter Grundfreibetrag 12.336 € → 0 € Lohnsteuer. Trotzdem Steuererklärung machen für Erstattung!'},
+    {sit:'Lehrerin Petra zahlt 750 € Fachliteratur + 1.500 € Fortbildung. Absetzbar?',ans:'Ja – volle Werbungskosten',icon:'📚',erkl:'§ 9 Abs. 1 Nr. 6 EStG: Arbeitsmittel und berufliche Fortbildung sind WK. 2.250 € übersteigen AN-Pauschbetrag um 1.020 € → ca. 300–380 € Steuerersparnis.'},
+  ];
+  let html=`
+  <div style="background:linear-gradient(135deg,#0d1f4a,#1a3a8f);border-radius:16px;padding:14px;margin-bottom:14px">
+    <div style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.5);letter-spacing:2px;text-transform:uppercase;margin-bottom:5px">Interaktiv · Werbungskosten</div>
+    <div style="font-size:15px;font-weight:900;color:#fff">Was kann man absetzen?</div>
+  </div>`;
+  CASES.forEach((c,i)=>{
+    const shown = !!_introQuiz['est_'+i];
+    html+=`<div style="background:#fff;border-radius:14px;border-left:5px solid ${shown?'#1a3a8f':'#dde5f5'};padding:14px;margin-bottom:10px">
+      <div style="font-size:12px;font-weight:700;color:#333;line-height:1.6;margin-bottom:10px"><span style="font-size:18px;margin-right:6px">${c.icon}</span>${c.sit}</div>
+      ${!shown?`<button onclick="_introQuiz['est_${i}']=true;render()" style="width:100%;padding:9px;border-radius:10px;border:2px solid #1a3a8f;background:rgba(26,58,143,.06);color:#1a3a8f;font-family:'Nunito',sans-serif;font-weight:900;font-size:12px;cursor:pointer">💡 Antwort aufdecken</button>`
+      :`<div style="background:rgba(0,80,160,.07);border:1.5px solid rgba(0,80,160,.3);border-radius:10px;padding:10px">
+        <div style="font-size:12px;font-weight:900;color:#1a3a8f;margin-bottom:3px">→ ${c.ans}</div>
+        <div style="font-size:11px;font-weight:700;color:#555;line-height:1.6">${c.erkl}</div>
+      </div>`}
+    </div>`;
+  });
+  html+=`<div style="display:flex;gap:8px">
+    <button onclick="_introNext('est',0)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">← Zurück</button>
+    <button onclick="_introNext('est',99)" style="flex:3;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,#1a3a8f,#0a1a5a);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Zu den ESt-Übungen →</button>
+  </div>`;
+  a.innerHTML=html;
+}
+function _renderIntro_est_2(a){ _introNext('est',99); }
