@@ -81,9 +81,8 @@
   </div>
 
   <div class="mode-tabs" id="tour-tabs">
-    <!-- HAUPTNAVIGATION: kompakt, 2 Gruppen -->
+    <!-- HAUPTNAVIGATION -->
     <button class="mode-tab active" onclick="sw('basics')" id="tab-basics"><span class="ti">📚</span>Basics</button>
-    <button class="mode-tab" onclick="sw('karriere')" id="tab-karriere"><span class="ti">🎓</span>Karriere</button>
 
     <span class="tab-sep"></span>
     <span class="tab-group-label">Quiz</span>
@@ -102,6 +101,9 @@
     <button class="mode-tab" onclick="sw('glossar')" id="tab-glossar"><span class="ti">📖</span>Glossar</button>
     <button class="mode-tab" onclick="sw('meinbereich')" id="tab-meinbereich"><span class="ti">⭐</span>Ich</button>
     <button class="mode-tab" onclick="swEinfuehrung()" id="tab-einfuehrung" title="Dozenten-Bereich – Passwort erforderlich"><span class="ti">🔒</span>E-Tag</button>
+
+    <span class="tab-sep"></span>
+    <button class="mode-tab" onclick="sw('karriere')" id="tab-karriere"><span class="ti">🎓</span>Karriere</button>
 
     <!-- Versteckte Tabs (per Code aktiviert) -->
     <button class="mode-tab" onclick="sw('gewst')" id="tab-gewst" style="display:none"><span class="ti">🏭</span>GewSt</button>
@@ -236,9 +238,9 @@
 <nav class="mobile-nav" id="mobileNav">
     <div class="mobile-nav-inner" style="grid-template-columns:repeat(4,1fr)">
       <button class="mnav-btn active" id="mnav-basics" onclick="sw('basics')"><span class="mni">📚</span>Basics</button>
-      <button class="mnav-btn" id="mnav-karriere" onclick="sw('karriere')"><span class="mni">🎓</span>Karriere</button>
       <button class="mnav-btn" id="mnav-quiz" onclick="openQuiz()"><span class="mni">🎯</span>Üben</button>
       <button class="mnav-btn" id="mnav-meinbereich" onclick="sw('meinbereich')"><span class="mni">⭐</span>Ich</button>
+      <button class="mnav-btn" id="mnav-karriere" onclick="sw('karriere')"><span class="mni">🎓</span>Karriere</button>
       <!-- Fehler: hidden in nav, still accessible via drawer -->
       <button class="mnav-btn" id="mnav-fehler" onclick="sw('fehler')" style="display:none"><span class="mni">🔁</span>Fehler<span class="mnav-badge" id="fehler-nav-badge" style="display:none">0</span></button>
     </div>
@@ -471,7 +473,7 @@
 
 <!-- § Tour-Button durch §teve ersetzt -->
 <!-- § Button öffnet §teve -->
-<button class="tour-restart-btn" onclick="steveToggle()" title="§teve öffnen" aria-label="§teve öffnen">§</button>
+<button class="tour-restart-btn" onclick="steveToggle()" title="Hilfe &amp; §teve öffnen" aria-label="§teve öffnen">?</button>
 
 <!-- ===== LEVEL GATE ===== -->
 <div id="level-gate" style="display:none;position:fixed;inset:0;z-index:9500;background:rgba(4,8,22,.97);backdrop-filter:blur(18px);align-items:center;justify-content:center;padding:12px;overflow-y:auto">

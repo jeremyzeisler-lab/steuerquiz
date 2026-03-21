@@ -653,7 +653,7 @@ const ETAG_PHASES = [
     <div>Einnahmen gesamt: <span class="u-yellow">22.400 €</span></div>
     <div>– Betriebsausgaben (Kamera, Apps …): <span style="color:var(--red)">– 4.000 €</span></div>
     <div style="border-top:1px solid rgba(255,255,255,.15);padding-top:8px">= Gewinn: <span class="u-green">18.400 €</span></div>
-    <div>– Grundfreibetrag 2025: <span style="color:rgba(255,255,255,.4)">– 12.096 €</span></div>
+    <div>– Grundfreibetrag 2026: <span style="color:rgba(255,255,255,.4)">– 12.336 €</span></div>
     <div style="border-top:1px solid rgba(255,255,255,.15);padding-top:8px">= Zu versteuern: <span class="u-yellow">6.304 €</span></div>
     <div style="margin-top:8px;color:var(--cyan)">→ Einkommensteuer: ca. <b>820 €</b></div>
   </div>
@@ -1640,14 +1640,14 @@ const AO_BASICS_CASES = [
     question:'Muss Ali den Prüfer hereinlassen und alles zeigen?',
     opts:['Nein – Ali kann die Prüfung verweigern','Ja – Steuerpflichtige müssen bei Prüfungen mitwirken (§ 200 AO)','Nur mit richterlichem Beschluss','Ja, aber er darf erst seinen Anwalt anrufen'],
     correct:1,
-    explain:'§ 200 AO verpflichtet Steuerpflichtige zur Mitwirkung bei Betriebsprüfungen: Bücher, Aufzeichnungen, Belege und Auskunft müssen auf Verlangen vorgelegt werden. Die Prüfung kann aber im Voraus angekündigt werden – außer bei Verdacht auf Steuerhinterziehung.',
-    praxis:'Betriebsprüfungen sind ein wichtiges Instrument der Steuerverwaltung. Als Finanzbeamter lernst du später, wie man sie plant und durchführt.'
+    explain:'<b>§ 197 AO – Ankündigungspflicht:</b> Eine Betriebsprüfung muss grundsätzlich rechtzeitig vorher angekündigt werden (angemessene Frist). Das Erscheinen „ohne Ankündigung" wie im Sachverhalt ist eigentlich ein Verfahrensfehler – Ali könnte um Terminverschiebung bitten.<br><br><b>§ 200 AO – Mitwirkungspflicht:</b> Ist die Prüfung angekündigt und rechtmäßig angeordnet, muss Ali alle Bücher, Belege und Aufzeichnungen vorlegen. Verweigerung kann Schätzung (§ 162 AO) und Ordnungsgeld auslösen.<br><br><b>Ausnahme unangemeldet:</b> Bei konkretem Hinterziehungsverdacht oder Kassennachschau (§ 146b AO) kann das FA unangekündigt erscheinen.',
+    praxis:'Betriebsprüfungen sind prüfungsrelevant: Ankündigung (§ 197), Prüfungsanordnung (§ 196), Mitwirkung (§ 200), Schlussbesprechung (§ 201), Prüfungsbericht (§ 202). Und: Ab Bekanntgabe der Prüfungsanordnung ist eine Selbstanzeige gesperrt (§ 371 Abs. 2 Nr. 1a AO)!'
   },
   {
     icon:'💸', title:'Steuerhinterziehung – wie ernst ist das?',
     situation:'Tom hat drei Jahre lang 15.000 € Nebeneinkünfte aus Vermietung nicht angegeben. Er denkt: „Das findet doch keiner."',
     question:'Was droht Tom wenn das Finanzamt es herausfindet?',
-    opts:['Nur Nachzahlung des Steuerbetrags','Nachzahlung + Zinsen (1,8 % p.a.) + Hinterziehungszuschlag','Nachzahlung + Zinsen + Geldstrafe oder Freiheitsstrafe bis 5 Jahre (§ 370 AO)','Nur eine schriftliche Verwarnung beim ersten Mal'],
+    opts:['Nur Nachzahlung des Steuerbetrags','Nachzahlung + Hinterziehungszinsen (§ 235 AO, 1,8 % p.a.) + Strafe','Nachzahlung + Zinsen + Geldstrafe oder Freiheitsstrafe bis 5 Jahre (§ 370 AO)','Nur eine schriftliche Verwarnung beim ersten Mal'],
     correct:2,
     explain:'Steuerhinterziehung (§ 370 AO) ist eine Straftat – kein Kavaliersdelikt. Es drohen: Nachzahlung aller Steuern, Hinterziehungszinsen (1,8% p.a.), und Geldstrafe oder Freiheitsstrafe bis 5 Jahre (bei besonders schweren Fällen bis 10 Jahre). Eine Selbstanzeige (§ 371 AO) kann noch Straffreiheit bringen – aber nur wenn das FA noch nichts weiß.',
     praxis:'§ 370 AO gehört zu den prüfungsrelevantesten Normen der AO. Kenne die Voraussetzungen, Strafrahmen und die Selbstanzeige.'
@@ -1776,9 +1776,9 @@ const RECHT_BASICS_CASES = [
     situation:'Kevin, 15 Jahre alt, kauft ohne Wissen seiner Eltern ein iPhone für 320 € bei eBay. Er überweist das Geld von seinem gesparten Taschengeld. Der Verkäufer schickt das Handy.',
     question:'Ist der Kaufvertrag wirksam?',
     opts:['Ja – Kevin hat bezahlt, also gilt der Vertrag','Nein – Minderjährige können keine Verträge schließen','Schwebend unwirksam – erst wirksam wenn Eltern zustimmen (§ 108 BGB)','Wirksam – weil Kevin mit eigenem Geld bezahlt hat'],
-    correct:2,
-    explain:'Minderjährige (7–17 Jahre) sind beschränkt geschäftsfähig (§ 106 BGB). Ein Vertrag ohne Zustimmung der Eltern ist schwebend unwirksam (§ 108 BGB) – er wird wirksam wenn die Eltern nachgenehmigen, sonst endgültig unwirksam. Kevin müsste das Handy zurückgeben.',
-    praxis:'§§ 104–113 BGB zur Geschäftsfähigkeit gehören zur Grundlage des Privatrechts – prüfungsrelevant für das BGB-Modul deiner Ausbildung.'
+    correct:3,
+    explain:'<b>§ 110 BGB – Taschengeldparagraf:</b> Kevin hat mit Geld bezahlt, das ihm zu freier Verfügung überlassen wurde (gespartes Taschengeld). Das Gesetz verlangt, dass der Minderjährige den Vertrag mit diesen Mitteln „bewirkt" – also vollständig erfüllt. Kevin überweist das Geld sofort → Vertrag ist <b>voll wirksam</b> ohne Elternzustimmung.<br><br><b>Abgrenzung zu § 108 BGB:</b> Hätte Kevin auf Raten gekauft (Schulden), wäre der Vertrag schwebend unwirksam. Entscheidend ist: zahlt er sofort aus eigenen frei verfügbaren Mitteln?<br><br><b>Merkhilfe:</b> § 110 BGB = eigenes Geld + sofortige Zahlung = wirksam. Schulden eingehen = immer § 108 BGB = Eltern müssen zustimmen.',
+    praxis:'Prüfungsschema: (1) Ist der Vertrag vorteilhaft (§ 107)? (2) Eigene Mittel sofort gezahlt (§ 110)? (3) Arbeitslohn (§ 113)? → Erst dann: schwebend unwirksam (§ 108). Reihenfolge einhalten!'
   },
   {
     icon:'🍕', title:'Die Pizzabestellung',
@@ -2941,31 +2941,103 @@ function _renderIntro_ao_0(a){
   a.classList.add('basics-dark-mode');
   a.innerHTML=`
   <div style="background:linear-gradient(160deg,#0a1635,#1a3a8f);border-radius:20px;overflow:hidden;margin-bottom:14px">
-    <svg viewBox="0 0 360 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
-      <rect width="360" height="200" fill="#0d1830"/>
-      <rect x="0" y="148" width="360" height="52" fill="#2a1a08"/>
-      <rect x="0" y="143" width="360" height="10" fill="#3d2510"/>
-      <rect x="35" y="55" width="180" height="110" fill="#fffef9" rx="6" transform="rotate(-1 125 110)"/>
-      <rect x="35" y="48" width="78" height="14" fill="#3a78c0" rx="3 3 0 0"/>
-      <text x="74" y="59" font-size="8" fill="#fff" font-family="sans-serif" font-weight="700" text-anchor="middle">MUELLER, Hans</text>
-      <line x1="52" y1="74" x2="195" y2="74" stroke="#ddd" stroke-width="1.5"/>
-      <line x1="52" y1="84" x2="210" y2="84" stroke="#ddd" stroke-width="1.5"/>
-      <rect x="50" y="88" width="165" height="13" fill="rgba(255,217,74,.4)" rx="2"/>
-      <text x="53" y="98" font-size="8.5" fill="#6a5000" font-family="monospace" font-weight="700">Jahreseinkommen: 87.400 EUR</text>
-      <line x1="52" y1="104" x2="200" y2="104" stroke="#ddd" stroke-width="1.5"/>
-      <line x1="52" y1="114" x2="175" y2="114" stroke="#ddd" stroke-width="1.5"/>
-      <line x1="52" y1="124" x2="205" y2="124" stroke="#ddd" stroke-width="1.5"/>
-      <rect x="148" y="62" width="82" height="19" fill="none" stroke="#c0392b" stroke-width="2.2" rx="3" transform="rotate(10 189 71)"/>
-      <text x="189" y="73" font-size="9" fill="#c0392b" font-family="monospace" font-weight="900" text-anchor="middle" transform="rotate(10 189 71)">VERTRAULICH</text>
-      <rect x="252" y="65" width="88" height="68" fill="#1a2a4a" rx="5"/>
-      <rect x="257" y="70" width="78" height="54" fill="#0d1830" rx="3"/>
-      <text x="296" y="88" font-size="7" fill="#00c97b" font-family="monospace" text-anchor="middle">FINANZAMT BERLIN</text>
-      <text x="296" y="100" font-size="6" fill="#3a88cc" font-family="monospace" text-anchor="middle">STEUERNR: *** ***</text>
-      <text x="296" y="112" font-size="6" fill="#3a88cc" font-family="monospace" text-anchor="middle">Einkommen: XXXXXX</text>
-      <ellipse cx="32" cy="143" rx="14" ry="4" fill="#3d2510"/>
-      <rect x="20" y="122" width="24" height="21" fill="#4a2f18" rx="3"/>
-      <ellipse cx="32" cy="122" rx="12" ry="3.5" fill="#6b3f20"/>
-      <path d="M28,119 Q26,115 28,111" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1.5" stroke-linecap="round"/>
+    <svg viewBox="0 0 360 210" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+      <defs>
+        <linearGradient id="deskG" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#3d2510"/>
+          <stop offset="100%" stop-color="#2a1a08"/>
+        </linearGradient>
+        <filter id="softShadow">
+          <feDropShadow dx="2" dy="3" stdDeviation="4" flood-opacity="0.4"/>
+        </filter>
+      </defs>
+      <!-- Room background -->
+      <rect width="360" height="210" fill="#060e20"/>
+      <!-- Wall -->
+      <rect width="360" height="148" fill="#0a1628"/>
+      <!-- Subtle wall texture -->
+      <line x1="0" y1="148" x2="360" y2="148" stroke="#1a2a40" stroke-width="2"/>
+      <!-- Desk surface -->
+      <rect x="0" y="148" width="360" height="62" fill="url(#deskG)"/>
+      <rect x="0" y="148" width="360" height="8" fill="#4a2f14"/>
+
+      <!-- Filing cabinet left -->
+      <rect x="10" y="60" width="28" height="88" fill="#1a2a3a" rx="3"/>
+      <rect x="12" y="65" width="24" height="18" fill="#233545" rx="2"/>
+      <rect x="12" y="87" width="24" height="18" fill="#233545" rx="2"/>
+      <rect x="12" y="109" width="24" height="18" fill="#233545" rx="2"/>
+      <circle cx="24" cy="74" r="2" fill="#ff8c42"/>
+      <circle cx="24" cy="96" r="2" fill="#ffd94a"/>
+      <circle cx="24" cy="118" r="2" fill="#7eb8ff"/>
+
+      <!-- Main document - open file -->
+      <rect x="48" y="42" width="185" height="118" fill="#f9f5ef" rx="5" filter="url(#softShadow)" transform="rotate(-2 140 101)"/>
+      <rect x="50" y="40" width="185" height="118" fill="#fffef9" rx="5" transform="rotate(-0.5 142 99)"/>
+      
+      <!-- Document header bar -->
+      <rect x="50" y="40" width="185" height="22" fill="#3a78c0" rx="5 5 0 0" transform="rotate(-0.5 142 51)"/>
+      <text x="90" y="55" font-size="8" fill="#fff" font-family="sans-serif" font-weight="900">EINKOMMENSTEUERBESCHEID 2025</text>
+      
+      <!-- Colored file tab -->
+      <rect x="50" y="32" width="72" height="12" fill="#3a78c0" rx="3 3 0 0" transform="rotate(-0.5 86 38)"/>
+      <text x="86" y="42" font-size="7.5" fill="#fff" font-family="sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-0.5 86 42)">MÜLLER, Hans</text>
+
+      <!-- Document lines -->
+      <line x1="62" y1="74" x2="222" y2="74" stroke="#e0ddd8" stroke-width="1.2"/>
+      <line x1="62" y1="83" x2="215" y2="83" stroke="#e0ddd8" stroke-width="1.2"/>
+      <!-- Highlighted income line -->
+      <rect x="60" y="87" width="170" height="13" fill="rgba(255,217,74,.5)" rx="2"/>
+      <text x="63" y="97" font-size="8.5" fill="#5a4000" font-family="monospace" font-weight="700">Jahreseinkommen: 87.400 EUR</text>
+      <line x1="62" y1="104" x2="218" y2="104" stroke="#e0ddd8" stroke-width="1.2"/>
+      <line x1="62" y1="112" x2="195" y2="112" stroke="#e0ddd8" stroke-width="1.2"/>
+      <line x1="62" y1="120" x2="210" y2="120" stroke="#e0ddd8" stroke-width="1.2"/>
+      <line x1="62" y1="128" x2="185" y2="128" stroke="#e0ddd8" stroke-width="1.2"/>
+      <line x1="62" y1="136" x2="220" y2="136" stroke="#e0ddd8" stroke-width="1.2"/>
+      <line x1="62" y1="144" x2="200" y2="144" stroke="#e0ddd8" stroke-width="1.2"/>
+
+      <!-- VERTRAULICH stamp - rotated -->
+      <rect x="152" y="56" width="90" height="22" fill="none" stroke="#c0392b" stroke-width="2.5" rx="4" transform="rotate(14 197 67)"/>
+      <text x="197" y="70" font-size="10" fill="#c0392b" font-family="monospace" font-weight="900" text-anchor="middle" transform="rotate(14 197 67)" opacity="0.9">VERTRAULICH</text>
+
+      <!-- Monitor -->
+      <rect x="255" y="55" width="92" height="80" fill="#111c2e" rx="6" filter="url(#softShadow)"/>
+      <rect x="259" y="59" width="84" height="66" fill="#0a1020" rx="4"/>
+      <!-- Monitor stand -->
+      <rect x="293" y="135" width="16" height="8" fill="#1a2030" rx="2"/>
+      <rect x="282" y="142" width="38" height="4" fill="#1a2030" rx="2"/>
+      <!-- Screen content -->
+      <rect x="263" y="63" width="76" height="10" fill="#1a3a6f" rx="2"/>
+      <text x="301" y="71" font-size="6" fill="#7eb8ff" font-family="monospace" text-anchor="middle" font-weight="700">FINANZAMT BERLIN</text>
+      <text x="263" y="82" font-size="5.5" fill="#3a6aaa" font-family="monospace">STEUERNR:</text>
+      <text x="300" y="82" font-size="5.5" fill="#3a6aaa" font-family="monospace">*** *** ***</text>
+      <text x="263" y="92" font-size="5.5" fill="#3a6aaa" font-family="monospace">Name:</text>
+      <text x="282" y="92" font-size="5.5" fill="#3a6aaa" font-family="monospace">██████████</text>
+      <text x="263" y="102" font-size="5.5" fill="#3a6aaa" font-family="monospace">Einkunft:</text>
+      <text x="297" y="102" font-size="5.5" fill="#3a6aaa" font-family="monospace">██████ EUR</text>
+      <!-- Blinking cursor -->
+      <rect x="335" y="108" width="4" height="8" fill="#00c97b" rx="1" opacity="0.8"/>
+
+      <!-- Coffee mug -->
+      <ellipse cx="34" cy="148" rx="16" ry="5" fill="#3d2510"/>
+      <rect x="19" y="126" width="30" height="22" fill="#4a2f18" rx="4"/>
+      <ellipse cx="34" cy="126" rx="15" ry="4.5" fill="#6b3f20"/>
+      <ellipse cx="34" cy="126" rx="10" ry="3" fill="#3a1a08"/>
+      <!-- Steam -->
+      <path d="M28,123 Q26,117 29,112" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="2" stroke-linecap="round"/>
+      <path d="M34,122 Q32,115 35,110" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="2" stroke-linecap="round"/>
+      <path d="M40,123 Q38,117 41,112" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="2" stroke-linecap="round"/>
+      <!-- Mug handle -->
+      <path d="M49,130 Q58,130 58,137 Q58,144 49,144" fill="none" stroke="#4a2f18" stroke-width="3"/>
+
+      <!-- Pen -->
+      <rect x="220" y="148" width="4" height="52" fill="#ffd94a" rx="2" transform="rotate(-25 222 174)"/>
+      <polygon points="220,198 224,198 222,206" fill="#333" transform="rotate(-25 222 174)"/>
+
+      <!-- Phone on desk -->
+      <rect x="308" y="152" width="38" height="22" fill="#1a1a2e" rx="5"/>
+      <rect x="311" y="155" width="32" height="15" fill="#1e2a50" rx="3"/>
+      <rect x="313" y="157" width="12" height="5" fill="#0d9bc0" rx="1.5"/>
+      <rect x="328" y="163" width="12" height="4" fill="#2a7a3a" rx="1.5"/>
     </svg>
     <div style="padding:0 18px 18px">
       <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">AO Basics · Einführung</div>
@@ -3016,7 +3088,7 @@ function _renderIntro_ao_1(a){
   html+=`
   <div style="background:rgba(58,120,192,.08);border:1.5px solid rgba(58,120,192,.2);border-radius:12px;padding:12px;margin-bottom:12px">
     <div style="font-size:10px;font-weight:900;color:var(--cyan);margin-bottom:5px">📌 Die 3 Ausnahmen des § 30 Abs. 4 AO</div>
-    <div style="font-size:11px;color:rgba(255,255,255,.65);font-weight:700;line-height:1.7">① Einwilligung des Steuerpflichtigen<br>② Strafverfolgung / Gerichtsverfahren<br>③ Zwingende öffentliche Interessen</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.65);font-weight:700;line-height:1.7">① Einwilligung des Steuerpflichtigen<br>② Strafverfolgung / Gerichtsverfahren<br>③ Offenbarung aus zwingendem öffentlichen Interesse (§ 30 Abs. 4 Nr. 5 AO)</div>
   </div>
   <div style="display:flex;gap:8px">
     <button onclick="_introNext('ao',0)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">← Zurück</button>
@@ -3072,8 +3144,8 @@ function _renderIntro_recht_0(a){
   </div>
   <div style="background:rgba(200,160,255,.07);border:1px solid rgba(200,160,255,.2);border-radius:12px;padding:12px;margin-bottom:14px">
     <div style="font-size:11px;font-weight:900;color:#c8a0ff;margin-bottom:6px">Die 3 wichtigsten Ausnahmen für 7–17-Jährige:</div>
-    ${[['§ 107','Nur vorteilhaft','Schenken bekommt – kein Nachteil → ohne Eltern OK'],
-       ['§ 110','Taschengeld','Eigenes Taschengeld ausgeben → sofort wirksam'],
+    ${[['§ 107','Nur vorteilhaft','Verträge die ausschließlich Vorteile bringen (z.B. Schenkung erhalten, Erlass einer Schuld) → ohne Eltern wirksam'],
+       ['§ 110','Taschengeldparagraf','Mit Geld zahlen das zu freier Verfügung überlassen wurde (Taschengeld, Geschenk). Sofort und vollständig wirksam.'],
        ['§ 113','Arbeitslohn','Lehrling kann Lohn frei verwalten wenn Eltern Ausbildung OK']].map(([p,t,b])=>`
     <div style="display:flex;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05)">
       <span style="font-size:9px;font-family:'Space Mono',monospace;color:#c8a0ff;font-weight:700;background:rgba(200,160,255,.1);padding:2px 6px;border-radius:100px;flex-shrink:0;height:fit-content">${p}</span>
@@ -3089,7 +3161,7 @@ function _renderIntro_recht_0(a){
 function _renderIntro_recht_1(a){
   a.classList.add('basics-dark-mode');
   const CASES=[
-    {sit:'Kim (8) kauft für 2 € ein Eis mit gefundenem Geld.',ok:true,icon:'🍦',erkl:'§ 107 BGB: Kauf ist lediglich vorteilhaft. § 110 BGB: Kauf mit überlassenem Geld. Wirksam ohne Eltern.'},
+    {sit:'Kim (8) kauft für 2 € ein Eis mit ihrem Taschengeld.',ok:true,icon:'🍦',erkl:'§ 110 BGB (Taschengeldparagraf): Der Vertrag ist wirksam, weil Kim mit Mitteln zahlt die ihr zur freien Verfügung überlassen wurden (Taschengeld). Achtung: § 107 BGB ("lediglich vorteilhaft") gilt nur für Verträge die ausschließlich Vorteile bringen – ein Kauf ist das nie, weil man Geld aufwendet.'},
     {sit:'Max (16) kauft einen Gaming-PC (24 × 50 €) auf Raten, Eltern wissen nichts.',ok:false,icon:'💻',erkl:'§ 108 BGB: Ratenzahlung = Schulden eingehen = rechtlich nachteilig. Schwebend unwirksam bis zur Elterngenehmigung.'},
     {sit:'Anna (17, Azubi, Eltern haben zugestimmt) kauft vom Lohn ein Fahrrad.',ok:true,icon:'🚲',erkl:'§ 113 BGB: Lohn aus Ausbildung kann frei verwaltet werden. Kauf eines Fahrrads ist alltägliche Verwaltung des Lohns.'},
     {sit:'Lars unterschreibt stark betrunken auf einer Party einen Vereinsbeitrag für 800 €/Jahr.',ok:false,icon:'🍻',erkl:'§ 104 Nr. 2 BGB: Starke Trunkenheit = vorübergehende Geschäftsunfähigkeit möglich. Willenserklärung nichtig (§ 105 BGB).'},
@@ -3301,32 +3373,56 @@ function _renderIntro_est_0(a){
   a.classList.add('basics-dark-mode');
   a.innerHTML=`
   <div style="background:linear-gradient(160deg,#0a1635,#1a3a8f);border-radius:20px;overflow:hidden;margin-bottom:14px">
-    <svg viewBox="0 0 360 185" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
-      <rect width="360" height="185" fill="#0d1830"/>
-      <rect x="40" y="20" width="195" height="155" fill="#0d1a30" rx="8"/>
-      <rect x="40" y="20" width="195" height="28" fill="#1a3a8f" rx="8 8 0 0"/>
-      <text x="137" y="32" font-size="9" fill="#fff" font-family="sans-serif" font-weight="700" text-anchor="middle">GEHALTSABRECHNUNG</text>
-      <text x="137" y="43" font-size="8" fill="rgba(255,255,255,.5)" font-family="sans-serif" text-anchor="middle">Dezember 2026</text>
-      <text x="55" y="64" font-size="8.5" fill="rgba(255,255,255,.7)" font-family="sans-serif">Bruttogehalt</text>
-      <text x="225" y="64" font-size="8.5" fill="#ffd94a" font-family="sans-serif" text-anchor="end">3.500,00 €</text>
-      <line x1="55" y1="68" x2="225" y2="68" stroke="#333" stroke-width="0.8"/>
-      <text x="55" y="80" font-size="8" fill="rgba(255,255,255,.5)" font-family="sans-serif">– Lohnsteuer</text>
-      <text x="225" y="80" font-size="8" fill="#ff6030" font-family="sans-serif" text-anchor="end">– 562,00 €</text>
-      <text x="55" y="92" font-size="8" fill="rgba(255,255,255,.5)" font-family="sans-serif">– Rentenversicherung</text>
-      <text x="225" y="92" font-size="8" fill="#ff6030" font-family="sans-serif" text-anchor="end">– 325,50 €</text>
-      <text x="55" y="104" font-size="8" fill="rgba(255,255,255,.5)" font-family="sans-serif">– Krankenversicherung</text>
-      <text x="225" y="104" font-size="8" fill="#ff6030" font-family="sans-serif" text-anchor="end">– 285,25 €</text>
-      <text x="55" y="116" font-size="8" fill="rgba(255,255,255,.5)" font-family="sans-serif">– Pflege- &amp; Arbeitslosenvers.</text>
-      <text x="225" y="116" font-size="8" fill="#ff6030" font-family="sans-serif" text-anchor="end">– 115,50 €</text>
-      <line x1="55" y1="122" x2="225" y2="122" stroke="#aaa" stroke-width="1"/>
-      <rect x="47" y="127" width="180" height="20" fill="rgba(0,201,123,.15)" rx="3"/>
-      <text x="55" y="141" font-size="10" fill="#00c97b" font-family="sans-serif" font-weight="900">Nettolohn</text>
-      <text x="225" y="141" font-size="10" fill="#00c97b" font-family="sans-serif" font-weight="900" text-anchor="end">2.211,75 €</text>
-      <circle cx="305" cy="80" r="42" fill="rgba(255,140,66,.15)" stroke="#ff8c42" stroke-width="1.5"/>
+    <svg viewBox="0 0 360 195" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+      <defs>
+        <linearGradient id="slipG" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#0f1e3a"/>
+          <stop offset="100%" stop-color="#0a1228"/>
+        </linearGradient>
+      </defs>
+      <rect width="360" height="195" fill="#080f1e"/>
+      <!-- Background glow -->
+      <ellipse cx="180" cy="100" rx="200" ry="120" fill="rgba(26,58,143,.15)"/>
+
+      <!-- Payslip document -->
+      <rect x="30" y="15" width="210" height="170" fill="#f8f6f2" rx="10" filter="drop-shadow(2px 4px 12px rgba(0,0,0,0.5))"/>
+      <!-- Header -->
+      <rect x="30" y="15" width="210" height="35" fill="#1a3a8f" rx="10 10 0 0"/>
+      <text x="135" y="31" font-size="9" fill="#fff" font-family="sans-serif" font-weight="900" text-anchor="middle">LOHN- UND GEHALTSABRECHNUNG</text>
+      <text x="135" y="44" font-size="7.5" fill="rgba(255,255,255,.65)" font-family="sans-serif" text-anchor="middle">Dezember 2026 · Max Mustermann</text>
+
+      <!-- Rows -->
+      <rect x="38" y="57" width="194" height="14" fill="rgba(26,58,143,.05)" rx="2"/>
+      <text x="42" y="68" font-size="9" fill="#333" font-family="sans-serif" font-weight="700">Bruttogehalt</text>
+      <text x="232" y="68" font-size="9" fill="#1a3a8f" font-family="sans-serif" font-weight="900" text-anchor="end">3.500,00 €</text>
+
+      <text x="42" y="83" font-size="8" fill="#888" font-family="sans-serif">− Lohnsteuer (§ 38 EStG)</text>
+      <text x="232" y="83" font-size="8" fill="#c0392b" font-family="sans-serif" font-weight="700" text-anchor="end">562,00 €</text>
+      <text x="42" y="96" font-size="8" fill="#888" font-family="sans-serif">− Rentenversicherung (9,3 %)</text>
+      <text x="232" y="96" font-size="8" fill="#c0392b" font-family="sans-serif" font-weight="700" text-anchor="end">325,50 €</text>
+      <text x="42" y="109" font-size="8" fill="#888" font-family="sans-serif">− Krankenversicherung (8,15 %)</text>
+      <text x="232" y="109" font-size="8" fill="#c0392b" font-family="sans-serif" font-weight="700" text-anchor="end">285,25 €</text>
+      <text x="42" y="122" font-size="8" fill="#888" font-family="sans-serif">− Pflegevers. (2,0 %) + AV (1,3 %)</text>
+      <text x="232" y="122" font-size="8" fill="#c0392b" font-family="sans-serif" font-weight="700" text-anchor="end">115,50 €</text>
+
+      <line x1="38" y1="130" x2="234" y2="130" stroke="#ccc" stroke-width="1.5"/>
+      <!-- Net row highlighted -->
+      <rect x="38" y="133" width="194" height="20" fill="rgba(0,201,123,.15)" rx="3"/>
+      <text x="42" y="147" font-size="10" fill="#007a48" font-family="sans-serif" font-weight="900">✓ Nettolohn</text>
+      <text x="232" y="147" font-size="10" fill="#007a48" font-family="sans-serif" font-weight="900" text-anchor="end">2.211,75 €</text>
+
+      <!-- Footer note -->
+      <text x="135" y="172" font-size="7" fill="#bbb" font-family="sans-serif" text-anchor="middle">Steuerklasse I · ledig · keine Kinder</text>
+
+      <!-- Question bubble -->
+      <ellipse cx="305" cy="85" rx="46" ry="48" fill="rgba(255,140,66,.12)" stroke="#ff8c42" stroke-width="1.5"/>
       <text x="305" y="68" font-size="10" fill="#ff8c42" font-family="sans-serif" font-weight="700" text-anchor="middle">Wo sind</text>
       <text x="305" y="82" font-size="10" fill="#ff8c42" font-family="sans-serif" font-weight="700" text-anchor="middle">meine</text>
-      <text x="305" y="98" font-size="20" fill="#ff8c42" font-family="sans-serif" font-weight="900" text-anchor="middle">1.288€</text>
-      <text x="305" y="112" font-size="8" fill="rgba(255,140,66,.6)" font-family="sans-serif" text-anchor="middle">geblieben?</text>
+      <text x="305" y="100" font-size="22" fill="#ff8c42" font-family="sans-serif" font-weight="900" text-anchor="middle">1.288€</text>
+      <text x="305" y="117" font-size="9" fill="rgba(255,140,66,.7)" font-family="sans-serif" text-anchor="middle">geblieben?</text>
+
+      <!-- Arrow from doc to bubble -->
+      <path d="M242,85 Q270,80 258,85" fill="none" stroke="#ff8c42" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr)"/>
     </svg>
     <div style="padding:0 18px 18px">
       <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">ESt Basics · Einführung</div>
