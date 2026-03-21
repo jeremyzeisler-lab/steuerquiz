@@ -5349,7 +5349,7 @@ function _basicsAnswer(chosen, correct, btn) {
   updSc(ok);
 }
 
-function renderAoBasics(a)    { _renderBasicsModule(a, 'ao_basics'); }
+// removed duplicate
 
 
 // ──────────────────────────────────────────────────────────────────
@@ -9723,157 +9723,7 @@ function steveShowHelp(){
 }
 
 // ── §teve: Schwache Themen erkennen ──────────────────────────────
-function steveWeakTopics(){
-  const labels = {
-    est:'💼 Einkommensteuer', ust:'🛒 Umsatzsteuer', ao:'⚖️ AO',
-    bilanz:'📋 Bilanz', recht:'🏛️ Recht', kurios:'🤯 Kurioses',
-    speed:'⚡ Speed', pruefung:'🎓 Prüfungsmodus',
-    gewst:'🏭 Gewerbesteuer', gesellschaft:'🏢 Gesellschaft'
-  };
-  const weak = [], strong = [], untouched = [];
-  Object.keys(labels).forEach(k => {
-    const s = catStats[k];
-    if(!s || s.t === 0){ untouched.push(k); return; }
-    const pct = Math.round(s.c / s.t * 100);
-    if(pct < 50) weak.push({k, pct, label: labels[k]});
-    else if(pct >= 75) strong.push({k, pct, label: labels[k]});
-  });
-  weak.sort((a,b) => a.pct - b.pct);
-
-  let msg = '';
-  if(weak.length === 0 && untouched.length > 0){
-    msg = `§teve sieht: Du hast noch <b>${untouched.length} Themen</b> gar nicht angefasst. Starte mit einem davon!<br><br>`;
-    msg += untouched.slice(0,3).map(k => `<button onclick="sw('${k}');steveToggle()" class="steve-chip" style="margin:2px">${labels[k]}</button>`).join('');
-  } else if(weak.length === 0){
-    msg = `§teve sagt: Stark! 🏆 Keine echten Schwachstellen gefunden. Du liegst bei allen Themen über 50%.`;
-    if(strong.length > 0) msg += `<br><br>Besondes gut: ${strong.map(s=>`${s.label} (${s.pct}%)`).join(', ')}.`;
-  } else {
-    msg = `§teve hat deine Schwachstellen gefunden:<br><br>`;
-    msg += weak.map(w =>
-      `<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-        <button onclick="sw('${w.k}');steveToggle()" style="flex:1;text-align:left;padding:7px 10px;border-radius:9px;border:1.5px solid rgba(255,77,109,.3);background:rgba(255,77,109,.07);color:#ff8099;font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;cursor:pointer">${w.label}</button>
-        <span style="font-size:11px;font-family:'Space Mono',monospace;font-weight:900;color:#ff8099;flex-shrink:0">${w.pct}%</span>
-      </div>`
-    ).join('');
-    msg += `<br><span style="font-size:10px;color:rgba(255,255,255,.4)">Tipp: Klick direkt auf ein Thema um es zu üben.</span>`;
-  }
-  return msg;
-}
-const STEVE_CTX = {
-  basics: {
-    greeting: 'Hey, ich bin §teve – dein persönlicher Steuer-Assistent. 👋<br><br>Basics ist ein guter Start! Hier lernst du warum Steuern dich jeden Tag betreffen – auch wenn du noch nie eine Steuererklärung gemacht hast.',
-    chips: ['Was ist der Unterschied Steuer/Gebühr?','Muss ich mit 18 Steuern zahlen?','Was ist der Grundfreibetrag?','Warum gibt es so viele Steuerarten?']
-  },
-  est: {
-    greeting: '§teve hier. 📊 Einkommensteuer – das Herzstück. Alles dreht sich um § 2 EStG: <b>7 Einkunftsarten</b>, zusammenrechnen, Freibeträge abziehen, Tarif anwenden. Klingt viel, wird aber schnell ein Muster.',
-    chips: ['Was sind die 7 Einkunftsarten?','Was ist der Unterschied § 15 und § 18?','Wie funktioniert der Steuertarif?','Was ist der Grundfreibetrag 2026?']
-  },
-  ust: {
-    greeting: 'Umsatzsteuer – die unsichtbare Steuer. §teve erklärt: Jeder kauft, jeder zahlt sie. Aber nur Unternehmer führen sie ab. Der Clou: Vorsteuerabzug (§ 15 UStG) macht Unternehmer quasi steuerneutral. 🛒',
-    chips: ['Wann gilt 7 %, wann 19 %?','Was ist Vorsteuerabzug?','Was ist Reverse Charge?','Kleinunternehmer – lohnt sich das?']
-  },
-  ao: {
-    greeting: 'AO – das Grundgesetz des Steuerrechts. §teve nennt es gerne das "Betriebssystem": Ohne AO läuft kein Steuergesetz. Hier stehen Fristen, Rechtsbehelfe, Außenprüfungen – alles was zwischen dir und dem Finanzamt passiert. ⚖️',
-    chips: ['Wie lege ich Einspruch ein?','Was ist Festsetzungsverjährung?','Was ist eine Außenprüfung?','Was bedeutet Bestandskraft?']
-  },
-  bilanz: {
-    greeting: 'Bilanz und Buchführung – §teve gibt zu: Das klingt trocken. Ist es aber nicht! Buchführung ist eigentlich Detektivarbeit: Jede Zahlung erzählt eine Geschichte. Aktiva = was du hast. Passiva = wer das bezahlt hat. 📋',
-    chips: ['Was ist Aktiva / Passiva?','Wie funktioniert Soll/Haben?','Was ist Abschreibung (AfA)?','Was ist ein GWG?']
-  },
-  recht: {
-    greeting: 'Privat- und öffentliches Recht – §teve liebt diese Unterscheidung: Wenn der Staat oben steht und Pflichten auferlegt → öffentliches Recht. Wenn zwei Parteien gleichberechtigt → Privatrecht. Steuerrecht? Immer öffentlich. 🏛️',
-    chips: ['Privatrecht vs. öffentliches Recht?','Was ist ein Verwaltungsakt?','Was ist das Finanzgericht?','Was bedeutet Treu und Glauben?']
-  },
-  karriere: {
-    greeting: '§teve kennt den Weg ins Finanzamt in- und auswendig. 🎓 Kurze Version: Bewerbung → Test → Studium/Ausbildung (bezahlt!) → Prüfung → Verbeamtung. Lange Version – frag mich einfach was dich interessiert!',
-    chips: ['Was ist der Unterschied MD und GD?','Wie läuft der Einstellungstest ab?','Was verdiene ich als Anwärter?','Was ist die Zwischenprüfung?']
-  },
-  kurios: {
-    greeting: '§teve liebt diesen Tab. 🤯 Hier erfährst du: Lottogewinne sind steuerfrei. Sektsteuer finanzierte 1902 die Marine. Und ja – es gibt eine Kaffeesteuer. Steuerrecht ist absurder als jeder Roman.',
-    chips: ['Warum ist Lotto steuerfrei?','Was ist die älteste Steuer Deutschlands?','Gibt es eine Digitalsteuer?','Was ist der Unterschied Kaffee/Tee bei der USt?']
-  },
-  speed: {
-    greeting: '§teve sagt: Speed-Quiz trainiert Reaktion – genau wie im echten Einstellungstest zählt Tempo UND Genauigkeit. Falsche Antwort kostet Punkte. Also: Lieber kurz nachdenken als schnell falsch klicken! ⚡',
-    chips: ['Welche Themen kommen im Einstellungstest?','Tipps für das Speed-Quiz?']
-  },
-  pruefung: {
-    greeting: 'Prüfungsmodus – §teve im Ernstnehm-Modus. 🎓 Hier simulierst du echte Klausurbedingungen. Zeitdruck, keine Hilfen, alle Themen gemischt. Pro-Tipp: Lies die Frage zweimal. Fast alle Fehler passieren durch zu schnelles Lesen.',
-    chips: ['Welche Themen sind prüfungsrelevant?','Wie bereite ich mich auf die Laufbahnprüfung vor?','Was sind typische Klausurfallen?']
-  },
-  trainer: {
-    greeting: '§teve im Trainer-Modus! 🧪 Der Einstellungstest hat 6 Bereiche – und falsche Antworten kosten Punkte. Mein Tipp: Fang mit dem Bereich an wo du dich am unsichersten fühlst. Stärken trainiert sich von selbst.',
-    chips: ['Was kommt im Berliner Einstellungstest?','Welcher Bereich ist am schwersten?','Wie viele Fragen hat der echte Test?']
-  },
-  meinbereich: {
-    greeting: '§teve checkt deinen Fortschritt. ⭐ Hier siehst du welche Themen du schon gemeistert hast – und welche noch Arbeit brauchen. Schlechte Werte sind kein Problem: Sie zeigen dir genau wo du üben sollst.',
-    chips: ['Zeig mir meine schwachen Themen','Wie funktioniert das Punktesystem?','Was sind Abzeichen?']
-  },
-  default: {
-    greeting: '§teve ist da! Ich begleite dich durch Steuerrecht, Karriere und alles dazwischen. Was kann ich für dich tun? 💡',
-    chips: ['Was kann diese Seite?','Wo fange ich am besten an?','Was ist das Karriere-Modul?','Gibt es einen Einstellungstest-Trainer?']
-  }
-};
-
-
-
-let steveOpen = false;
-let steveCurrentCtx = 'default';
-let steveIntroDone = false;
-let steveIntroStep = 0;
-
-const STEVE_INTRO = [
-  // Schritt 0: §teve stellt sich vor + Tour direkt anbieten
-  {
-    msg: `Hey! 👋 Ich bin <b>§teve</b> – dein Steuer-Assistent.<br><br>
-Ich kann dir die Seite zeigen, Fragen beantworten und helfe dir beim Lernen.<br><br>
-<button onclick="steveLaunchTour()" style="width:100%;padding:12px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:var(--navy);font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer;margin-bottom:6px">🔍 Seiten-Tour starten</button>
-<button onclick="steveIntroNext('usp')" style="width:100%;padding:10px;border-radius:12px;border:1.5px solid rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.6);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">Zeig mir die Highlights →</button>`,
-    chips: []
-  },
-  // Schritt 1: USP 1 – Karriere & Bewerbung
-  {
-    msg: `<b>USP #1: Der vollständigste Karriere-Guide für die Finanzverwaltung.</b><br><br>
-🗺️ Schritt-für-Schritt Bewerbungsweg (MD & GD)<br>
-📅 Alle Fristen, Unterlagen, Testinfos<br>
-🧪 Einstellungstest-Trainer für alle 6 Testbereiche<br>
-💰 Gehaltsvisualisierung von A 7 bis A 13<br><br>
-<button onclick="sw('karriere');steveToggle()" style="width:100%;padding:9px;border-radius:10px;border:none;background:linear-gradient(135deg,#00c97b,#005c36);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:12px;cursor:pointer">→ Karriere jetzt ansehen</button>`,
-    chips: ['Weiter →']
-  },
-  // Schritt 2: USP 2 – Quiz & Lernen
-  {
-    msg: `<b>USP #2: 300+ Quizfragen – direkt auf Prüfungsniveau.</b><br><br>
-💼 Einkommensteuer · 🛒 USt · ⚖️ AO · 📋 Bilanz · 🏛️ Recht<br><br>
-Besonderheiten die kein anderes Portal hat:<br>
-📖 <b>Steuer-Stories</b> – Steuern durch echte Alltagssituationen lernen<br>
-🔁 <b>Fehlerspeicher</b> – nur deine falschen Antworten wiederholen<br>
-⚡ <b>Speed-Quiz</b> & 🎓 <b>Prüfungsmodus</b> mit Zeitdruck<br><br>
-<button onclick="sw('est');steveToggle()" style="width:100%;padding:9px;border-radius:10px;border:none;background:linear-gradient(135deg,#1a3a8f,#0d2b5e);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:12px;cursor:pointer">→ Quiz ausprobieren</button>`,
-    chips: ['Weiter →']
-  },
-  // Schritt 3: USP 3 – Basics & Einstieg
-  {
-    msg: `<b>USP #3: Auch für absolute Einsteiger.</b><br><br>
-Der <b>Basics-Bereich</b> erklärt Steuern ohne Vorwissen:<br><br>
-🗺️ <b>Steuer-Tour</b> – interaktives Einführungs-Tutorial<br>
-💶 <b>Gehaltsrechner</b> – was bleibt von deinem Bruttogehalt?<br>
-💡 <b>„Was kann ich absetzen?"</b> – mit rechtlicher Erklärung<br>
-🤯 <b>Kurioses</b> – Fakten die überraschen<br><br>
-<button onclick="sw('basics');steveToggle()" style="width:100%;padding:9px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:var(--navy);font-family:'Nunito',sans-serif;font-weight:900;font-size:12px;cursor:pointer">→ Basics ansehen</button>`,
-    chips: ['Weiter →']
-  },
-  // Schritt 4: USP 4 – Was ich kann
-  {
-    msg: `<b>USP #4: Ich – §teve – bin immer dabei.</b> 😄<br><br>
-✅ Beantworte Fragen zu Steuerrecht & Karriere<br>
-✅ Erkläre Begriffe mit Paragraphen-Referenzen<br>
-✅ Melde mich automatisch wenn du 3× falsch liegst<br>
-✅ Zeige dir welche Themen du am meisten üben solltest<br><br>
-Einfach jederzeit antippen – ich bin unten links auf dem Handy, unten rechts auf dem Desktop.<br><br>
-<span style="font-size:10px;color:rgba(255,255,255,.35);font-family:'Space Mono',monospace">Kostenlos · Kein Login · Alle Daten bleiben lokal in deinem Browser</span>`,
-    chips: ['Los geht\'s! 🚀']
-  }
-];
+// removed duplicate steveWeakTopics
 
 function steveIntroNext(choice) {
   if (choice === 'Nein danke, ich schau selbst' || choice === 'Los geht\'s! 🚀') {
@@ -9931,76 +9781,17 @@ function steveRestartIntro(){
   ).join('');
 }
 
-function steveSetCtx(m) {
-  steveCurrentCtx = m;
-  const ctx = STEVE_CTX[m] || STEVE_CTX.default;
-  const msgs = document.getElementById('steve-msgs');
-  if (!msgs) return;
-  if (msgs.children.length === 0) {
-    steveAddMsg('steve', ctx.greeting);
-  }
-  const chipsEl = document.getElementById('steve-chips');
-  if(chipsEl) chipsEl.innerHTML = steveChipsHtml(ctx.chips);
-}
+// removed duplicate steveSetCtx
 
-function steveAddMsg(role, html) {
-  const msgs = document.getElementById('steve-msgs');
-  if (!msgs) return;
-  const div = document.createElement('div');
-  div.className = 'steve-msg steve-msg-' + role;
-  div.innerHTML = html;
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-}
+// removed duplicate steveAddMsg
 
-function steveAsk(text) {
-  const input = document.getElementById('steve-input');
-  if (input) input.value = text;
-  steveSend();
-}
+// removed duplicate steveAsk
 
-function steveSend() {
-  const input = document.getElementById('steve-input');
-  if (!input) return;
-  const text = input.value.trim();
-  if (!text) return;
-  input.value = '';
-  steveAddMsg('user', text);
-  // Find matching QA
-  const match = STEVE_QA.find(qa => qa.q.test(text));
-  setTimeout(() => {
-    if (match) {
-      steveAddMsg('steve', match.a);
-    } else {
-      steveAddMsg('steve', `§teve gibt zu: Auf "<b>${text}</b>" habe ich keine fertige Antwort parat. 🤔<br><br>Versuch es mit den Schnell-Antworten unten – oder schau im <b>Glossar</b> nach (Tab 📖). Wenn du einen echten Tipp-Fehler gefunden hast: Feedback-Button nutzen!`);
-    }
-    const msgs = document.getElementById('steve-msgs');
-    if (msgs) msgs.scrollTop = msgs.scrollHeight;
-  }, 400);
-}
+// removed duplicate steveSend
 
-function steveClear() {
-  const msgs = document.getElementById('steve-msgs');
-  if (msgs) msgs.innerHTML = '';
-  // After clear, always show context (not intro again)
-  steveIntroDone = true;
-  steveSetCtx(steveCurrentCtx);
-}
+// removed duplicate steveClear
 
-// Hook into sw() to update §teve context when tab changes
-const _origRender = typeof render === 'function' ? render : null;
-function steveOnSwitch(m) {
-  if (steveOpen) {
-    steveCurrentCtx = m;
-    const ctx = STEVE_CTX[m] || STEVE_CTX.default;
-    const chipsEl = document.getElementById('steve-chips');
-    if(chipsEl) chipsEl.innerHTML = steveChipsHtml(ctx.chips);
-    const ctxName = {basics:'Basics',est:'ESt',ust:'USt',ao:'AO',bilanz:'Bilanz',
-      recht:'Recht',karriere:'Karriere',kurios:'Kurioses',speed:'Speed',
-      pruefung:'Prüfungsmodus',trainer:'Testtrainer',meinbereich:'Mein Bereich'}[m] || m;
-    steveAddMsg('steve', `📍 Du bist jetzt bei <b>${ctxName}</b>. Meine Schnell-Antworten habe ich angepasst.`);
-  }
-}
+// removed duplicate steveOnSwitch
 
 function steveToggle() {
   steveOpen = !steveOpen;
