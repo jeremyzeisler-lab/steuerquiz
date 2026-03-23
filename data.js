@@ -2489,6 +2489,7 @@ function init(){
   // Badge after DOM renders
   setTimeout(updateFehlerBadge, 100);
 }
+let tourActive = false; // prevents render() overwriting active tour
 let steveWrongStreak = 0; // consecutive wrong answers counter
 let steveLastExplain = ''; // last wrong answer explanation
 let steveHistory = []; // chat history for AI context
@@ -8877,7 +8878,6 @@ const MERKSATZ_DATA = [
 
 const STEUER_TOUR_KEY = 'steuerTourDone_v2';
 let tourStep = 0;
-let tourActive = false; // blocks render() from overwriting tour
 let tourAnswers = {};
 
 function startSteuerTour(){
