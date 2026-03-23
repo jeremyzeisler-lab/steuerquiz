@@ -2491,6 +2491,9 @@ function init(){
 }
 let steveWrongStreak = 0; // consecutive wrong answers counter
 let steveLastExplain = ''; // last wrong answer explanation
+let steveHistory = []; // chat history for AI context
+let steveStreaming = false; // prevent double sends
+const STEVE_WORKER_URL = 'https://steve.steuer-lernspiel.workers.dev/steve';
 
 function updSc(ok){
   trackCategoryProgress(mode, ok);
@@ -2592,6 +2595,7 @@ function sw(m){
   _doSw(m);
 }
 function _doSw(m){
+  if(m !== 'basics') tourActive = false; // leaving basics resets tour
   // Auto-reset score when switching between different quiz modes
   const SCORE_MODES=['est','ust','bilanz','ao','kurios','recht','speed','flashcard','pruefung'];
   if(SCORE_MODES.includes(m) && scoreMode!==m){
@@ -2738,6 +2742,7 @@ function setTopicHeader(m){
 
 function render(){
   const a=document.getElementById('ga');
+  if(tourActive) return; // tour is rendering - don't overwrite
   if(mode==='basics'){
     if(userLevel==='einsteiger'){renderBasicsEinsteiger(a);}else{renderBasics(a);requestAnimationFrame(startTaxAnimations);}
   }
@@ -8872,13 +8877,14 @@ const MERKSATZ_DATA = [
 
 const STEUER_TOUR_KEY = 'steuerTourDone_v2';
 let tourStep = 0;
+let tourActive = false; // blocks render() from overwriting tour
 let tourAnswers = {};
 
 function startSteuerTour(){
-  // Close §teve if open so it doesn't cover the tour
   if(steveOpen) steveToggle();
   tourStep = 0;
   tourAnswers = {};
+  tourActive = true;
   const a = document.getElementById('ga');
   if(a){
     a.classList.add('basics-dark-mode');
@@ -8892,7 +8898,7 @@ function renderTourStep(a){
   if(!step){ tourDone(a); return; }
   const prog = Math.round((tourStep / STEUER_TOUR_STEPS.length) * 100);
   const prgBar = `<div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
-    <button onclick="const a=document.getElementById('ga');renderBasicsEinsteiger(a)" style="background:rgba(255,255,255,.08);border:none;color:rgba(255,255,255,.45);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer">✕ Beenden</button>
+    <button onclick="tourActive=false;const a=document.getElementById('ga');renderBasicsEinsteiger(a)" style="background:rgba(255,255,255,.08);border:none;color:rgba(255,255,255,.45);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer">✕ Beenden</button>
     <button onclick="startSteuerTour()" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.3);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer">↺ Neu starten</button>
     <div style="flex:1;height:5px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden">
       <div style="height:100%;width:${prog}%;background:linear-gradient(90deg,var(--cyan),#00c97b);border-radius:100px;transition:width .4s"></div>
@@ -8909,6 +8915,7 @@ function tourNext(){
 }
 
 function tourDone(a){
+  tourActive = false;
   localStorage.setItem(STEUER_TOUR_KEY, '1');
   a.innerHTML = `<div style="color:#fff;text-align:center;padding:48px 20px 90px">
     <div style="font-size:56px;margin-bottom:16px">🎉</div>
@@ -9863,29 +9870,93 @@ function steveAsk(text) {
   steveSend();
 }
 
-function steveSend() {
+async function steveSend() {
+  if (steveStreaming) return;
   const input = document.getElementById('steve-input');
   if (!input) return;
   const text = input.value.trim();
   if (!text) return;
   input.value = '';
-  steveAddMsg('user', text);
+  input.style.height = 'auto';
+
+  // First check local QA for instant answers on common questions
   const match = STEVE_QA.find(qa => qa.q.test(text));
-  setTimeout(() => {
-    if (match) {
-      const ans = typeof match.a === 'function' ? match.a() : match.a;
-      steveAddMsg('steve', ans);
-    } else {
-      steveAddMsg('steve', `§teve gibt zu: Auf "<b>${text}</b>" habe ich keine fertige Antwort. 🤔<br><br>Versuch die Schnell-Antworten – oder schau im <b>Glossar</b> nach (Tab 📖).`);
-    }
+  steveAddMsg('user', text);
+  steveHistory.push({ role: 'user', content: text });
+
+  // Keep history short (last 8 messages = 4 exchanges)
+  if (steveHistory.length > 8) steveHistory = steveHistory.slice(-8);
+
+  if (match) {
+    // Instant local answer
+    const ans = typeof match.a === 'function' ? match.a() : match.a;
+    const plain = ans.replace(/<[^>]*>/g, ''); // strip HTML for history
+    steveAddMsg('steve', ans);
+    steveHistory.push({ role: 'assistant', content: plain });
     const msgs = document.getElementById('steve-msgs');
     if (msgs) msgs.scrollTop = msgs.scrollHeight;
-  }, 380);
+    return;
+  }
+
+  // AI answer via Cloudflare Worker
+  steveStreaming = true;
+  const sendBtn = document.getElementById('steve-send-btn');
+  if (sendBtn) sendBtn.disabled = true;
+
+  // Show typing indicator
+  const typingId = 'steve-typing-' + Date.now();
+  const msgs = document.getElementById('steve-msgs');
+  const typingDiv = document.createElement('div');
+  typingDiv.id = typingId;
+  typingDiv.className = 'steve-msg steve-msg-ai';
+  typingDiv.innerHTML = '<span class="steve-typing"><span></span><span></span><span></span></span>';
+  if (msgs) { msgs.appendChild(typingDiv); msgs.scrollTop = msgs.scrollHeight; }
+
+  try {
+    const res = await fetch(STEVE_WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        messages: steveHistory,
+        context: mode || 'basics'
+      })
+    });
+
+    const typing = document.getElementById(typingId);
+    if (typing) typing.remove();
+
+    if (!res.ok) throw new Error('Worker error ' + res.status);
+
+    const data = await res.json();
+    const reply = data.reply || 'Entschuldigung, ich konnte keine Antwort generieren.';
+
+    // Format markdown-like output
+    const formatted = reply
+      .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
+      .replace(/§ (\d+[a-z]?)(?: Abs\.? (\d+))?(?: (\w+))/g, '<span style="color:var(--cyan);font-weight:700">§ $1$2 $3</span>')
+      .replace(/\n\n/g, '<br><br>')
+      .replace(/\n/g, '<br>');
+
+    steveAddMsg('steve', formatted);
+    steveHistory.push({ role: 'assistant', content: reply });
+
+  } catch (err) {
+    const typing = document.getElementById(typingId);
+    if (typing) typing.remove();
+    // Fallback to local hint
+    steveAddMsg('steve', `§teve hat gerade kein Netz. 📡<br><br>Schau im <b>Glossar</b> nach oder probier eine Schnell-Antwort!`);
+    console.warn('§teve Worker error:', err);
+  }
+
+  steveStreaming = false;
+  if (sendBtn) sendBtn.disabled = false;
+  if (msgs) msgs.scrollTop = msgs.scrollHeight;
 }
 
 function steveClear() {
   const msgs = document.getElementById('steve-msgs');
   if (msgs) msgs.innerHTML = '';
+  steveHistory = [];
   steveSetCtx(steveCurrentCtx);
 }
 
