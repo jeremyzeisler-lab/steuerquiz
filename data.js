@@ -3362,37 +3362,52 @@ function renderBasics(a){
   a.classList.add('basics-dark-mode');
   a.classList.remove('etag-mode');
 
-  // ── Live stats from catStats ──────────────────────────────────────
+  // ── Live stats ──────────────────────────────────────────────────
   const catDef = [
-    {key:'est',   icon:'💼', label:'ESt',       mode:'est',         color:'#1a3a8f'},
-    {key:'ust',   icon:'🛒', label:'USt',       mode:'ust',         color:'#ff8c42'},
-    {key:'ao',    icon:'⚖️', label:'AO',        mode:'ao',          color:'#7b5ea7'},
-    {key:'bilanz',icon:'📋', label:'Bilanz',    mode:'bilanz',      color:'#00bcd4'},
-    {key:'recht', icon:'🏛️', label:'Recht',     mode:'recht',       color:'#005c36'},
-    {key:'gewst', icon:'🏭', label:'GewSt',     mode:'gewst',       color:'#4a7a00'},
-    {key:'kurios',icon:'🤯', label:'Kurioses',  mode:'kurios',      color:'#b84a00'},
-    {key:'gesellschaft',icon:'🏢',label:'Gesellschaft',mode:'gesellschaft',color:'#5c1a8f'},
+    {key:'est',   icon:'💼', label:'ESt',          mode:'est',          color:'#1a3a8f'},
+    {key:'ust',   icon:'🛒', label:'USt',           mode:'ust',          color:'#ff8c42'},
+    {key:'ao',    icon:'⚖️', label:'AO',            mode:'ao',           color:'#7b5ea7'},
+    {key:'bilanz',icon:'📋', label:'Bilanz',        mode:'bilanz',       color:'#00bcd4'},
+    {key:'recht', icon:'🏛️', label:'Recht',         mode:'recht',        color:'#005c36'},
+    {key:'gewst', icon:'🏭', label:'GewSt',         mode:'gewst',        color:'#4a7a00'},
+    {key:'kurios',icon:'🤯', label:'Kurioses',      mode:'kurios',       color:'#b84a00'},
+    {key:'gesellschaft',icon:'🏢',label:'Gesellsch.',mode:'gesellschaft',color:'#5c1a8f'},
   ];
-
   const totalQ = catDef.reduce((s,ct)=>{ const st=catStats[ct.key]; return s+(st?st.t:0); },0);
   const totalC = catDef.reduce((s,ct)=>{ const st=catStats[ct.key]; return s+(st?st.c:0); },0);
   const ovPct  = totalQ>0 ? Math.round(totalC/totalQ*100) : 0;
+  const profi  = catDef.filter(ct=>{const s=catStats[ct.key];return s&&s.t>=10&&s.c/s.t>=0.8;}).length;
 
-  // Quiz kacheln with per-topic stats
+  // ── Lernpfad-Fortschritt ────────────────────────────────────────
+  const FORT_KEY = 'fortPfad_v1';
+  function getFortProgress(){ try{ return JSON.parse(localStorage.getItem(FORT_KEY)||'{}'); }catch(e){ return {}; } }
+  const fp = getFortProgress();
+  const pfadSteps = [
+    { id:'zve',   icon:'🧮', title:'ZvE-Schema',         sub:'Herzstück der ESt',         done: fp.zve },
+    { id:'est',   icon:'💼', title:'Einkunftsarten',      sub:'10 Fragen · ≥7 richtig',    done: fp.est },
+    { id:'ao',    icon:'⚖️', title:'AO-Grundlagen',       sub:'10 Fragen + Praxisfall',    done: fp.ao  },
+    { id:'ust',   icon:'🛒', title:'Umsatzsteuer',        sub:'10 Fragen · ≥7 richtig',    done: fp.ust },
+    { id:'pruef', icon:'🎓', title:'Prüfungssimulation',  sub:'20 Fragen gemischt',        done: fp.pruef},
+  ];
+  const pfadDone = pfadSteps.filter(s=>s.done).length;
+  const pfadPct  = Math.round(pfadDone / pfadSteps.length * 100);
+  const nextStep = pfadSteps.find(s=>!s.done) || pfadSteps[pfadSteps.length-1];
+
+  // ── Quiz kacheln ────────────────────────────────────────────────
   const quizKacheln = catDef.map(ct=>{
     const st  = catStats[ct.key];
     const pct = st&&st.t>0 ? Math.round(st.c/st.t*100) : -1;
-    const hs  = highscores[ct.mode];
+    const hs  = typeof highscores !== 'undefined' && highscores[ct.mode];
     const col = pct<0?'rgba(255,255,255,.25)':pct>=80?'#00c97b':pct>=50?'var(--cyan)':'#ff8c42';
     const bar = pct<0?0:pct;
-    return `<div onclick="sw('${ct.mode}')" style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:11px 12px;cursor:pointer;transition:all .18s;position:relative;overflow:hidden" onmouseover="this.style.background='rgba(255,255,255,.09)';this.style.borderColor='${ct.color}66'" onmouseout="this.style.background='rgba(255,255,255,.05)';this.style.borderColor='rgba(255,255,255,.1)'">
-      <div style="position:absolute;bottom:0;left:0;height:3px;width:${bar}%;background:${col};transition:width .4s"></div>
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
+    return `<div onclick="sw('${ct.mode}')" style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:11px 12px;cursor:pointer;transition:all .18s;position:relative;overflow:hidden" onmouseover="this.style.background='rgba(255,255,255,.09)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
+      <div style="position:absolute;bottom:0;left:0;height:3px;width:${bar}%;background:${col}"></div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
         <span style="font-size:18px">${ct.icon}</span>
         <span style="font-size:12px;font-weight:900;color:#fff;flex:1">${ct.label}</span>
         <span style="font-size:10px;font-weight:900;color:${col};font-family:'Space Mono',monospace">${pct<0?'–':pct+'%'}</span>
       </div>
-      <div style="font-size:9px;color:rgba(255,255,255,.35);font-weight:700;font-family:'Space Mono',monospace">${st&&st.t>0?st.c+'/'+st.t+' richtig':'Noch nicht gespielt'}${hs?' · Best: '+hs.score+'/'+hs.total:''}</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.3);font-weight:700;font-family:'Space Mono',monospace">${st&&st.t>0?st.c+'/'+st.t+' richtig':'Noch nicht gespielt'}${hs?' · Best: '+hs.score+'/'+hs.total:''}</div>
     </div>`;
   }).join('');
 
@@ -3401,9 +3416,9 @@ function renderBasics(a){
 <!-- ══ DASHBOARD HERO ════════════════════════════════════════════════ -->
 <div style="background:linear-gradient(145deg,#060f22,#0d2b5e 55%,#1a0060);border-radius:22px;padding:20px 18px;margin-bottom:14px;position:relative;overflow:hidden">
   <div style="position:absolute;right:-10px;top:-10px;font-size:100px;opacity:.04;line-height:1">📊</div>
-  <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:6px">Dein Lernstand · Fortgeschritten</div>
-  <div style="font-size:20px;font-weight:900;color:#fff;margin-bottom:12px">
-    ${totalQ===0 ? 'Bereit? Starte mit einem Thema ↓' : ovPct>=80 ? '🏆 Sehr guter Stand – weiter so!' : ovPct>=50 ? '📈 Guter Fortschritt – dran bleiben' : '🎯 Noch Luft nach oben – übe weiter'}
+  <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:6px">Fortgeschritten · Prüfungsvorbereitung</div>
+  <div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:12px">
+    ${totalQ===0 ? 'Bereit? Starte den Lernpfad.' : ovPct>=80 ? '🏆 Sehr starker Stand – weiter so!' : ovPct>=50 ? '📈 Guter Fortschritt – dran bleiben!' : '🎯 Noch Luft nach oben – übe weiter!'}
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">
     <div style="background:rgba(255,255,255,.08);border-radius:12px;padding:10px 8px;text-align:center">
@@ -3415,18 +3430,88 @@ function renderBasics(a){
       <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700;margin-top:2px">Richtigquote</div>
     </div>
     <div style="background:rgba(255,255,255,.08);border-radius:12px;padding:10px 8px;text-align:center">
-      <div style="font-size:20px;font-weight:900;color:#ffd94a;font-family:'Space Mono',monospace">${catDef.filter(ct=>{const s=catStats[ct.key];return s&&s.t>0&&s.c/s.t>=0.8;}).length}</div>
+      <div style="font-size:20px;font-weight:900;color:#ffd94a;font-family:'Space Mono',monospace">${profi}</div>
       <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700;margin-top:2px">Themen ≥80%</div>
     </div>
   </div>
-  <div style="display:flex;gap:8px">
-    <button onclick="sw('meinbereich')" style="flex:1;padding:11px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">📊 Mein Bereich</button>
-    <button onclick="sw('meinbereich');setTimeout(()=>renderDaily(document.getElementById('ga')),50)" style="flex:1;padding:11px;border-radius:12px;border:1.5px solid rgba(255,217,74,.3);background:rgba(255,217,74,.08);color:#ffd94a;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">📅 Daily</button>
+  <button onclick="sw('meinbereich')" style="width:100%;padding:11px;border-radius:12px;border:none;background:rgba(0,194,224,.15);color:var(--cyan);font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">📊 Mein Bereich → Statistiken & Badges</button>
+</div>
+
+<!-- ══ LERNPFAD ═══════════════════════════════════════════════════════ -->
+<div style="margin-bottom:14px">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+    <div style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:2px;text-transform:uppercase;flex:1">🗺️ Lernpfad – Weg zur Prüfung</div>
+    <div style="font-size:10px;font-weight:900;color:${pfadPct>=100?'#00c97b':'var(--cyan)'};font-family:'Space Mono',monospace">${pfadDone}/${pfadSteps.length}</div>
+  </div>
+  <div style="background:rgba(255,255,255,.06);border-radius:100px;height:6px;margin-bottom:12px;overflow:hidden">
+    <div style="height:100%;width:${pfadPct}%;background:linear-gradient(90deg,var(--cyan),#00c97b);border-radius:100px;transition:width .5s"></div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:7px">
+    ${pfadSteps.map((step, i) => {
+      const unlocked = i === 0 || pfadSteps[i-1].done;
+      const isCurrent = !step.done && unlocked;
+      const pfadActions = {
+        zve:   `document.getElementById('pfad-zve-detail').style.display=document.getElementById('pfad-zve-detail').style.display==='block'?'none':'block'`,
+        est:   `sw('est')`,
+        ao:    `sw('ao')`,
+        ust:   `sw('ust')`,
+        pruef: `sw('pruefung')`,
+      };
+      const bg   = step.done ? 'rgba(0,201,123,.1)' : isCurrent ? 'rgba(0,194,224,.1)' : 'rgba(255,255,255,.04)';
+      const bord = step.done ? 'rgba(0,201,123,.4)' : isCurrent ? 'rgba(0,194,224,.3)'  : 'rgba(255,255,255,.08)';
+      const col  = step.done ? '#00c97b' : isCurrent ? 'var(--cyan)' : 'rgba(255,255,255,.3)';
+      return `<div onclick="${unlocked ? pfadActions[step.id] : ''}" style="background:${bg};border:1.5px solid ${bord};border-radius:14px;padding:12px 14px;${unlocked?'cursor:pointer;':'opacity:.45;'}display:flex;align-items:center;gap:12px;transition:all .18s">
+        <div style="font-size:24px;flex-shrink:0">${step.done ? '✅' : isCurrent ? step.icon : '🔒'}</div>
+        <div style="flex:1">
+          <div style="font-size:13px;font-weight:900;color:${step.done?'#fff':isCurrent?'#fff':'rgba(255,255,255,.5)'};">${step.title}</div>
+          <div style="font-size:10px;color:${col};font-weight:700;margin-top:2px">${step.done ? '✓ Abgeschlossen' : step.sub}</div>
+        </div>
+        ${isCurrent ? `<div style="font-size:12px;font-weight:900;color:var(--cyan);padding:5px 10px;border-radius:100px;border:1.5px solid rgba(0,194,224,.4);background:rgba(0,194,224,.1)">Jetzt</div>` : ''}
+        ${step.done ? '' : unlocked && !isCurrent ? '' : ''}
+      </div>
+      ${step.id === 'zve' ? `<div id="pfad-zve-detail" style="display:none;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:0 0 14px 14px;padding:14px;margin-top:-7px">
+        ${renderZveInline()}
+        <button onclick="(function(){const p=JSON.parse(localStorage.getItem('${FORT_KEY}')||'{}');p.zve=true;localStorage.setItem('${FORT_KEY}',JSON.stringify(p));renderBasics(document.getElementById('ga'))})()" style="width:100%;margin-top:12px;padding:11px;border-radius:11px;border:none;background:linear-gradient(135deg,#00c97b,#005c36);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">✅ ZvE-Schema gelernt – als erledigt markieren</button>
+      </div>` : ''}`;
+    }).join('')}
   </div>
 </div>
 
-<!-- ══ ZVE-SCHEMA ════════════════════════════════════════════════════ -->
-<!-- ZVE -->
+<!-- ══ QUIZ-KACHELN ══════════════════════════════════════════════════ -->
+<div style="margin-bottom:14px">
+  <div style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">📝 Alle Quiz-Themen</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    ${quizKacheln}
+  </div>
+</div>
+
+<!-- ══ PRÜFUNGS-WERKZEUGKISTE ════════════════════════════════════════ -->
+<div style="background:linear-gradient(135deg,rgba(0,40,20,.8),rgba(0,80,40,.4));border:1.5px solid rgba(0,201,123,.2);border-radius:18px;padding:16px;margin-bottom:14px">
+  <div style="font-size:10px;font-family:'Space Mono',monospace;color:#00c97b;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">🎓 Prüfungs-Werkzeugkiste</div>
+  <div style="display:flex;flex-direction:column;gap:7px">
+    ${[
+      {icon:'🎓',label:'Prüfungsmodus',sub:'Klausur-Simulation · Timer · Note',mode:'pruefung',col:'rgba(0,201,123,.25)'},
+      {icon:'🔁',label:'Fehler üben',sub:`Falsch beantwortete Fragen · ${typeof fehlerQueue!=='undefined'?fehlerQueue.length:0} gespeichert`,mode:'pruefung',col:'rgba(255,77,109,.2)'},
+      {icon:'⚡',label:'Speed-Quiz',sub:'Gegen die Uhr · Reaktion schärfen',mode:'speed',col:'rgba(139,92,246,.2)'},
+      {icon:'📁',label:'Praxisfälle',sub:'9 Szenarien · AO · ESt · USt',mode:'praxis',col:'rgba(0,194,224,.2)'},
+      {icon:'🃏',label:'Lernkarten',sub:'44 Sets · alle Themen',mode:'flashcard',col:'rgba(255,140,66,.2)'},
+    ].map(t=>`<div onclick="sw('${t.mode}')" style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.08);border-radius:12px;padding:11px 14px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:all .18s" onmouseover="this.style.background='${t.col}'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
+      <span style="font-size:22px">${t.icon}</span>
+      <div style="flex:1"><div style="font-size:13px;font-weight:900;color:#fff">${t.label}</div><div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700">${t.sub}</div></div>
+      <span style="color:rgba(255,255,255,.2)">›</span>
+    </div>`).join('')}
+  </div>
+</div>
+
+<!-- ══ THEORIE ═══════════════════════════════════════════════════════ -->
+<details style="margin-bottom:14px">
+  <summary style="list-style:none;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:14px;padding:13px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;color:rgba(255,255,255,.7)">
+    <span style="font-size:18px">📚</span>
+    <span style="flex:1">Theorieblock – ZvE, Gutachtenstil, Klausurbeispiele</span>
+    <span style="font-size:18px;color:rgba(255,255,255,.3)">›</span>
+  </summary>
+  <div style="padding:12px 4px 0">
+    <!-- ZVE -->
 <div class="bsec" style="margin-top:18px">🧮 Der Weg zum zu versteuernden Einkommen</div>
 <div id="tour-zve" style="background:#fff;border-radius:16px;border:2px solid #dde5f5;padding:16px;margin-bottom:10px">
   <div style="font-size:10px;font-weight:700;color:#aaa;font-family:'Space Mono',monospace;margin-bottom:14px;letter-spacing:.5px">§ 2 Abs. 1–5 EStG · Prüfungsrelevante Schrittfolge</div>
@@ -3556,66 +3641,43 @@ function renderBasics(a){
       · <b>Kein Urteilsstil:</b> Nicht „Lena ist steuerpflichtig, weil…" – sondern erst prüfen, dann Ergebnis
     </div>
   </div>
-</div>
 
-<div style="height:90px"></div>
-
-<!-- ══ QUIZ-KACHELN ═════════════════════════════════════════════════ -->
-<div style="margin-bottom:14px">
-  <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">📝 Quiz-Themen · Dein Fortschritt</div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-    ${quizKacheln}
   </div>
-</div>
-
-<!-- ══ PRÜFUNGS-WERKZEUGKISTE ════════════════════════════════════════ -->
-<div style="background:linear-gradient(135deg,rgba(0,40,20,.8),rgba(0,80,40,.4));border:1.5px solid rgba(0,201,123,.2);border-radius:18px;padding:16px;margin-bottom:14px">
-  <div style="font-size:9px;font-family:'Space Mono',monospace;color:#00c97b;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">🎓 Prüfungs-Werkzeugkiste</div>
-  <div style="font-size:15px;font-weight:900;color:#fff;margin-bottom:10px">Alles für die nächste Klausur</div>
-  <div style="display:flex;flex-direction:column;gap:7px">
-    <div onclick="sw('pruefung')" style="background:rgba(255,255,255,.06);border:1.5px solid rgba(0,201,123,.25);border-radius:12px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:all .18s" onmouseover="this.style.background='rgba(0,201,123,.1)'" onmouseout="this.style.background='rgba(255,255,255,.06)'">
-      <span style="font-size:24px">🎓</span>
-      <div style="flex:1"><div style="font-size:13px;font-weight:900;color:#fff">Prüfungsmodus</div><div style="font-size:10px;color:rgba(255,255,255,.45);font-weight:700">Echte Klausur-Simulation · Timer · Note 1–6 · alle Themen</div></div>
-      <span style="color:rgba(255,255,255,.2)">›</span>
-    </div>
-    <div onclick="sw('pruefung')" style="background:rgba(255,255,255,.06);border:1.5px solid rgba(255,77,109,.2);border-radius:12px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:all .18s" onmouseover="this.style.background='rgba(255,77,109,.08)'" onmouseout="this.style.background='rgba(255,255,255,.06)'">
-      <span style="font-size:24px">🔁</span>
-      <div style="flex:1"><div style="font-size:13px;font-weight:900;color:#fff">Fehler üben</div><div style="font-size:10px;color:rgba(255,255,255,.45);font-weight:700">Falsch beantwortete Fragen gezielt wiederholen · ${fehlerQueue?fehlerQueue.length:0} Fragen gespeichert</div></div>
-      <span style="color:rgba(255,255,255,.2)">›</span>
-    </div>
-    <div onclick="sw('speed')" style="background:rgba(255,255,255,.06);border:1.5px solid rgba(139,92,246,.2);border-radius:12px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:all .18s" onmouseover="this.style.background='rgba(139,92,246,.08)'" onmouseout="this.style.background='rgba(255,255,255,.06)'">
-      <span style="font-size:24px">⚡</span>
-      <div style="flex:1"><div style="font-size:13px;font-weight:900;color:#fff">Speed-Quiz</div><div style="font-size:10px;color:rgba(255,255,255,.45);font-weight:700">Gegen die Uhr · Reaktion schärfen · Paragraphen festigen</div></div>
-      <span style="color:rgba(255,255,255,.2)">›</span>
-    </div>
-    <div onclick="sw('praxis')" style="background:rgba(255,255,255,.06);border:1.5px solid rgba(0,194,224,.2);border-radius:12px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:all .18s" onmouseover="this.style.background='rgba(0,194,224,.08)'" onmouseout="this.style.background='rgba(255,255,255,.06)'">
-      <span style="font-size:24px">📁</span>
-      <div style="flex:1"><div style="font-size:13px;font-weight:900;color:#fff">Praxisfälle</div><div style="font-size:10px;color:rgba(255,255,255,.45);font-weight:700">9 realistische Szenarien in 3 Schritten · AO · ESt · USt</div></div>
-      <span style="color:rgba(255,255,255,.2)">›</span>
-    </div>
-    <div onclick="sw('flashcard')" style="background:rgba(255,255,255,.06);border:1.5px solid rgba(255,140,66,.2);border-radius:12px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:all .18s" onmouseover="this.style.background='rgba(255,140,66,.08)'" onmouseout="this.style.background='rgba(255,255,255,.06)'">
-      <span style="font-size:24px">🃏</span>
-      <div style="flex:1"><div style="font-size:13px;font-weight:900;color:#fff">Lernkarten</div><div style="font-size:10px;color:rgba(255,255,255,.45);font-weight:700">44 Sets · AO · ESt · Recht · GewSt · Gesellschaft</div></div>
-      <span style="color:rgba(255,255,255,.2)">›</span>
-    </div>
-  </div>
-</div>
+</details>
 
 <!-- ══ SCHNELL-LINKS ══════════════════════════════════════════════════ -->
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:90px">
-  <div onclick="sw('glossar')" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px;cursor:pointer;text-align:center;transition:all .18s" onmouseover="this.style.background='rgba(255,255,255,.09)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
-    <div style="font-size:22px;margin-bottom:4px">📖</div>
+  <div onclick="sw('glossar')" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px;cursor:pointer;text-align:center;transition:all .18s" onmouseover="this.style.background='rgba(255,255,255,.09)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
+    <div style="font-size:20px;margin-bottom:4px">📖</div>
     <div style="font-size:12px;font-weight:900;color:#fff">Glossar</div>
     <div style="font-size:9px;color:rgba(255,255,255,.35);font-weight:700">44 Fachbegriffe</div>
   </div>
-  <div onclick="sw('story')" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px;cursor:pointer;text-align:center;transition:all .18s" onmouseover="this.style.background='rgba(255,255,255,.09)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
-    <div style="font-size:22px;margin-bottom:4px">📖</div>
+  <div onclick="sw('story')" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px;cursor:pointer;text-align:center;transition:all .18s" onmouseover="this.style.background='rgba(255,255,255,.09)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
+    <div style="font-size:20px;margin-bottom:4px">📖</div>
     <div style="font-size:12px;font-weight:900;color:#fff">Stories</div>
     <div style="font-size:9px;color:rgba(255,255,255,.35);font-weight:700">6 Fortgeschritten-Szenarien</div>
   </div>
 </div>
 
 </div>`;
+}
+
+// ── Helper: render ZvE schema inline for Lernpfad ────────────────────
+function renderZveInline(){
+  return `<div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.7);line-height:1.8">
+    <div style="font-weight:900;color:#ffd94a;margin-bottom:6px;font-size:12px">Der Weg zum zu versteuernden Einkommen (ZvE)</div>
+    <div style="background:rgba(26,58,143,.3);border-radius:8px;padding:8px 10px;margin-bottom:4px">① Einnahmen je Einkunftsart <span style="float:right;color:var(--cyan)">§ 2 Abs. 1 EStG</span></div>
+    <div style="padding:2px 10px;color:rgba(255,255,255,.5)">– Werbungskosten / Betriebsausgaben <span style="float:right;font-size:10px">§ 9 / § 4 Abs. 4</span></div>
+    <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:6px 10px;margin-bottom:4px">= Einkünfte je Einkunftsart <span style="float:right;color:var(--cyan)">§ 2 Abs. 2</span></div>
+    <div style="padding:2px 10px;color:rgba(255,255,255,.5)">± Verlustausgleich <span style="float:right;font-size:10px">§ 2 Abs. 3</span></div>
+    <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:6px 10px;margin-bottom:4px">= Summe der Einkünfte <span style="float:right;color:var(--cyan)">§ 2 Abs. 3</span></div>
+    <div style="padding:2px 10px;color:rgba(255,255,255,.5)">– Altersentlastungsbetrag · Entlastungsbetrag AE <span style="float:right;font-size:10px">§ 24a/b</span></div>
+    <div style="background:rgba(26,58,143,.3);border-radius:8px;padding:8px 10px;margin-bottom:4px">② Gesamtbetrag der Einkünfte (GdE) <span style="float:right;color:var(--cyan)">§ 2 Abs. 3</span></div>
+    <div style="padding:2px 10px;color:rgba(255,255,255,.5)">– Sonderausgaben (§§ 10–10b) · AuBe (§ 33) · Verlustabzug (§ 10d)</div>
+    <div style="background:rgba(26,58,143,.3);border-radius:8px;padding:8px 10px;margin-bottom:4px">③ Einkommen <span style="float:right;color:var(--cyan)">§ 2 Abs. 4</span></div>
+    <div style="padding:2px 10px;color:rgba(255,255,255,.5)">– Kinderfreibeträge (Günstigerprüfung gg. Kindergeld) <span style="float:right;font-size:10px">§§ 31, 32</span></div>
+    <div style="background:rgba(0,201,123,.2);border-radius:8px;padding:8px 10px;font-weight:900;color:#fff">= Zu versteuerndes Einkommen (zvE) → Steuertabelle <span style="float:right;color:#00c97b">§ 32a EStG</span></div>
+  </div>`;
 }
 
 
