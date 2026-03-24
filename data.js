@@ -2782,7 +2782,6 @@ function getEinstProgress(){ try{ return JSON.parse(localStorage.getItem(EINST_P
 function setEinstStep(step){ const p=getEinstProgress(); p[step]=true; localStorage.setItem(EINST_PROGRESS_KEY,JSON.stringify(p)); }
 
 function einstGoStep1(){
-  if(steveOpen) steveToggle(); // §teve aus dem Weg
   const allDone = Object.keys(para1Answers).length >= PARA1_CASES.length;
   if(allDone){ para1Answers = {}; }
   // Open the collapsed section
@@ -2862,10 +2861,10 @@ function renderBasicsEinsteiger(a){
       </div>
     </div>
   </div>
-  <button onclick="${pct>0?'einstGoStep1()':'startSteuerTour()'}" style="width:100%;padding:15px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:15px;cursor:pointer">
-    ${pct > 0 ? '▶ Weiter – Schritt '+stepsDone+' von 4' : '🗺️ Steuer-Tour starten – 20 Min. · 5 Schritte'}
+  <button onclick="startSteuerTour()" style="width:100%;padding:15px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:15px;cursor:pointer">
+    🗺️ Steuer-Tour starten – 5 Schritte, 20 Min.
   </button>
-  ${pct > 0 ? '<button onclick="resetEinstProgress()" style="width:100%;margin-top:8px;padding:10px;border-radius:12px;border:1.5px solid rgba(255,255,255,.12);background:transparent;color:rgba(255,255,255,.3);font-family:\'Nunito\',sans-serif;font-weight:800;font-size:12px;cursor:pointer">↺ Von vorne starten</button>' : ''}
+
 </div>
 
 <!-- KURIOSES -->
@@ -7109,10 +7108,7 @@ function initSplash(){
 }
 
 // §teve Onboarding – erscheint 4s nach Ladestart beim allerersten Besuch
-function steveOnboarding(){
-  // Auto-open disabled – §teve only opens on manual tap of § button
-  // The speech bubble already hints at §teve's presence
-}
+function steveOnboarding(){ /* disabled */ }
 
 function showConsentBanner(){
   document.getElementById('consent-banner').style.display='flex';
@@ -7121,8 +7117,8 @@ function acceptConsent(){
   localStorage.setItem('nutzung_accepted_v1','1');
   document.getElementById('consent-banner').style.display='none';
   checkTour();
-  steveOnboarding();
 }
+
 function toggleConsentCheck(){
   const cb = document.getElementById('consent-check');
   const btn = document.getElementById('consent-start-btn');
@@ -8881,7 +8877,6 @@ let tourStep = 0;
 let tourAnswers = {};
 
 function startSteuerTour(){
-  if(steveOpen) steveToggle();
   tourStep = 0;
   tourAnswers = {};
   tourActive = true;
@@ -9688,46 +9683,7 @@ function _trainerResult(a){
 // ==================== §TEVE ====================
 
 // ── §teve: auto-appear after 3 wrong answers ──────────────────────
-function steveShowHelp(){
-  if(steveOpen) return; // already open
-  steveOpen = true;
-  const panel = document.getElementById('steve-panel');
-  const wrap  = document.getElementById('steve-btn-wrap');
-  const bubble = document.getElementById('steve-bubble');
-  if(!panel) return;
-  if(bubble) bubble.classList.add('hidden');
-  panel.style.display = 'flex';
-  requestAnimationFrame(() => panel.classList.add('open'));
-  if(wrap) wrap.classList.add('active');
-
-  steveCurrentCtx = mode;
-  const ctx = STEVE_CTX[mode] || STEVE_CTX.default;
-
-  // Show targeted help message based on wrong streak
-  const msgs = document.getElementById('steve-msgs');
-  if(msgs) msgs.innerHTML = '';
-
-  const modeName = {est:'Einkommensteuer',ust:'Umsatzsteuer',ao:'Abgabenordnung',
-    bilanz:'Bilanz',recht:'Recht',kurios:'Kurioses',speed:'Speed-Quiz',
-    pruefung:'Prüfungsmodus',gewst:'Gewerbesteuer',gesellschaft:'Gesellschaftsbesteuerung'}[mode] || mode;
-
-  steveAddMsg('steve',
-    `Hey – §teve hier! 👋 Ich sehe du hattest gerade <b>${steveWrongStreak} Fragen</b> hintereinander schwierig bei <b>${modeName}</b>. Das passiert!<br><br>` +
-    (steveLastExplain
-      ? `Zur letzten Frage: <span style="color:rgba(255,255,255,.8)">${steveLastExplain.replace(/<[^>]+>/g,'').substring(0,120)}${steveLastExplain.length>120?'…':''}</span><br><br>`
-      : '') +
-    `Willst du das Thema kurz auffrischen? Ich hab ein paar Tipps.`
-  );
-
-  // Show relevant chips
-  const chipsEl = document.getElementById('steve-chips');
-  if(chipsEl){
-    chipsEl.innerHTML = ctx.chips.map(c =>
-      `<button onclick="steveAsk('${c.replace(/'/g,"\\'")}');steveWrongStreak=0" class="steve-chip">${c}</button>`
-    ).join('');
-  }
-  steveWrongStreak = 0; // reset after appearing
-}
+function steveShowHelp(){ /* disabled */ }
 
 // ── §teve: Schwache Themen erkennen ──────────────────────────────
 // removed duplicate steveWeakTopics
@@ -9800,42 +9756,7 @@ function steveRestartIntro(){
 
 // removed duplicate steveOnSwitch
 
-function steveToggle() {
-  steveOpen = !steveOpen;
-  const panel = document.getElementById('steve-panel');
-  const bubble = document.getElementById('steve-bubble');
-  const qBtn = document.querySelector('.tour-restart-btn');
-  if (!panel) return;
-
-  if (steveOpen) {
-    if (bubble) bubble.classList.add('hidden');
-    // ? becomes §
-    if (qBtn) { qBtn.textContent = '§'; qBtn.classList.add('steve-is-open'); }
-    panel.style.display = 'flex';
-    requestAnimationFrame(() => panel.classList.add('open'));
-
-    try { if (localStorage.getItem('steve_intro_done')) steveIntroDone = true; } catch(e) {}
-    const msgs = document.getElementById('steve-msgs');
-    if (msgs && msgs.children.length === 0) {
-      if (!steveIntroDone) {
-        steveIntroStep = 0;
-        const step = STEVE_INTRO[0];
-        steveAddMsg('steve', step.msg);
-        const chipsEl = document.getElementById('steve-chips');
-        if (chipsEl) chipsEl.innerHTML = step.chips.map(c =>
-          `<button onclick="steveIntroNext('${c.replace(/'/g,"\\'")}\')" class="steve-chip">${c}</button>`
-        ).join('');
-      } else {
-        steveSetCtx(typeof mode !== 'undefined' ? mode : 'default');
-      }
-    }
-  } else {
-    // § becomes ?
-    if (qBtn) { qBtn.textContent = '?'; qBtn.classList.remove('steve-is-open'); }
-    panel.classList.remove('open');
-    setTimeout(() => { if (!steveOpen) panel.style.display = 'none'; }, 300);
-  }
-}
+function steveToggle(){ /* disabled */ }
 
 setTimeout(() => {
   const bubble = document.getElementById('steve-bubble');
