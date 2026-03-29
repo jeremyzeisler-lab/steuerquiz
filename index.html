@@ -23,6 +23,8 @@
 <meta name="twitter:image" content="https://steuer-lernspiel.de/preview.png">
 <title>Steuer-Lernspiel – Finanzverwaltung Berlin/Brandenburg</title>
 
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -60,60 +62,51 @@
   </header>
 
   <div class="score-bar" id="tour-scorebar">
-    <div class="score-item">
-      <div class="label">Serie</div>
-      <div class="value" id="streakCt" style="transition:color .3s">0 🔥</div>
-    </div>
+    <div class="score-item"><div class="label" id="score-mode-label">Punkte</div><div class="value" id="totSc">0</div></div>
     <div class="score-divider"></div>
-    <div class="score-item">
-      <div class="label" id="score-mode-label">Richtig</div>
-      <div class="value" style="color:var(--green)" id="score-ratio">0/0</div>
-    </div>
+    <div class="score-item"><div class="label">Richtig</div><div class="value" class="u-green" id="corrCt">0</div></div>
     <div class="score-divider"></div>
-    <button onclick="sw('badges')" title="Abzeichen" class="score-badge-btn">🏅 <span id="badge-count-chip" style="font-size:10px;font-family:'Space Mono',monospace"></span></button>
+    <div class="score-item"><div class="label">Falsch</div><div class="value" id="wrongCt" style="color:var(--red)">0</div></div>
     <div class="score-divider"></div>
-    <span class="daily-streak-chip" id="streak-chip" onclick="sw('meinbereich')" title="Mein Bereich">🔥 <span id="daily-streak-disp">0</span></span>
-    <button onclick="resetScore()" title="Zurücksetzen" class="score-reset-btn">↺</button>
-    <!-- Hidden: kept for JS compatibility -->
-    <span id="totSc" style="display:none">0</span>
-    <span id="corrCt" style="display:none">0</span>
-    <span id="wrongCt" style="display:none">0</span>
+    <div class="score-item"><div class="label">Serie</div><div class="value" id="streakCt" style="transition:color .3s">0 🔥</div></div>
+    <div class="score-divider"></div>
+    <button onclick="resetScore()" title="Punkte zurücksetzen" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.55);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:13px;transition:all .2s;font-family:'Nunito',sans-serif;font-weight:700" onmouseover="this.style.background='rgba(255,77,109,.25)';this.style.color='#ff4d6d';this.style.borderColor='#ff4d6d'" onmouseout="this.style.background='rgba(255,255,255,.08)';this.style.color='rgba(255,255,255,.55)';this.style.borderColor='rgba(255,255,255,.18)'">↺</button>
+    <button onclick="sw('badges')" title="Abzeichen" style="background:rgba(255,217,74,.12);border:1px solid rgba(255,217,74,.3);color:var(--yellow);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:16px;transition:all .2s" onmouseover="this.style.background='rgba(255,217,74,.25)'" onmouseout="this.style.background='rgba(255,217,74,.12)'">🏅</button>
+    <div class="score-divider"></div>
+    <span class="daily-streak-chip" id="streak-chip" onclick="sw('meinbereich')" title="Mein Bereich – Daily & Fortschritt">🔥 <span id="daily-streak-disp">0</span></span>
   </div>
 
   <div class="mode-tabs" id="tour-tabs">
-    <!-- HAUPTNAVIGATION -->
+    <span class="tab-group-label">Einstieg</span>
     <button class="mode-tab active" onclick="sw('basics')" id="tab-basics"><span class="ti">📚</span>Basics</button>
-
-    <span class="tab-sep"></span>
-    <span class="tab-group-label">Quiz</span>
     <button class="mode-tab" onclick="sw('est')" id="tab-est"><span class="ti">💼</span>ESt</button>
     <button class="mode-tab" onclick="sw('ust')" id="tab-ust"><span class="ti">🛒</span>USt</button>
-    <button class="mode-tab" onclick="sw('ao')" id="tab-ao"><span class="ti">⚖️</span>AO</button>
-    <button class="mode-tab" onclick="sw('bilanz')" id="tab-bilanz"><span class="ti">📋</span>Bilanz</button>
-    <button class="mode-tab" onclick="sw('recht')" id="tab-recht"><span class="ti">🏛️</span>Recht</button>
-
-    <span class="tab-sep"></span>
-    <span class="tab-group-label">Mehr</span>
-    <button class="mode-tab" onclick="sw('story')" id="tab-story"><span class="ti">📖</span>Stories</button>
     <button class="mode-tab" onclick="sw('kurios')" id="tab-kurios"><span class="ti">🤯</span>Kurioses</button>
-    <button class="mode-tab" onclick="sw('speed')" id="tab-speed"><span class="ti">⚡</span>Speed</button>
-    <button class="mode-tab" onclick="sw('flashcard')" id="tab-flashcard"><span class="ti">🃏</span>Karten</button>
-    <button class="mode-tab" onclick="sw('glossar')" id="tab-glossar"><span class="ti">📖</span>Glossar</button>
-    <button class="mode-tab" onclick="sw('meinbereich')" id="tab-meinbereich"><span class="ti">⭐</span>Ich</button>
-    <button class="mode-tab" onclick="swEinfuehrung()" id="tab-einfuehrung" title="Dozenten-Bereich – Passwort erforderlich"><span class="ti">🔒</span>E-Tag</button>
-
-    <span class="tab-sep"></span>
+    <button class="mode-tab" onclick="sw('story')" id="tab-story"><span class="ti">📖</span>Stories</button>
     <button class="mode-tab" onclick="sw('karriere')" id="tab-karriere"><span class="ti">🎓</span>Karriere</button>
-
-    <!-- Versteckte Tabs (per Code aktiviert) -->
-    <button class="mode-tab" onclick="sw('gewst')" id="tab-gewst" style="display:none"><span class="ti">🏭</span>GewSt</button>
-    <button class="mode-tab" onclick="sw('gesellschaft')" id="tab-gesellschaft" style="display:none"><span class="ti">🏢</span>Gesellschaft</button>
-    <button class="mode-tab" onclick="sw('trainer')" id="tab-trainer" style="display:none"><span class="ti">🧪</span>Testtrainer</button>
     <button class="mode-tab" onclick="sw('ao_basics')" id="tab-ao_basics" style="display:none"><span class="ti">⚖️</span>AO Basics</button>
     <button class="mode-tab" onclick="sw('recht_basics')" id="tab-recht_basics" style="display:none"><span class="ti">🏛️</span>Recht Basics</button>
     <button class="mode-tab" onclick="sw('ust_basics')" id="tab-ust_basics" style="display:none"><span class="ti">🛒</span>USt Basics</button>
     <button class="mode-tab" onclick="sw('bilanz_basics')" id="tab-bilanz_basics" style="display:none"><span class="ti">📋</span>Bilanz Basics</button>
     <button class="mode-tab" onclick="sw('est_basics')" id="tab-est_basics" style="display:none"><span class="ti">💼</span>ESt Basics</button>
+
+    <span class="tab-sep" id="tab-sep-vertiefung"></span>
+    <span class="tab-group-label" id="tgl-vertiefung">Vertiefung</span>
+    <button class="mode-tab" onclick="sw('ao')" id="tab-ao"><span class="ti">⚖️</span>AO</button>
+    <button class="mode-tab" onclick="sw('bilanz')" id="tab-bilanz"><span class="ti">📋</span>Bilanz</button>
+    <button class="mode-tab" onclick="sw('recht')" id="tab-recht"><span class="ti">🏛️</span>Recht</button>
+    <button class="mode-tab" onclick="sw('gewst')" id="tab-gewst"><span class="ti">🏭</span>GewSt</button>
+    <button class="mode-tab" onclick="sw('gesellschaft')" id="tab-gesellschaft"><span class="ti">🏢</span>Gesellschaft</button>
+
+    <span class="tab-sep"></span>
+    <span class="tab-group-label">Tools</span>
+    <button class="mode-tab" onclick="sw('speed')" id="tab-speed"><span class="ti">⚡</span>Speed</button>
+    <button class="mode-tab" onclick="sw('swipe')" id="tab-swipe"><span class="ti">👆</span>Swipe</button>
+    <button class="mode-tab" onclick="sw('duell')" id="tab-duell"><span class="ti">⚔️</span>Duell</button>
+    <button class="mode-tab" onclick="sw('flashcard')" id="tab-flashcard"><span class="ti">🃏</span>Karten</button>
+    <button class="mode-tab" onclick="sw('glossar')" id="tab-glossar"><span class="ti">📖</span>Glossar</button>
+    <button class="mode-tab" onclick="sw('meinbereich')" id="tab-meinbereich"><span class="ti">⭐</span>Ich</button>
+    <button class="mode-tab" onclick="swEinfuehrung()" id="tab-einfuehrung" title="Dozenten-Bereich – Passwort erforderlich"><span class="ti">🔒</span>E-Tag</button>
   </div>
   <!-- Level switch banner -->
   <div id="level-banner" style="display:none;align-items:center;justify-content:space-between;border-radius:12px;padding:9px 14px;margin-bottom:10px;gap:10px">
@@ -143,24 +136,14 @@
   </div>
   <select class="mode-select" id="mobileSelect" onchange="sw(this.value)" style="display:none">
     <option value="basics">📚 Basics</option>
+    <option value="est">💼 Einkommensteuer</option>
+    <option value="ust">🛒 Umsatzsteuer</option>
+    <option value="bilanz">📋 Bilanz</option>
+    <option value="ao">⚖️ Abgabenordnung</option>
+    <option value="kurios">🤯 Kurioses</option>
+    <option value="recht">🏛️ Privat- & Öff. Recht</option>
     <option value="karriere">🎓 Karriere</option>
-    <optgroup label="Quiz">
-      <option value="est">💼 Einkommensteuer</option>
-      <option value="ust">🛒 Umsatzsteuer</option>
-      <option value="ao">⚖️ Abgabenordnung</option>
-      <option value="bilanz">📋 Bilanz</option>
-      <option value="recht">🏛️ Privat- &amp; Öff. Recht</option>
-      <option value="gewst">🏭 Gewerbesteuer</option>
-      <option value="gesellschaft">🏢 Gesellschaftsbesteuerung</option>
-    </optgroup>
-    <optgroup label="Mehr">
-      <option value="story">📖 Stories</option>
-      <option value="kurios">🤯 Kurioses</option>
-      <option value="speed">⚡ Speed-Quiz</option>
-      <option value="flashcard">🃏 Lernkarten</option>
-      <option value="glossar">📖 Glossar</option>
-      <option value="meinbereich">⭐ Mein Bereich</option>
-    </optgroup>
+    <option value="glossar">📖 Glossar</option>
   </select>
 
   <div id="einst-back-bar" style="display:none;margin-bottom:8px">
@@ -236,13 +219,12 @@
 </div>
 
 <nav class="mobile-nav" id="mobileNav">
-    <div class="mobile-nav-inner" style="grid-template-columns:repeat(4,1fr)">
+    <div class="mobile-nav-inner">
       <button class="mnav-btn active" id="mnav-basics" onclick="sw('basics')"><span class="mni">📚</span>Basics</button>
       <button class="mnav-btn" id="mnav-quiz" onclick="openQuiz()"><span class="mni">🎯</span>Üben</button>
+      <button class="mnav-btn" id="mnav-fehler" onclick="sw('fehler')"><span class="mni">🔁</span>Fehler<span class="mnav-badge" id="fehler-nav-badge" style="display:none">0</span></button>
       <button class="mnav-btn" id="mnav-meinbereich" onclick="sw('meinbereich')"><span class="mni">⭐</span>Ich</button>
       <button class="mnav-btn" id="mnav-karriere" onclick="sw('karriere')"><span class="mni">🎓</span>Karriere</button>
-      <!-- Fehler: hidden in nav, still accessible via drawer -->
-      <button class="mnav-btn" id="mnav-fehler" onclick="sw('fehler')" style="display:none"><span class="mni">🔁</span>Fehler<span class="mnav-badge" id="fehler-nav-badge" style="display:none">0</span></button>
     </div>
 </nav>
 <div class="cc" id="cc"></div>
@@ -327,7 +309,7 @@
       </div>
       <div style="background:#f4f0ff;border-radius:12px;padding:12px 14px">
         <div style="font-size:11px;font-weight:900;color:#3a0080;margin-bottom:4px">✉️ Kontakt</div>
-        Für Feedback, Fehlermeldungen oder Kooperationsanfragen: <a href="/cdn-cgi/l/email-protection#b6dcd3c4d3dbcf98ccd3dfc5dad3c4f6d1d9d9d1dad3dbd7dfda98d5d9db" style="color:#5c2db8;font-weight:800;text-decoration:none"><span class="__cf_email__" data-cfemail="3b515e495e564215415e5248575e497b5c54545c575e565a525715585456">[email&#160;protected]</span></a>
+        Für Feedback, Fehlermeldungen oder Kooperationsanfragen: <a href="mailto:jeremy.zeisler@googlemail.com" style="color:#5c2db8;font-weight:800;text-decoration:none">jeremy.zeisler@googlemail.com</a>
       </div>
     </div>
     <button onclick="document.getElementById('impressum-modal').style.display='none'" style="width:100%;margin-top:18px;padding:13px;border-radius:14px;border:none;background:linear-gradient(135deg,#1a3a8f,#2255cc);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Schließen</button>
@@ -434,14 +416,14 @@
 
       <!-- Slide 2: Tour starten? -->
       <div class="twb-slide" style="text-align:center">
-        <span style="font-size:44px;display:block;margin-bottom:10px">§</span>
-        <div style="font-size:var(--tx-lg);font-weight:900;color:#fff;margin-bottom:6px">Kurze App-Tour mit §teve?</div>
+        <span style="font-size:44px;display:block;margin-bottom:10px">🔍</span>
+        <div style="font-size:var(--tx-lg);font-weight:900;color:#fff;margin-bottom:6px">Kurze App-Tour?</div>
         <div style="font-size:var(--tx-sm);color:rgba(255,255,255,.55);font-weight:700;line-height:1.6;margin-bottom:16px">
-          §teve – dein Steuer-Assistent – stellt dir die Seite vor und erklärt alle wichtigen Bereiche.<br>
+          In 5 Schritten zeige ich dir alle wichtigen Bereiche – Navigation, Score, Level und mehr.<br>
           <span style="color:rgba(255,255,255,.3);font-family:'Space Mono',monospace;font-size:var(--tx-xs)">Dauert ca. 1 Minute</span>
         </div>
         <div style="background:rgba(0,194,224,.08);border:1px solid rgba(0,194,224,.2);border-radius:var(--r-sm);padding:10px 12px;font-size:var(--tx-xs);color:rgba(255,255,255,.55);font-weight:700;text-align:left">
-          💡 §teve sitzt immer <b style="color:var(--cyan)">unten rechts</b> – tippe ihn jederzeit an für Hilfe oder um die Tour neu zu starten
+          💡 Das <b style="color:var(--cyan)">?</b>-Symbol unten rechts startet die Tour jederzeit neu
         </div>
       </div>
     </div>
@@ -471,9 +453,7 @@
   </div>
 </div>
 
-<!-- § Tour-Button durch §teve ersetzt -->
-<!-- § Button öffnet §teve -->
-<button class="tour-restart-btn" onclick="steveToggle()" title="Hilfe &amp; §teve öffnen" aria-label="§teve öffnen">?</button>
+<button class="tour-restart-btn" onclick="tourRestart()" title="App-Tour starten">?</button>
 
 <!-- ===== LEVEL GATE ===== -->
 <div id="level-gate" style="display:none;position:fixed;inset:0;z-index:9500;background:rgba(4,8,22,.97);backdrop-filter:blur(18px);align-items:center;justify-content:center;padding:12px;overflow-y:auto">
@@ -598,36 +578,18 @@
     <textarea class="ai-input" id="ai-input" rows="1" placeholder="Frag mich etwas…"
       onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();aiSend()}"
       oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
-        <button class="ai-send-btn" id="ai-send-btn" onclick="aiSend()">➤</button>
-  </div>
-</div>
-
-<!-- ===== §TEVE PANEL ===== -->
-<button id="steve-btn-wrap" onclick="steveToggle()" title="§teve – Hilfe &amp; Tour" aria-label="§teve öffnen">
-  <div id="steve-bubble" class="steve-bubble">Hast du eine Frage? 💡</div>
-  <div id="steve-avatar-btn">§</div>
-</button>
-
-<div id="steve-panel" style="display:none">
-  <div class="steve-header">
-    <div class="steve-avatar">§</div>
-    <div class="steve-header-text">
-      <div class="steve-name">§teve</div>
-      <div class="steve-sub">Dein Steuer-Assistent · immer dabei</div>
-    </div>
-    <button class="steve-clear" onclick="steveClear()" title="Gespräch zurücksetzen">↺</button>
-    <button class="steve-close" onclick="steveToggle()" title="Schließen">✕</button>
-  </div>
-  <div id="steve-msgs" class="steve-msgs"></div>
-  <div id="steve-chips" class="steve-chips"></div>
-  <div class="steve-input-row">
-    <input id="steve-input" class="steve-input" type="text" placeholder="Frag §teve…"
-      onkeydown="if(event.key==='Enter')steveSend()">
-    <button class="steve-send" onclick="steveSend()">➤</button>
+    <button class="ai-send-btn" id="ai-send-btn" onclick="aiSend()">➤</button>
   </div>
 </div>
 
 <script src="data.js"></script>
 <script src="app.js"></script>
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  });
+}
+</script>
 </body>
 </html>

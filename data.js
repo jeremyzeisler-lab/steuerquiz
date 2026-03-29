@@ -69,6 +69,69 @@ const D_EST_QUIZ = [
   {q:'Was bedeutet "Abgeltungsteuer" und für welche Einkünfte gilt sie?',opts:['Eine Steuer die alle Steuerpflichtigen trifft','25 % Kapitalertragsteuer (+ SolZ) auf Kapitalerträge – abgeltende Wirkung, keine weitere ESt-Pflicht (§ 32d EStG)','Ein Steuererlass für Kapitalanleger','Die Abgeltungsteuer beträgt 19 % wie die USt'],ans:1,lvl:2,explain:'<b>§ 32d EStG – Abgeltungsteuer</b>: Dividenden, Zinsen, Kursgewinne → 25 % KapSt + 5,5 % SolZ. Abgeltend: keine weitere Veranlagung zur ESt. Ausnahme: Günstigerprüfung wenn persönlicher Steuersatz < 25 % (§ 32d Abs. 6). Sparerpauschbetrag: 1.000 €/2.000 €.'},
 ];
 
+
+const D_SWIPE_CARDS = [
+  // ── ESt ──────────────────────────────────────────────────────────────
+  {id:'e01',cat:'est',stmt:'Die Entfernungspauschale 2026 beträgt einheitlich 0,38 €/km ab dem ersten Kilometer.',correct:true,para:'§ 9 Abs. 1 Nr. 4 EStG',erkl:'Korrekt. Ab VZ 2026 gilt einheitlich 0,38 €/km – die frühere Staffelung (0,30/0,38) entfällt durch das StÄndG 2025.'},
+  {id:'e02',cat:'est',stmt:'Erstausbildungskosten sind als Werbungskosten unbegrenzt abziehbar.',correct:false,para:'§ 9 Abs. 6 EStG',erkl:'Falsch. Erstausbildungskosten sind KEINE Werbungskosten. Sie sind nur als Sonderausgaben absetzbar, max. 6.000 € (§ 10 Abs. 1 Nr. 7 EStG).'},
+  {id:'e03',cat:'est',stmt:'Der AN-Pauschbetrag 2026 beträgt 1.230 € und wird automatisch ohne Nachweise gewährt.',correct:true,para:'§ 9a Nr. 1a EStG',erkl:'Korrekt. Der Arbeitnehmer-Pauschbetrag gilt automatisch; Einzelnachweise lohnen sich nur wenn die tatsächlichen WK darüber liegen.'},
+  {id:'e04',cat:'est',stmt:'Ehepaare werden steuerlich immer gemeinsam veranlagt.',correct:false,para:'§ 26 EStG',erkl:'Falsch. Ehepaare haben ein jährliches Wahlrecht: Zusammenveranlagung (§ 26b) ODER getrennte Veranlagung – je nach dem was günstiger ist.'},
+  {id:'e05',cat:'est',stmt:'Der Grundfreibetrag schützt das steuerliche Existenzminimum und beträgt 2026 ca. 12.336 €.',correct:true,para:'§ 32a Abs. 1 Nr. 1 EStG',erkl:'Korrekt. Das steuerliche Existenzminimum ist durch Art. 1 GG verfassungsrechtlich geschützt. Der Grundfreibetrag wird jährlich angepasst.'},
+  {id:'e06',cat:'est',stmt:'Fitnessstudio-Beiträge sind als Werbungskosten absetzbar, wenn man körperlich arbeitet.',correct:false,para:'§ 12 Nr. 1 EStG',erkl:'Falsch. Sport gehört zur privaten Lebensführung und ist grundsätzlich nicht absetzbar. Ausnahme nur bei spezifisch körperlichen Berufen wie Berufssportler oder Stuntman.'},
+  {id:'e07',cat:'est',stmt:'Verluste aus Kapitalvermögen können mit Einkünften aus Vermietung verrechnet werden.',correct:false,para:'§ 20 Abs. 6 EStG',erkl:'Falsch. Verluste aus Kapitalvermögen dürfen nur mit positiven Einkünften aus Kapitalvermögen verrechnet werden – Verrechnungskreis ist abgeschottet (§ 20 Abs. 6 Satz 2 EStG).'},
+  {id:'e08',cat:'est',stmt:'Lohnsteuer ist eine eigene Steuerart und unterscheidet sich rechtlich von der Einkommensteuer.',correct:false,para:'§ 38 Abs. 1 EStG',erkl:'Falsch. Lohnsteuer ist keine eigene Steuer, sondern die Erhebungsform der ESt für Arbeitnehmer. Sie wird auf die Einkommensteuerschuld angerechnet.'},
+  {id:'e09',cat:'est',stmt:'Beim Splittingverfahren wird das gemeinsame zvE der Ehegatten halbiert, der Steuertarif angewendet und das Ergebnis verdoppelt.',correct:true,para:'§ 32a Abs. 5 EStG',erkl:'Korrekt. Das Splitting vorteilhaft bei ungleichen Einkommen, weil es den Progressionseffekt abmildert.'},
+  {id:'e10',cat:'est',stmt:'Ein Kryptowährungsgewinn ist nach einer Haltefrist von 1 Jahr steuerfrei.',correct:true,para:'§ 23 Abs. 1 Nr. 2 EStG',erkl:'Korrekt. Private Veräußerungsgeschäfte bei Kryptowährungen sind nach 12 Monaten Haltefrist steuerfrei (sonstige Einkünfte). Bei Nutzung als Zahlungsmittel umstritten – Haltefrist kann auf 10 Jahre verlängert werden (Verwaltungsauffassung z.T. abweichend).'},
+  {id:'e11',cat:'est',stmt:'Zahnarztrechnungen sind als Werbungskosten absetzbar.',correct:false,para:'§ 33 EStG',erkl:'Falsch. Krankheitskosten sind außergewöhnliche Belastungen (§ 33 EStG), KEINE Werbungskosten. Sie sind nur abziehbar soweit sie die zumutbare Belastung übersteigen.'},
+  {id:'e12',cat:'est',stmt:'Der Verlustvortrag nach § 10d EStG ist für Beträge über 1 Mio. € auf 60 % des GdE begrenzt (Mindestbesteuerung).',correct:true,para:'§ 10d Abs. 2 EStG',erkl:'Korrekt. Die Mindestbesteuerung: Bis 1 Mio. € voller Abzug, darüber nur 60 % des verbleibenden GdE. Soll dauerhaft steuerfreie Perioden verhindern.'},
+  {id:'e13',cat:'est',stmt:'Die Homeoffice-Pauschale beträgt 6 € pro Tag und ist auf max. 1.260 € pro Jahr begrenzt.',correct:true,para:'§ 4 Abs. 5 Nr. 6b EStG',erkl:'Korrekt. Max. 210 Tage × 6 € = 1.260 €. Gilt dauerhaft seit VZ 2023. Kein separates Arbeitszimmer erforderlich.'},
+  {id:'e14',cat:'est',stmt:'Kinderfreibeträge und Kindergeld werden gleichzeitig gewährt.',correct:false,para:'§ 31 EStG',erkl:'Falsch. Das Finanzamt prüft automatisch was günstiger ist: Kindergeld ODER Kinderfreibetrag. Es wird stets nur der vorteilhaftere gewährt (Günstigerprüfung).'},
+  {id:'e15',cat:'est',stmt:'Dividenden aus inländischen Aktien unterliegen der Abgeltungsteuer von 25 %.',correct:true,para:'§ 32d EStG',erkl:'Korrekt. Abgeltungsteuer 25 % + SolZ auf Kapitalerträge. Sparerpauschbetrag 1.000 € (Singles). Keine weitere Veranlagung zur ESt.'},
+
+  // ── USt ──────────────────────────────────────────────────────────────
+  {id:'u01',cat:'ust',stmt:'Eine Werklieferung liegt vor, wenn der Unternehmer selbst beschaffte Hauptstoffe verwendet und den Gegenstand be- oder verarbeitet.',correct:true,para:'§ 3 Abs. 4 UStG',erkl:'Korrekt. Eigene Hauptstoffe + Bearbeitung = Werklieferung = Lieferung. Konsequenz: Lieferortregeln gelten.'},
+  {id:'u02',cat:'ust',stmt:'Bei einer Werkleistung stellt der Auftraggeber die Hauptstoffe – sie gilt als Lieferung.',correct:false,para:'§ 3 Abs. 9 UStG',erkl:'Falsch. Werkleistung = sonstige Leistung (nicht Lieferung). Der Auftraggeber stellt Hauptstoffe → Leistungsortregeln gelten, nicht Lieferortregeln.'},
+  {id:'u03',cat:'ust',stmt:'Ärztliche Leistungen sind nach § 4 Nr. 14 UStG unecht steuerfrei – kein Vorsteuerabzug.',correct:true,para:'§ 4 Nr. 14 UStG · § 15 Abs. 2 UStG',erkl:'Korrekt. Unechte Steuerbefreiung: steuerfrei ja, aber kein Vorsteuerabzug. Die USt auf Eingangsleistungen wird zum echten Kostenfaktor.'},
+  {id:'u04',cat:'ust',stmt:'Eine ig. Lieferung ist unecht steuerfrei – der Vorsteuerabzug entfällt.',correct:false,para:'§ 4 Nr. 1b · § 6a UStG',erkl:'Falsch. Die innergemeinschaftliche Lieferung ist ECHT steuerfrei. Der Vorsteuerabzug bleibt erhalten. Unterschied zu unechter SB (z.B. Ärzte)!'},
+  {id:'u05',cat:'ust',stmt:'Beim Reverse-Charge-Verfahren schuldet der Leistungsempfänger die Umsatzsteuer.',correct:true,para:'§ 13b UStG',erkl:'Korrekt. Umkehr der Steuerschuldnerschaft: Empfänger schuldet die USt, nicht der Leistende. Gilt u.a. für Bauleistungen und Leistungen ausländischer Unternehmer.'},
+  {id:'u06',cat:'ust',stmt:'Der Leistungsort bei B2B-Beratungsleistungen liegt immer beim leistenden Unternehmer.',correct:false,para:'§ 3a Abs. 2 UStG',erkl:'Falsch. B2B-Grundregel: Leistungsort liegt beim Empfänger (Bestimmungslandprinzip). Empfänger in Deutschland → deutsche USt fällig (ggf. Reverse Charge).'},
+  {id:'u07',cat:'ust',stmt:'Restaurationsleistungen unterliegen der Sonderregel des § 3a Abs. 3 Nr. 3b UStG – Ort der tatsächlichen Erbringung.',correct:true,para:'§ 3a Abs. 3 Nr. 3b UStG',erkl:'Korrekt. Leistungsort bei Restaurantleistungen = Standort des Restaurants. Nicht die B2C-Grundregel (§ 3a Abs. 1), sondern diese Sonderregelung.'},
+  {id:'u08',cat:'ust',stmt:'Kleinunternehmer dürfen Umsatzsteuer auf Rechnungen ausweisen, müssen sie aber nicht abführen.',correct:false,para:'§ 14c UStG · § 19 UStG',erkl:'Falsch. Weist ein Kleinunternehmer USt aus, schuldet er diese nach § 14c UStG – ohne Gegenleistung. Kein Vorsteuerabzug für ihn.'},
+  {id:'u09',cat:'ust',stmt:'Die Einfuhrumsatzsteuer wird vom Zoll erhoben und kann vom Unternehmer als Vorsteuer abgezogen werden.',correct:true,para:'§ 21 UStG · § 15 Abs. 1 Nr. 2 UStG',erkl:'Korrekt. EUSt entsteht bei Drittlandsimport, Erhebung durch Zoll. Abziehbar als Vorsteuer – wichtig für die Liquidität von Importeuren.'},
+  {id:'u10',cat:'ust',stmt:'Bei einer Geschäftsveräußerung im Ganzen (§ 1 Abs. 1a UStG) entsteht Umsatzsteuer.',correct:false,para:'§ 1 Abs. 1a UStG',erkl:'Falsch. Die GiG ist nicht steuerbar – kein USt-Vorgang. Voraussetzung: Erwerber ist Unternehmer und führt das Unternehmen fort.'},
+  {id:'u11',cat:'ust',stmt:'Die Bemessungsgrundlage der USt ist das Bruttoentgelt inklusive Umsatzsteuer.',correct:false,para:'§ 10 Abs. 1 UStG',erkl:'Falsch. Bemessungsgrundlage = Nettobetrag (Entgelt ohne USt). Bei 119 € Brutto: Entgelt = 100 €, USt = 19 €.'},
+  {id:'u12',cat:'ust',stmt:'Kurzfristige Fahrzeugvermietung (≤ 30 Tage) hat als Leistungsort den Übergabeort – unabhängig von B2B oder B2C.',correct:true,para:'§ 3a Abs. 3 Nr. 2 UStG',erkl:'Korrekt. Übergabeort gilt für ≤ 30 Tage (Schiffe ≤ 90 Tage) – egal ob B2B oder B2C. Sonderregel schlägt Grundregeln.'},
+  {id:'u13',cat:'ust',stmt:'Elektronisch erbrachte Leistungen an Privatpersonen werden im EU-Ausland am Sitz des Anbieters besteuert.',correct:false,para:'§ 3a Abs. 5 UStG',erkl:'Falsch. Bei digitalen Leistungen an Privatpersonen (B2C) gilt Empfängerort (Wohnort des Kunden). Abführung über OSS-Verfahren (§ 18j UStG).'},
+
+  // ── AO ────────────────────────────────────────────────────────────────
+  {id:'a01',cat:'ao',stmt:'Die reguläre Festsetzungsverjährungsfrist für Einkommensteuer beträgt 4 Jahre.',correct:true,para:'§ 169 Abs. 2 Nr. 2 AO',erkl:'Korrekt. 4 Jahre ab Ablauf des Kalenderjahres der Steuererklärung. Bei leichtfertiger Verkürzung: 5 Jahre; bei Hinterziehung: 10 Jahre.'},
+  {id:'a02',cat:'ao',stmt:'Ein Einspruch gegen einen Steuerbescheid ist innerhalb von 3 Monaten einzulegen.',correct:false,para:'§ 355 Abs. 1 AO',erkl:'Falsch. Die Einspruchsfrist beträgt 1 Monat ab Bekanntgabe des Bescheids. Bei postalischer Bekanntgabe gilt die 3-Tage-Fiktion (§ 122 Abs. 2 AO).'},
+  {id:'a03',cat:'ao',stmt:'Steuerhinterziehung ist nach § 370 AO eine Straftat und kann mit bis zu 10 Jahren Freiheitsstrafe geahndet werden.',correct:true,para:'§ 370 Abs. 3 AO',erkl:'Korrekt. In besonders schweren Fällen (z.B. über 50.000 € Steuerverkürzung) drohen 1–10 Jahre Freiheitsstrafe. Regelfälle: bis zu 5 Jahre.'},
+  {id:'a04',cat:'ao',stmt:'Ein vorläufiger Steuerbescheid ist nur bei Unklarheiten im Sachverhalt zulässig.',correct:false,para:'§ 165 AO',erkl:'Falsch. Vorläufigkeit nach § 165 AO ist auch bei ungewisser Rechtslage möglich – z.B. wenn ein Verfahren beim BFH anhängig ist.'},
+  {id:'a05',cat:'ao',stmt:'Das Finanzamt muss dem Steuerpflichtigen vor Erlass eines belastenden Bescheids rechtliches Gehör gewähren.',correct:true,para:'§ 91 AO',erkl:'Korrekt. Das Anhörungsgebot (§ 91 AO) gilt vor belastenden Verwaltungsakten, außer es liegt Gefahr im Verzug vor oder eine Anhörung wäre nach den Umständen nicht geboten.'},
+  {id:'a06',cat:'ao',stmt:'Bei einer Außenprüfung darf das Finanzamt alle Unterlagen des Unternehmens ohne Einschränkung einsehen.',correct:false,para:'§ 200 AO',erkl:'Falsch. Die Mitwirkungspflicht (§ 200 AO) gilt nur für steuerlich relevante Unterlagen. Das Steuergeheimnis (§ 30 AO) und das Recht auf informationelle Selbstbestimmung setzen Grenzen.'},
+  {id:'a07',cat:'ao',stmt:'Die Steuerfahndung (§ 208 AO) ist für die Aufdeckung und Ermittlung von Steuerstraftaten zuständig.',correct:true,para:'§ 208 AO',erkl:'Korrekt. Steuerfahndung = Strafverfolgungsbehörde für Steuerkriminalität. Arbeitet mit Staatsanwaltschaft zusammen, kann Durchsuchungen und Beschlagnahmen vornehmen.'},
+  {id:'a08',cat:'ao',stmt:'Steuerpflichtige können einen Steuerbescheid auch noch nach Ablauf der Einspruchsfrist anfechten, wenn neue Tatsachen bekannt werden.',correct:true,para:'§ 173 AO',erkl:'Korrekt. Neue Tatsachen ermöglichen eine Änderung nach § 173 AO – zugunsten und zulasten des Steuerpflichtigen. Voraussetzung: Die Tatsachen waren bei Erlass unbekannt.'},
+
+  // ── GewSt / Recht ────────────────────────────────────────────────────
+  {id:'g01',cat:'gewst',stmt:'Freiberufler (z.B. Ärzte, Anwälte) unterliegen der Gewerbesteuer.',correct:false,para:'§ 1 Abs. 1 GewStG · § 2 Abs. 1 GewStG',erkl:'Falsch. Gewerbesteuer trifft nur Gewerbebetriebe im Sinne des EStG. Freiberufler nach § 18 EStG sind KEINE Gewerbebetriebe – keine GewSt-Pflicht.'},
+  {id:'g02',cat:'gewst',stmt:'Der Gewerbesteuer-Freibetrag für Einzelunternehmer und Personengesellschaften beträgt 24.500 €.',correct:true,para:'§ 11 Abs. 1 Nr. 1 GewStG',erkl:'Korrekt. Der Freibetrag gilt nicht für Kapitalgesellschaften (GmbH, AG) – diese zahlen GewSt ab dem ersten Euro Ertrag.'},
+  {id:'g03',cat:'gewst',stmt:'Die Körperschaftsteuer beträgt einheitlich 15 % auf das zu versteuernde Einkommen.',correct:true,para:'§ 23 Abs. 1 KStG',erkl:'Korrekt. KSt = 15 % zzgl. SolZ. Dazu kommt die GewSt (je nach Hebesatz). Gesamtbelastung einer GmbH ca. 29–33 %.'},
+  {id:'g04',cat:'gewst',stmt:'Eine GmbH kann ihre Gewinne steuerfrei an den Gesellschafter ausschütten.',correct:false,para:'§ 20 EStG · § 43 EStG',erkl:'Falsch. Ausschüttungen unterliegen der Abgeltungsteuer (25 % + SolZ) als Kapitalerträge (§ 20 Abs. 1 Nr. 1 EStG). Kapitalertragsteuer wird einbehalten.'},
+
+  // ── Paragraphen-Hagel ─────────────────────────────────────────────────
+  {id:'p01',cat:'para',stmt:'§ 1 Abs. 1 EStG: Natürliche Personen mit Wohnsitz ODER gewöhnlichem Aufenthalt im Inland sind unbeschränkt steuerpflichtig.',correct:true,para:'§ 1 Abs. 1 EStG',erkl:'Korrekt. Wohnsitz (§ 8 AO) ODER gewöhnlicher Aufenthalt (§ 9 AO) genügt für unbeschränkte Steuerpflicht. Welteinkommensprinzip gilt.'},
+  {id:'p02',cat:'para',stmt:'§ 3 Abs. 4 UStG: Eine Werklieferung ist immer dann anzunehmen, wenn der Unternehmer eine Reparaturleistung erbringt.',correct:false,para:'§ 3 Abs. 4 UStG',erkl:'Falsch. Werklieferung = Bearbeitung eines Gegenstands mit selbst beschafften Hauptstoffen. Reparatur ohne eigene Hauptstoffe = Werkleistung (§ 3 Abs. 9).'},
+  {id:'p03',cat:'para',stmt:'§ 169 Abs. 2 Nr. 2 AO: Die Festsetzungsverjährungsfrist für ESt beträgt 4 Jahre.',correct:true,para:'§ 169 Abs. 2 Nr. 2 AO',erkl:'Korrekt. Standardfrist 4 Jahre. Verlängerung: Leichtfertige Verkürzung 5 Jahre (§ 169 Abs. 2 Satz 2), Hinterziehung 10 Jahre.'},
+  {id:'p04',cat:'para',stmt:'§ 15 Abs. 2 EStG: Gewerbebetrieb setzt zwingend einen Betrieb im stationären Handel voraus.',correct:false,para:'§ 15 Abs. 2 EStG',erkl:'Falsch. Gewerbebetrieb erfordert: Selbständigkeit, Nachhaltigkeit, Gewinnabsicht, Beteiligung am wirtschaftlichen Verkehr, keine Land- und Forstwirtschaft, kein freier Beruf. Kein Ladenlokal nötig.'},
+  {id:'p05',cat:'para',stmt:'§ 23 Abs. 1 Nr. 1 EStG: Der Gewinn aus dem Verkauf einer selbst genutzten Immobilie ist auch innerhalb der 10-Jahres-Frist steuerfrei, wenn die Eigennutzung im Veräußerungsjahr und den beiden Vorjahren vorlag.',correct:true,para:'§ 23 Abs. 1 Nr. 1 Satz 3 EStG',erkl:'Korrekt. Eigennutzung im VZ + 2 Vorjahre = steuerfrei. Nur 3 Kalenderjahre Eigennutzung nötig, nicht 3 volle Jahre.'},
+  {id:'p06',cat:'para',stmt:'§ 6a UStG: Innergemeinschaftliche Lieferungen sind unecht steuerfrei.',correct:false,para:'§ 6a UStG · § 4 Nr. 1b UStG',erkl:'Falsch. ig. Lieferungen sind ECHT steuerfrei: kein Ausgangsumsatz-USt, aber Vorsteuerabzug bleibt erhalten. Unecht = kein Vorsteuerabzug (z.B. Ärzte).'},
+  {id:'p07',cat:'para',stmt:'§ 10d EStG: Der Verlustrücktrag ist auf das unmittelbar vorangegangene Veranlagungsjahr und max. 10 Mio. € begrenzt.',correct:true,para:'§ 10d Abs. 1 EStG',erkl:'Korrekt. Verlustrücktrag: 1 Vorjahr, max. 10 Mio. €. Verlustvortrag: unbegrenzte Anzahl Folgejahre, aber Mindestbesteuerung ab 1 Mio. €.'},
+  {id:'p08',cat:'para',stmt:'§ 355 AO: Die Einspruchsfrist beträgt 1 Monat ab Bekanntgabe des Verwaltungsakts.',correct:true,para:'§ 355 Abs. 1 AO',erkl:'Korrekt. Bei postalischer Übermittlung gilt 3-Tages-Fiktion (§ 122 Abs. 2 AO). Fristversäumnis: ggf. Wiedereinsetzung (§ 110 AO) möglich.'},
+  {id:'p09',cat:'para',stmt:'§ 13b UStG: Beim Reverse-Charge-Verfahren darf der Leistungsempfänger die Vorsteuer grundsätzlich nicht abziehen.',correct:false,para:'§ 13b UStG · § 15 UStG',erkl:'Falsch. Der Leistungsempfänger schuldet zwar die USt, kann sie aber gleichzeitig als Vorsteuer abziehen – sofern er voll vorsteuerabzugsberechtigt ist. Per Saldo Neutralität.'},
+  {id:'p10',cat:'para',stmt:'§ 32a EStG: Der Grundfreibetrag hat die Rechtsnatur eines Freibetrags, nicht einer Freigrenze.',correct:true,para:'§ 32a Abs. 1 EStG',erkl:'Korrekt. Freibetrag = wird vom zvE abgezogen, nur der übersteigende Teil wird besteuert. Freigrenze = bei Überschreitung wird der VOLLE Betrag besteuert.'},
+];
+
 const D_EINKUNFT = [
   {icon:'👩‍💻',name:'Software-Entwicklerin',sub:'Angestellte im Tech-Unternehmen',ans:1,lvl:1,explain:'Ein Gehalt aus einem Arbeitsverhältnis ist <b>Einkunft aus nicht-selbständiger Arbeit</b> (§ 19 EStG). Der Arbeitgeber zieht die Lohnsteuer direkt vom Lohn ab.'},
   {icon:'₿',name:'Bitcoin-Gewinn',sub:'Kauf für 2.000 € → Verkauf für 5.000 € nach 6 Monaten',ans:6,lvl:2,explain:'Krypto-Gewinne innerhalb der <b>Haltefrist von 1 Jahr</b> sind <b>sonstige Einkünfte</b> (§ 22 Nr. 2, § 23 EStG). Nach 1 Jahr Haltedauer: steuerfrei!'},
@@ -143,15 +206,15 @@ const D_UST = [
   {icon:'💊',name:'Rezeptpflichtige Medikamente',desc:'Apotheke verkauft verschreibungspflichtiges Medikament',ans:7,lvl:2,explain:'<b>7 %</b> – Arzneimittel i.S.d. Arzneimittelgesetzes unterliegen dem ermäßigten Steuersatz (§ 12 Abs. 2 Nr. 1 UStG i.V.m. Anlage 2). Frei verkäufliche Kosmetik oder Nahrungsergänzungsmittel hingegen: 19 %.'},
   {icon:'🌍',name:'Warenexport nach Japan',desc:'Deutsches Unternehmen liefert Maschinen nach Osaka (Ausfuhr ins Drittland)',ans:0,lvl:3,explain:'<b>Steuerfrei nach § 4 Nr. 1a UStG</b> – Ausfuhrlieferungen in Drittländer (außerhalb EU) sind steuerfrei. Wichtig: Es handelt sich um eine <b>echte Steuerbefreiung</b> – der Vorsteuerabzug bleibt erhalten! Ausfuhrnachweis durch Ausfuhrbelege/Zolldokumente erforderlich.'},
   {icon:'🏗️',name:'Subunternehmer erbringt Bauleistung',desc:'Dachdecker B saniert das Dach von Bauunternehmer A (A erbringt ebenfalls Bauleistungen)',ans:19,lvl:3,explain:'<b>Reverse Charge (§ 13b UStG)!</b> Bei Bauleistungen an einen Unternehmer, der selbst nachhaltig Bauleistungen erbringt, schuldet der <b>Leistungsempfänger (A)</b> die Umsatzsteuer. B stellt eine Nettorechnung aus. A schuldet 19 % USt, hat aber gleichzeitig den Vorsteuerabzug. Effekt: keine Liquiditätsvorfinanzierung durch B.'},
-  {q:'Unternehmerin Mia hat im Vorjahr einen Gesamtumsatz von 21.000 € erzielt. Kann sie die Kleinunternehmerregelung nutzen?',opts:['Nein – Umsatz über 20.000 € schließt sie aus','Ja – solange der Vorjahresumsatz unter 25.000 € und laufende Jahr unter 100.000 € bleibt (§ 19 UStG ab 2025)','Nein – nur für Gewerbe, nicht für Freiberufler','Ja – nur mit ausdrücklicher FA-Zustimmung'],ans:1,lvl:1,explain:'<b>§ 19 UStG – Kleinunternehmerregelung ab 2025:</b> Neue Grenzen: Vorjahresumsatz max. <b>25.000 €</b> (bis 2024: 22.000 €), im laufenden Jahr max. <b>100.000 €</b> (bis 2024: 50.000 €). Mias 21.000 € liegen darunter → Kleinunternehmer-Status möglich. Folge: keine USt auf Ausgangsleistungen, aber auch <b>kein Vorsteuerabzug</b>.'},
-  {q:'Wo liegt der Ort einer Beratungsleistung (sonstige Leistung) an einen anderen Unternehmer (B2B) nach § 3a UStG?',opts:['Am Sitz des leistenden Unternehmers','Am Sitz des Leistungsempfängers (§ 3a Abs. 2 UStG)','Am Ort der Leistungserbringung','Am Ort der Rechnungsausstellung'],ans:1,lvl:2,explain:'<b>§ 3a Abs. 2 UStG – B2B-Grundregel:</b> Sonstige Leistungen an andere Unternehmer sind am <b>Sitz des Leistungsempfängers</b> steuerbar. Deutsche Beraterin berät US-Firma: Leistungsort USA → in Deutschland nicht steuerbar! Bei B2C gilt der Umkehrschluss: Leistungsort = Sitz des leistenden Unternehmers (§ 3a Abs. 1 UStG).'},
-  {q:'Was ist eine innergemeinschaftliche Lieferung (§ 6a UStG) und wie wird sie besteuert?',opts:['Lieferung innerhalb Deutschlands mit 7 %','Steuerfreie Lieferung an einen Unternehmer in einem anderen EU-Staat – Besteuerung beim Käufer im Bestimmungsland','Lieferung ins Nicht-EU-Ausland (Ausfuhr)','Lieferung mit 0 % nur bei Lebensmitteln'],ans:1,lvl:2,explain:'<b>§§ 4 Nr. 1a, 6a UStG:</b> Innergemeinschaftliche Lieferungen sind <b>steuerfrei</b> im Abgangsland. Stattdessen unterliegt der Käufer im Bestimmungsland dem <b>innergemeinschaftlichen Erwerb</b> (§ 1a UStG). Ziel: Besteuerung am Verbrauchsort. Voraussetzung: Käufer ist Unternehmer + USt-ID + tatsächliche Warenbewegung.'},
-  {q:'Was bedeutet Vorsteuerüberhang und was folgt daraus?',opts:['Ausgaben-USt > Einnahmen-USt → Nachzahlung','Abziehbare Vorsteuer > geschuldete USt → Erstattung durch das FA','Vorsteuer kann nicht genutzt werden','Tritt nur bei Kleinunternehmern auf'],ans:1,lvl:2,explain:'<b>Vorsteuerüberhang:</b> Übersteigt die abzugsfähige Vorsteuer (§ 15 UStG) die geschuldete Umsatzsteuer, ergibt sich ein <b>Guthaben</b>, das das Finanzamt erstattet. Typisch bei Gründern (hohe Investitionen, noch wenig Umsatz), Exporteuren (steuerfreie Ausgangsumsätze) und Unternehmen in Aufbauphasen.'},
-  {q:'Welchen USt-Satz haben Taxifahrten und Hotelübernachtungen in Deutschland?',opts:['Beide 19 %','Taxi 7 %, Hotel 7 % (§ 12 Abs. 2 Nr. 10 und 11 UStG)','Taxi 19 %, Hotel 7 %','Taxi 7 %, Hotel 19 %'],ans:1,lvl:1,explain:'<b>§ 12 Abs. 2 Nr. 10 UStG:</b> Personenbeförderung im Inland mit Taxen (bis 50 km) → <b>7 %</b>. <b>§ 12 Abs. 2 Nr. 11 UStG:</b> Übernachtungsleistungen → <b>7 %</b>. Achtung: Hotelfrühstück (Restaurationsleistung) gesondert → 19 %. Bahn: immer 7 % seit 2020.'},
-  {q:'Was ist der Unterschied zwischen echter und unechter Steuerbefreiung bei der USt?',opts:['Echter: mit Vorsteuerabzug | Unechter: ohne Vorsteuerabzug (§ 15 Abs. 2 UStG)','Echter: höherer Satz | Unechter: ermäßigt','Echter: nur für KMU | Unechter: für Konzerne','Kein Unterschied'],ans:0,lvl:2,explain:'<b>Echte Befreiungen:</b> Umsatz steuerfrei + Vorsteuerabzug bleibt erhalten (z. B. Ausfuhrlieferungen, ig. Lieferungen). <b>Unechte Befreiungen:</b> Umsatz steuerfrei, aber <b>kein Vorsteuerabzug</b> (§ 15 Abs. 2 UStG) – z.B. Ärzte (§ 4 Nr. 14), Versicherungen, Grundstücksverkäufe. Unechte Befreiungen können wirtschaftlich nachteilig sein (Vorsteuer wird zum Kostenfaktor).'},
-  {q:'Wann entsteht der Anspruch auf Vorsteuerabzug bei der Soll-Besteuerung?',opts:['Erst nach der Zahlung der Eingangsrechnung','Mit Leistungserbringung und Vorliegen einer ordnungsgemäßen Rechnung (§ 15 Abs. 1 UStG)','Am Jahresende','Erst nach Abgabe der USt-Voranmeldung'],ans:1,lvl:2,explain:'<b>§ 15 Abs. 1 UStG (Soll-Besteuerung):</b> Vorsteuerabzug entsteht mit <b>Ausführung der Leistung + Vorlage einer ordnungsgemäßen Rechnung</b> – unabhängig von der Zahlung. Rechnung im Oktober erhalten, zahlen erst im Januar → Vorsteuer trotzdem im Oktober abziehbar. Ausnahme: Ist-Besteuerung (§ 20 UStG) → erst mit Zahlung.'},
-  {q:'Was ist ein innergemeinschaftliches Dreiecksgeschäft (§ 25b UStG)?',opts:['Drei Unternehmer aus drei EU-Ländern, eine Warenbewegung – mit Vereinfachungsregelung','Drei Rechnungen für eine Lieferung','Geschäft mit drei Zahlungsraten','Lieferung in drei EU-Länder gleichzeitig'],ans:0,lvl:3,explain:'<b>§ 25b UStG – Dreiecksgeschäft:</b> A (Land 1) verkauft an B (Land 2) verkauft an C (Land 3), Ware geht direkt A→C. Die Vereinfachungsregelung befreit B von der Registrierungspflicht in Land 3: B stellt C eine Rechnung mit Hinweis auf § 25b aus, C schuldet die Erwerbsteuer. Sehr prüfungsrelevant im Außenhandel.'},
-  {q:'Eine Unternehmerin ist nur zu 60 % vorsteuerabzugsberechtigt (40 % steuerfreie Umsätze). Sie kauft Geräte für 30.000 € netto + 5.700 € USt. Wie viel Vorsteuer darf sie abziehen?',opts:['5.700 € (voll)','3.420 € (60 % von 5.700 €)','2.280 € (40 % von 5.700 €)','0 € – kein Abzug möglich'],ans:1,lvl:3,explain:'<b>§ 15 Abs. 4 UStG – Vorsteueraufteilung:</b> Bei gemischter Nutzung (steuerbar + steuerfrei) ist die Vorsteuer im Umsatzverhältnis aufzuteilen. 60 % steuerbare Umsätze → 60 % × 5.700 € = <b>3.420 € abziehbar</b>. 40 % × 5.700 € = 2.280 € nicht abziehbar (Kostenfaktor für das Unternehmen).'},
+  {topic:'verfahren',q:'Unternehmerin Mia hat im Vorjahr einen Gesamtumsatz von 21.000 € erzielt. Kann sie die Kleinunternehmerregelung nutzen?',opts:['Nein – Umsatz über 20.000 € schließt sie aus','Ja – solange der Vorjahresumsatz unter 25.000 € und laufende Jahr unter 100.000 € bleibt (§ 19 UStG ab 2025)','Nein – nur für Gewerbe, nicht für Freiberufler','Ja – nur mit ausdrücklicher FA-Zustimmung'],ans:1,lvl:1,explain:'<b>§ 19 UStG – Kleinunternehmerregelung ab 2025:</b> Neue Grenzen: Vorjahresumsatz max. <b>25.000 €</b> (bis 2024: 22.000 €), im laufenden Jahr max. <b>100.000 €</b> (bis 2024: 50.000 €). Mias 21.000 € liegen darunter → Kleinunternehmer-Status möglich. Folge: keine USt auf Ausgangsleistungen, aber auch <b>kein Vorsteuerabzug</b>.'},
+  {topic:'ort',q:'Wo liegt der Ort einer Beratungsleistung (sonstige Leistung) an einen anderen Unternehmer (B2B) nach § 3a UStG?',opts:['Am Sitz des leistenden Unternehmers','Am Sitz des Leistungsempfängers (§ 3a Abs. 2 UStG)','Am Ort der Leistungserbringung','Am Ort der Rechnungsausstellung'],ans:1,lvl:2,explain:'<b>§ 3a Abs. 2 UStG – B2B-Grundregel:</b> Sonstige Leistungen an andere Unternehmer sind am <b>Sitz des Leistungsempfängers</b> steuerbar. Deutsche Beraterin berät US-Firma: Leistungsort USA → in Deutschland nicht steuerbar! Bei B2C gilt der Umkehrschluss: Leistungsort = Sitz des leistenden Unternehmers (§ 3a Abs. 1 UStG).'},
+  {topic:'export',q:'Was ist eine innergemeinschaftliche Lieferung (§ 6a UStG) und wie wird sie besteuert?',opts:['Lieferung innerhalb Deutschlands mit 7 %','Steuerfreie Lieferung an einen Unternehmer in einem anderen EU-Staat – Besteuerung beim Käufer im Bestimmungsland','Lieferung ins Nicht-EU-Ausland (Ausfuhr)','Lieferung mit 0 % nur bei Lebensmitteln'],ans:1,lvl:2,explain:'<b>§§ 4 Nr. 1a, 6a UStG:</b> Innergemeinschaftliche Lieferungen sind <b>steuerfrei</b> im Abgangsland. Stattdessen unterliegt der Käufer im Bestimmungsland dem <b>innergemeinschaftlichen Erwerb</b> (§ 1a UStG). Ziel: Besteuerung am Verbrauchsort. Voraussetzung: Käufer ist Unternehmer + USt-ID + tatsächliche Warenbewegung.'},
+  {topic:'vst',q:'Was bedeutet Vorsteuerüberhang und was folgt daraus?',opts:['Ausgaben-USt > Einnahmen-USt → Nachzahlung','Abziehbare Vorsteuer > geschuldete USt → Erstattung durch das FA','Vorsteuer kann nicht genutzt werden','Tritt nur bei Kleinunternehmern auf'],ans:1,lvl:2,explain:'<b>Vorsteuerüberhang:</b> Übersteigt die abzugsfähige Vorsteuer (§ 15 UStG) die geschuldete Umsatzsteuer, ergibt sich ein <b>Guthaben</b>, das das Finanzamt erstattet. Typisch bei Gründern (hohe Investitionen, noch wenig Umsatz), Exporteuren (steuerfreie Ausgangsumsätze) und Unternehmen in Aufbauphasen.'},
+  {topic:'satz',q:'Welchen USt-Satz haben Taxifahrten und Hotelübernachtungen in Deutschland?',opts:['Beide 19 %','Taxi 7 %, Hotel 7 % (§ 12 Abs. 2 Nr. 10 und 11 UStG)','Taxi 19 %, Hotel 7 %','Taxi 7 %, Hotel 19 %'],ans:1,lvl:1,explain:'<b>§ 12 Abs. 2 Nr. 10 UStG:</b> Personenbeförderung im Inland mit Taxen (bis 50 km) → <b>7 %</b>. <b>§ 12 Abs. 2 Nr. 11 UStG:</b> Übernachtungsleistungen → <b>7 %</b>. Achtung: Hotelfrühstück (Restaurationsleistung) gesondert → 19 %. Bahn: immer 7 % seit 2020.'},
+  {topic:'grundlagen',q:'Was ist der Unterschied zwischen echter und unechter Steuerbefreiung bei der USt?',opts:['Echter: mit Vorsteuerabzug | Unechter: ohne Vorsteuerabzug (§ 15 Abs. 2 UStG)','Echter: höherer Satz | Unechter: ermäßigt','Echter: nur für KMU | Unechter: für Konzerne','Kein Unterschied'],ans:0,lvl:2,explain:'<b>Echte Befreiungen:</b> Umsatz steuerfrei + Vorsteuerabzug bleibt erhalten (z. B. Ausfuhrlieferungen, ig. Lieferungen). <b>Unechte Befreiungen:</b> Umsatz steuerfrei, aber <b>kein Vorsteuerabzug</b> (§ 15 Abs. 2 UStG) – z.B. Ärzte (§ 4 Nr. 14), Versicherungen, Grundstücksverkäufe. Unechte Befreiungen können wirtschaftlich nachteilig sein (Vorsteuer wird zum Kostenfaktor).'},
+  {topic:'vst',q:'Wann entsteht der Anspruch auf Vorsteuerabzug bei der Soll-Besteuerung?',opts:['Erst nach der Zahlung der Eingangsrechnung','Mit Leistungserbringung und Vorliegen einer ordnungsgemäßen Rechnung (§ 15 Abs. 1 UStG)','Am Jahresende','Erst nach Abgabe der USt-Voranmeldung'],ans:1,lvl:2,explain:'<b>§ 15 Abs. 1 UStG (Soll-Besteuerung):</b> Vorsteuerabzug entsteht mit <b>Ausführung der Leistung + Vorlage einer ordnungsgemäßen Rechnung</b> – unabhängig von der Zahlung. Rechnung im Oktober erhalten, zahlen erst im Januar → Vorsteuer trotzdem im Oktober abziehbar. Ausnahme: Ist-Besteuerung (§ 20 UStG) → erst mit Zahlung.'},
+  {topic:'export',q:'Was ist ein innergemeinschaftliches Dreiecksgeschäft (§ 25b UStG)?',opts:['Drei Unternehmer aus drei EU-Ländern, eine Warenbewegung – mit Vereinfachungsregelung','Drei Rechnungen für eine Lieferung','Geschäft mit drei Zahlungsraten','Lieferung in drei EU-Länder gleichzeitig'],ans:0,lvl:3,explain:'<b>§ 25b UStG – Dreiecksgeschäft:</b> A (Land 1) verkauft an B (Land 2) verkauft an C (Land 3), Ware geht direkt A→C. Die Vereinfachungsregelung befreit B von der Registrierungspflicht in Land 3: B stellt C eine Rechnung mit Hinweis auf § 25b aus, C schuldet die Erwerbsteuer. Sehr prüfungsrelevant im Außenhandel.'},
+  {topic:'vst',q:'Eine Unternehmerin ist nur zu 60 % vorsteuerabzugsberechtigt (40 % steuerfreie Umsätze). Sie kauft Geräte für 30.000 € netto + 5.700 € USt. Wie viel Vorsteuer darf sie abziehen?',opts:['5.700 € (voll)','3.420 € (60 % von 5.700 €)','2.280 € (40 % von 5.700 €)','0 € – kein Abzug möglich'],ans:1,lvl:3,explain:'<b>§ 15 Abs. 4 UStG – Vorsteueraufteilung:</b> Bei gemischter Nutzung (steuerbar + steuerfrei) ist die Vorsteuer im Umsatzverhältnis aufzuteilen. 60 % steuerbare Umsätze → 60 % × 5.700 € = <b>3.420 € abziehbar</b>. 40 % × 5.700 € = 2.280 € nicht abziehbar (Kostenfaktor für das Unternehmen).'},
 ];
 
 
@@ -581,43 +644,63 @@ const D_BUCHUNG = [
 //         Vorsteuerabzug, Leistungsort, ig. Erwerb, Rechnungsstellung, Kleinunternehmer
 
   // ── GRUNDLAGEN ──
-  {q:'Welche 4 Voraussetzungen müssen kumulativ erfüllt sein damit eine Lieferung steuerbar ist (§ 1 Abs. 1 Nr. 1 UStG)?',opts:['Lieferung, Gegenleistung, Unternehmer, Ausland','Lieferung oder sonstige Leistung, im Inland, durch Unternehmer, gegen Entgelt','Inland, Entgelt, natürliche Person, Ware','USt-Pflicht, Rechnung, Unternehmernummer, Warenübergabe'],ans:1,lvl:1,explain:'<b>§ 1 Abs. 1 Nr. 1 UStG – Steuerbarkeit</b>: (1) Lieferung oder sonstige Leistung (2) im Inland (3) durch einen Unternehmer (4) gegen Entgelt. Alle vier müssen vorliegen! Fehlt eine Voraussetzung → nicht steuerbar → keine USt. Prüfungsschema: erst Steuerbarkeit, dann Steuerpflicht/Befreiung.'},
-  {q:'Was ist der Unterschied zwischen "steuerbar" und "steuerpflichtig"?',opts:['Kein Unterschied – beide Begriffe bedeuten dasselbe','Steuerbar = Tatbestand des § 1 erfüllt; steuerpflichtig = steuerbar ABER nicht befreit (§ 4 UStG)','Steuerpflichtig = höherer Steuersatz; steuerbar = 0 %','Nur Unternehmer können steuerpflichtig sein'],ans:1,lvl:1,explain:'<b>Prüfungsreihenfolge</b>: (1) Steuerbar (§ 1)? → (2) Steuerfrei (§ 4)? → (3) Steuerpflichtig (19 % oder 7 %). Steuerbare Umsätze können durch § 4 befreit sein (z.B. Ärzte, Vermieter, Exporteure). Nur steuerbare und nicht steuerfreie Umsätze sind steuerpflichtig.'},
+  {topic:'grundlagen',q:'Welche 4 Voraussetzungen müssen kumulativ erfüllt sein damit eine Lieferung steuerbar ist (§ 1 Abs. 1 Nr. 1 UStG)?',opts:['Lieferung, Gegenleistung, Unternehmer, Ausland','Lieferung oder sonstige Leistung, im Inland, durch Unternehmer, gegen Entgelt','Inland, Entgelt, natürliche Person, Ware','USt-Pflicht, Rechnung, Unternehmernummer, Warenübergabe'],ans:1,lvl:1,explain:'<b>§ 1 Abs. 1 Nr. 1 UStG – Steuerbarkeit</b>: (1) Lieferung oder sonstige Leistung (2) im Inland (3) durch einen Unternehmer (4) gegen Entgelt. Alle vier müssen vorliegen! Fehlt eine Voraussetzung → nicht steuerbar → keine USt. Prüfungsschema: erst Steuerbarkeit, dann Steuerpflicht/Befreiung.'},
+  {topic:'grundlagen',q:'Was ist der Unterschied zwischen "steuerbar" und "steuerpflichtig"?',opts:['Kein Unterschied – beide Begriffe bedeuten dasselbe','Steuerbar = Tatbestand des § 1 erfüllt; steuerpflichtig = steuerbar ABER nicht befreit (§ 4 UStG)','Steuerpflichtig = höherer Steuersatz; steuerbar = 0 %','Nur Unternehmer können steuerpflichtig sein'],ans:1,lvl:1,explain:'<b>Prüfungsreihenfolge</b>: (1) Steuerbar (§ 1)? → (2) Steuerfrei (§ 4)? → (3) Steuerpflichtig (19 % oder 7 %). Steuerbare Umsätze können durch § 4 befreit sein (z.B. Ärzte, Vermieter, Exporteure). Nur steuerbare und nicht steuerfreie Umsätze sind steuerpflichtig.'},
   {q:'Bäckermeister Klein verkauft ein Brötchen für 0,40 €. Mit wie viel % USt wird das belastet?',opts:['0 % – Grundnahrungsmittel sind steuerfrei','7 % – ermäßigter Steuersatz (§ 12 Abs. 2 Nr. 1 UStG i.V.m. Anlage 2)','19 % – Regelsteuersatz','10 % – für Lebensmittel'],ans:1,lvl:1,explain:'<b>7 % USt</b> auf Grundnahrungsmittel (§ 12 Abs. 2 Nr. 1 UStG, Anlage 2). Brot, Brötchen, Mehl, Fleisch etc. → 7 %. Ausnahme: Wenn Brötchen im Café mit Begleitung serviert werden (Restaurantleistung) → 7 % seit 2026 (StÄndG 2025). Getränke im Restaurant: 19 %.'},
-  {q:'Was ist eine "unechte Steuerbefreiung" und welche Konsequenz hat sie?',opts:['Eine Befreiung die nicht gilt','Umsatz ist steuerfrei, aber kein Vorsteuerabzug (§ 15 Abs. 2 UStG) – z.B. Ärzte, Versicherungen','Umsatz mit 0 % Steuersatz mit vollem Vorsteuerabzug','Eine temporäre Befreiung für Neugründer'],ans:1,lvl:2,explain:'<b>Unechte Steuerbefreiung (§ 4 UStG)</b>: Ausgangsumsatz steuerfrei → keine USt ans FA. ABER: kein Vorsteuerabzug auf Eingangsleistungen (§ 15 Abs. 2). Beispiele: Ärzte (§ 4 Nr. 14), Krankenhäuser, Versicherungen, Vermietung (außer Option § 9). Echte SB (Export): steuerfrei + Vorsteuerabzug.'},
-  {q:'Was bedeutet "Steuerschuldnerschaft des Leistungsempfängers" (§ 13b UStG, Reverse Charge)?',opts:['Der Leistungsempfänger zahlt die USt statt des Leistenden – bei bestimmten Umsätzen','Reverse Charge gilt immer bei Auslandsgeschäften','Der Leistende zahlt doppelte USt','Nur für Privatpersonen relevant'],ans:0,lvl:2,explain:'<b>§ 13b UStG – Umkehr der Steuerschuldnerschaft</b>: Bei bestimmten Umsätzen (Bauleistungen, Lieferungen von Schrott, Leistungen ausländischer Unternehmer) schuldet nicht der Leistende, sondern der <b>Leistungsempfänger</b> die USt. Soll Umsatzsteuerkarusselle verhindern. Vorsteuerabzug möglich.'},
+  {topic:'grundlagen',q:'Was ist eine "unechte Steuerbefreiung" und welche Konsequenz hat sie?',opts:['Eine Befreiung die nicht gilt','Umsatz ist steuerfrei, aber kein Vorsteuerabzug (§ 15 Abs. 2 UStG) – z.B. Ärzte, Versicherungen','Umsatz mit 0 % Steuersatz mit vollem Vorsteuerabzug','Eine temporäre Befreiung für Neugründer'],ans:1,lvl:2,explain:'<b>Unechte Steuerbefreiung (§ 4 UStG)</b>: Ausgangsumsatz steuerfrei → keine USt ans FA. ABER: kein Vorsteuerabzug auf Eingangsleistungen (§ 15 Abs. 2). Beispiele: Ärzte (§ 4 Nr. 14), Krankenhäuser, Versicherungen, Vermietung (außer Option § 9). Echte SB (Export): steuerfrei + Vorsteuerabzug.'},
+  {topic:'sonderfaelle',q:'Was bedeutet "Steuerschuldnerschaft des Leistungsempfängers" (§ 13b UStG, Reverse Charge)?',opts:['Der Leistungsempfänger zahlt die USt statt des Leistenden – bei bestimmten Umsätzen','Reverse Charge gilt immer bei Auslandsgeschäften','Der Leistende zahlt doppelte USt','Nur für Privatpersonen relevant'],ans:0,lvl:2,explain:'<b>§ 13b UStG – Umkehr der Steuerschuldnerschaft</b>: Bei bestimmten Umsätzen (Bauleistungen, Lieferungen von Schrott, Leistungen ausländischer Unternehmer) schuldet nicht der Leistende, sondern der <b>Leistungsempfänger</b> die USt. Soll Umsatzsteuerkarusselle verhindern. Vorsteuerabzug möglich.'},
 
   // ── VORSTEUERABZUG ──
-  {q:'Welche Voraussetzungen müssen für den Vorsteuerabzug erfüllt sein (§ 15 UStG)?',opts:['Nur eine Rechnung mit USt-Ausweis','Leistung von Unternehmer, ordnungsgemäße Rechnung (§ 14 UStG), für unternehmerische Zwecke','Zahlung per Banküberweisung + Rechnung','Nur für Einfuhrumsatzsteuer'],ans:1,lvl:2,explain:'<b>§ 15 Abs. 1 UStG – Voraussetzungen Vorsteuerabzug</b>: (1) Leistung von einem anderen Unternehmer (2) ordnungsgemäße Rechnung nach § 14/14a UStG (3) Verwendung für unternehmerische (steuerpflichtige) Zwecke. Privatpersonen: kein VSt-Abzug. Nur für steuerfreie Ausgangsumsätze verwendete Eingangsleistungen: kein VSt (§ 15 Abs. 2).'},
-  {q:'Arztpraxis Müller kauft für 5.000 € netto (950 € USt) neue Behandlungsliegen. Kann sie die Vorsteuer abziehen?',opts:['Ja – als Unternehmer immer','Nein – Ärzte haben keine steuerpflichtigen Ausgangsumsätze (§ 4 Nr. 14 UStG) → kein VSt-Abzug','Ja – zur Hälfte','Nur wenn sie optiert hat'],ans:1,lvl:2,explain:'<b>Kein Vorsteuerabzug für unechte Steuerbefreiungen</b>: Arztleistungen sind nach § 4 Nr. 14 UStG steuerfrei (unecht) → kein VSt-Abzug (§ 15 Abs. 2 Nr. 1). Die 950 € USt wird zum Kostenfaktor (ähnlich wie bei Privatpersonen). Nur wenn Arzt optionsfähige Umsätze hat → anteiliger VSt.'},
-  {q:'Ein Unternehmer hat 10.000 € VSt bezahlt und nur 7.000 € USt eingenommen. Was passiert?',opts:['Er schuldet dem FA 3.000 €','Er hat einen Vorsteuerüberhang: FA erstattet 3.000 € (§ 16 Abs. 2 UStG)','Er kann die 3.000 € ins nächste Jahr vortragen','Er verliert die 3.000 €'],ans:1,lvl:1,explain:'<b>Vorsteuerüberhang = Erstattungsfall</b>: Wenn VSt > Umsatzsteuer → FA erstattet den Differenzbetrag (§ 16 Abs. 2 UStG). Typisch bei Investitionsphasen (viel Einkauf, noch wenig Umsatz) oder bei Exporteuren (steuerfreie Lieferungen + voller VSt-Abzug). Antrag auf Vorsteuervergütung möglich.'},
-  {q:'Welche Angaben MUSS eine Rechnung für den Vorsteuerabzug zwingend enthalten?',opts:['Name, Datum, Betrag – reicht aus','Mind.: vollständiger Name+Anschrift Leistender/Empfänger, Steuernummer/USt-IdNr., Rechnungsdatum, fortlaufende Nr., Leistungsbeschreibung, Entgelt netto, USt-Betrag oder -satz (§ 14 Abs. 4 UStG)','Nur USt-IdNr. und Betrag','Stempel des Finanzamts'],ans:1,lvl:2,explain:'<b>§ 14 Abs. 4 UStG – Pflichtangaben</b>: Name+Anschrift beider Parteien, Steuernummer oder USt-IdNr. des Leistenden, Ausstellungsdatum, fortlaufende Rechnungsnummer, Leistungsmenge und -art, Leistungsdatum, Nettobetrag, Steuersatz, Steuerbetrag. Bei Fehlern: VSt-Abzug gefährdet!'},
+  {topic:'vst',q:'Welche Voraussetzungen müssen für den Vorsteuerabzug erfüllt sein (§ 15 UStG)?',opts:['Nur eine Rechnung mit USt-Ausweis','Leistung von Unternehmer, ordnungsgemäße Rechnung (§ 14 UStG), für unternehmerische Zwecke','Zahlung per Banküberweisung + Rechnung','Nur für Einfuhrumsatzsteuer'],ans:1,lvl:2,explain:'<b>§ 15 Abs. 1 UStG – Voraussetzungen Vorsteuerabzug</b>: (1) Leistung von einem anderen Unternehmer (2) ordnungsgemäße Rechnung nach § 14/14a UStG (3) Verwendung für unternehmerische (steuerpflichtige) Zwecke. Privatpersonen: kein VSt-Abzug. Nur für steuerfreie Ausgangsumsätze verwendete Eingangsleistungen: kein VSt (§ 15 Abs. 2).'},
+  {topic:'vst',q:'Arztpraxis Müller kauft für 5.000 € netto (950 € USt) neue Behandlungsliegen. Kann sie die Vorsteuer abziehen?',opts:['Ja – als Unternehmer immer','Nein – Ärzte haben keine steuerpflichtigen Ausgangsumsätze (§ 4 Nr. 14 UStG) → kein VSt-Abzug','Ja – zur Hälfte','Nur wenn sie optiert hat'],ans:1,lvl:2,explain:'<b>Kein Vorsteuerabzug für unechte Steuerbefreiungen</b>: Arztleistungen sind nach § 4 Nr. 14 UStG steuerfrei (unecht) → kein VSt-Abzug (§ 15 Abs. 2 Nr. 1). Die 950 € USt wird zum Kostenfaktor (ähnlich wie bei Privatpersonen). Nur wenn Arzt optionsfähige Umsätze hat → anteiliger VSt.'},
+  {topic:'vst',q:'Ein Unternehmer hat 10.000 € VSt bezahlt und nur 7.000 € USt eingenommen. Was passiert?',opts:['Er schuldet dem FA 3.000 €','Er hat einen Vorsteuerüberhang: FA erstattet 3.000 € (§ 16 Abs. 2 UStG)','Er kann die 3.000 € ins nächste Jahr vortragen','Er verliert die 3.000 €'],ans:1,lvl:1,explain:'<b>Vorsteuerüberhang = Erstattungsfall</b>: Wenn VSt > Umsatzsteuer → FA erstattet den Differenzbetrag (§ 16 Abs. 2 UStG). Typisch bei Investitionsphasen (viel Einkauf, noch wenig Umsatz) oder bei Exporteuren (steuerfreie Lieferungen + voller VSt-Abzug). Antrag auf Vorsteuervergütung möglich.'},
+  {topic:'vst',q:'Welche Angaben MUSS eine Rechnung für den Vorsteuerabzug zwingend enthalten?',opts:['Name, Datum, Betrag – reicht aus','Mind.: vollständiger Name+Anschrift Leistender/Empfänger, Steuernummer/USt-IdNr., Rechnungsdatum, fortlaufende Nr., Leistungsbeschreibung, Entgelt netto, USt-Betrag oder -satz (§ 14 Abs. 4 UStG)','Nur USt-IdNr. und Betrag','Stempel des Finanzamts'],ans:1,lvl:2,explain:'<b>§ 14 Abs. 4 UStG – Pflichtangaben</b>: Name+Anschrift beider Parteien, Steuernummer oder USt-IdNr. des Leistenden, Ausstellungsdatum, fortlaufende Rechnungsnummer, Leistungsmenge und -art, Leistungsdatum, Nettobetrag, Steuersatz, Steuerbetrag. Bei Fehlern: VSt-Abzug gefährdet!'},
 
   // ── LEISTUNGSORT ──
-  {q:'Eine deutsche Unternehmerin (B2B) beauftragt eine spanische Werbeagentur. Wo ist der Leistungsort für die Beratungsleistung?',opts:['Spanien – dort sitzt die Agentur','Deutschland – beim Leistungsempfänger (B2B-Grundregel § 3a Abs. 2 UStG)','EU-Mittelort Paris','Kein Leistungsort – grenzüberschreitend steuerfrei'],ans:1,lvl:2,explain:'<b>B2B-Grundregel (§ 3a Abs. 2 UStG)</b>: Sonstige Leistung an Unternehmer → Leistungsort beim <b>Empfänger</b>. Die deutsche Unternehmerin schuldet die USt in Deutschland (Reverse Charge § 13b). Die spanische Agentur stellt ohne USt in Rechnung. Merke: B2B → Empfängerort!'},
-  {q:'Wo ist der Leistungsort bei einer Restaurantleistung (B2C)?',opts:['Wohnsitz des Gastes','Wo die Leistung tatsächlich erbracht wird (§ 3a Abs. 1 UStG) – Standort des Restaurants','EU-Mittelort','Sitz des Restaurant-Unternehmens'],ans:1,lvl:2,explain:'<b>§ 3a Abs. 3 Nr. 3 Buchst. b UStG – Sonderregel für Restaurationsleistungen</b>: Ort wo die Leistung tatsächlich erbracht wird (= Restaurantstandort). Nicht die B2C-Grundregel (§ 3a Abs. 1), sondern diese Sonderregelung gilt. Wichtig: Restaurationsleistungen sind Dienstleistungen, kein Imbissverkauf (der wäre Lieferung mit § 3 Abs. 6/7).'},
-  {q:'Wo liegt der Lieferort bei einer normalen Lieferung ohne Transport?',opts:['Sitz des Lieferers','Dort wo sich der Gegenstand zur Zeit der Verschaffung der Verfügungsmacht befindet (§ 3 Abs. 7 UStG)','Wohnsitz des Käufers','EU-Mittelort'],ans:1,lvl:2,explain:'<b>§ 3 Abs. 7 UStG – ruhende Lieferung (ohne Beförderung/Versendung)</b>: Lieferort = Ort wo Gegenstand zur Zeit der Verschaffung der Verfügungsmacht befindet. Abgrenzung: Bei Beförderungs-/Versendungslieferung gilt § 3 Abs. 6 (Beginn der Beförderung). Der Lieferort bestimmt ob deutsche USt anfällt.'},
+  {topic:'ort',q:'Eine deutsche Unternehmerin (B2B) beauftragt eine spanische Werbeagentur. Wo ist der Leistungsort für die Beratungsleistung?',opts:['Spanien – dort sitzt die Agentur','Deutschland – beim Leistungsempfänger (B2B-Grundregel § 3a Abs. 2 UStG)','EU-Mittelort Paris','Kein Leistungsort – grenzüberschreitend steuerfrei'],ans:1,lvl:2,explain:'<b>B2B-Grundregel (§ 3a Abs. 2 UStG)</b>: Sonstige Leistung an Unternehmer → Leistungsort beim <b>Empfänger</b>. Die deutsche Unternehmerin schuldet die USt in Deutschland (Reverse Charge § 13b). Die spanische Agentur stellt ohne USt in Rechnung. Merke: B2B → Empfängerort!'},
+  {topic:'ort',q:'Wo ist der Leistungsort bei einer Restaurantleistung (B2C)?',opts:['Wohnsitz des Gastes','Wo die Leistung tatsächlich erbracht wird (§ 3a Abs. 1 UStG) – Standort des Restaurants','EU-Mittelort','Sitz des Restaurant-Unternehmens'],ans:1,lvl:2,explain:'<b>§ 3a Abs. 3 Nr. 3 Buchst. b UStG – Sonderregel für Restaurationsleistungen</b>: Ort wo die Leistung tatsächlich erbracht wird (= Restaurantstandort). Nicht die B2C-Grundregel (§ 3a Abs. 1), sondern diese Sonderregelung gilt. Wichtig: Restaurationsleistungen sind Dienstleistungen, kein Imbissverkauf (der wäre Lieferung mit § 3 Abs. 6/7).'},
+  {topic:'ort',q:'Wo liegt der Lieferort bei einer normalen Lieferung ohne Transport?',opts:['Sitz des Lieferers','Dort wo sich der Gegenstand zur Zeit der Verschaffung der Verfügungsmacht befindet (§ 3 Abs. 7 UStG)','Wohnsitz des Käufers','EU-Mittelort'],ans:1,lvl:2,explain:'<b>§ 3 Abs. 7 UStG – ruhende Lieferung (ohne Beförderung/Versendung)</b>: Lieferort = Ort wo Gegenstand zur Zeit der Verschaffung der Verfügungsmacht befindet. Abgrenzung: Bei Beförderungs-/Versendungslieferung gilt § 3 Abs. 6 (Beginn der Beförderung). Der Lieferort bestimmt ob deutsche USt anfällt.'},
 
   // ── INNERGEMEINSCHAFTLICHE UMSÄTZE ──
-  {q:'Was ist eine innergemeinschaftliche Lieferung (§ 6a UStG) und wie wird sie besteuert?',opts:['Lieferung in andere EU-Staaten an Unternehmer – 0 % USt (echt steuerfrei) + VSt-Abzug','Lieferung in EU – 19 % deutsche USt','Lieferung in Drittländer – zollfrei','Lieferung innerhalb Deutschlands zwischen Bundesländern'],ans:0,lvl:2,explain:'<b>§ 6a UStG – ig. Lieferung</b>: Lieferung an Unternehmer in anderen EU-Staat → <b>steuerfrei (echte SB)</b> + Vorsteuerabzug bleibt. Voraussetzungen: Gegenstand gelangt in anderen EU-Staat, Empfänger hat USt-IdNr., Buchnachweis (§ 17c UStDV). Empfänger schuldet USt im eigenen Land (ig. Erwerb).'},
-  {q:'Was ist ein "innergemeinschaftlicher Erwerb" (§ 1a UStG)?',opts:['Export in die EU','Kauf von Waren aus anderen EU-Mitgliedstaaten durch Unternehmer – Erwerbsbesteuerung im Bestimmungsland','Kauf von Waren aus Drittländern','Privatkauf im EU-Ausland'],ans:1,lvl:2,explain:'<b>§ 1a UStG – ig. Erwerb</b>: Wenn deutsche Firma Ware aus anderem EU-Staat kauft → Besteuerung in Deutschland (Bestimmungslandprinzip). Die ausländische Firma liefert steuerfrei (ig. Lieferung). Der deutsche Käufer bucht USt (Erwerbssteuer) → gleichzeitig VSt-Abzug → netto kein Effekt.'},
+  {topic:'export',q:'Was ist eine innergemeinschaftliche Lieferung (§ 6a UStG) und wie wird sie besteuert?',opts:['Lieferung in andere EU-Staaten an Unternehmer – 0 % USt (echt steuerfrei) + VSt-Abzug','Lieferung in EU – 19 % deutsche USt','Lieferung in Drittländer – zollfrei','Lieferung innerhalb Deutschlands zwischen Bundesländern'],ans:0,lvl:2,explain:'<b>§ 6a UStG – ig. Lieferung</b>: Lieferung an Unternehmer in anderen EU-Staat → <b>steuerfrei (echte SB)</b> + Vorsteuerabzug bleibt. Voraussetzungen: Gegenstand gelangt in anderen EU-Staat, Empfänger hat USt-IdNr., Buchnachweis (§ 17c UStDV). Empfänger schuldet USt im eigenen Land (ig. Erwerb).'},
+  {topic:'export',q:'Was ist ein "innergemeinschaftlicher Erwerb" (§ 1a UStG)?',opts:['Export in die EU','Kauf von Waren aus anderen EU-Mitgliedstaaten durch Unternehmer – Erwerbsbesteuerung im Bestimmungsland','Kauf von Waren aus Drittländern','Privatkauf im EU-Ausland'],ans:1,lvl:2,explain:'<b>§ 1a UStG – ig. Erwerb</b>: Wenn deutsche Firma Ware aus anderem EU-Staat kauft → Besteuerung in Deutschland (Bestimmungslandprinzip). Die ausländische Firma liefert steuerfrei (ig. Lieferung). Der deutsche Käufer bucht USt (Erwerbssteuer) → gleichzeitig VSt-Abzug → netto kein Effekt.'},
 
   // ── BEMESSUNGSGRUNDLAGE & STEUERSATZ ──
-  {q:'Wie berechnet sich die Bemessungsgrundlage bei der USt (§ 10 Abs. 1 UStG)?',opts:['Bruttoentgelt inkl. USt','Nettobetrag = Entgelt ohne USt (Gegenleistung minus USt)','Einkaufspreis + Gewinnaufschlag','Bruttoentgelt × 19/119'],ans:1,lvl:1,explain:'<b>§ 10 Abs. 1 UStG – Bemessungsgrundlage = Entgelt (netto)</b>. Entgelt = alles was der Leistungsempfänger aufwendet ABZÜGLICH der USt selbst. Bei 119 € Bruttopreis: Entgelt = 100 €, USt = 19 €. Merke: USt = Brutto × 19/119 (Herausrechnen). Oder: Netto × 0,19.'},
+  {topic:'grundlagen',q:'Wie berechnet sich die Bemessungsgrundlage bei der USt (§ 10 Abs. 1 UStG)?',opts:['Bruttoentgelt inkl. USt','Nettobetrag = Entgelt ohne USt (Gegenleistung minus USt)','Einkaufspreis + Gewinnaufschlag','Bruttoentgelt × 19/119'],ans:1,lvl:1,explain:'<b>§ 10 Abs. 1 UStG – Bemessungsgrundlage = Entgelt (netto)</b>. Entgelt = alles was der Leistungsempfänger aufwendet ABZÜGLICH der USt selbst. Bei 119 € Bruttopreis: Entgelt = 100 €, USt = 19 €. Merke: USt = Brutto × 19/119 (Herausrechnen). Oder: Netto × 0,19.'},
   {q:'Welche Umsätze unterliegen dem ermäßigten USt-Satz von 7 %?',opts:['Alkohol, Luxusgüter, Elektronik','Grundnahrungsmittel, Bücher, ÖPNV, Gastronomie (ab 2026), Unterkunft (§ 12 Abs. 2 UStG)','Alle Handwerksleistungen','Nur Lebensmittel im Einzelhandel'],ans:1,lvl:1,explain:'<b>§ 12 Abs. 2 UStG + Anlage 2</b>: 7 % für Lebensmittel (außer Getränke außer Wasser/Milch), Bücher/Zeitungen, gemeinnützige Vereine, ÖPNV (Kurzstrecke), Beherbergung, Gastronomie (Speisen, ab 2026 dauerhaft). 19 % für alles andere (Regelsteuersatz § 12 Abs. 1).'},
-  {q:'Was ist die Istbesteuerung und wann ist sie zulässig (§ 20 UStG)?',opts:['Besteuerung nach Vereinbarung des Entgelts (Sollbesteuerung)','Besteuerung nach tatsächlichem Zahlungseingang – zulässig bei Jahresumsatz ≤ 800.000 € oder Freiberufler ohne Buchführungspflicht','Besteuerung nach Auftrag','Nur für Kleinunternehmer'],ans:1,lvl:2,explain:'<b>§ 20 UStG – Istbesteuerung (Besteuerung nach vereinnahmten Entgelten)</b>: USt entsteht erst wenn Zahlung eingeht. Vorteil: keine Vorfinanzierung. Zulässig wenn Umsatz ≤ 800.000 € (§ 20 Satz 1 Nr. 1) oder Freiberufler ohne Buchführungspflicht (Nr. 3). Antrag beim FA. Regelfall: Sollbesteuerung.'},
+  {topic:'verfahren',q:'Was ist die Istbesteuerung und wann ist sie zulässig (§ 20 UStG)?',opts:['Besteuerung nach Vereinbarung des Entgelts (Sollbesteuerung)','Besteuerung nach tatsächlichem Zahlungseingang – zulässig bei Jahresumsatz ≤ 800.000 € oder Freiberufler ohne Buchführungspflicht','Besteuerung nach Auftrag','Nur für Kleinunternehmer'],ans:1,lvl:2,explain:'<b>§ 20 UStG – Istbesteuerung (Besteuerung nach vereinnahmten Entgelten)</b>: USt entsteht erst wenn Zahlung eingeht. Vorteil: keine Vorfinanzierung. Zulässig wenn Umsatz ≤ 800.000 € (§ 20 Satz 1 Nr. 1) oder Freiberufler ohne Buchführungspflicht (Nr. 3). Antrag beim FA. Regelfall: Sollbesteuerung.'},
 
   // ── KLEINUNTERNEHMER ──
-  {q:'Ein Kleinunternehmer stellt eine Rechnung aus. Darf er USt ausweisen?',opts:['Ja – immer wenn er will','Nein – Kleinunternehmer dürfen keine USt ausweisen (§ 19 Abs. 1 UStG). Weist er sie aus: geschuldete Steuer (§ 14c UStG)','Ja – mit maximal 7 %','Nur für B2B-Rechnungen'],ans:1,lvl:2,explain:'<b>§ 19 UStG – Kleinunternehmer</b>: Keine USt-Ausweis erlaubt, kein VSt-Abzug. Weist er trotzdem USt aus → schuldet er diese nach § 14c UStG (ohne Gegenwert!). Auf Rechnungen muss stehen: "Gemäß § 19 UStG wird keine Umsatzsteuer erhoben." Vorteil für B2C: günstigere Preise.'},
-  {q:'Was sind die Umsatzgrenzen der Kleinunternehmerregelung ab 2025?',opts:['10.000 € Vorjahr, 30.000 € laufendes Jahr','25.000 € Vorjahr, 100.000 € laufendes Jahr (§ 19 UStG i.d.F. Jahressteuergesetz 2024)','22.000 € Vorjahr, 50.000 € laufendes Jahr','50.000 € Vorjahr, 150.000 € laufendes Jahr'],ans:1,lvl:1,explain:'<b>Neue Kleinunternehmergrenzen ab 2025</b>: Vorjahresumsatz ≤ 25.000 € (bis 2024: 22.000 €), laufendes Jahr ≤ 100.000 € (bis 2024: 50.000 €). Überschreitung der 100.000 €-Grenze → Kleinunternehmerstatus entfällt rückwirkend ab dem Überschreitungszeitpunkt!'},
-  {q:'Welche Aussage zur Option zur Regelbesteuerung (§ 9 UStG) bei steuerfreier Vermietung ist richtig?',opts:['Vermieter können immer optieren und dann Vorsteuer abziehen','Option nur möglich wenn der Mieter Unternehmer ist der das Grundstück ausschließlich für Umsätze verwendet die den Vorsteuerabzug nicht ausschließen (§ 9 Abs. 2 UStG)','Vermietung ist immer steuerpflichtig','Option hat keine Auswirkung auf Vorsteuer'],ans:1,lvl:3,explain:'<b>§ 9 UStG – Option zur Steuerpflicht</b>: Steuerfrei vermietende Unternehmer können optieren → steuerpflichtige Vermietung → Vorsteuerabzug auf Eingangsleistungen. Voraussetzung (§ 9 Abs. 2 UStG): Mieter muss das Grundstück <b>ausschließlich</b> für vorsteuerabzugsberechtigte Umsätze verwenden. In der Verwaltungspraxis (Abschn. 9.2 UStAE) wird eine Bagatellgrenze von 5 % schädlichen Umsätzen toleriert. Vorteil: VSt-Abzug für Baukosten, Reparaturen.'},
+  {topic:'verfahren',q:'Ein Kleinunternehmer stellt eine Rechnung aus. Darf er USt ausweisen?',opts:['Ja – immer wenn er will','Nein – Kleinunternehmer dürfen keine USt ausweisen (§ 19 Abs. 1 UStG). Weist er sie aus: geschuldete Steuer (§ 14c UStG)','Ja – mit maximal 7 %','Nur für B2B-Rechnungen'],ans:1,lvl:2,explain:'<b>§ 19 UStG – Kleinunternehmer</b>: Keine USt-Ausweis erlaubt, kein VSt-Abzug. Weist er trotzdem USt aus → schuldet er diese nach § 14c UStG (ohne Gegenwert!). Auf Rechnungen muss stehen: "Gemäß § 19 UStG wird keine Umsatzsteuer erhoben." Vorteil für B2C: günstigere Preise.'},
+  {topic:'verfahren',q:'Was sind die Umsatzgrenzen der Kleinunternehmerregelung ab 2025?',opts:['10.000 € Vorjahr, 30.000 € laufendes Jahr','25.000 € Vorjahr, 100.000 € laufendes Jahr (§ 19 UStG i.d.F. Jahressteuergesetz 2024)','22.000 € Vorjahr, 50.000 € laufendes Jahr','50.000 € Vorjahr, 150.000 € laufendes Jahr'],ans:1,lvl:1,explain:'<b>Neue Kleinunternehmergrenzen ab 2025</b>: Vorjahresumsatz ≤ 25.000 € (bis 2024: 22.000 €), laufendes Jahr ≤ 100.000 € (bis 2024: 50.000 €). Überschreitung der 100.000 €-Grenze → Kleinunternehmerstatus entfällt rückwirkend ab dem Überschreitungszeitpunkt!'},
+  {topic:'grundlagen',q:'Welche Aussage zur Option zur Regelbesteuerung (§ 9 UStG) bei steuerfreier Vermietung ist richtig?',opts:['Vermieter können immer optieren und dann Vorsteuer abziehen','Option nur möglich wenn der Mieter Unternehmer ist der das Grundstück ausschließlich für Umsätze verwendet die den Vorsteuerabzug nicht ausschließen (§ 9 Abs. 2 UStG)','Vermietung ist immer steuerpflichtig','Option hat keine Auswirkung auf Vorsteuer'],ans:1,lvl:3,explain:'<b>§ 9 UStG – Option zur Steuerpflicht</b>: Steuerfrei vermietende Unternehmer können optieren → steuerpflichtige Vermietung → Vorsteuerabzug auf Eingangsleistungen. Voraussetzung (§ 9 Abs. 2 UStG): Mieter muss das Grundstück <b>ausschließlich</b> für vorsteuerabzugsberechtigte Umsätze verwenden. In der Verwaltungspraxis (Abschn. 9.2 UStAE) wird eine Bagatellgrenze von 5 % schädlichen Umsätzen toleriert. Vorteil: VSt-Abzug für Baukosten, Reparaturen.'},
 
   // ── UST-VORANMELDUNG & ERKLÄRUNG ──
-  {q:'Wann müssen neu gegründete Unternehmen USt-Voranmeldungen abgeben?',opts:['Jährlich','Monatlich in den ersten 2 Jahren (§ 18 Abs. 2 Satz 4 UStG)','Nur wenn Umsatz über 100.000 €','Vierteljährlich immer'],ans:1,lvl:2,explain:'<b>§ 18 Abs. 2 Satz 4 UStG</b>: Gründungsjahr + Folgejahr → monatliche Voranmeldung (unabhängig von der Steuer). Danach richtet sich der Rhythmus nach der Vorjahres-Zahllast: < 1.000 € → jährlich; 1.000–7.500 € → vierteljährlich; > 7.500 € → monatlich (§ 18 Abs. 2 Satz 2).'},
-  {q:'Was ist eine Jahressteuererklärung bei der USt und bis wann ist sie abzugeben?',opts:['Eine optionale Zusammenfassung der Voranmeldungen','Pflichtangabe bis 31. Juli des Folgejahres (§ 18 Abs. 3 UStG) – auch wenn Voranmeldungen korrekt waren','Nur für Großunternehmen','Nicht erforderlich wenn keine Fehler in Voranmeldungen'],ans:1,lvl:2,explain:'<b>§ 18 Abs. 3 UStG – USt-Jahreserklärung</b>: Pflicht für alle Unternehmer bis 31.07. des Folgejahres (mit Steuerberater: 28.02. des übernächsten Jahres). Jährliche Abschlussveranlagung – kann von Voranmeldungen abweichen. Differenz → Nachzahlung oder Erstattung.'},
-  {q:'Was ist das Bestimmungslandprinzip bei der USt?',opts:['Steuern fallen dort an wo der Unternehmer seinen Sitz hat','Steuern fallen dort an wo die Leistung verbraucht wird – Ziel der modernen USt','Nur für Exporte relevant','Das Ursprungslandprinzip gilt in der EU'],ans:1,lvl:2,explain:'<b>Bestimmungslandprinzip</b>: Die USt soll dort erhoben werden, wo der Verbrauch stattfindet. Das ist das Ziel der Mehrwertsteuer als Verbrauchsteuer. Im EU-Binnenmarkt ist dieses Prinzip für B2B-Umsätze vollständig umgesetzt (Reverse Charge). Für B2C-Lieferungen: One-Stop-Shop-Regelung (§ 18j UStG).'},
-];
+  {topic:'verfahren',q:'Wann müssen neu gegründete Unternehmen USt-Voranmeldungen abgeben?',opts:['Jährlich','Monatlich in den ersten 2 Jahren (§ 18 Abs. 2 Satz 4 UStG)','Nur wenn Umsatz über 100.000 €','Vierteljährlich immer'],ans:1,lvl:2,explain:'<b>§ 18 Abs. 2 Satz 4 UStG</b>: Gründungsjahr + Folgejahr → monatliche Voranmeldung (unabhängig von der Steuer). Danach richtet sich der Rhythmus nach der Vorjahres-Zahllast: < 1.000 € → jährlich; 1.000–7.500 € → vierteljährlich; > 7.500 € → monatlich (§ 18 Abs. 2 Satz 2).'},
+  {topic:'verfahren',q:'Was ist eine Jahressteuererklärung bei der USt und bis wann ist sie abzugeben?',opts:['Eine optionale Zusammenfassung der Voranmeldungen','Pflichtangabe bis 31. Juli des Folgejahres (§ 18 Abs. 3 UStG) – auch wenn Voranmeldungen korrekt waren','Nur für Großunternehmen','Nicht erforderlich wenn keine Fehler in Voranmeldungen'],ans:1,lvl:2,explain:'<b>§ 18 Abs. 3 UStG – USt-Jahreserklärung</b>: Pflicht für alle Unternehmer bis 31.07. des Folgejahres (mit Steuerberater: 28.02. des übernächsten Jahres). Jährliche Abschlussveranlagung – kann von Voranmeldungen abweichen. Differenz → Nachzahlung oder Erstattung.'},
+  {topic:'grundlagen',q:'Was ist das Bestimmungslandprinzip bei der USt?',opts:['Steuern fallen dort an wo der Unternehmer seinen Sitz hat','Steuern fallen dort an wo die Leistung verbraucht wird – Ziel der modernen USt','Nur für Exporte relevant','Das Ursprungslandprinzip gilt in der EU'],ans:1,lvl:2,explain:'<b>Bestimmungslandprinzip</b>: Die USt soll dort erhoben werden, wo der Verbrauch stattfindet. Das ist das Ziel der Mehrwertsteuer als Verbrauchsteuer. Im EU-Binnenmarkt ist dieses Prinzip für B2B-Umsätze vollständig umgesetzt (Reverse Charge). Für B2C-Lieferungen: One-Stop-Shop-Regelung (§ 18j UStG).'},
+,
 
+  {topic:'werk',q:'Was ist der Unterschied zwischen Lieferung (§ 3 Abs. 1 UStG) und sonstiger Leistung (§ 3 Abs. 9 UStG)?',opts:['Lieferung = Dienstleistung; sonstige Leistung = Warenlieferung','Lieferung = Verschaffung der Verfügungsmacht an einem körperlichen Gegenstand; sonstige Leistung = alle anderen Leistungen','Lieferung gilt nur im Inland','Kein rechtlicher Unterschied'],ans:1,lvl:1,explain:'<b>§ 3 Abs. 1 UStG – Lieferung</b>: Verschaffung der Verfügungsmacht an einem körperlichen Gegenstand. <b>§ 3 Abs. 9 UStG – Sonstige Leistung</b>: alles was keine Lieferung ist. Die Abgrenzung ist entscheidend, weil Lieferort (§ 3 Abs. 6/7) und Leistungsort (§ 3a) nach unterschiedlichen Regeln bestimmt werden.'},
+  {topic:'werk',q:'Was ist eine Werklieferung (§ 3 Abs. 4 UStG)?',opts:['Lieferung von Werkzeug','Der liefernde Unternehmer be-/verarbeitet einen Gegenstand unter Verwendung selbst beschaffter Hauptstoffe – gilt als Lieferung','Montage fremder Waren ohne eigene Hauptstoffe','Jede Handwerksleistung'],ans:1,lvl:2,explain:'<b>§ 3 Abs. 4 UStG – Werklieferung</b>: Unternehmer be-/verarbeitet Gegenstand MIT selbst beschafften Hauptstoffen → gilt als <b>Lieferung</b>. Beispiel: Tischler fertigt Küche aus eigenem Holz. Folge: Lieferortregeln gelten. Bei Grundstücksbezug: Belegenheitsort (§ 3a Abs. 3 Nr. 1 UStG).'},
+  {topic:'werk',q:'Was ist eine Werkleistung und wie unterscheidet sie sich von der Werklieferung?',opts:['Kein Unterschied – beide sind Lieferungen','Werkleistung: Unternehmer be-/verarbeitet fremden Gegenstand mit beigestellten Hauptstoffen des Auftraggebers – sonstige Leistung; Werklieferung: eigene Hauptstoffe – Lieferung','Werkleistung gilt nur für Freiberufler','Werkleistung = Reparatur, Werklieferung = Neubau'],ans:1,lvl:2,explain:'<b>Abgrenzung</b>: Wer stellt die Hauptstoffe? Auftraggeber → Werkleistung = <b>sonstige Leistung</b>. Unternehmer selbst → Werklieferung = <b>Lieferung</b> (§ 3 Abs. 4). Nebenleistungen (Schrauben, Klebstoff) ändern die Einordnung nicht.'},
+  {topic:'werk',q:'Bauunternehmer Braun baut für Kunden ein Haus mit eigenem Material. Werklieferung oder Werkleistung?',opts:['Werkleistung – Bauarbeiten sind immer Dienstleistungen','Werklieferung – eigene Hauptstoffe, Bearbeitung eines Gegenstands (§ 3 Abs. 4 UStG)','Gemischte Leistung – hälftig','Grundstückslieferung'],ans:1,lvl:2,explain:'<b>Werklieferung (§ 3 Abs. 4)</b>: Eigene Hauptstoffe (Ziegel, Stahl) + Herstellung → Werklieferung. Als Lieferung bestimmt sich der Ort nach § 3a Abs. 3 Nr. 1 UStG (Belegenheitsort des Grundstücks). Deutsche USt wenn Grundstück in Deutschland liegt.'},
+  {topic:'werk',q:'Sattler Müller repariert das Sofa des Kunden. Das Leder stellt der Kunde selbst bei. Werklieferung oder Werkleistung?',opts:['Werklieferung – Müller verarbeitet Leder','Werkleistung – Müller bearbeitet fremden Gegenstand (Sofa) mit Hauptstoffen des Auftraggebers','Sonstige Leistung (Reparatur)','Lieferung des reparierten Sofas'],ans:1,lvl:2,explain:'<b>Werkleistung</b>: Hauptstoffe (Leder) werden vom Auftraggeber beigestellt → Werkleistung = sonstige Leistung (§ 3 Abs. 9). Würde Müller das Leder selbst beschaffen: Werklieferung. Die Frage nach den Hauptstoffen entscheidet die Einordnung.'},
+  {topic:'ort',q:'Was gilt für den Leistungsort bei Restaurationsdienstleistungen (Restaurantleistungen, § 3a Abs. 3 Nr. 3b UStG)?',opts:['Sitz des Restaurantbetreibers','Wohnort des Gastes','Ort wo die Restaurationsleistung tatsächlich erbracht wird (Standort des Restaurants)','EU-Mittelort'],ans:2,lvl:2,explain:'<b>§ 3a Abs. 3 Nr. 3b UStG</b>: Restaurationsdienstleistungen (außer an Bord von Schiffen/Flugzeugen/Zügen im Beförderungsgebiet): Leistungsort = Ort der tatsächlichen Erbringung = Restaurantstandort. Gilt unabhängig ob B2B oder B2C. Nicht § 3a Abs. 1 (B2C-Grundregel), sondern diese Sonderregelung.'},
+  {topic:'ort',q:'Welche Sonderregel gilt für den Leistungsort bei kurzfristiger Fahrzeugvermietung (§ 3a Abs. 3 Nr. 2 UStG)?',opts:['Empfängerort bei B2B','Übergabeort des Fahrzeugs (unabhängig ob B2B oder B2C)','Sitz des Vermieters','Immer Deutschland'],ans:1,lvl:3,explain:'<b>§ 3a Abs. 3 Nr. 2 UStG – kurzfristige Fahrzeugvermietung (≤30 Tage, Schiff ≤90 Tage)</b>: Leistungsort = Übergabeort des Fahrzeugs. Gilt B2B wie B2C. Langfristige Vermietung: B2B → Empfängerort (§ 3a Abs. 2); B2C → Unternehmerort (§ 3a Abs. 1). Prüfungsrelevant für grenznahe Autovermietungen.'},
+  {topic:'ort',q:'Privatperson Max kauft ein E-Book von einem niederländischen Anbieter. Leistungsort?',opts:['Niederlande – Sitz des Anbieters','Deutschland – Wohnort des Käufers (§ 3a Abs. 5 UStG – elektronische Leistungen an Privatpersonen)','EU-Mittelort','Kein steuerpflichtiger Umsatz'],ans:1,lvl:2,explain:'<b>§ 3a Abs. 5 UStG</b>: Elektronisch erbrachte Leistungen an Privatpersonen → Leistungsort beim Empfänger (Wohnort). Der niederländische Anbieter schuldet deutsche USt – Abführung via OSS-Verfahren (§ 18j UStG). Gilt auch für Streaming, Apps, Software-Downloads.'},
+  {topic:'export',q:'Was ist eine Ausfuhrlieferung (§ 6 UStG) und wie wird sie behandelt?',opts:['Lieferung in andere EU-Staaten – 0% USt','Lieferung in Drittland – steuerfrei (echte SB) + Vorsteuerabzug bleibt erhalten','Jede Lieferung ins Ausland – immer 19%','Nur für Exporte über 10.000 €'],ans:1,lvl:2,explain:'<b>§ 6 UStG + § 4 Nr. 1a UStG</b>: Lieferung in Drittland → steuerfrei (echte Steuerbefreiung) → Vorsteuerabzug bleibt! Pflicht: Ausfuhrnachweis (§ 8 UStDV) + Buchnachweis (§ 17a UStDV). Ohne Nachweis: 19% USt fällig. Abgrenzung: ig. Lieferung (§ 6a) = EU-Lieferung.'},
+  {topic:'export',q:'Was ist Einfuhrumsatzsteuer (EUSt) und wer schuldet sie?',opts:['USt auf innergemeinschaftliche Erwerbe','Steuer auf Einfuhr von Gegenständen aus Drittländern – Schuldner ist der Einführer (§ 21 UStG), Erhebung durch Zoll','7%-Satz für importierte Waren','Nur für kommerzielle Importe über 1.000 €'],ans:1,lvl:2,explain:'<b>§ 21 UStG – EUSt</b>: Entsteht bei Einfuhr aus Drittland. Steuerschuldner: der Einführer. Satz: wie USt (19% oder 7%). Erhebung durch den Zoll (nicht Finanzamt). Unternehmer können EUSt als Vorsteuer abziehen (§ 15 Abs. 1 Nr. 2 UStG) – wichtig für Liquidität.'},
+  {topic:'sonderfaelle',q:'Was bedeutet Geschäftsveräußerung im Ganzen (§ 1 Abs. 1a UStG)?',opts:['Unternehmensverkauf mit 19% USt','Übertragung eines Unternehmens oder Teilbetriebs im Ganzen an einen anderen Unternehmer – nicht steuerbar','Liquidation eines Unternehmens','Fusion zweier Unternehmen'],ans:1,lvl:3,explain:'<b>§ 1 Abs. 1a UStG – GiG (Geschäftsveräußerung im Ganzen)</b>: nicht steuerbar (kein USt-Vorgang). Voraussetzungen: Übertragung im Ganzen + Erwerber ist Unternehmer + führt Betrieb fort. Verhindert USt-Belastung bei Unternehmensübertragungen. Kein Vorsteuerabzug auf Kaufpreis nötig.'},
+  {topic:'vst',q:'Ein Unternehmer hat 70% steuerpflichtige und 30% steuerfreie Umsätze. Wie viel Vorsteuer kann er abziehen?',opts:['100% – er ist überwiegend steuerpflichtig','0% – weil er auch steuerfreie Umsätze hat','Direkte Zuordnung zuerst; für gemischte Eingangsleistungen 70% (Umsatzschlüssel) nach § 15 Abs. 4 UStG','Pauschal 50%'],ans:2,lvl:3,explain:'<b>§ 15 Abs. 4 UStG – Vorsteueraufteilung</b>: Direkte Zuordnung hat Vorrang. Für nicht direkt zuordenbare Eingangsleistungen: Aufteilung nach wirtschaftlichem Umsatzschlüssel. Hier: 70% abziehbar. § 15a UStG: Berichtigungspflicht bei späterer Nutzungsänderung (5 Jahre, Grundstücke 10 Jahre).'},
+  {topic:'sonderfaelle',q:'Was ist Differenzbesteuerung (§ 25a UStG)?',opts:['Steuerermäßigung bei kleinen Gewinnen','USt nur auf Handelsspanne bei Wiederverkäufern von Gebrauchtwaren die ohne Vorsteuer eingekauft wurden','Steuer auf die Differenz zwischen Import- und Exportpreis','Eine Form der Kleinunternehmerregelung'],ans:1,lvl:3,explain:'<b>§ 25a UStG</b>: Gebrauchtwaren-Wiederverkäufer: USt nur auf Verkaufspreis ./. Einkaufspreis (Handelsspanne). Voraussetzung: Vorerwerb ohne Vorsteuer (von Privatperson, Kleinunternehmer, etc.). Schützt vor Doppelbesteuerung. Beispiel: Auto für 5.000€ von Privat gekauft, für 8.000€ verkauft → USt auf 3.000€.'},
+
+,
+
+  {topic:'werk',q:'Was ist eine Werkleistung und wie unterscheidet sie sich von der Werklieferung?',opts:['Kein Unterschied – beide sind Lieferungen','Werkleistung: Unternehmer verarbeitet mit beigestellten Hauptstoffen des Auftraggebers – sonstige Leistung; Werklieferung: eigene Hauptstoffe – Lieferung','Werkleistung nur bei Reparaturen unter 1.000 €','Werkleistung = Bauleistung, Werklieferung = Montage'],ans:1,lvl:2,explain:'<b>Abgrenzung § 3 Abs. 4/9 UStG</b>: Entscheidend ist wer die Hauptstoffe beistellt. Auftraggeber → Werkleistung = sonstige Leistung. Unternehmer selbst → Werklieferung = Lieferung. Nebenleistungen (Schrauben, Klebstoff) ändern die Einordnung nicht. Leistungsortregeln unterscheiden sich je nach Einordnung!'},
+  {topic:'werk',q:'Kfz-Meister repariert Kundenfahrzeug und baut eigenen Austauschmotor ein. Werklieferung oder Werkleistung?',opts:['Werkleistung – er arbeitet am fremden Fahrzeug des Kunden','Werklieferung – er verwendet selbst beschaffte Hauptstoffe (Motor) bei der Bearbeitung des Gegenstands','Immer sonstige Leistung bei Reparaturen','Aufteilung: Motor = Lieferung, Arbeit = Leistung'],ans:1,lvl:2,explain:'<b>Werklieferung (§ 3 Abs. 4 UStG)</b>: Motor ist ein Hauptstoff den der Meister selbst beschafft hat. Er bearbeitet (repariert) das Fahrzeug des Kunden unter Verwendung eigener Hauptstoffe → Werklieferung = Lieferung. Würde der Kunde den Motor mitbringen: Werkleistung. Abschn. 3.8 UStAE gibt Orientierung.'},
+
+];
 const D_AO = [
   {q:'Wie lange ist die reguläre Festsetzungsverjährungsfrist für Einkommensteuer?',opts:['1 Jahr','2 Jahre','4 Jahre','10 Jahre'],ans:2,lvl:1,explain:'<b>4 Jahre</b> (§ 169 Abs. 2 Nr. 2 AO) – so lange darf das Finanzamt Steuern noch nachfordern. Bei leichtfertiger Steuerverkürzung: 5 Jahre. Bei vorsätzlicher Steuerhinterziehung: 10 Jahre!'},
   {q:'Wie lange hat man Zeit, Einspruch gegen einen Steuerbescheid einzulegen?',opts:['1 Woche','2 Wochen','1 Monat','3 Monate'],ans:2,lvl:1,explain:'<b>1 Monat</b> (§ 355 AO) – ab dem Tag der Bekanntgabe des Steuerbescheids (gilt als bekannt gegeben am <b>4. Tag</b> nach Aufgabe zur Post – § 122 Abs. 2 AO, geändert durch JStG 2022 ab 01.01.2023). Verpasst man diese Frist, wird der Bescheid <b>bestandskräftig</b>!'},
@@ -772,6 +855,21 @@ const D_FC_RECHT = [
   {icon:'📊',term:'Öffentliches Recht: Beispiele',sub:'Überblick',answer:'<b>Öffentliches Recht:</b> Steuerrecht, Beamtenrecht, Verwaltungsrecht, Strafrecht, Verfassungsrecht, Sozialrecht.<br><b>Privatrecht:</b> BGB (Kaufrecht, Mietrecht, Erbrecht), HGB (Handelsrecht), GmbHG.',merkhilfe:'Faustregel: Ist der Staat direkt beteiligt und hat er Hoheitsgewalt? → Öffentliches Recht. Zwei Private unter sich? → Privatrecht.'},
 ];
 
+const D_FC_UST = [
+  {icon:'🔄',term:'Lieferung vs. sonstige Leistung',sub:'§ 3 Abs. 1/9 UStG',answer:'<b>Lieferung (§ 3 Abs. 1)</b>: Verschaffung der Verfügungsmacht an körperlichem Gegenstand.<br><b>Sonstige Leistung (§ 3 Abs. 9)</b>: jede Leistung die keine Lieferung ist.<br>Abgrenzung bestimmt ob Lieferort- oder Leistungsortregeln gelten!',merkhilfe:'Körperlicher Gegenstand → Lieferung. Alles andere → sonstige Leistung.'},
+  {icon:'🔨',term:'Werklieferung',sub:'§ 3 Abs. 4 UStG',answer:'Unternehmer be-/verarbeitet Gegenstand mit <b>selbst beschafften Hauptstoffen</b> → gilt als <b>Lieferung</b>.<br>Beispiel: Tischler baut Küche aus eigenem Holz.<br>→ Lieferortregeln gelten.',merkhilfe:'Eigene Hauptstoffe = Werklieferung = LIEFERUNG.'},
+  {icon:'🔧',term:'Werkleistung',sub:'§ 3 Abs. 9 UStG',answer:'Unternehmer be-/verarbeitet Gegenstand mit <b>beigestellten Hauptstoffen des Auftraggebers</b> → <b>sonstige Leistung</b>.<br>Beispiel: Schneider näht Kleid aus Stoff des Kunden.',merkhilfe:'Fremde Hauptstoffe = Werkleistung = SONSTIGE LEISTUNG.'},
+  {icon:'📍',term:'B2B-Leistungsort',sub:'§ 3a Abs. 2 UStG',answer:'Sonstige Leistung an Unternehmer → Leistungsort beim <b>Empfänger</b>.<br>Folge: Reverse Charge (§ 13b) bei grenzüberschreitenden Leistungen.',merkhilfe:'B2B = Bestimmungsland (Empfänger).'},
+  {icon:'📍',term:'B2C-Leistungsort',sub:'§ 3a Abs. 1 UStG',answer:'Sonstige Leistung an Privatperson → Leistungsort beim <b>leistenden Unternehmer</b>.<br>Ausnahmen: Grundstück (Belegenheit), kurzfr. Kfz (Übergabe), digitale DL (Empfängerland).',merkhilfe:'B2C = Ursprungsland (Leistender). Außer digitale DL: Empfängerland.'},
+  {icon:'🏠',term:'Grundstücksleistungen',sub:'§ 3a Abs. 3 Nr. 1 UStG',answer:'Alle Leistungen im Zusammenhang mit Grundstücken: <b>Belegenheitsort</b>.<br>Gilt für Hausbau (Werklieferung), Vermietung, Architekt, Gutachten.',merkhilfe:'Grundstück → Belegenheitsort. Immer. Egal B2B oder B2C.'},
+  {icon:'✈️',term:'Ausfuhrlieferung',sub:'§ 6 UStG · § 4 Nr. 1a',answer:'Lieferung ins Drittland → <b>steuerfrei (echte SB)</b> + Vorsteuerabzug bleibt.<br>Nachweis: Ausfuhrnachweis + Buchnachweis. Ohne Nachweis: 19%!',merkhilfe:'EU = ig. Lieferung (§ 6a). Drittland = Ausfuhr (§ 6). Beide echt befreit.'},
+  {icon:'📦',term:'Einfuhrumsatzsteuer',sub:'§ 21 UStG',answer:'Steuer auf Einfuhr aus Drittland. Schuldner: Einführer. Erhebung: Zoll.<br>Unternehmer: EUSt als Vorsteuer abziehbar (§ 15 Abs. 1 Nr. 2).',merkhilfe:'EUSt = USt-Pendant für Drittlandimporte. VSt-Abzug möglich!'},
+  {icon:'🔁',term:'Reverse Charge',sub:'§ 13b UStG',answer:'Bei bestimmten Umsätzen schuldet <b>der Empfänger</b> die USt:<br>• Bauleistungen (§ 13b Abs. 2 Nr. 4)<br>• Leistungen ausländ. Unternehmer (Nr. 1)<br>• Schrott/Metalle<br>Buche USt + VSt gleichzeitig → netto neutral.',merkhilfe:'Reverse Charge: Empfänger zahlt USt. Bau + Ausland + bestimmte Waren.'},
+  {icon:'💹',term:'Vorsteueraufteilung',sub:'§ 15 Abs. 4 UStG',answer:'Eingangsleistungen für stpfl. + steuerfreie Umsätze:<br>1. Direkte Zuordnung<br>2. Rest: Umsatzschlüssel<br>§ 15a: Berichtigung bei Nutzungsänderung (5J./10J. Grundstück).',merkhilfe:'Direkt → dann Umsatzschlüssel für Rest.'},
+  {icon:'🏪',term:'Differenzbesteuerung',sub:'§ 25a UStG',answer:'Wiederverkäufer von Gebrauchtwaren: USt nur auf <b>Handelsspanne</b>.<br>Voraussetzung: Vorerwerb ohne VSt (Privatperson etc.).<br>Schützt vor Doppelbesteuerung.',merkhilfe:'Gebrauchtwaren-Händler: § 25a → USt nur auf Marge.'},
+  {icon:'🏢',term:'Geschäftsveräußerung im Ganzen',sub:'§ 1 Abs. 1a UStG',answer:'Unternehmensübertragung im Ganzen an Unternehmer der fortführt → <b>nicht steuerbar</b>.<br>Kein USt-Problem beim Unternehmenskauf.',merkhilfe:'GiG = nicht steuerbar. Fortführung nötig.'},
+];
+
 const D_FC_EST = [
   {icon:'🌾',term:'§ 13 EStG – Land- & Forstwirtschaft',sub:'1. Einkunftsart',answer:'Einkünfte aus land- und forstwirtschaftlicher Tätigkeit sowie Tierzucht und Tierhaltung.<br><b>Gewinnermittlung:</b> Betriebsvermögensvergleich (§ 4 Abs. 1) oder Einnahmen-Überschussrechnung (§ 4 Abs. 3).<br><b>Pauschalierungen:</b> § 13a EStG ermöglicht Durchschnittssatzbesteuerung für kleinere Betriebe (vereinfacht).<br><b>Keine Gewerbesteuer!</b> Abweichendes Wirtschaftsjahr möglich (z.B. 01.07.–30.06.).',merkhilfe:'Älteste Einkunftsart – und privilegiert: keine Gewerbesteuer! Merkpunkt: Wenn ein Landwirt seinen Betrieb so stark ausbaut, dass er gewerblich wird (z.B. Direktvermarktung im großen Stil), kann er in § 15 EStG ‘hinein‘wachsen’.'},
   {icon:'🏭',term:'§ 15 EStG – Gewerbebetrieb',sub:'2. Einkunftsart',answer:'<b>Tatbestandsmerkmale § 15 Abs. 2 EStG:</b><br>① Selbständigkeit (auf eigene Rechnung und Gefahr)<br>② Nachhaltigkeit (Wiederholungsabsicht, nicht nur einmalig)<br>③ Gewinnerzielungsabsicht (kein Hobby / keine Liebhaberei)<br>④ Beteiligung am allgemeinen wirtschaftlichen Verkehr<br><b>Ungeschriebenes Tatbestandsmerkmal:</b> keine reine Vermögensverwaltung<br>Wer nur Kapital anlegt oder Immobilien vermietet, übt kein Gewerbe aus (Abgrenzung zu §§ 20, 21 EStG).<br><br><b>Folge:</b> Gewerbesteuer (§ 2 GewStG). Freibetrag: 24.500 € (§ 11 Abs. 1 GewStG).',merkhilfe:'Prüfschema: alle 4 TBM erfüllt + keine reine Vermögensverwaltung = § 15 EStG. Beispiel Grenzfall: Wer 3 Immobilien vermietet = § 21. Wer 10 kauft und innerhalb von 5 Jahren verkauft = gewerblicher Grundstückshandel = § 15 (sog. Drei-Objekt-Grenze)!'},
@@ -805,6 +903,7 @@ const D_FC_GESELLSCHAFT = [
 ];
 
 function getFcData(m){
+  if(m==='ust') return D_FC_UST;
   if(m==='ao') return D_FC_AO;
   if(m==='recht') return D_FC_RECHT;
   if(m==='gewst') return D_FC_GEWST;
@@ -2723,7 +2822,7 @@ function _doSw(m){
   if(m!=='ao_basics'&&m!=='recht_basics'&&m!=='ust_basics'&&m!=='bilanz_basics'&&m!=='est_basics'&&m!=='basics'){ const ga=document.getElementById('ga'); if(ga) ga.classList.remove('basics-dark-mode'); }
   window.scrollTo({top:0,behavior:'smooth'});
   if(m==='est'){sh_ein=filtShuffle(D_EINKUNFT);sh_werb=filtShuffle(D_WERBUNG);}
-  else if(m==='ust')sh_ust=filtShuffle(D_UST);
+  else if(m==='ust'){window.ustSub='satz';sh_ust=filtShuffle(D_UST.filter(q=>!q.topic));}
   else if(m==='bilanz'){sh_bzu=filtShuffle(D_BILANZ_ZU);sh_buch=filtShuffle(D_BUCHUNG);}
   else if(m==='ao')sh_ao=filtShuffle(D_AO);
   else if(m==='kurios')sh_kurios=filtShuffle(D_KURIOS);
@@ -2873,6 +2972,8 @@ function render(){
   else if(mode==='meinbereich')renderMeinBereich(a);
   else if(mode==='badges')renderBadges(a);
   else if(mode==='speed')renderSpeed(a);
+  else if(mode==='swipe')renderSwipe(a);
+  else if(mode==='duell')renderDuell(a);
   else if(mode==='glossar')renderGlossar(a);
   else if(mode==='fehler')renderFehler(a);
   else if(mode==='story')renderStory(a);
@@ -4777,36 +4878,74 @@ function ansWerbung(chosen){
 
 // ─── UMSATZSTEUER ──────────────────────────────────────────────
 function renderUst(a){
+  // ustSub: 'satz' (default, icon-format) | 'werk' | 'ort' | 'export' | 'grundlagen' | 'vst' | 'verfahren' | 'sonderfaelle'
+  if(typeof ustSub === 'undefined') window.ustSub = 'satz';
+
+  const subtabs = [
+    {id:'satz',       label:'🏷️ Steuersätze'},
+    {id:'werk',       label:'🔨 Werk&shy;lieferung'},
+    {id:'ort',        label:'📍 Leistungsort'},
+    {id:'export',     label:'🌍 ig./Export'},
+    {id:'grundlagen', label:'⚖️ Grundlagen'},
+    {id:'vst',        label:'💳 Vorsteuer'},
+    {id:'verfahren',  label:'📋 Verfahren'},
+    {id:'sonderfaelle',label:'🔀 Sonderfälle'},
+  ];
+
+  const tabHtml = `<div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px">
+    ${subtabs.map(t=>`<button onclick="ustSub='${t.id}';idx=0;answered=false;sh_ust=filtShuffle(D_UST.filter(q=>q.topic?q.topic==='${t.id}':'${t.id}' ==='satz'));renderUst(document.getElementById('ga'))" style="padding:6px 10px;border-radius:100px;border:2px solid ${ustSub==='${t.id}'?'#ff8c42':'rgba(255,255,255,.15)'};background:${ustSub==='${t.id}'?'rgba(255,140,66,.2)':'rgba(255,255,255,.05)'};color:${ustSub==='${t.id}'?'#ff8c42':'rgba(255,255,255,.6)'};font-family:'Nunito',sans-serif;font-weight:800;font-size:10px;cursor:pointer">${t.label}</button>`).join('')}
+  </div>`;
+
+  // Steuersatz-mode: icon-format items
+  if(ustSub === 'satz'){
+    if(!sh_ust || sh_ust.length===0 || !sh_ust[0].icon){
+      sh_ust = filtShuffle(D_UST.filter(q=>!q.topic));
+    }
+    if(idx>=sh_ust.length){a.innerHTML='';renderResult2('ga','🛒 Umsatzsteuer – Steuersätze',sh_ust.length);return;}
+    const q=sh_ust[idx];
+    a.innerHTML=`${tabHtml}${quizFilterBar()}${_quizProgress(sh_ust,idx)}
+      <div class="item-card"><span class="ii">${q.icon}</span><div><div class="in">${q.name}</div><div class="is">${q.desc}</div></div></div>
+      <div class="ust-choices">
+        <button class="ust-btn ust-btn-0" onclick="ansUst(0)" data-r="0">0 %<div class="ust-lbl">Steuerfrei</div></button>
+        <button class="ust-btn ust-btn-7" onclick="ansUst(7)" data-r="7">7 %<div class="ust-lbl">Ermäßigt</div></button>
+        <button class="ust-btn ust-btn-19" onclick="ansUst(19)" data-r="19">19 %<div class="ust-lbl">Regelsteuersatz</div></button>
+        <button class="ust-btn ust-btn-k" onclick="ansUst('komplex')" data-r="komplex">🔥<div class="ust-lbl">Komplex</div></button>
+      </div>
+      <div class="fb" id="fb"></div>
+      <button class="next-btn" id="nb" onclick="nextQ()">Nächste Frage ➜</button>`;
+    answered=false;
+    return;
+  }
+
+  // Q-format mode (alle anderen subtopics)
+  const filtered = D_UST.filter(q=>q.topic===ustSub);
+  if(!sh_ust || sh_ust.length===0 || sh_ust[0].topic!==ustSub){
+    sh_ust = filtShuffle(filtered);
+  }
+  if(filtered.length===0){
+    a.innerHTML=`${tabHtml}<div style="text-align:center;padding:30px;color:rgba(255,255,255,.5);font-weight:700">Keine Fragen in dieser Kategorie.</div>`;
+    return;
+  }
   if(idx>=sh_ust.length){a.innerHTML='';renderResult2('ga','🛒 Umsatzsteuer',sh_ust.length);return;}
   const q=sh_ust[idx];
-  a.innerHTML=`${quizFilterBar()}${_quizProgress(sh_ust,idx)}
-    <div class="item-card"><span class="ii">${q.icon}</span><div><div class="in">${q.name}</div><div class="is">${q.desc}</div></div></div>
-    <div class="ust-choices">
-      <button class="ust-btn ust-btn-0" onclick="ansUst(0)" data-r="0">0 %<div class="ust-lbl">Steuerfrei</div></button>
-      <button class="ust-btn ust-btn-7" onclick="ansUst(7)" data-r="7">7 %<div class="ust-lbl">Ermäßigt</div></button>
-      <button class="ust-btn ust-btn-19" onclick="ansUst(19)" data-r="19">19 %<div class="ust-lbl">Regelsteuersatz</div></button>
-    </div>
+  const optsHtml=q.opts.map((o,i)=>`<button class="choice-btn" onclick="ansUstQ(${i})" data-i="${i}"><span class="ct">${o}</span></button>`).join('');
+  a.innerHTML=`${tabHtml}${quizFilterBar()}${_quizProgress(sh_ust,idx)}
+    <div style="background:#f4f7ff;border-radius:14px;padding:15px 16px;margin-bottom:14px;font-size:14px;font-weight:800;color:var(--navy);line-height:1.55;border-left:4px solid #ff8c42">${q.q}</div>
+    <div class="ao-grid">${optsHtml}</div>
     <div class="fb" id="fb"></div>
     <button class="next-btn" id="nb" onclick="nextQ()">Nächste Frage ➜</button>`;
   answered=false;
 }
 
-function ansUst(chosen){
+function ansUstQ(chosen){
   if(answered)return; answered=true;
   const q=sh_ust[idx]; const ok=(chosen===q.ans);
   updSc(ok);
-  if(!ok) addFehler({...q,_qtype:'ust'},'ust');
-  document.querySelectorAll('.ust-btn').forEach(b=>{b.disabled=true;if(parseInt(b.dataset.r)===q.ans)b.classList.add('ca');});
-  showFb(ok, q.explain, q.name);
+  if(!ok) addFehler({...q,_qtype:'mc'},'ust');
+  document.querySelectorAll('.choice-btn').forEach(b=>{b.disabled=true;const i=parseInt(b.dataset.i);if(i===q.ans)b.classList.add('correct');else if(i===chosen&&!ok)b.classList.add('wrong');});
+  showFb(ok,q.explain,q.q);
 }
 
-// ─── ABGABENORDNUNG ────────────────────────────────────────────
-// ==================== BASICS LERNMODULE ====================
-// State
-let basicsStep = {}; // {moduleKey: caseIdx}
-let basicsShown = {}; // {moduleKey_caseIdx: bool}
-let aoIntroStep = 0;
-let aoGeheimAnswers = {};
 
 function renderAoBasics(a) {
   if (aoIntroStep === 0) renderAoIntro0(a);
@@ -10177,3 +10316,469 @@ function renderGehaltsviz(containerId) {
   </div>`;
   setTimeout(() => { el.querySelectorAll('[data-w]').forEach(b => { b.style.width = b.dataset.w + '%'; }); }, 120);
 }
+
+// ══════════════════════════════════════════════════════════════════
+// SWIPE-MODUS
+// ══════════════════════════════════════════════════════════════════
+
+let swipeMode = 'all', swipeDeck = [], swipeIdx = 0;
+let swipeDone = 0, swipeRight = 0, swipeWrong = 0, swipeStreak = 0;
+let swipeDragging = false, swipeDragStartX = 0, swipeDragCurX = 0;
+
+function buildSwipeDeck(mode){
+  const cats = {all:null, est:'est', ust:'ust', ao:'ao', gewst:'gewst', para:'para'};
+  const cat = cats[mode];
+  let deck = cat ? D_SWIPE_CARDS.filter(c=>c.cat===cat) : [...D_SWIPE_CARDS];
+  return deck.sort(()=>Math.random()-.5);
+}
+
+function renderSwipe(a){
+  a.classList.add('basics-dark-mode');
+  swipeDeck = buildSwipeDeck(swipeMode);
+  swipeIdx = swipeDone = swipeRight = swipeWrong = swipeStreak = 0;
+
+  const MODES = [
+    {id:'all',   icon:'🌀', label:'Alle gemischt', count: D_SWIPE_CARDS.length},
+    {id:'est',   icon:'💼', label:'ESt-Schnell',   count: D_SWIPE_CARDS.filter(c=>c.cat==='est').length},
+    {id:'ust',   icon:'🛒', label:'USt-Hagel',     count: D_SWIPE_CARDS.filter(c=>c.cat==='ust').length},
+    {id:'ao',    icon:'⚖️', label:'AO-Blitz',      count: D_SWIPE_CARDS.filter(c=>c.cat==='ao').length},
+    {id:'para',  icon:'§',  label:'§-Hagel',       count: D_SWIPE_CARDS.filter(c=>c.cat==='para').length},
+  ];
+
+  a.innerHTML = `
+<div style="background:linear-gradient(160deg,#060f22,#0d2b5e 60%,#1a0060);min-height:100vh;padding:14px 14px 100px;color:#fff">
+
+  <!-- Header -->
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+    <div>
+      <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase">👆 Swipe-Modus</div>
+      <div style="font-size:18px;font-weight:900">Richtig oder Falsch?</div>
+    </div>
+    <div style="flex:1"></div>
+    <button onclick="sw('basics')" style="background:rgba(255,255,255,.08);border:none;color:rgba(255,255,255,.4);border-radius:10px;padding:7px 12px;font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">✕</button>
+  </div>
+
+  <!-- Modi -->
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">
+    ${MODES.map(m=>`<button onclick="swipeSetMode('${m.id}')" style="padding:7px 12px;border-radius:100px;font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer;border:2px solid ${swipeMode===m.id?'var(--cyan)':'rgba(255,255,255,.15)'};background:${swipeMode===m.id?'rgba(0,194,224,.15)':'rgba(255,255,255,.05)'};color:${swipeMode===m.id?'var(--cyan)':'rgba(255,255,255,.55)'}">${m.icon} ${m.label}<span style="font-size:9px;opacity:.6;margin-left:4px">${m.count}</span></button>`).join('')}
+  </div>
+
+  <!-- Stats -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:20px">
+    ${[
+      ['gesehen','#fff',   'swipeDone'],
+      ['richtig','#00c97b','swipeRight'],
+      ['falsch', '#ff4d6d','swipeWrong'],
+      ['serie',  '#ffd94a','swipeStreak'],
+    ].map(([l,col,v])=>`<div style="background:rgba(255,255,255,.06);border-radius:12px;padding:10px 6px;text-align:center">
+      <div id="sw-${l}" style="font-size:22px;font-weight:900;color:${col};font-family:'Space Mono',monospace">0</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700">${l}</div>
+    </div>`).join('')}
+  </div>
+
+  <!-- Hint -->
+  <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:16px">
+    <div style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:#ff4d6d;background:rgba(255,77,109,.12);padding:6px 12px;border-radius:100px;border:1.5px solid rgba(255,77,109,.3)">← FALSCH</div>
+    <div style="font-size:10px;color:rgba(255,255,255,.25);font-weight:700">swipe · tippe</div>
+    <div style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:#00c97b;background:rgba(0,201,123,.12);padding:6px 12px;border-radius:100px;border:1.5px solid rgba(0,201,123,.3)">RICHTIG →</div>
+  </div>
+
+  <!-- Card Stack -->
+  <div id="sw-stack" style="position:relative;height:260px;margin-bottom:16px">
+    <div id="sw-c2" style="position:absolute;inset:0;border-radius:20px;border:1.5px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);transform:translateY(12px) scale(0.94);z-index:1"></div>
+    <div id="sw-c1" style="position:absolute;inset:0;border-radius:20px;border:1.5px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);transform:translateY(6px) scale(0.97);z-index:2"></div>
+    <div id="sw-c0" style="position:absolute;inset:0;border-radius:20px;border:1.5px solid rgba(255,255,255,.15);background:linear-gradient(145deg,rgba(255,255,255,.1),rgba(255,255,255,.06));z-index:3;cursor:grab;overflow:hidden;display:flex;flex-direction:column;padding:18px;transition:border-color .2s"></div>
+  </div>
+
+  <!-- Feedback -->
+  <div id="sw-fb" style="min-height:54px;background:rgba(255,255,255,.05);border-radius:14px;padding:11px 14px;margin-bottom:14px;font-size:11px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.65;display:none"></div>
+
+  <!-- Buttons -->
+  <div style="display:flex;gap:10px">
+    <button onclick="swipeAnswer(false)" style="flex:1;padding:14px;border-radius:14px;border:2px solid rgba(255,77,109,.4);background:rgba(255,77,109,.1);color:#ff4d6d;font-family:'Nunito',sans-serif;font-weight:900;font-size:15px;cursor:pointer;transition:all .15s" onmouseover="this.style.background='rgba(255,77,109,.25)'" onmouseout="this.style.background='rgba(255,77,109,.1)'">✗ Falsch</button>
+    <button onclick="swipeAnswer(true)" style="flex:1;padding:14px;border-radius:14px;border:2px solid rgba(0,201,123,.4);background:rgba(0,201,123,.1);color:#00c97b;font-family:'Nunito',sans-serif;font-weight:900;font-size:15px;cursor:pointer;transition:all .15s" onmouseover="this.style.background='rgba(0,201,123,.25)'" onmouseout="this.style.background='rgba(0,201,123,.1)'">✓ Richtig</button>
+  </div>
+
+</div>`;
+
+  swipeRenderCards();
+  swipeBindDrag();
+}
+
+function swipeCardHTML(card){
+  if(!card) return '';
+  const catColors = {est:'#5b8dee',ust:'#ff8c42',ao:'#a78bfa',gewst:'#4ade80',para:'#fbbf24'};
+  const catLabels = {est:'ESt',ust:'USt',ao:'AO',gewst:'GewSt',para:'§ Paragraph'};
+  const col = catColors[card.cat] || 'var(--cyan)';
+  return `
+  <div style="font-size:10px;font-weight:900;color:${col};letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;font-family:'Space Mono',monospace">${catLabels[card.cat]||'Quiz'}</div>
+  <div style="font-size:14px;font-weight:800;color:#fff;line-height:1.6;flex:1">${card.stmt}</div>
+  <div style="margin-top:12px;font-size:10px;font-weight:700;color:rgba(255,255,255,.35);font-family:'Space Mono',monospace;background:rgba(255,255,255,.06);border-radius:8px;padding:5px 10px;display:inline-block">${card.para}</div>`;
+}
+
+function swipeRenderCards(){
+  const c0 = document.getElementById('sw-c0');
+  const c1 = document.getElementById('sw-c1');
+  const c2 = document.getElementById('sw-c2');
+  if(!c0) return;
+  if(swipeIdx >= swipeDeck.length){
+    c0.innerHTML = `<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:10px">
+      <div style="font-size:44px">${swipeRight===swipeDone?'🏆':'🎯'}</div>
+      <div style="font-size:18px;font-weight:900;color:#fff">${swipeRight}/${swipeDone} richtig</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700">${Math.round(swipeRight/swipeDone*100)||0}% Richtigquote · Beste Serie: ${swipeStreak}</div>
+      <button onclick="swipeSetMode(swipeMode)" style="margin-top:8px;padding:10px 20px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">↺ Nochmal</button>
+    </div>`;
+    if(c1) c1.innerHTML = '';
+    if(c2) c2.innerHTML = '';
+    return;
+  }
+  c0.innerHTML = swipeCardHTML(swipeDeck[swipeIdx]);
+  c0.style.display = 'flex';
+  c0.style.flexDirection = 'column';
+  if(c1) c1.innerHTML = '';
+  if(c2) c2.innerHTML = '';
+}
+
+function swipeUpdateStats(){
+  const els = {gesehen:swipeDone, richtig:swipeRight, falsch:swipeWrong, serie:swipeStreak};
+  for(const [k,v] of Object.entries(els)){
+    const el = document.getElementById('sw-'+k);
+    if(el) el.textContent = v;
+  }
+}
+
+function swipeAnswer(userSaysTrue){
+  if(swipeIdx >= swipeDeck.length) return;
+  const card = swipeDeck[swipeIdx];
+  const correct = (userSaysTrue === card.correct);
+  const c0 = document.getElementById('sw-c0');
+  const fb = document.getElementById('sw-fb');
+
+  // Animate fly
+  if(c0){
+    c0.style.transition = 'transform .35s ease, opacity .3s';
+    c0.style.transform = correct ? 'translateX(120%) rotate(12deg)' : 'translateX(-120%) rotate(-12deg)';
+    c0.style.opacity = '0';
+    c0.style.borderColor = correct ? '#00c97b' : '#ff4d6d';
+  }
+
+  swipeDone++;
+  if(correct){ swipeRight++; swipeStreak++; }
+  else { swipeWrong++; swipeStreak = 0; }
+  swipeUpdateStats();
+
+  if(fb){
+    fb.style.display = 'block';
+    fb.style.background = correct ? 'rgba(0,201,123,.1)' : 'rgba(255,77,109,.08)';
+    fb.style.borderLeft = `3px solid ${correct?'#00c97b':'#ff4d6d'}`;
+    fb.style.color = correct ? '#00c97b' : '#ff4d6d';
+    fb.innerHTML = `<b>${correct?'✓ Richtig':'✗ Falsch'}</b> – ${card.erkl}`;
+  }
+
+  setTimeout(()=>{
+    swipeIdx++;
+    if(c0){
+      c0.style.transition = 'none';
+      c0.style.transform = '';
+      c0.style.opacity = '1';
+      c0.style.borderColor = 'rgba(255,255,255,.15)';
+    }
+    swipeRenderCards();
+  }, 420);
+}
+
+function swipeSetMode(m){
+  swipeMode = m;
+  renderSwipe(document.getElementById('ga'));
+}
+
+function swipeBindDrag(){
+  const el = document.getElementById('sw-c0');
+  if(!el) return;
+  const onStart = (x) => { swipeDragging=true; swipeDragStartX=x; swipeDragCurX=0; };
+  const onMove  = (x) => {
+    if(!swipeDragging) return;
+    swipeDragCurX = x - swipeDragStartX;
+    el.style.transition = 'none';
+    el.style.transform = `translateX(${swipeDragCurX}px) rotate(${swipeDragCurX*0.07}deg)`;
+    el.style.borderColor = swipeDragCurX>40?'rgba(0,201,123,.6)':swipeDragCurX<-40?'rgba(255,77,109,.6)':'rgba(255,255,255,.15)';
+  };
+  const onEnd = () => {
+    if(!swipeDragging) return;
+    swipeDragging = false;
+    el.style.transition = 'transform .35s ease, opacity .3s';
+    if(Math.abs(swipeDragCurX) > 80){
+      swipeAnswer(swipeDragCurX > 0);
+    } else {
+      el.style.transform = '';
+      el.style.borderColor = 'rgba(255,255,255,.15)';
+    }
+  };
+  el.addEventListener('mousedown', e=>onStart(e.clientX));
+  document.addEventListener('mousemove', e=>onMove(e.clientX));
+  document.addEventListener('mouseup', onEnd);
+  el.addEventListener('touchstart', e=>{e.preventDefault();onStart(e.touches[0].clientX);},{passive:false});
+  el.addEventListener('touchmove', e=>{e.preventDefault();onMove(e.touches[0].clientX);},{passive:false});
+  el.addEventListener('touchend', onEnd);
+}
+
+// ══════════════════════════════════════════════════════════════════
+// QUIZDUELL
+// ══════════════════════════════════════════════════════════════════
+
+let duellState = {phase:'home', cat:null, p1name:'Spieler 1', p2name:'Spieler 2',
+  p1score:0, p2score:0, qIdx:0, questions:[], currentPlayer:1, answered:false, p1answers:[], p2answers:[]};
+
+const DUELL_CATS = [
+  {id:'est',   icon:'💼', label:'Einkommensteuer', color:'#3d6fd4', desc:'ZvE, WK, Tarif, Freibeträge'},
+  {id:'ust',   icon:'🛒', label:'Umsatzsteuer',    color:'#d46b3d', desc:'Lieferung, Vorsteuer, Ort'},
+  {id:'ao',    icon:'⚖️', label:'Abgabenordnung',  color:'#7b5ea7', desc:'Fristen, Einspruch, Prüfung'},
+  {id:'gemischt',icon:'🌀',label:'Gemischt',       color:'#1a8a6b', desc:'Alle Themen durcheinander'},
+];
+
+function getDuellQuestions(cat){
+  let pool = [];
+  if(cat==='est')      pool = [...(typeof D_EST_QUIZ!=='undefined'?D_EST_QUIZ:[])];
+  else if(cat==='ust') pool = (typeof D_UST!=='undefined'?D_UST:[]).filter(q=>q.q&&q.opts);
+  else if(cat==='ao')  pool = [...(typeof D_AO!=='undefined'?D_AO:[])];
+  else pool = [
+    ...(typeof D_EST_QUIZ!=='undefined'?D_EST_QUIZ:[]),
+    ...(typeof D_UST!=='undefined'?D_UST.filter(q=>q.q&&q.opts):[]),
+    ...(typeof D_AO!=='undefined'?D_AO:[]),
+  ];
+  return pool.sort(()=>Math.random()-.5).slice(0,3);
+}
+
+function renderDuell(a){
+  a.classList.add('basics-dark-mode');
+  const s = duellState;
+
+  if(s.phase==='home'){
+    a.innerHTML = `
+<div style="background:linear-gradient(160deg,#060f22,#3d0a6b 50%,#060f22);min-height:100vh;padding:16px 14px 100px;color:#fff">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
+    <div>
+      <div style="font-size:9px;font-family:'Space Mono',monospace;color:#c8a0ff;font-weight:700;letter-spacing:2px;text-transform:uppercase">⚔️ Quizduell</div>
+      <div style="font-size:20px;font-weight:900">Wer weiß mehr?</div>
+    </div>
+    <div style="flex:1"></div>
+    <button onclick="sw('basics')" style="background:rgba(255,255,255,.08);border:none;color:rgba(255,255,255,.4);border-radius:10px;padding:7px 12px;font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">✕</button>
+  </div>
+
+  <div style="background:rgba(255,255,255,.06);border-radius:20px;padding:16px;margin-bottom:16px">
+    <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:10px">Spielernamen (optional)</div>
+    <div style="display:flex;gap:8px">
+      <input id="d-p1" placeholder="Spieler 1" value="${s.p1name}" style="flex:1;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);border-radius:10px;padding:9px 12px;color:#fff;font-family:'Nunito',sans-serif;font-weight:700;font-size:13px;outline:none">
+      <div style="display:flex;align-items:center;font-size:16px;font-weight:900;color:rgba(255,255,255,.3)">vs</div>
+      <input id="d-p2" placeholder="Spieler 2" value="${s.p2name}" style="flex:1;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);border-radius:10px;padding:9px 12px;color:#fff;font-family:'Nunito',sans-serif;font-weight:700;font-size:13px;outline:none">
+    </div>
+  </div>
+
+  <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.4);margin-bottom:10px;letter-spacing:1px;text-transform:uppercase">Kategorie wählen:</div>
+  ${DUELL_CATS.map(cat=>`
+  <div onclick="duellStart('${cat.id}')" style="background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);border-radius:16px;padding:14px 16px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:14px;transition:all .18s" onmouseover="this.style.background='rgba(255,255,255,.1)'" onmouseout="this.style.background='rgba(255,255,255,.05)'">
+    <div style="font-size:28px;flex-shrink:0">${cat.icon}</div>
+    <div style="flex:1">
+      <div style="font-size:14px;font-weight:900;color:#fff">${cat.label}</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.4);font-weight:700">${cat.desc} · 3 Fragen · 4 Antworten</div>
+    </div>
+    <div style="width:10px;height:10px;border-right:2.5px solid ${cat.color};border-top:2.5px solid ${cat.color};transform:rotate(45deg);flex-shrink:0"></div>
+  </div>`).join('')}
+</div>`;
+    return;
+  }
+
+  if(s.phase==='switch'){
+    const next = s.currentPlayer===1 ? s.p2name : s.p1name;
+    const prev = s.currentPlayer===1 ? s.p1name : s.p2name;
+    a.innerHTML = `
+<div style="background:linear-gradient(160deg,#060f22,#3d0a6b);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;color:#fff">
+  <div style="text-align:center;max-width:320px">
+    <div style="font-size:52px;margin-bottom:16px">📱</div>
+    <div style="font-size:22px;font-weight:900;color:#fff;margin-bottom:8px">Gerät weitergeben!</div>
+    <div style="font-size:14px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.6;margin-bottom:24px">${prev} ist fertig.<br><b style="color:#c8a0ff">${next}</b> – du bist dran!</div>
+    <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:12px;margin-bottom:20px">
+      <div style="font-size:11px;color:rgba(255,255,255,.4);font-weight:700;margin-bottom:6px">Aktueller Stand</div>
+      <div style="display:flex;gap:12px;justify-content:center">
+        <div><div style="font-size:20px;font-weight:900;color:var(--cyan)">${s.p1score}</div><div style="font-size:10px;color:rgba(255,255,255,.4)">${s.p1name}</div></div>
+        <div style="font-size:18px;color:rgba(255,255,255,.2);align-self:center">:</div>
+        <div><div style="font-size:20px;font-weight:900;color:#ff8c42">${s.p2score}</div><div style="font-size:10px;color:rgba(255,255,255,.4)">${s.p2name}</div></div>
+      </div>
+    </div>
+    <button onclick="duellContinue()" style="width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,#7b5ea7,#c8a0ff);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:15px;cursor:pointer">Ich bin ${next} – Bereit! →</button>
+  </div>
+</div>`;
+    return;
+  }
+
+  if(s.phase==='result'){
+    const winner = s.p1score > s.p2score ? s.p1name : s.p2score > s.p1score ? s.p2name : null;
+    a.innerHTML = `
+<div style="background:linear-gradient(160deg,#060f22,#3d0a6b);min-height:100vh;padding:20px 16px 100px;color:#fff">
+  <div style="text-align:center;margin-bottom:24px">
+    <div style="font-size:52px;margin-bottom:12px">${winner?'🏆':'🤝'}</div>
+    <div style="font-size:22px;font-weight:900;color:#fff;margin-bottom:6px">${winner?`${winner} gewinnt!`:'Unentschieden!'}</div>
+    <div style="font-size:13px;color:rgba(255,255,255,.5);font-weight:700">${DUELL_CATS.find(c=>c.id===s.cat)?.label}</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
+    ${[{name:s.p1name,score:s.p1score,col:'var(--cyan)',answers:s.p1answers},
+       {name:s.p2name,score:s.p2score,col:'#ff8c42',answers:s.p2answers}].map(p=>`
+    <div style="background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.1);border-radius:16px;padding:14px;text-align:center">
+      <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:6px">${p.name}</div>
+      <div style="font-size:36px;font-weight:900;color:${p.col};font-family:'Space Mono',monospace">${p.score}</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:4px">${p.answers.filter(Boolean).length}/3 richtig</div>
+      <div style="display:flex;gap:4px;justify-content:center;margin-top:8px">
+        ${p.answers.map(ok=>`<div style="width:20px;height:20px;border-radius:50%;background:${ok?'rgba(0,201,123,.4)':'rgba(255,77,109,.4)'};font-size:10px;display:flex;align-items:center;justify-content:center">${ok?'✓':'✗'}</div>`).join('')}
+      </div>
+    </div>`).join('')}
+  </div>
+
+  <div style="margin-bottom:16px">
+    <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.4);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px">Auflösung – alle Fragen</div>
+    ${s.questions.map((q,i)=>`
+    <div style="background:rgba(255,255,255,.05);border-radius:14px;padding:13px;margin-bottom:8px">
+      <div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:8px">${i+1}. ${q.q}</div>
+      ${q.opts.map((opt,oi)=>`<div style="font-size:11px;padding:6px 10px;border-radius:8px;margin-bottom:4px;background:${oi===q.ans?'rgba(0,201,123,.15)':'rgba(255,255,255,.03)'};border:1px solid ${oi===q.ans?'rgba(0,201,123,.3)':'rgba(255,255,255,.06)'};color:${oi===q.ans?'#00c97b':'rgba(255,255,255,.55)'};font-weight:700">${oi===q.ans?'✓ ':''} ${opt}</div>`).join('')}
+      <div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:6px;font-weight:700;background:rgba(255,255,255,.04);border-radius:8px;padding:6px 8px;line-height:1.5">${q.explain||''}</div>
+    </div>`).join('')}
+  </div>
+
+  <div style="display:flex;gap:8px">
+    <button onclick="duellState.phase='home';renderDuell(document.getElementById('ga'))" style="flex:1;padding:13px;border-radius:13px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:rgba(255,255,255,.7);font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">← Neu starten</button>
+    <button onclick="duellStart(duellState.cat)" style="flex:2;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,#7b5ea7,#c8a0ff);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">↺ Gleiche Kategorie</button>
+  </div>
+</div>`;
+    return;
+  }
+
+  // Quiz phase
+  const q = s.questions[s.qIdx];
+  const isP1 = s.currentPlayer === 1;
+  const playerName = isP1 ? s.p1name : s.p2name;
+  const playerCol  = isP1 ? 'var(--cyan)' : '#ff8c42';
+  const catInfo = DUELL_CATS.find(c=>c.id===s.cat);
+
+  a.innerHTML = `
+<div style="background:linear-gradient(160deg,#060f22,#3d0a6b);min-height:100vh;padding:14px 14px 100px;color:#fff">
+
+  <!-- Header scoreboard -->
+  <div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px;margin-bottom:16px;background:rgba(255,255,255,.06);border-radius:16px;padding:12px">
+    <div style="text-align:center">
+      <div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:700;margin-bottom:2px">${s.p1name}</div>
+      <div style="font-size:24px;font-weight:900;color:var(--cyan);font-family:'Space Mono',monospace">${s.p1score}</div>
+    </div>
+    <div style="text-align:center;padding:0 8px">
+      <div style="font-size:10px;color:rgba(255,255,255,.3);font-weight:700">Frage ${s.qIdx+1}/3</div>
+      <div style="font-size:14px;font-weight:900;color:rgba(255,255,255,.4)">:</div>
+    </div>
+    <div style="text-align:center">
+      <div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:700;margin-bottom:2px">${s.p2name}</div>
+      <div style="font-size:24px;font-weight:900;color:#ff8c42;font-family:'Space Mono',monospace">${s.p2score}</div>
+    </div>
+  </div>
+
+  <!-- Fortschritt -->
+  <div style="display:flex;gap:4px;margin-bottom:16px">
+    ${[0,1,2].map(i=>`<div style="flex:1;height:4px;border-radius:100px;background:${i<s.qIdx?playerCol:i===s.qIdx?'rgba(255,255,255,.5)':'rgba(255,255,255,.12)'}"></div>`).join('')}
+  </div>
+
+  <!-- Wer ist dran -->
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;background:rgba(255,255,255,.06);border-radius:12px;padding:10px 14px">
+    <div style="width:8px;height:8px;border-radius:50%;background:${playerCol};flex-shrink:0"></div>
+    <div style="font-size:12px;font-weight:900;color:${playerCol}">${playerName} ist dran</div>
+    <div style="flex:1"></div>
+    <div style="font-size:10px;color:rgba(255,255,255,.35);font-weight:700">${catInfo?.icon} ${catInfo?.label}</div>
+  </div>
+
+  <!-- Frage -->
+  <div style="background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:18px;padding:18px;margin-bottom:14px;font-size:14px;font-weight:800;color:#fff;line-height:1.65">${q.q}</div>
+
+  <!-- Optionen -->
+  <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px" id="d-opts">
+    ${q.opts.map((opt,i)=>`<button data-i="${i}" onclick="duellAnswer(${i})" style="width:100%;padding:13px 16px;border-radius:14px;border:1.5px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:#fff;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer;text-align:left;transition:all .15s" onmouseover="this.style.background='rgba(255,255,255,.12)'" onmouseout="if(!this.dataset.answered)this.style.background='rgba(255,255,255,.06)'"><span style="color:rgba(255,255,255,.35);margin-right:8px">${['A','B','C','D'][i]}</span>${opt}</button>`).join('')}
+  </div>
+
+  <div id="d-fb" style="display:none;border-radius:14px;padding:12px 14px;margin-bottom:12px;font-size:11px;font-weight:700;line-height:1.65"></div>
+  <button id="d-next" onclick="duellNext()" style="display:none;width:100%;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,#7b5ea7,#c8a0ff);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Weiter →</button>
+</div>`;
+}
+
+function duellStart(cat){
+  const p1 = document.getElementById('d-p1');
+  const p2 = document.getElementById('d-p2');
+  duellState = {
+    phase:'quiz', cat,
+    p1name: (p1&&p1.value.trim()) || 'Spieler 1',
+    p2name: (p2&&p2.value.trim()) || 'Spieler 2',
+    p1score:0, p2score:0,
+    qIdx:0, questions: getDuellQuestions(cat),
+    currentPlayer:1, answered:false,
+    p1answers:[], p2answers:[],
+  };
+  renderDuell(document.getElementById('ga'));
+}
+
+function duellAnswer(chosen){
+  const s = duellState;
+  if(s.answered) return;
+  s.answered = true;
+  const q = s.questions[s.qIdx];
+  const ok = (chosen === q.ans);
+
+  if(s.currentPlayer===1) s.p1answers.push(ok);
+  else s.p2answers.push(ok);
+  if(ok){ s.currentPlayer===1 ? s.p1score++ : s.p2score++; }
+
+  document.querySelectorAll('#d-opts button').forEach(b=>{
+    b.disabled = true; b.dataset.answered = true;
+    const i = parseInt(b.dataset.i);
+    if(i===q.ans) b.style.background='rgba(0,201,123,.25)', b.style.borderColor='rgba(0,201,123,.5)', b.style.color='#00c97b';
+    else if(i===chosen&&!ok) b.style.background='rgba(255,77,109,.2)', b.style.borderColor='rgba(255,77,109,.4)', b.style.color='#ff4d6d';
+  });
+
+  const fb = document.getElementById('d-fb');
+  if(fb){
+    fb.style.display='block';
+    fb.style.background = ok?'rgba(0,201,123,.1)':'rgba(255,77,109,.08)';
+    fb.style.border = `1.5px solid ${ok?'rgba(0,201,123,.3)':'rgba(255,77,109,.25)'}`;
+    fb.style.color = ok?'#00c97b':'#ff4d6d';
+    fb.innerHTML = `<b>${ok?'✓ Richtig':'✗ Falsch'}</b>${q.explain?` – ${q.explain}`:''}`;
+  }
+  const nb = document.getElementById('d-next');
+  if(nb) nb.style.display='block';
+}
+
+function duellNext(){
+  const s = duellState;
+  s.answered = false;
+
+  // Both players answered this question?
+  if(s.currentPlayer===1 && s.p2answers.length <= s.p1answers.length-1){
+    // P1 done, switch to P2
+    s.currentPlayer = 2;
+    s.phase = 'switch';
+    renderDuell(document.getElementById('ga'));
+    return;
+  }
+
+  // Both players done with this question → next question
+  s.qIdx++;
+  s.currentPlayer = 1;
+  if(s.qIdx >= s.questions.length){
+    s.phase = 'result';
+    renderDuell(document.getElementById('ga'));
+    return;
+  }
+  s.phase = 'quiz';
+  renderDuell(document.getElementById('ga'));
+}
+
+function duellContinue(){
+  const s = duellState;
+  s.phase = 'quiz';
+  s.currentPlayer = 2;
+  s.answered = false;
+  renderDuell(document.getElementById('ga'));
+}
+
