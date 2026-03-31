@@ -739,6 +739,7 @@ const D_FC_GESELLSCHAFT = [
 ];
 
 function getFcData(m){
+  if(m==='ust'&&typeof D_FC_UST!=='undefined') return D_FC_UST;
   if(m==='ao') return D_FC_AO;
   if(m==='recht') return D_FC_RECHT;
   if(m==='gewst') return D_FC_GEWST;
@@ -2646,7 +2647,7 @@ function quizFilterBar(){
   return `<div class="quiz-diff-bar">${defs.map(([d,l])=>`<button class="qd-btn${quizDiff===d?' active':''}" onclick="setQuizDiff(${d})">${l}</button>`).join('')}</div>`;
 }
 function init(){
-  sh_ein=shuffle(D_EINKUNFT);sh_werb=shuffle(D_WERBUNG);sh_ust=shuffle(D_UST);
+  sh_ein=shuffle(D_EINKUNFT);sh_werb=shuffle(D_WERBUNG);sh_ust=shuffle(D_UST);if(typeof D_EST_QUIZ!=="undefined")sh_estquiz=shuffle(D_EST_QUIZ);
   sh_bzu=shuffle(D_BILANZ_ZU);sh_buch=shuffle(D_BUCHUNG);sh_ao=shuffle(D_AO);
   sh_kurios=shuffle(D_KURIOS);sh_recht=shuffle(D_RECHT);
   sh_gewst=shuffle(D_GEWST);sh_gesellschaft=shuffle(D_GESELLSCHAFT);
@@ -3030,10 +3031,10 @@ function renderBasicsEinsteiger(a){
       </div>
     </div>
   </div>
-  <button onclick="${pct>0?'einstGoStep1()':'startSteuerTour()'}" style="width:100%;padding:15px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:15px;cursor:pointer">
-    ${pct > 0 ? '▶ Weiter – Schritt '+stepsDone+' von 4' : '🗺️ Steuer-Tour starten – 20 Min. · 5 Schritte'}
+  <button onclick="startSteuerTour()" style="width:100%;padding:15px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:15px;cursor:pointer">
+    🗺️ Steuer-Tour starten – 7 Schritte
   </button>
-  ${pct > 0 ? '<button onclick="resetEinstProgress()" style="width:100%;margin-top:8px;padding:10px;border-radius:12px;border:1.5px solid rgba(255,255,255,.12);background:transparent;color:rgba(255,255,255,.3);font-family:\'Nunito\',sans-serif;font-weight:800;font-size:12px;cursor:pointer">↺ Von vorne starten</button>' : ''}
+
 </div>
 
 <!-- KURIOSES -->
@@ -4708,7 +4709,9 @@ function renderEst(a){
   const tabs=`<div style="display:flex;gap:6px;margin-bottom:12px">
     <button onclick="swSub('einkunft')" style="flex:1;padding:9px;border-radius:10px;border:2px solid ${submode==='einkunft'?'#1a3a8f':'#dde5f5'};background:${submode==='einkunft'?'#1a3a8f':'#f0f4ff'};color:${submode==='einkunft'?'#fff':'#555'};font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer;transition:all .15s">📂 Einkunftsarten</button>
     <button onclick="swSub('werbung')" style="flex:1;padding:9px;border-radius:10px;border:2px solid ${submode==='werbung'?'#1a3a8f':'#dde5f5'};background:${submode==='werbung'?'#1a3a8f':'#f0f4ff'};color:${submode==='werbung'?'#fff':'#555'};font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer;transition:all .15s">🧾 Werbungskosten</button>
+    <button onclick="swSub('estquiz');if(typeof D_EST_QUIZ!=='undefined')sh_estquiz=[...D_EST_QUIZ].sort(()=>Math.random()-.5)" style="flex:1;padding:9px;border-radius:10px;border:2px solid ${submode==='estquiz'?'#1a3a8f':'#dde5f5'};background:${submode==='estquiz'?'#1a3a8f':'#f0f4ff'};color:${submode==='estquiz'?'#fff':'#555'};font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer;transition:all .15s">💼 ESt-Quiz (${typeof D_EST_QUIZ!=='undefined'?D_EST_QUIZ.length:0})</button>
   </div>`;
+  if(submode==='estquiz'){renderEstQuiz(a);return;}
   if(submode==='einkunft') renderEstEinkunft(a, tabs);
   else renderEstWerbung(a, tabs);
 }
@@ -4793,6 +4796,27 @@ function ansWerbung(chosen){
 }
 
 // ─── UMSATZSTEUER ──────────────────────────────────────────────
+function renderEstQuiz(a){
+  if(typeof sh_estquiz==='undefined'||sh_estquiz.length===0)sh_estquiz=[...(typeof D_EST_QUIZ!=='undefined'?D_EST_QUIZ:[])].sort(()=>Math.random()-.5);
+  if(idx>=sh_estquiz.length){a.innerHTML='';renderResult2('ga','💼 ESt-Quiz',sh_estquiz.length);return;}
+  const q=sh_estquiz[idx];
+  const optsHtml=q.opts.map((o,i)=>`<button class="choice-btn" onclick="ansEstQuiz(${i})" data-i="${i}"><span class="ct">${o}</span></button>`).join('');
+  a.innerHTML=`${quizFilterBar()}${_quizProgress(sh_estquiz,idx)}
+    <div style="background:#f4f7ff;border-radius:14px;padding:15px 16px;margin-bottom:14px;font-size:14px;font-weight:800;color:var(--navy);line-height:1.55;border-left:4px solid var(--blue)">${q.q}</div>
+    <div class="ao-grid">${optsHtml}</div>
+    <div class="fb" id="fb"></div>
+    <button class="next-btn" id="nb" onclick="nextQ()">Nächste Frage ➜</button>`;
+  answered=false;
+}
+function ansEstQuiz(chosen){
+  if(answered)return;answered=true;
+  const q=sh_estquiz[idx];const ok=(chosen===q.ans);
+  updSc(ok);
+  if(!ok)addFehler({...q,_qtype:'mc'},'est');
+  document.querySelectorAll('.choice-btn').forEach(b=>{b.disabled=true;const i=parseInt(b.dataset.i);if(i===q.ans)b.classList.add('correct');else if(i===chosen&&!ok)b.classList.add('wrong');});
+  showFb(ok,q.explain,q.q);
+}
+
 function renderUst(a){
   if(idx>=sh_ust.length){a.innerHTML='';renderResult2('ga','🛒 Umsatzsteuer',sh_ust.length);return;}
   const q=sh_ust[idx];
@@ -10668,3 +10692,68 @@ function duellNext(){
   s.phase='quiz';renderDuell(document.getElementById('ga'));
 }
 function duellContinue(){const s=duellState;s.phase='quiz';s.currentPlayer=2;s.answered=false;renderDuell(document.getElementById('ga'));}
+
+// ══════════════════════════════════════════════════════════════════
+// D_EST_QUIZ – 42 ESt-Quizfragen
+// ══════════════════════════════════════════════════════════════════
+const D_EST_QUIZ = [
+  {q:'Was ist der erste Schritt beim Ermitteln der Einkommensteuer?',opts:['Grundfreibetrag abziehen','Einnahmen je Einkunftsart ermitteln','Sonderausgaben abziehen','Steuertabelle ablesen'],ans:1,lvl:1,explain:'<b>§ 2 Abs. 1 EStG</b>: Einnahmen je Einkunftsart – der Startpunkt. Erst dann WK/BA, Verlustausgleich, SA/AuBe und Freibeträge.'},
+  {q:'In welcher Reihenfolge wird das zvE berechnet?',opts:['Einnahmen → SA → WK → zvE','Einnahmen → WK → SA/AuBe → Freibeträge → zvE','Bruttolohn → Grundfreibetrag → Tarif','GdE → Grundfreibetrag → zvE'],ans:1,lvl:1,explain:'<b>§ 2 EStG</b>: Einnahmen ./. WK = Einkünfte → GdE ./. SA, AuBe, Verlustabzug = Einkommen ./. Kinderfreibeträge = zvE.'},
+  {q:'Was ist der Unterschied zwischen GdE und Einkommen?',opts:['Kein Unterschied','GdE minus SA, AuBe und Verlustabzug = Einkommen (§ 2 Abs. 4)','Einkommen ist immer höher','GdE gilt nur für AN'],ans:1,lvl:2,explain:'<b>§ 2 Abs. 4 EStG</b>: GdE = Summe aller Einkünfte nach Verlustausgleich. Davon SA + AuBe + § 10d → Einkommen.'},
+  {q:'Welche Aussage zum Grundfreibetrag 2026 ist korrekt?',opts:['Er beträgt 11.604 €','Er beträgt ca. 12.336 € und schützt das Existenzminimum (§ 32a Abs. 1)','Er beträgt 10.000 € nur für AN','Er wird von der Steuer abgezogen'],ans:1,lvl:1,explain:'<b>§ 32a Abs. 1 Nr. 1 EStG</b>: Grundfreibetrag ca. 12.336 € (jährlich angepasst). Wird vom zvE abgezogen, nicht von der Steuerschuld.'},
+  {q:'Was ist der Spitzensteuersatz und ab welchem zvE gilt er (ca. 2025/26)?',opts:['42 % ab ca. 66.761 € zvE','45 % ab ca. 277.826 € (Reichensteuer)','42 % ab 100.000 €','35 % ab 50.000 €'],ans:0,lvl:2,explain:'<b>§ 32a Abs. 1 Nr. 4 EStG</b>: 42 % ab ca. 66.761 € zvE. Daneben Reichensteuer 45 % ab ca. 277.826 € (§ 32a Abs. 1 Nr. 5). Grenzen werden jährlich fortgeschrieben.'},
+  {q:'Anna betreibt eine Zahnarztpraxis. Welche Einkunftsart?',opts:['§ 15 Gewerbebetrieb','§ 18 Selbständige Arbeit','§ 19 Nichtselbständige Arbeit','§ 13 L+F'],ans:1,lvl:1,explain:'<b>§ 18 EStG</b>: Ärzte, Zahnärzte, Anwälte = freiberuflich. Kein Gewerbebetrieb → keine GewSt (§ 1 GewStG).'},
+  {q:'Tobias verkauft regelmäßig selbst gebackene Kuchen auf dem Markt. Welche Einkunftsart?',opts:['§ 22 Sonstige Einkünfte','§ 15 Gewerbebetrieb','§ 18 Selbständige Arbeit','§ 13 L+F'],ans:1,lvl:1,explain:'<b>§ 15 Abs. 2 EStG</b>: Nachhaltig, Gewinnabsicht, selbständig, Beteiligung am wirt. Verkehr → alle 4 Kriterien erfüllt = Gewerbebetrieb.'},
+  {q:'Peter erhält 200 € Dividende auf seine Aktien. Welche Einkunftsart?',opts:['§ 22 Sonstige Einkünfte','§ 15 Gewerbebetrieb','§ 20 Kapitalvermögen (Abgeltungsteuer)','§ 21 V+V'],ans:2,lvl:1,explain:'<b>§ 20 EStG</b>: Dividenden, Zinsen, Kursgewinne → Abgeltungsteuer 25 % + SolZ (§ 32d). Sparerpauschbetrag 1.000 €.'},
+  {q:'Rentnerin Liesel erhält 1.800 €/Monat Rente. Ist das steuerpflichtig?',opts:['Nein – Renten steuerfrei','Ja – 100 %','Anteilig nach Renteneintrittsjahrgang (§ 22 Nr. 1 EStG)','Nur bei weiteren Einkünften'],ans:2,lvl:2,explain:'<b>§ 22 Nr. 1 EStG</b>: Kohortenprinzip – Besteuerungsanteil nach Rentenbeginn. Ab 2040: 100 %. Grundfreibetrag schützt viele Rentner.'},
+  {q:'Was sind Gewinneinkünfte und was sind Überschusseinkünfte?',opts:['Gewinn = §19/20/21; Überschuss = §13/15/18','Gewinn = §§13,15,18; Überschuss = §§19-22','Nur §15 ist Gewinneinkunft','Diese Unterscheidung gibt es nicht'],ans:1,lvl:2,explain:'<b>Gewinneinkunftsarten §§13,15,18</b>: Betriebsvermögensvergleich (§4/5) oder EÜR (§4 Abs.3). <b>Überschusseinkunftsarten §§19-22</b>: Einnahmen ./. WK.'},
+  {q:'Welche Kosten sind KEINE Werbungskosten bei einem Angestellten?',opts:['Fahrtkosten zur Arbeit','Kosten eines Erststudiums (§ 9 Abs. 6 EStG)','Fachliteratur','Homeoffice-Pauschale'],ans:1,lvl:1,explain:'<b>§ 9 Abs. 6 EStG</b>: Erstausbildungskosten sind KEINE WK – nur SA max. 6.000 € (§ 10 Abs. 1 Nr. 7). Zweitausbildung → WK unbegrenzt.'},
+  {q:'AN-Pauschbetrag 2026: Höhe und Wirkung?',opts:['1.000 € von der Steuer abgezogen','1.230 € automatisch als WK angerechnet ohne Nachweise (§ 9a Nr. 1a EStG)','2.000 € nur für Pendler','900 € nur für Teilzeit'],ans:1,lvl:1,explain:'<b>§ 9a Nr. 1a EStG</b>: 1.230 € automatisch. Tatsächliche WK > 1.230 € → tatsächliche WK ansetzen.'},
+  {q:'Lena fährt 25 km zur Arbeit, 220 Tage. Entfernungspauschale 2026?',opts:['220×25×0,30=1.650 €','220×25×0,38=2.090 €','220×50×0,38=4.180 €','220×25×0,35=1.925 €'],ans:1,lvl:1,explain:'<b>§ 9 Abs. 1 Nr. 4 EStG</b>: 0,38 €/km × einfache Strecke (ab VZ 2026 einheitlich). 220×25×0,38=2.090 €. Max. 4.500 € ohne eigenen PKW.'},
+  {q:'Homeoffice-Pauschale: korrekte Aussage?',opts:['Nur mit abgetrenntem Arbeitszimmer','6 €/Tag, max. 210 Tage = 1.260 €/Jahr, kein Arbeitszimmer nötig','8 €/Tag unbegrenzt','Nur Selbständige'],ans:1,lvl:1,explain:'<b>§ 4 Abs. 5 Nr. 6b EStG</b>: 6 €/Tag, max. 210 Tage dauerhaft seit VZ 2023. Kein eigenes Arbeitszimmer nötig.'},
+  {q:'GWG-Grenze für Arbeitnehmer (Arbeitsmittel)?',opts:['800 € netto','952 € brutto – AN haben keinen VSt-Abzug','1.000 € brutto','500 € netto'],ans:1,lvl:2,explain:'<b>GWG-Grenze AN: 952 € brutto</b> (= 800 € × 1,19). AN haben keinen Vorsteuerabzug → Bruttobetrachtung. Unternehmer: 800 € netto.'},
+  {q:'Was sind Sonderausgaben?',opts:['Beruflich veranlasste Kosten','Privat veranlasste Aufwendungen, gesetzlich abschließend geregelt (§§ 10-10b), kein WK/BA/AuBe','Nur für Selbständige','Identisch mit WK'],ans:1,lvl:1,explain:'<b>§§ 10-10b EStG</b>: SA sind privat veranlasst, abschließende Aufzählung. Mindern den GdE.'},
+  {q:'Welche Ausgabe ist eine Sonderausgabe?',opts:['Fahrtkosten zur Arbeit','Beiträge zur gesetzlichen KV (§ 10 Abs. 1 Nr. 3 EStG)','Arbeitszimmer','Fachliteratur'],ans:1,lvl:1,explain:'<b>§ 10 Abs. 1 Nr. 3 EStG</b>: KV-Beiträge = SA (Vorsorgeaufwendungen). Die anderen drei sind WK (§ 9 EStG).'},
+  {q:'Bis zu welchem Betrag sind Spenden an gemeinnützige Vereine absetzbar?',opts:['500 € pauschal','Max. 20 % des GdE (§ 10b EStG)','Max. 5.000 €','Unbegrenzt'],ans:1,lvl:1,explain:'<b>§ 10b Abs. 1 EStG</b>: max. 20 % des GdE oder 4 ‰ der Umsätze+Löhne. Überhang: Vortrag. Nachweis ab 300 € zwingend amtliche Bestätigung.'},
+  {q:'Was ist die zumutbare Belastung bei AuBe?',opts:['Pauschbetrag 1.500 €','Prozentualer Eigenanteil (1-7 % des GdE, § 33 Abs. 3), stufenweise berechnet','Voller Betrag selbst tragen','5.000 € Mindestgrenze'],ans:1,lvl:2,explain:'<b>§ 33 Abs. 3 EStG</b>: 1-7 % des GdE je nach Familienstand. Nur was darüber liegt ist abziehbar. BFH-Urteil 19.01.2017: Stufenberechnung.'},
+  {q:'Welche besondere Regelung gibt es für behinderte Menschen?',opts:['Keine ESt','Behinderten-Pauschbetrag ohne Einzelnachweis (§ 33b EStG)','Alle Kosten als AuBe','Sondertarif'],ans:1,lvl:2,explain:'<b>§ 33b EStG</b>: Pauschbetrag je nach GdB 384-7.400 €/Jahr. Kein Einzelnachweis, keine zumutbare Belastung.'},
+  {q:'Was ist der Unterschied zwischen horizontalem und vertikalem Verlustausgleich?',opts:['Horizontal = verschiedene Einkunftsarten; Vertikal = innerhalb einer Art','Horizontal = innerhalb derselben Einkunftsart; Vertikal = zwischen verschiedenen','Beides identisch','Nur horizontaler zulässig'],ans:1,lvl:3,explain:'<b>Horizontal</b>: innerhalb einer Einkunftsart. <b>Vertikal</b>: zwischen verschiedenen Einkunftsarten (§ 2 Abs. 3 EStG).'},
+  {q:'Was ist der Verlustvortrag nach § 10d EStG?',opts:['Unbegrenzt ohne Begrenzung','Bis 1 Mio. € vollständig, darüber 60 % des GdE (Mindestbesteuerung)','Steuerlich nicht nutzbar','Seit 2020 abgeschafft'],ans:1,lvl:3,explain:'<b>§ 10d EStG</b>: Verlustrücktrag max. 10 Mio. € ins Vorjahr. Vortrag: bis 1 Mio. € vollständig, darüber 60 % des GdE.'},
+  {q:'Wer hat die Lohnsteuer einzubehalten und abzuführen?',opts:['Der Arbeitnehmer','Der Arbeitgeber (§§ 38, 41a EStG)','Das FA direkt','Die Krankenkasse'],ans:1,lvl:1,explain:'<b>§ 38 EStG</b>: Arbeitgeber behält LSt ein und führt sie ans FA ab. Haftung beim AG bei zu wenig einbehaltener LSt.'},
+  {q:'Was ist der Unterschied zwischen Lohnsteuer und Einkommensteuer?',opts:['Zwei verschiedene Steuern','LSt ist Erhebungsform der ESt – Vorauszahlung direkt vom Lohn, wird mit ESt verrechnet (§ 38 EStG)','LSt für AN, ESt für Selbständige','LSt ist höher'],ans:1,lvl:1,explain:'<b>§ 38 EStG</b>: LSt ist keine eigene Steuer – Erhebungsform der ESt für AN. Im Jahresausgleich Anrechnung auf ESt-Schuld.'},
+  {q:'Klaus kauft Wohnung 2020 für 300.000 €, vermietet, verkauft 2026 für 380.000 €. Steuerpflichtig?',opts:['Nein – Immobilien stets steuerfrei','Ja – innerhalb 10-Jahres-Frist (§ 23 EStG)','Ja – nur 50 %','Nein – wegen Vermietung'],ans:1,lvl:2,explain:'<b>§ 23 EStG</b>: Privates Veräußerungsgeschäft bei Immobilien: 10-Jahres-Frist. Vermietete Immobilien keine Ausnahme.'},
+  {q:'Wann ist der Gewinn aus Verkauf von selbstgenutztem Wohneigentum steuerfrei?',opts:['Immer','Im Veräußerungsjahr und den zwei Vorjahren selbst genutzt (§ 23 Abs. 1 Nr. 1 Satz 3 EStG)','Nach 5 Jahren','Nur unter 50.000 €'],ans:1,lvl:2,explain:'<b>§ 23 Abs. 1 Nr. 1 Satz 3 EStG</b>: VZ + 2 Vorjahre Eigennutzung → steuerfrei. Nur 3 Kalenderjahre nötig.'},
+  {q:'Was ist der Splittingvorteil?',opts:['50 % weniger Steuern','zvE halbiert, Tarif angewendet, × 2 (§ 32a Abs. 5 EStG) – vorteilhaft bei ungleichen Einkommen','Extra Grundfreibetrag 24.672 €','Ehepaare immer getrennt'],ans:1,lvl:2,explain:'<b>§ 32a Abs. 5 EStG</b>: Splittingverfahren mildert Progressionseffekt. Beide gleich → kein Vorteil.'},
+  {q:'Voraussetzungen für Zusammenveranlagung?',opts:['Nur wenn beide unbeschränkt stpfl. und nicht dauernd getrennt lebend (§ 26 Abs. 1 EStG)','Immer wenn verheiratet','Nur mit Kindern','Nur erstes Ehejahr'],ans:0,lvl:2,explain:'<b>§ 26 Abs. 1 EStG</b>: (1) Beide unbeschränkt stpfl., (2) nicht dauernd getrennt lebend, (3) während des VZ verheiratet. Jährliches Wahlrecht.'},
+  {q:'AN-Pauschbetrag: was passiert bei mehr WK?',opts:['Mehr als 1.230 € unmöglich','Tatsächliche WK werden angesetzt (höherer Wert gewinnt)','Nur bis 1.230 € anerkannt','Von Steuer abgezogen'],ans:1,lvl:1,explain:'<b>§ 9a Nr. 1a EStG</b>: Automatisch 1.230 €. Tatsächliche WK > 1.230 € → tatsächliche WK. Belege aufbewahren!'},
+  {q:'Kann ein lediger Student ohne Einkommen einen Verlustvortrag bilden?',opts:['Nein','Ja – vorweggenommene WK aus Zweitausbildung als Verlust feststellbar (§ 10d EStG)','Nur mit Minijob','Nur Unternehmen'],ans:1,lvl:3,explain:'<b>§ 10d EStG</b>: Vorweggenommene WK aus Zweitausbildung als negative Einkünfte – kein Einkommen nötig. Vortrag ins Jahr mit Einkommen.'},
+  {q:'Frist für freiwillige ESt-Erklärung?',opts:['31. März','4 Jahre nach Ablauf des VZ (§ 169 Abs. 2 AO)','31. Mai','1 Jahr'],ans:1,lvl:2,explain:'<b>§ 169 Abs. 2 AO</b>: 4-Jahresfrist. Für 2026: bis 31.12.2030. Pflichtveranlagte: 31.07. des Folgejahres (§ 149 AO).'},
+  {q:'Was ist Pflichtveranlagung bei der ESt?',opts:['Alle müssen immer','Bestimmte Voraussetzungen (§ 46 EStG): Nebeneinkünfte >410 €, SK III/V, etc.','Nur Selbständige','Gibt es nicht'],ans:1,lvl:2,explain:'<b>§ 46 EStG</b>: Pflichtveranlagung für AN bei: Nebeneinkünfte >410 €, SK III/V, eingetragene Freibeträge, etc. Selbständige: immer (§ 25 EStG).'},
+  {q:'Was bedeutet Abgeltungsteuer?',opts:['Trifft alle Stpfl.','25 % KapSt + SolZ auf Kapitalerträge – abgeltend, keine weitere ESt-Pflicht (§ 32d EStG)','Steuererlass für Kapitalanleger','19 % wie USt'],ans:1,lvl:2,explain:'<b>§ 32d EStG</b>: 25 % abgeltend. Günstigerprüfung wenn persönlicher Satz < 25 % (§ 32d Abs. 6). Sparerpauschbetrag 1.000 €/2.000 €.'},
+];
+
+// Wire D_EST_QUIZ into renderEst
+// (This function enhances the existing renderEst by adding estquiz dispatch)
+(function(){
+  if(typeof sh_estquiz === 'undefined') window.sh_estquiz = [];
+})();
+
+// ══════════════════════════════════════════════════════════════════
+// D_FC_UST – USt Lernkarten (13 Karten)
+// ══════════════════════════════════════════════════════════════════
+const D_FC_UST = [
+  {icon:'🔄',term:'Lieferung vs. sonstige Leistung',sub:'§ 3 Abs. 1/9 UStG',answer:'<b>Lieferung</b>: Verschaffung der Verfügungsmacht an körperlichem Gegenstand.<br><b>Sonstige Leistung</b>: alles was keine Lieferung ist.<br>Abgrenzung bestimmt welche Ortsregeln gelten!',merkhilfe:'Körperlicher Gegenstand → Lieferung. Alles andere → sonstige Leistung.'},
+  {icon:'🔨',term:'Werklieferung',sub:'§ 3 Abs. 4 UStG',answer:'Unternehmer be-/verarbeitet Gegenstand mit <b>selbst beschafften Hauptstoffen</b> → gilt als <b>Lieferung</b>.<br>Beispiel: Tischler baut Küche aus eigenem Holz.',merkhilfe:'Eigene Hauptstoffe = Werklieferung = LIEFERUNG.'},
+  {icon:'🔧',term:'Werkleistung',sub:'§ 3 Abs. 9 UStG',answer:'Unternehmer be-/verarbeitet mit <b>beigestellten Hauptstoffen des Auftraggebers</b> → <b>sonstige Leistung</b>.<br>Beispiel: Schneider näht Kleid aus Stoff des Kunden.',merkhilfe:'Fremde Hauptstoffe = Werkleistung = SONSTIGE LEISTUNG.'},
+  {icon:'📍',term:'B2B-Leistungsort',sub:'§ 3a Abs. 2 UStG',answer:'Sonstige Leistung an Unternehmer → Leistungsort beim <b>Empfänger</b>.<br>Folge: Reverse Charge (§ 13b) bei grenzüberschreitenden Leistungen.',merkhilfe:'B2B = Bestimmungsland (Empfänger).'},
+  {icon:'📍',term:'B2C-Leistungsort',sub:'§ 3a Abs. 1 UStG',answer:'Sonstige Leistung an Privatperson → Leistungsort beim <b>leistenden Unternehmer</b>.<br>Ausnahmen: Grundstück, kurzfr. Kfz, digitale DL.',merkhilfe:'B2C = Ursprungsland (Leistender). Ausnahme digitale DL: Empfängerland.'},
+  {icon:'🏠',term:'Grundstücksleistungen',sub:'§ 3a Abs. 3 Nr. 1 UStG',answer:'Alle Leistungen im Zusammenhang mit Grundstücken: <b>Belegenheitsort</b>.<br>Gilt für Hausbau (Werklieferung), Vermietung, Architektenleistungen.',merkhilfe:'Grundstück → Belegenheitsort. Immer. Egal B2B oder B2C.'},
+  {icon:'✈️',term:'Ausfuhrlieferung',sub:'§ 6 UStG · § 4 Nr. 1a',answer:'Lieferung ins Drittland → <b>steuerfrei (echte SB)</b> + Vorsteuerabzug bleibt.<br>Nachweis: Ausfuhrnachweis + Buchnachweis. Ohne Nachweis: 19%!',merkhilfe:'EU = ig. Lieferung (§ 6a). Drittland = Ausfuhr (§ 6). Beide echt befreit.'},
+  {icon:'📦',term:'Einfuhrumsatzsteuer',sub:'§ 21 UStG',answer:'Steuer auf Einfuhr aus Drittland. Schuldner: Einführer. Erhebung: Zoll.<br>Unternehmer: EUSt als Vorsteuer abziehbar (§ 15 Abs. 1 Nr. 2).',merkhilfe:'EUSt = USt-Pendant für Drittlandimporte. VSt-Abzug möglich!'},
+  {icon:'🔁',term:'Reverse Charge',sub:'§ 13b UStG',answer:'Bei bestimmten Umsätzen schuldet <b>der Empfänger</b> die USt:<br>• Bauleistungen (§ 13b Abs. 2 Nr. 4)<br>• Leistungen ausländ. Unternehmer (Nr. 1)<br>Buche USt + VSt gleichzeitig → netto neutral.',merkhilfe:'Reverse Charge: Empfänger zahlt USt. Bau + Ausland + bestimmte Waren.'},
+  {icon:'💹',term:'Vorsteueraufteilung',sub:'§ 15 Abs. 4 UStG',answer:'Eingangsleistungen für stpfl. + steuerfreie Umsätze:<br>1. Direkte Zuordnung<br>2. Rest: wirtschaftlicher Umsatzschlüssel<br>§ 15a: Berichtigung bei Nutzungsänderung (5J./10J.).',merkhilfe:'Direkt → dann Umsatzschlüssel für Rest.'},
+  {icon:'🏪',term:'Differenzbesteuerung',sub:'§ 25a UStG',answer:'Wiederverkäufer von Gebrauchtwaren: USt nur auf <b>Handelsspanne</b>.<br>Voraussetzung: Vorerwerb ohne VSt (Privatperson etc.).',merkhilfe:'Gebrauchtwaren-Händler: § 25a → USt nur auf Marge.'},
+  {icon:'🏢',term:'Geschäftsveräußerung im Ganzen',sub:'§ 1 Abs. 1a UStG',answer:'Unternehmensübertragung im Ganzen an Unternehmer der fortführt → <b>nicht steuerbar</b>.',merkhilfe:'GiG = nicht steuerbar. Fortführung nötig.'},
+  {icon:'🏷️',term:'Kleinunternehmer',sub:'§ 19 UStG',answer:'Grenzen ab 2025: Vorjahr ≤25.000 €, laufendes Jahr ≤100.000 €.<br>Keine USt-Ausweis erlaubt. Kein VSt-Abzug.<br>USt-Ausweis trotzdem → § 14c UStG (Schuldnerschaft)!',merkhilfe:'Kleinunternehmer: kein USt-Ausweis, kein VSt-Abzug.'},
+];
+
