@@ -2576,7 +2576,7 @@ function renderPara1Block(){
       </div>`;
     }).join('');
 
-    return `<div>
+    return `<div id="para1-block">
       <div style="background:rgba(255,255,255,.05);border-radius:14px;padding:14px;margin-bottom:12px;text-align:center">
         <div style="font-size:28px;margin-bottom:6px">${correct===total?'🏆':correct>=total/2?'👍':'📖'}</div>
         <div style="font-size:18px;font-weight:900;color:${scoreColor};font-family:'Space Mono',monospace;margin-bottom:3px">${correct} / ${total} richtig</div>
@@ -2621,7 +2621,7 @@ function renderPara1Block(){
     </div>`;
   }).join('');
 
-  return `<div>
+  return `<div id="para1-block">
     <div style="background:linear-gradient(135deg,#0a1a3a,#1a3a8f);border-radius:16px;padding:14px 16px 12px;margin-bottom:12px">
       <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px">Schritt 1 · § 1 EStG</div>
       <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:3px">Wer muss Steuern zahlen?</div>
@@ -9389,7 +9389,13 @@ const STEUER_TOUR_STEPS = [
         <div style="background:linear-gradient(135deg,#060f22,#1a0a60);border-radius:16px;padding:16px;margin-bottom:12px">
           <div style="font-size:9px;font-family:'Space Mono',monospace;color:#ff8c42;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px">🎯 Schritt 1 – Deine Schätzung</div>
           <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:4px">Welcher Steuersatz gilt?</div>
-          <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700">Tippe bei jeder Situation auf 0%, 7% oder 19%</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:10px">Tippe bei jeder Situation auf den passenden Satz</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <div style="display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.07);border-radius:8px;padding:5px 10px;font-size:10px;font-weight:800;color:rgba(255,255,255,.7)"><span style="color:var(--cyan);font-family:'Space Mono',monospace;font-weight:900">0 %</span> steuerfrei</div>
+            <div style="display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.07);border-radius:8px;padding:5px 10px;font-size:10px;font-weight:800;color:rgba(255,255,255,.7)"><span style="color:#00c97b;font-family:'Space Mono',monospace;font-weight:900">7 %</span> ermäßigt (Lebensmittel, ÖPNV…)</div>
+            <div style="display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.07);border-radius:8px;padding:5px 10px;font-size:10px;font-weight:800;color:rgba(255,255,255,.7)"><span style="color:#ffd94a;font-family:'Space Mono',monospace;font-weight:900">19 %</span> Regelsteuersatz</div>
+            <div style="display:flex;align-items:center;gap:5px;background:rgba(255,140,66,.15);border:1px solid rgba(255,140,66,.3);border-radius:8px;padding:5px 10px;font-size:10px;font-weight:800;color:rgba(255,255,255,.85)"><span style="font-size:13px">🔥</span> Komplex – mehrere Steuern überlagert (z.B. Energiesteuer + USt)</div>
+          </div>
         </div>
         <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
           ${SZENEN.map((s,i)=>{
@@ -9704,6 +9710,25 @@ const STEUER_TOUR_STEPS = [
       </div>
 
       <div style="font-size:10px;font-weight:900;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">🎯 Zuordnen – welcher Beruf gehört zu welcher Einkunftsart?</div>
+
+      <!-- Legende: Gewinneinkünfte vs. Überschusseinkünfte -->
+      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:12px;margin-bottom:12px">
+        <div style="font-size:9px;font-weight:900;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px">📌 Merkhilfe: 2 Gruppen</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+          <div style="background:rgba(0,194,224,.07);border:1px solid rgba(0,194,224,.2);border-radius:10px;padding:9px">
+            <div style="font-size:10px;font-weight:900;color:var(--cyan);margin-bottom:4px">Gewinneinkünfte</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.55">§§ 13 · 15 · 18 EStG<br>Gewinn = Einnahmen – Ausgaben (Betriebsvermögensvergleich oder EÜR)</div>
+          </div>
+          <div style="background:rgba(255,217,74,.07);border:1px solid rgba(255,217,74,.2);border-radius:10px;padding:9px">
+            <div style="font-size:10px;font-weight:900;color:#ffd94a;margin-bottom:4px">Überschusseinkünfte</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.55">§§ 19 · 20 · 21 · 22 EStG<br>Überschuss = Einnahmen – Werbungskosten (kein Betriebsvermögen)</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:5px">
+          ${EINK.map(e=>`<div style="display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.06);border-left:3px solid ${e.farbe};border-radius:0 7px 7px 0;padding:4px 9px;font-size:10px;font-weight:800"><span style="font-size:13px">${e.icon}</span><span style="color:${e.farbe};font-family:'Space Mono',monospace">${e.para}</span><span style="color:rgba(255,255,255,.55)">${e.name}</span></div>`).join('')}
+        </div>
+      </div>
+
       <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px">
         ${this._shuffled.map(b=>{
           const done=answers[b.id]!==undefined; const ok=done&&answers[b.id]===b.correct; const sel=selBeruf===b.id;
@@ -11571,6 +11596,7 @@ function renderBilanzDrag(a, tabs){
   <!-- Chips -->
   <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px">
     ${opts.map(opt=>`<div
+      data-val="${opt.replace(/"/g,'&quot;')}"
       draggable="true"
       ondragstart="buchDS(event,'${opt.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}')"
       onclick="buchChipClick('${opt.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}')"
@@ -11637,7 +11663,9 @@ function buchCheck(){
 
 // Touch support
 function buchTS(e, el){
-  _bdTouchEl = el; _bdDragVal = el.textContent.trim();
+  _bdTouchEl = el;
+  // Prefer data-val attribute (set below); fall back to textContent
+  _bdDragVal = el.dataset.val || el.textContent.trim();
   e.preventDefault();
 }
 function buchTM(e){
