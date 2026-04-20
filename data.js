@@ -4936,7 +4936,7 @@ function renderAoBasics(a) {
   else if (aoIntroStep === 2) renderAoIntro2(a);
   else if (aoIntroStep === 3) renderAoIntro3(a);
   else if (aoIntroStep === 4) renderAoIntro4(a);
-  else renderBasicsModule(a, 'ao');
+  else _renderBasicsModule(a, 'ao_basics');
 }
 function aoNext(s){ aoIntroStep=s; render(); }
 
@@ -5569,7 +5569,7 @@ function _basicsRenderCase(a) {
         <div style="font-size:22px;font-weight:900;color:#fff;margin-bottom:8px">Lernmodul abgeschlossen!</div>
         <div style="font-size:13px;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:24px;line-height:1.6">Du hast alle ${cases.length} Sachverhalte bearbeitet.</div>
         <button onclick="_basicsCase=0;_basicsAnswered=false;_basicsRenderCase(document.getElementById('ga'))" style="width:100%;padding:13px;border-radius:13px;border:1.5px solid rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.5);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer;margin-bottom:8px">↺ Nochmal durchgehen</button>
-        <button onclick="sw('ao')" style="width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:var(--navy);font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">→ Zum Quiz wechseln</button>
+        <button onclick="sw('${_basicsMode.replace('_basics','')}')" style="width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:var(--navy);font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">→ Zum Quiz wechseln</button>
       </div>`;
     return;
   }
@@ -5857,7 +5857,7 @@ function renderEstBasics(a) {
   else if (estIntroStep === 1) renderEstIntro1(a);
   else if (estIntroStep === 2) renderEstIntro2(a);
   else if (estIntroStep === 3) renderEstIntro3(a);
-  else renderBasicsModule(a, 'est');
+  else _renderBasicsModule(a, 'est_basics');
 }
 function estNext(s){ estIntroStep=s; render(); }
 
@@ -6048,7 +6048,7 @@ function renderRechtBasics(a) {
   else if (rechtIntroStep === 1) renderRechtIntro1(a);
   else if (rechtIntroStep === 2) renderRechtIntro2(a);
   else if (rechtIntroStep === 3) renderRechtIntro3(a);
-  else renderBasicsModule(a, 'recht');
+  else _renderBasicsModule(a, 'recht_basics');
 }
 function rechtNext(s){ rechtIntroStep=s; render(); }
 
@@ -6187,7 +6187,7 @@ function renderBilanzBasics(a) {
   else if (bilanzIntroStep === 1) renderBilanzIntro1(a);
   else if (bilanzIntroStep === 2) renderBilanzIntro2(a);
   else if (bilanzIntroStep === 3) renderBilanzIntro3(a);
-  else renderBasicsModule(a, 'bilanz');
+  else _renderBasicsModule(a, 'bilanz_basics');
 }
 function bilanzNext(s){ bilanzIntroStep=s; render(); }
 
@@ -6324,7 +6324,7 @@ function renderUstBasics(a) {
   else if (ustIntroStep === 1) renderUstIntro1(a);
   else if (ustIntroStep === 2) renderUstIntro2(a);
   else if (ustIntroStep === 3) renderUstIntro3(a);
-  else renderBasicsModule(a, 'ust');
+  else _renderBasicsModule(a, 'ust_basics');
 }
 function ustNext(s){ ustIntroStep=s; render(); }
 
@@ -9174,11 +9174,13 @@ const MERKSATZ_DATA = [
 const STEUER_TOUR_KEY = 'steuerTourDone_v2';
 let tourStep = 0;
 let tourAnswers = {};
+let _tourLastFullStep = -1; // tracks last step that got a full chrome render
 
 function startSteuerTour(){
   tourStep = 0;
   tourAnswers = {};
   tourActive = true;
+  _tourLastFullStep = -1;
   const a = document.getElementById('ga');
   if(a){
     a.classList.add('basics-dark-mode');
@@ -9190,6 +9192,18 @@ function startSteuerTour(){
 function renderTourStep(a){
   const step = STEUER_TOUR_STEPS[tourStep];
   if(!step){ tourDone(a); return; }
+
+  // ── Fast path: same step (answer interaction) → only swap content, no flash ──
+  if(_tourLastFullStep === tourStep){
+    const contentEl = document.getElementById('tour-step-content');
+    if(contentEl){
+      contentEl.innerHTML = step.render();
+      return;
+    }
+  }
+
+  // ── Full render: new step ──────────────────────────────────────────────────
+  _tourLastFullStep = tourStep;
 
   const total = STEUER_TOUR_STEPS.length;
   const prog  = Math.round((tourStep / total) * 100);
@@ -9234,13 +9248,16 @@ function renderTourStep(a){
     <div style="display:flex;align-items:flex-start;gap:0;margin-bottom:18px;padding:10px 6px;background:rgba(255,255,255,.04);border-radius:14px;justify-content:space-between">
       ${chapDots}
     </div>
-    <!-- Kapitel-Label -->
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;background:${chap.col}22;border-radius:10px;padding:7px 12px;border-left:3px solid ${chap.col}">
-      <span style="font-size:14px">${chap.icon}</span>
-      <span style="font-size:10px;font-weight:900;color:${chap.col};text-transform:uppercase;letter-spacing:1px;font-family:'Space Mono',monospace">${chap.label}</span>
+    <!-- Kapitel-Label + globaler Skip-Button -->
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+      <div style="flex:1;display:flex;align-items:center;gap:8px;background:${chap.col}22;border-radius:10px;padding:7px 12px;border-left:3px solid ${chap.col}">
+        <span style="font-size:14px">${chap.icon}</span>
+        <span style="font-size:10px;font-weight:900;color:${chap.col};text-transform:uppercase;letter-spacing:1px;font-family:'Space Mono',monospace">${chap.label}</span>
+      </div>
+      <button onclick="tourNext()" style="flex-shrink:0;padding:7px 13px;border-radius:9px;border:1.5px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:rgba(255,255,255,.5);font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer;white-space:nowrap">Überspringen →</button>
     </div>
-    <!-- Step Content -->
-    ${step.render()}
+    <!-- Step Content (only this div is replaced on answer interactions) -->
+    <div id="tour-step-content">${step.render()}</div>
   </div>`;
 
   // Add fade-in keyframe if not present
@@ -9255,6 +9272,7 @@ function renderTourStep(a){
 
 function tourNext(){
   tourStep++;
+  _tourLastFullStep = -1;
   const a = document.getElementById('ga');
   if(a){ renderTourStep(a); a.scrollIntoView({behavior:'smooth', block:'start'}); }
 }
@@ -9357,9 +9375,6 @@ const STEUER_TOUR_STEPS = [
       if(phase===0){
         // Show scenes, no tax info yet
         return `
-        <div style="display:flex;justify-content:flex-end;margin-bottom:10px">
-          <button onclick="tourNext()" style="padding:7px 14px;border-radius:100px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:rgba(255,255,255,.45);font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer">Schritt überspringen →</button>
-        </div>
         <div style="background:linear-gradient(135deg,#060f22,#1a0a60);border-radius:16px;padding:16px;margin-bottom:12px">
           <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px">🗓️ Schritt 1 – Ein normaler Montag</div>
           <div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:4px">Wo stecken Steuern drin?</div>
@@ -9600,9 +9615,6 @@ const STEUER_TOUR_STEPS = [
       const allDone = Object.keys(answers).length >= CASES.length;
 
       return `
-        <div style="display:flex;justify-content:flex-end;margin-bottom:10px">
-          <button onclick="tourNext()" style="padding:7px 14px;border-radius:100px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:rgba(255,255,255,.45);font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer">Überspringen →</button>
-        </div>
         <div style="background:linear-gradient(135deg,#0a1a3a,#1a3a8f);border-radius:16px;padding:14px 16px;margin-bottom:14px">
           <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">👤 Wer ist steuerpflichtig?</div>
           <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:4px">Steuerpflichtig ≠ Steuern zahlen</div>
@@ -9802,9 +9814,6 @@ const STEUER_TOUR_STEPS = [
       const score = CASES.filter((_,i)=>answers[i]===CASES[i].answer).length;
 
       return `
-        <div style="display:flex;justify-content:flex-end;margin-bottom:10px">
-          <button onclick="tourNext()" style="padding:7px 14px;border-radius:100px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:rgba(255,255,255,.45);font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer">Schritt überspringen →</button>
-        </div>
         
       <div style="background:linear-gradient(135deg,#0a1a3a,#3d0a6b);border-radius:16px;padding:14px 16px 12px;margin-bottom:12px">
         <div style="font-size:9px;font-family:'Space Mono',monospace;color:#c8a0ff;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px">💸 Schritt 5 – Steuer-Realcheck</div>
@@ -9874,9 +9883,6 @@ const STEUER_TOUR_STEPS = [
       const scoreCorrect = BERUFE.filter(b=>answers[b.id]===b.exists).length;
 
       return `
-        <div style="display:flex;justify-content:flex-end;margin-bottom:10px">
-          <button onclick="tourNext()" style="padding:7px 14px;border-radius:100px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:rgba(255,255,255,.45);font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer">Schritt überspringen →</button>
-        </div>
         
       <div style="background:linear-gradient(135deg,#060f22,#0a2a60);border-radius:16px;padding:14px 16px 12px;margin-bottom:12px">
         <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px">🏛️ Schritt 6 – Finanzamt-Berufe</div>
