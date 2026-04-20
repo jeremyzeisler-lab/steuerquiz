@@ -889,13 +889,7 @@ const D_FC_GESELLSCHAFT = [
   {icon:'💰',term:'Steuerbelastungsvergleich GmbH vs. Einzelunternehmer',sub:'Gesamtbelastung',answer:'<b>GmbH (Thesaurierung):</b> KSt 15 % + GewSt ~14–17 % ≈ 29–32 % Gesamtbelastung<br><b>GmbH (Ausschüttung):</b> + KapESt 25 % → Gesamtbelastung ca. 48–50 %<br><b>Einzelunternehmer:</b> ESt 0–45 % + GewSt (abzüglich § 35 EStG-Anrechnung) ≈ individuell',merkhilfe:'GmbH ist bei Thesaurierung (Einbehalten) attraktiv: ~30%. Erst bei Ausschüttung kommt die zweite Stufe. Einzelunternehmer zahlen alles sofort. Faustregel: Ab ca. 60.000 € Gewinn lohnt sich die Überlegung einer GmbH – aber immer mit Steuerberater!'},
 ];
 
-function getFcData(m){
-  if(m==='ao') return D_FC_AO;
-  if(m==='recht') return D_FC_RECHT;
-  if(m==='gewst') return D_FC_GEWST;
-  if(m==='gesellschaft') return D_FC_GESELLSCHAFT;
-  return D_FC_EST;
-}
+
 const FACTS = [
   {icon:'🏺',title:'Über 40 Steuerarten in Deutschland',preview:'Deutschland hat... wie viele Steuern eigentlich?',detail:'Deutschland erhebt über 40 verschiedene Steuerarten – von der Einkommensteuer über die Kaffeesteuer, Biersteuer und Schaumweinsteuer bis zur Hundesteuer. Im Vergleich: Ein durchschnittlicher OECD-Staat hat etwa 10–15 Steuerarten.'},
   {icon:'🍾',title:'Die Sektsteuer finanzierte die Marine (1902)',preview:'Ein Sekt für den Kaiser und seine Flotte...',detail:'Die Schaumweinsteuer (Sektsteuer) wurde 1902 von Kaiser Wilhelm II. eingeführt, um die Kaiserliche Marine zu finanzieren. Obwohl die Marine längst Geschichte ist, gibt es die Sektsteuer bis heute – 136 € pro 100 Liter!'},
@@ -6628,8 +6622,10 @@ function renderBilanz(a){
   const tabs=`<div style="display:flex;gap:6px;margin-bottom:12px">
     <button onclick="swBilanz('zu')" style="flex:1;padding:9px;border-radius:10px;border:2px solid ${bilanzSub==='zu'?'#1a3a8f':'#dde5f5'};background:${bilanzSub==='zu'?'#1a3a8f':'#f0f4ff'};color:${bilanzSub==='zu'?'#fff':'#555'};font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer;transition:all .15s">📂 Zuordnung AV/UV</button>
     <button onclick="swBilanz('buch')" style="flex:1;padding:9px;border-radius:10px;border:2px solid ${bilanzSub==='buch'?'#1a3a8f':'#dde5f5'};background:${bilanzSub==='buch'?'#1a3a8f':'#f0f4ff'};color:${bilanzSub==='buch'?'#fff':'#555'};font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer;transition:all .15s">📒 Buchungssätze</button>
+    <button onclick="swBilanz('drag')" style="flex:1;padding:9px;border-radius:10px;border:2px solid ${bilanzSub==='drag'?'#1a3a8f':'#dde5f5'};background:${bilanzSub==='drag'?'#1a3a8f':'#f0f4ff'};color:${bilanzSub==='drag'?'#fff':'#555'};font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer">🎯 Drag & Drop</button>
   </div>`;
   if(bilanzSub==='zu') renderBilanzZu(a, tabs);
+  else if(bilanzSub==='drag') renderBilanzDrag(a, tabs);
   else renderBilanzBuch(a, tabs);
 }
 
@@ -6698,7 +6694,7 @@ function renderFlashcard(a){
     return;
   }
   const card=fcData[fcIdx]; const total=fcData.length;
-  const modeTabsHtml=['ao','recht','est','gewst','gesellschaft'].map(m=>`<button onclick="fcSwitchMode('${m}')" style="flex:1;padding:7px;border-radius:9px;border:2px solid ${fcMode===m?'var(--cyan)':'rgba(255,255,255,.15)'};background:${fcMode===m?'rgba(0,194,224,.12)':'rgba(255,255,255,.05)'};color:${fcMode===m?'#fff':'rgba(255,255,255,.5)'};font-family:'Nunito',sans-serif;font-weight:800;font-size:10px;cursor:pointer">${m==='ao'?'⚖️ AO':m==='recht'?'🏛️ Recht':m==='gewst'?'🏭 GewSt':m==='gesellschaft'?'🏢 Gesellschaft':'💼 ESt'}</button>`).join('');
+  const modeTabsHtml=[{id:'est',l:'ESt'},{id:'ust',l:'USt'},{id:'ao',l:'AO'},{id:'gewst',l:'GewSt'},{id:'kst',l:'KSt'},{id:'bilanz',l:'Bilanz'},{id:'recht',l:'Recht'},{id:'gesellschaft',l:'GmbH/KSt'}].map(({id:m,l})=>`<button onclick="fcSwitchMode('${m}')" style="flex:1;padding:7px;border-radius:9px;border:2px solid ${fcMode===m?'var(--cyan)':'rgba(255,255,255,.15)'};background:${fcMode===m?'rgba(0,194,224,.12)':'rgba(255,255,255,.05)'};color:${fcMode===m?'#fff':'rgba(255,255,255,.5)'};font-family:'Nunito',sans-serif;font-weight:800;font-size:10px;cursor:pointer">${m==='ao'?'⚖️ AO':m==='recht'?'🏛️ Recht':m==='gewst'?'🏭 GewSt':m==='gesellschaft'?'🏢 Gesellschaft':'💼 ESt'}</button>`).join('');
   a.innerHTML=`<div style="display:flex;gap:5px;margin-bottom:12px">${modeTabsHtml}</div>
     <div style="font-size:10px;font-family:'Space Mono',monospace;color:#aaa;margin-bottom:10px;display:flex;justify-content:space-between"><span>Karte ${fcIdx+1} / ${total}</span><span class="u-green">${fcKnown.length} ✓ gewusst</span></div>
     <div class="fc-card ${fcFlipped?'fc-card-back':'fc-card-front'}" onclick="fcFlip()" id="fc-card">
@@ -9458,16 +9454,16 @@ const STEUER_TOUR_STEPS = [
 
   // ── SCHRITT 2: Steueraufkommen selbst ordnen ─────────────────────
   {
-    id:'aufkommen',
+    id:'ener',
     render(){
       const ITEMS = [
-        {id:'ust', label:'Umsatzsteuer',   icon:'🛒', mrd:302.1, farbe:'#ff8c42', info:'§ 1 UStG – jeder Kauf'},
-        {id:'lst', label:'Lohnsteuer',     icon:'💼', mrd:248.9, farbe:'#5b8dee', info:'§§ 38 ff. EStG – direkt vom Gehalt'},
-        {id:'est', label:'Einkommensteuer',icon:'👤', mrd:73.0,  farbe:'#7b5ea7', info:'§ 32a EStG – Selbständige'},
-        {id:'gst', label:'Gewerbesteuer',  icon:'🏭', mrd:73.8,  farbe:'#005c36', info:'§ 7 GewStG – Gemeinden'},
-        {id:'kst', label:'Körperschaftst.',icon:'🏢', mrd:46.2,  farbe:'#8a4000', info:'§ 23 KStG – GmbH/AG'},
-        {id:'ener',label:'Energiesteuer',  icon:'⛽', mrd:37.2,  farbe:'#5c1a8f', info:'§ 1 EnergieStG'},
-        {id:'kfz', label:'Kfz-Steuer',     icon:'🚗', mrd:9.4,   farbe:'#3a5000', info:'§ 1 KraftStG'},
+        {id:'ust', label:'Umsatzsteuer',   icon:'🛒', mrd:302.1, farbe:'#ff8c42', info:'§ 1 UStG · auf jeden Kauf'},
+        {id:'lst', label:'Lohnsteuer',     icon:'💼', mrd:248.9, farbe:'#5b8dee', info:'§§ 38 ff. EStG · direkt vom Gehalt'},
+        {id:'est', label:'Einkommensteuer',icon:'👤', mrd:73.0,  farbe:'#7b5ea7', info:'§ 32a EStG · Selbständige & Veranlagung'},
+        {id:'gst', label:'Gewerbesteuer',  icon:'🏭', mrd:73.8,  farbe:'#005c36', info:'§ 7 GewStG · an Gemeinden'},
+        {id:'kst', label:'Körperschaftst.',icon:'🏢', mrd:46.2,  farbe:'#8a4000', info:'§ 23 KStG · GmbH/AG 15 %'},
+        {id:'ener',label:'Energiesteuer',  icon:'⛽', mrd:37.2,  farbe:'#5c1a8f', info:'§§ 1 ff. EnergieStG · Kraftstoffe & Gas'},
+        {id:'kfz', label:'Kfz-Steuer',     icon:'🚗', mrd:9.4,   farbe:'#3a5000', info:'§ 1 KraftStG · je nach Hubraum & CO₂'},
       ];
       const sorted = this._sorted || [];
       const done = sorted.length >= 3;
@@ -9482,33 +9478,57 @@ const STEUER_TOUR_STEPS = [
           if(!s.includes('${it.id}') && s.length<3){s.push('${it.id}');}
           else if(s.includes('${it.id}')){STEUER_TOUR_STEPS[tourStep]._sorted=s.filter(x=>x!=='${it.id}');}
           renderTourStep(document.getElementById('ga'))
-        " style="padding:9px 10px;border-radius:10px;border:2px solid ${rank?'var(--cyan)':'rgba(255,255,255,.15)'};background:${rank?'rgba(0,194,224,.12)':'rgba(255,255,255,.05)'};color:${rank?'var(--cyan)':'rgba(255,255,255,.7)'};font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer;display:flex;align-items:center;gap:7px">
-          ${rank?`<span style="background:var(--cyan);color:#0d1b3e;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;flex-shrink:0">${rank}</span>`:`<span style="width:18px;height:18px;flex-shrink:0"></span>`}
-          <span style="font-size:15px">${it.icon}</span>${it.label}
+        " style="padding:10px 12px;border-radius:12px;border:2px solid ${rank?'var(--cyan)':'rgba(255,255,255,.18)'};background:${rank?'rgba(0,194,224,.14)':'rgba(255,255,255,.06)'};color:${rank?'var(--cyan)':'rgba(255,255,255,.8)'};font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:8px">
+          ${rank?`<span style="background:var(--cyan);color:#0d1b3e;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0">${rank}</span>`:`<span style="width:20px;height:20px;flex-shrink:0"></span>`}
+          <span style="font-size:16px">${it.icon}</span><span>${it.label}</span>
         </button>`;
       }).join('');
+
+      const enerInfoHtml = done ? `
+        <div style="margin-top:14px;background:rgba(92,26,143,.2);border:1.5px solid rgba(92,26,143,.5);border-radius:14px;padding:14px">
+          <div style="font-size:11px;font-weight:900;color:#c8a0ff;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">⛽ Was ist die Energiesteuer?</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.85);font-weight:700;line-height:1.7">
+            Die Energiesteuer (früher: <b>Mineralölsteuer</b>) ist eine <b>Verbrauchsteuer</b> auf Kraftstoffe und Energieerzeugnisse nach dem <b>Energiesteuergesetz (EnergieStG 2006)</b> – umgesetzt aus EU-Richtlinie 2003/96/EG.<br><br>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px">
+              <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:9px;font-size:11px;font-weight:700"><b>🚗 Benzin</b><br><span style="color:rgba(255,255,255,.6)">65,45 €/100 L (§ 2 Abs. 1 Nr. 1 EnergieStG)</span></div>
+              <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:9px;font-size:11px;font-weight:700"><b>🚛 Diesel</b><br><span style="color:rgba(255,255,255,.6)">47,04 €/100 L (§ 2 Abs. 1 Nr. 4 EnergieStG)</span></div>
+              <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:9px;font-size:11px;font-weight:700"><b>🔥 Erdgas</b><br><span style="color:rgba(255,255,255,.6)">§§ 49 ff. EnergieStG</span></div>
+              <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:9px;font-size:11px;font-weight:700"><b>🪨 Kohle</b><br><span style="color:rgba(255,255,255,.6)">§§ 31 ff. EnergieStG</span></div>
+            </div>
+            <b>Wer erhebt sie?</b> Der <b>Zoll</b> (Bundeszollverwaltung, §§ 1 ff. EnergieStG). Einnahmen fließen vollständig an den <b>Bund</b> (Art. 106 Abs. 1 Nr. 2 GG).<br><br>
+            <div style="background:rgba(255,215,0,.1);border-radius:8px;padding:9px;border-left:3px solid #ffd94a;font-size:11px;font-weight:700">
+              💡 <b>Doppelbesteuerung beim Tanken:</b><br>Kraftstoffpreis enthält Energiesteuer. Auf diesen Gesamtpreis wird dann nochmals 19 % Umsatzsteuer erhoben → Steuer auf die Steuer!
+            </div>
+          </div>
+        </div>` : '';
 
       const revealHtml = done ? `
         <div style="margin-top:14px;border-top:1px solid rgba(255,255,255,.1);padding-top:12px">
           <div style="font-size:11px;font-weight:900;color:#ffd94a;margin-bottom:10px">🏆 Die richtige Reihenfolge – alle 7:</div>
           ${CORRECT.map((it,i)=>{
             const ur=sorted.indexOf(it.id)+1; const ok=ur===i+1&&i<3;
-            return `<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:${ok?'rgba(0,201,123,.1)':'rgba(255,255,255,.04)'};border-radius:10px;margin-bottom:5px">
-              <div style="font-size:13px;font-weight:900;color:${ok?'#00c97b':'rgba(255,255,255,.4)'};font-family:'Space Mono',monospace;min-width:22px">#${i+1}</div>
-              <span style="font-size:18px">${it.icon}</span>
-              <div style="flex:1"><div style="font-size:12px;font-weight:900;color:#fff">${it.label}</div><div style="font-size:10px;color:rgba(255,255,255,.4);font-weight:700">${it.info}</div></div>
+            return `<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:${ok?'rgba(0,201,123,.1)':'rgba(255,255,255,.04)'};border-radius:10px;margin-bottom:5px">
+              <div style="font-size:14px;font-weight:900;color:${ok?'#00c97b':'rgba(255,255,255,.35)'};font-family:'Space Mono',monospace;min-width:24px">#${i+1}</div>
+              <span style="font-size:20px">${it.icon}</span>
+              <div style="flex:1">
+                <div style="font-size:13px;font-weight:900;color:#fff">${it.label}</div>
+                <div style="font-size:10px;color:rgba(255,255,255,.45);font-weight:700">${it.info}</div>
+              </div>
               <div style="font-size:12px;font-weight:900;color:${it.farbe};font-family:'Space Mono',monospace">${it.mrd} Mrd.</div>
-              ${ok?'<span style="font-size:14px">✅</span>':''}
+              ${ok?'<span style="font-size:16px">✅</span>':''}
             </div>`;
           }).join('')}
-          <div style="margin-top:10px;padding:10px 12px;background:rgba(255,255,255,.04);border-radius:10px;font-size:10px;color:rgba(255,255,255,.4);font-weight:700;line-height:1.65">Gesamt: 947 Mrd. € (2024). USt + Lohnsteuer = über 58 % aller Einnahmen.</div>
+          <div style="margin-top:10px;padding:10px 12px;background:rgba(255,255,255,.04);border-radius:10px;font-size:11px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.65">
+            Gesamt: <b style="color:#fff">947 Mrd. €</b> (2024, Statistisches Bundesamt). USt + Lohnsteuer = über 58 % aller Steuereinnahmen.
+          </div>
+          ${enerInfoHtml}
           <button onclick="tourNext()" style="width:100%;margin-top:12px;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,#1a3a8f,#3d0a6b);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Weiter: Wer zahlt Steuern? →</button>
-        </div>` : `<div style="text-align:center;font-size:11px;color:rgba(255,255,255,.35);font-family:'Space Mono',monospace;font-weight:700;margin-top:10px">${sorted.length} / 3 – tippe die Top-3</div>`;
+        </div>` : `<div style="text-align:center;font-size:12px;color:rgba(255,255,255,.4);font-family:'Space Mono',monospace;font-weight:700;margin-top:10px">${sorted.length} / 3 gewählt – tippe die Top-3</div>`;
 
       return `<div style="background:linear-gradient(135deg,rgba(0,60,30,.6),rgba(0,100,50,.3));border-radius:16px;padding:16px;margin-bottom:14px">
         <div style="font-size:9px;font-family:'Space Mono',monospace;color:#00c97b;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">💰 Schritt 2</div>
         <div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:6px">Was bringt dem Staat am meisten?</div>
-        <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:14px">Deutschland: <b style="color:#00c97b">947 Mrd. €</b>/Jahr. Welche 3 Steuerarten bringen am meisten? Tippe in der richtigen Reihenfolge.</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.55);font-weight:700;margin-bottom:14px">Deutschland: <b style="color:#00c97b">947 Mrd. €</b>/Jahr. Welche 3 Steuerarten bringen am meisten? In der richtigen Reihenfolge tippen.</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">${optHtml}</div>
         ${revealHtml}
       </div>`;
@@ -9520,57 +9540,94 @@ const STEUER_TOUR_STEPS = [
     id:'steuerpflicht',
     render(){
       const CASES = [
-        {avatar:'👶',name:'Mia, 8 Monate',desc:'Wohnt mit Eltern in München. Kein Einkommen.',q:'Einkommensteuerpflichtig nach § 1 EStG?',answer:'ja',
-         richtig:'✅ Ja! § 1 Abs. 1 EStG gilt für alle <b>natürlichen Personen</b> mit Wohnsitz (§ 8 AO) oder gewöhnlichem Aufenthalt (§ 9 AO) in Deutschland – unabhängig von Alter. Mia zahlt <b>keine</b> Steuer (kein Einkommen, Grundfreibetrag 12.336 €), ist aber steuerpflichtig.',
-         falsch:'Falsch: § 1 Abs. 1 EStG gilt für alle natürlichen Personen mit Wohnsitz in DE – auch Babys. <b>Steuerpflichtig ≠ Steuer zahlen!</b>'},
-        {avatar:'🧑‍🎓',name:'Tim, 17',desc:'Schüler, Nachhilfe: 3.000 €/Jahr.',q:'Muss Tim eine Einkommensteuererklärung abgeben?',answer:'nein',
-         richtig:'✅ Nein. Tim ist zwar steuerpflichtig (Wohnsitz in DE, § 1 Abs. 1 EStG), aber 3.000 € &lt; Grundfreibetrag 12.336 € → keine Steuer, keine Pflicht. Er <b>kann</b> freiwillig abgeben (§ 169 AO, 4 Jahre rückwirkend).',
-         falsch:'Tim ist steuerpflichtig, aber 3.000 € &lt; Grundfreibetrag 12.336 € → keine Abgabepflicht. Steuerpflicht ≠ Steuer zahlen.'},
-        {avatar:'🏖️',name:'Sandra, 32',desc:'Lebt in Spanien. Vermietet Wohnung in Hamburg.',q:'Ist Sandra in Deutschland steuerpflichtig?',answer:'ja',
-         richtig:'✅ Ja – <b>beschränkte Steuerpflicht</b> (§ 1 Abs. 4 EStG)! Kein Wohnsitz in DE, aber inländische Einkünfte aus V+V (§ 49 Abs. 1 Nr. 6 EStG). Nur diese werden in DE besteuert – Quellenprinzip.',
-         falsch:'Doch! Beschränkte Steuerpflicht (§ 1 Abs. 4 EStG): inländische Einkünfte (§ 49) ohne Wohnsitz in DE → steuerpflichtig in DE.'},
-        {avatar:'🏢',name:'Müller GmbH',desc:'Sitz Frankfurt, 2 Mio. € Gewinn.',q:'Unterliegt die GmbH der Einkommensteuer?',answer:'nein',
-         richtig:'✅ Nein! EStG gilt <b>nur für natürliche Personen</b>. Die GmbH ist juristische Person → <b>Körperschaftsteuer 15 % (§ 23 KStG)</b> + Gewerbesteuer. Völlig anderes Steuergesetz!',
-         falsch:'Richtig! GmbH = juristische Person → kein EStG, sondern KStG. EStG gilt nur für natürliche Personen (Menschen).'},
+        {avatar:'👶',name:'Mia, 8 Monate',tag:'UNBESCHRÄNKT',tagCol:'#5b8dee',
+         desc:'Wohnt mit Eltern in München. Kein eigenes Einkommen.',
+         q:'Ist Mia einkommensteuerpflichtig (§ 1 Abs. 1 EStG)?',
+         answer:'ja',
+         richtig:`<div style="font-size:12px;font-weight:700;line-height:1.7">
+           ✅ <b>Ja</b> – § 1 Abs. 1 EStG gilt für <b>alle natürlichen Personen</b> mit Wohnsitz (§ 8 AO) oder gewöhnlichem Aufenthalt (§ 9 AO) in Deutschland – unabhängig vom Alter.<br><br>
+           Mia zahlt aber <b>keine Steuer</b> – ihr zvE wäre 0 €, weit unter dem Grundfreibetrag 12.336 € (2026).<br><br>
+           <div style="background:rgba(0,194,224,.12);border-radius:10px;padding:10px;border-left:3px solid var(--cyan);font-size:11px">
+             💡 <b>Kernunterschied:</b><br>
+             <b>Steuerpflichtig</b> = dem Gesetz unterworfen (schon ab Geburt)<br>
+             <b>Steuer zahlen</b> = erst wenn Einkommen über Grundfreibetrag
+           </div></div>`,
+         falsch:'Falsch: § 1 Abs. 1 EStG gilt für alle natürlichen Personen mit Wohnsitz in DE – auch Babys. Steuerpflichtig bedeutet nicht zwingend Steuern zahlen!'},
+        {avatar:'🧑‍🎓',name:'Tim, 17',tag:'UNBESCHRÄNKT',tagCol:'#5b8dee',
+         desc:'Schüler, jobbt in der Bäckerei: 4.800 €/Jahr.',
+         q:'Muss Tim Steuern zahlen oder eine ESt-Erklärung abgeben?',
+         answer:'nein',
+         richtig:`<div style="font-size:12px;font-weight:700;line-height:1.7">
+           ✅ <b>Nein</b> – 4.800 € liegt deutlich unter dem Grundfreibetrag 12.336 € (§ 32a Abs. 1 Nr. 1 EStG 2026).<br>
+           Keine Steuerpflicht zur Zahlung, keine Pflicht zur Erklärungsabgabe (§ 46 EStG).<br><br>
+           Tim <i>kann</i> aber freiwillig abgeben und bereits einbehaltene Lohnsteuer zurückfordern – rückwirkend bis zu 4 Jahre (§ 169 Abs. 2 AO).</div>`,
+         falsch:'Tim ist steuerpflichtig – aber 4.800 € < 12.336 € Grundfreibetrag → keine Steuer. Freiwillige Abgabe kann trotzdem sinnvoll sein (Erstattung)!'},
+        {avatar:'🏖️',name:'Sandra, 32',tag:'BESCHRÄNKT',tagCol:'#ff8c42',
+         desc:'Lebt in Barcelona. Vermietet Wohnung in Hamburg.',
+         q:'Ist Sandra in Deutschland steuerpflichtig?',
+         answer:'ja',
+         richtig:`<div style="font-size:12px;font-weight:700;line-height:1.7">
+           ✅ <b>Ja – beschränkte Steuerpflicht</b> nach § 1 Abs. 4 EStG!<br>
+           Kein Wohnsitz in Deutschland, aber <b>inländische Einkünfte</b> aus V+V (§ 49 Abs. 1 Nr. 6 EStG) → nur diese werden in Deutschland versteuert (<b>Quellenprinzip</b>).<br><br>
+           <div style="background:rgba(255,140,66,.1);border-radius:10px;padding:10px;border-left:3px solid #ff8c42;font-size:11px">
+             <b>Unbeschränkte Steuerpflicht</b> (§ 1 Abs. 1): Wohnsitz/Aufenthalt in DE → Welteinkommen<br>
+             <b>Beschränkte Steuerpflicht</b> (§ 1 Abs. 4): kein Wohnsitz → nur inländische Einkünfte (§ 49)
+           </div></div>`,
+         falsch:'Doch! Sandra hat inländische Einkünfte aus Vermietung in Hamburg → beschränkte Steuerpflicht § 1 Abs. 4 EStG. Quellenprinzip: Deutschland besteuert, was hier verdient wird.'},
+        {avatar:'🏢',name:'Müller GmbH',tag:'KSTG',tagCol:'#00c97b',
+         desc:'GmbH, Sitz Frankfurt, 2 Mio. € Jahresgewinn.',
+         q:'Zahlt die GmbH Einkommensteuer nach dem EStG?',
+         answer:'nein',
+         richtig:`<div style="font-size:12px;font-weight:700;line-height:1.7">
+           ✅ <b>Nein</b> – das EStG gilt <b>ausschließlich für natürliche Personen</b>.<br>
+           Die GmbH als juristische Person zahlt:<br>
+           • <b>Körperschaftsteuer 15 %</b> (§ 23 Abs. 1 KStG) + 5,5 % SolZ<br>
+           • <b>Gewerbesteuer</b> (§ 2 GewStG)<br><br>
+           <div style="background:rgba(0,201,123,.1);border-radius:10px;padding:10px;border-left:3px solid #00c97b;font-size:11px">
+             👤 <b>Mensch (natürl. Person)</b> → EStG (bis 45 %)<br>
+             🏢 <b>GmbH, AG (jurist. Person)</b> → KStG (15 %)<br>
+             Beide zusätzlich: Gewerbesteuer wenn gewerblich tätig
+           </div></div>`,
+         falsch:'Richtig! GmbH = juristische Person → KStG, nicht EStG. 15 % KSt + GewSt. EStG gilt nur für Menschen.'},
       ];
       const answers = tourAnswers['sp'] || {};
       const allDone = Object.keys(answers).length >= CASES.length;
 
       return `
         <div style="display:flex;justify-content:flex-end;margin-bottom:10px">
-          <button onclick="tourNext()" style="padding:7px 14px;border-radius:100px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:rgba(255,255,255,.45);font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer">Schritt überspringen →</button>
+          <button onclick="tourNext()" style="padding:7px 14px;border-radius:100px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:rgba(255,255,255,.45);font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer">Überspringen →</button>
         </div>
-        
-      <div style="background:linear-gradient(135deg,#0a1a3a,#1a3a8f);border-radius:16px;padding:14px 16px 12px;margin-bottom:12px">
-        <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px">⚖️ Schritt 3 – § 1 EStG</div>
-        <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:3px">Wer ist einkommensteuerpflichtig?</div>
-        <div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:700">Alle 4 einschätzen, dann kommt die Begründung</div>
-      </div>
-      ${CASES.map((pc,i)=>{
-        const given=answers[i]; const ok=given===pc.answer;
-        return `<div style="background:rgba(255,255,255,.05);border:1.5px solid ${given===undefined?'rgba(255,255,255,.1)':ok?'rgba(0,201,123,.4)':'rgba(255,77,109,.35)'};border-radius:14px;padding:13px;margin-bottom:8px">
-          <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:8px">
-            <div style="font-size:26px;flex-shrink:0">${pc.avatar}</div>
-            <div style="flex:1"><div style="font-size:12px;font-weight:900;color:#fff;margin-bottom:2px">${pc.name}</div><div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:700">${pc.desc}</div></div>
-            ${given!==undefined?`<div style="font-size:18px">${ok?'✅':'❌'}</div>`:''}
-          </div>
-          <div style="font-size:12px;font-weight:800;color:rgba(255,255,255,.8);margin-bottom:8px">${pc.q}</div>
-          ${given===undefined
-            ?`<div style="display:flex;gap:8px">
-                <button onclick="if(!tourAnswers.sp)tourAnswers.sp={};tourAnswers.sp[${i}]='ja';renderTourStep(document.getElementById('ga'))" style="flex:1;padding:10px;border-radius:10px;border:2px solid rgba(0,194,224,.3);background:rgba(0,194,224,.08);color:var(--cyan);font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Ja</button>
-                <button onclick="if(!tourAnswers.sp)tourAnswers.sp={};tourAnswers.sp[${i}]='nein';renderTourStep(document.getElementById('ga'))" style="flex:1;padding:10px;border-radius:10px;border:2px solid rgba(255,77,109,.3);background:rgba(255,77,109,.08);color:#ff4d6d;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">Nein</button>
-              </div>`
-            :`<div style="font-size:11px;color:rgba(255,255,255,.7);font-weight:700;line-height:1.65;background:${ok?'rgba(0,201,123,.08)':'rgba(255,77,109,.06)'};border:1px solid ${ok?'rgba(0,201,123,.25)':'rgba(255,77,109,.2)'};border-radius:10px;padding:10px">${ok?pc.richtig:pc.falsch}</div>`}
-        </div>`;
-      }).join('')}
-      ${allDone?`
-      <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px;margin-bottom:12px;font-size:11px;color:rgba(255,255,255,.6);font-weight:700;line-height:1.75">
-        <b style="color:var(--cyan)">Unbeschränkt (§ 1 Abs. 1):</b> Wohnsitz/Aufenthalt in DE → Welteinkommen<br>
-        <b style="color:#ff8c42">Beschränkt (§ 1 Abs. 4):</b> Inländische Einkünfte (§ 49) ohne DE-Wohnsitz<br>
-        <b style="color:rgba(255,255,255,.4)">Nur natürliche Personen – GmbH/AG zahlen Körperschaftsteuer (KStG)</b>
-      </div>
-      <button onclick="tourNext()" style="width:100%;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,#3d0a6b,#7b5ea7);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Weiter: Die 7 Einkunftsarten →</button>`
-      :`<div style="text-align:center;padding:10px;font-size:11px;color:rgba(255,255,255,.35);font-family:'Space Mono',monospace;font-weight:700">${Object.keys(answers).length} / ${CASES.length} beantwortet</div>`}`;
+        <div style="background:linear-gradient(135deg,#0a1a3a,#1a3a8f);border-radius:16px;padding:14px 16px;margin-bottom:14px">
+          <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">👤 Wer ist steuerpflichtig?</div>
+          <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:4px">Steuerpflichtig ≠ Steuern zahlen</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700">Tippe Ja oder Nein – und lern den Unterschied.</div>
+        </div>
+        ${CASES.map((cs,ci)=>{
+          const ans = answers[ci];
+          const answered = ans !== undefined;
+          const ok = ans === cs.answer;
+          return `<div style="background:${answered?(ok?'rgba(0,201,123,.05)':'rgba(255,77,109,.04)'):'rgba(255,255,255,.04)'};border:1.5px solid ${answered?(ok?'rgba(0,201,123,.25)':'rgba(255,77,109,.2)'):'rgba(255,255,255,.1)'};border-radius:16px;padding:14px;margin-bottom:10px">
+            <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:10px">
+              <div style="font-size:34px;line-height:1;flex-shrink:0">${cs.avatar}</div>
+              <div style="flex:1">
+                <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:4px">
+                  <div style="font-size:14px;font-weight:900;color:#fff">${cs.name}</div>
+                  <div style="font-size:9px;font-weight:900;color:${cs.tagCol};background:${cs.tagCol}22;padding:2px 9px;border-radius:100px;letter-spacing:.5px;text-transform:uppercase">${cs.tag}</div>
+                </div>
+                <div style="font-size:12px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.4">${cs.desc}</div>
+              </div>
+            </div>
+            <div style="font-size:13px;font-weight:800;color:rgba(255,255,255,.85);margin-bottom:10px;line-height:1.5;background:rgba(255,255,255,.04);border-radius:10px;padding:10px">${cs.q}</div>
+            ${answered
+              ? `<div style="background:rgba(255,255,255,.04);border-radius:12px;padding:12px;color:rgba(255,255,255,.8)">${ok ? cs.richtig : cs.falsch}</div>`
+              : `<div style="display:flex;gap:8px">
+                  <button onclick="if(!tourAnswers.sp)tourAnswers.sp={};tourAnswers.sp[${ci}]='ja';renderTourStep(document.getElementById('ga'))" style="flex:1;padding:12px;border-radius:12px;border:2px solid rgba(0,201,123,.35);background:rgba(0,201,123,.08);color:#00c97b;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">✓ Ja</button>
+                  <button onclick="if(!tourAnswers.sp)tourAnswers.sp={};tourAnswers.sp[${ci}]='nein';renderTourStep(document.getElementById('ga'))" style="flex:1;padding:12px;border-radius:12px;border:2px solid rgba(255,77,109,.35);background:rgba(255,77,109,.08);color:#ff4d6d;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">✗ Nein</button>
+                </div>`
+            }
+          </div>`;
+        }).join('')}
+        ${allDone ? `<button onclick="tourNext()" style="width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Weiter: 7 Einkunftsarten →</button>` : ''}`;
     }
   },
 
@@ -9579,22 +9636,29 @@ const STEUER_TOUR_STEPS = [
     id:'einkunftsarten',
     render(){
       const EINK = [
-        {nr:1,para:'§ 13',icon:'🌾',name:'Land- & Forstwirtschaft',kurz:'L+F'},
-        {nr:2,para:'§ 15',icon:'🏭',name:'Gewerbebetrieb',kurz:'Gew.'},
-        {nr:3,para:'§ 18',icon:'⚕️',name:'Selbständige Arbeit',kurz:'Selb.'},
-        {nr:4,para:'§ 19',icon:'💼',name:'Nichtselbständige Arbeit',kurz:'NSA'},
-        {nr:5,para:'§ 20',icon:'💰',name:'Kapitalvermögen',kurz:'Kap.'},
-        {nr:6,para:'§ 21',icon:'🏠',name:'Vermietung & Verpachtung',kurz:'V+V'},
-        {nr:7,para:'§ 22',icon:'📦',name:'Sonstige Einkünfte',kurz:'Sonst.'},
+        {nr:1,para:'§ 13',icon:'🌾',name:'Land- & Forstwirtschaft', farbe:'#5a8a1a', info:'Urproduktion, Pauschalierung § 13a'},
+        {nr:2,para:'§ 15',icon:'🏭',name:'Gewerbebetrieb',          farbe:'#3d6fd4', info:'nachhaltig, Gewinnabsicht, wirtsch. Verkehr'},
+        {nr:3,para:'§ 18',icon:'⚕️',name:'Selbständige Arbeit',     farbe:'#7b5ea7', info:'Freiberufler: Ärzte, Anwälte, Architekten'},
+        {nr:4,para:'§ 19',icon:'💼',name:'Nichtselbständige Arbeit', farbe:'#5b8dee', info:'Arbeitnehmer, Lohnsteuer § 38 EStG'},
+        {nr:5,para:'§ 20',icon:'💰',name:'Kapitalvermögen',          farbe:'#c47a1a', info:'Abgeltungsteuer 25 % + SolZ (§ 32d EStG)'},
+        {nr:6,para:'§ 21',icon:'🏠',name:'Vermietung & Verpachtung', farbe:'#1a8a6b', info:'Überlassung von Vermögensgegenständen'},
+        {nr:7,para:'§ 22',icon:'📦',name:'Sonstige Einkünfte',       farbe:'#8a4000', info:'Renten, Unterhalt, private Veräußerungen'},
       ];
       const BERUFE = [
-        {id:'bk',icon:'🥐',label:'Bäcker (Inhaber)',      correct:2,tip:'Gewerbebetrieb – § 15 Abs. 2 EStG: nachhaltig, Gewinnabsicht, Beteiligung am wirtsch. Verkehr'},
-        {id:'az',icon:'👷',label:'Azubi im Finanzamt',   correct:4,tip:'Nichtselbständige Arbeit – § 19 EStG: Dienstverhältnis, weisungsgebunden, Lohnsteuer'},
-        {id:'ar',icon:'🩺',label:'Niedergelassener Arzt',correct:3,tip:'Selbständige Arbeit – § 18 Abs. 1 Nr. 1 EStG: freiberuflich, heilkundlich. Kein Gewerbe!'},
-        {id:'ak',icon:'📈',label:'Aktionär (Dividenden)',correct:5,tip:'Kapitalvermögen – § 20 EStG: Erträge aus Beteiligungen, Abgeltungsteuer 25 % + SolZ'},
-        {id:'vm',icon:'🏠',label:'Wohnungsvermieter',    correct:6,tip:'Vermietung & Verpachtung – § 21 EStG: Überlassung von Wirtschaftsgütern'},
-        {id:'rn',icon:'👴',label:'Rentner',              correct:7,tip:'Sonstige Einkünfte – § 22 Nr. 1 EStG: gesetzliche Rente, Besteuerungsanteil nach Rentenbeginn'},
-        {id:'bv',icon:'🌾',label:'Bauer (eigene Felder)',correct:1,tip:'Land- & Forstwirtschaft – § 13 EStG: Urproduktion, oft § 13a EStG Pauschalierung'},
+        {id:'bk',icon:'🥐',label:'Bäcker (Inhaber)',       correct:2,para:'§ 15',
+         tip:'<b>§ 15 Abs. 2 EStG – Gewerbebetrieb:</b> Selbständig, nachhaltig, Gewinnabsicht, Teilnahme am wirtschaftlichen Verkehr. Kein freier Beruf → Gewerbesteuer fällig!'},
+        {id:'az',icon:'👷',label:'Azubi im Finanzamt',    correct:4,para:'§ 19',
+         tip:'<b>§ 19 EStG – Nichtselbständige Arbeit:</b> Dienstverhältnis, weisungsgebunden, kein eigenes Unternehmerrisiko. Lohnsteuer wird direkt vom Arbeitgeber einbehalten (§ 38 EStG).'},
+        {id:'ar',icon:'🩺',label:'Niedergelass. Arzt',    correct:3,para:'§ 18',
+         tip:'<b>§ 18 Abs. 1 Nr. 1 EStG – Selbständige Arbeit:</b> Heilkundlicher Katalogberuf. Persönlich qualifiziert tätig. Kein Gewerbebetrieb → keine Gewerbesteuer!'},
+        {id:'ak',icon:'📈',label:'Aktionär (Dividenden)', correct:5,para:'§ 20',
+         tip:'<b>§ 20 EStG – Kapitalvermögen:</b> Dividenden, Zinsen, Kursgewinne. Abgeltungsteuer 25 % + 5,5 % SolZ (§ 32d EStG). Sparerpauschbetrag 1.000 €. Abgeschotteter Verlustkreis.'},
+        {id:'vm',icon:'🏠',label:'Wohnungsvermieter',     correct:6,para:'§ 21',
+         tip:'<b>§ 21 EStG – Vermietung & Verpachtung:</b> Überlassung von unbeweglichem Vermögen gegen Entgelt. Überschussermittlung: Einnahmen ./. Werbungskosten (AfA, Zinsen, Verwaltung).'},
+        {id:'rn',icon:'👴',label:'Rentner (gesetzl. RV)', correct:7,para:'§ 22',
+         tip:'<b>§ 22 Nr. 1 EStG – Sonstige Einkünfte:</b> Gesetzliche Renten werden nach dem Kohortenprinzip besteuert. Besteuerungsanteil je nach Rentenbeginn steigend bis 100 % ab 2058.'},
+        {id:'bv',icon:'🌾',label:'Bauer (eigene Felder)', correct:1,para:'§ 13',
+         tip:'<b>§ 13 EStG – Land- und Forstwirtschaft:</b> Urproduktion auf eigenem oder gepachtetem Boden. Gewinnermittlung oft nach Durchschnittssätzen (§ 13a EStG). Keine Gewerbesteuer!'},
       ];
       const answers = tourAnswers['eink'] || {};
       const guessCount = tourAnswers['eink_guess'];
@@ -9603,49 +9667,82 @@ const STEUER_TOUR_STEPS = [
       const selBeruf = tourAnswers['sel_beruf'];
 
       if(guessCount===undefined){
-        return `<div style="background:linear-gradient(135deg,#1a0030,#3d0a6b);border-radius:16px;padding:20px;margin-bottom:14px">
-          <div style="font-size:9px;font-family:'Space Mono',monospace;color:#c8a0ff;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">💼 Schritt 4</div>
-          <div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:8px">Wie viele Einkunftsarten kennt das EStG?</div>
-          <div style="font-size:12px;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:16px">Das EStG besteuert nur ganz bestimmte Einkommensquellen. Alle anderen sind steuerfrei.</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-            ${[3,5,7,10].map(n=>`<button onclick="tourAnswers.eink_guess=${n};renderTourStep(document.getElementById('ga'))" style="padding:16px;border-radius:12px;border:2px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:#fff;font-family:'Space Mono',monospace;font-weight:900;font-size:20px;cursor:pointer">${n}</button>`).join('')}
+        return `
+        <div style="background:linear-gradient(135deg,#1a0030,#3d0a6b);border-radius:16px;padding:18px;margin-bottom:14px">
+          <div style="font-size:9px;font-family:'Space Mono',monospace;color:#c8a0ff;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">💼 Einkunftsarten · §§ 13–22 EStG</div>
+          <div style="font-size:17px;font-weight:900;color:#fff;margin-bottom:6px">Wie viele Einkunftsarten hat das EStG?</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:16px">Das EStG besteuert nur ganz bestimmte Einkommensquellen. Alles andere ist steuerfrei.</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            ${[3,5,7,10].map(n=>`<button onclick="tourAnswers.eink_guess=${n};renderTourStep(document.getElementById('ga'))" style="padding:18px;border-radius:13px;border:2px solid rgba(255,255,255,.18);background:rgba(255,255,255,.07);color:#fff;font-family:'Space Mono',monospace;font-weight:900;font-size:24px;cursor:pointer">${n}</button>`).join('')}
           </div>
         </div>`;
       }
 
       const guessOk = guessCount===7;
+      const selBerufObj = this._shuffled.find(b=>b.id===selBeruf);
+
       return `
-      <div style="background:rgba(255,255,255,.05);border-radius:12px;padding:12px;margin-bottom:12px">
-        <div style="font-size:13px;font-weight:900;color:${guessOk?'#00c97b':'#ff8c42'};margin-bottom:3px">${guessOk?'✅ Genau – 7 Einkunftsarten!':'Richtig wären 7 Einkunftsarten (§§ 13–22 EStG).'}</div>
-        <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700">Jetzt zuordnen: Tippe einen Beruf, dann die passende Einkunftsart.</div>
+      <div style="background:${guessOk?'rgba(0,201,123,.08)':'rgba(255,140,66,.08)'};border:1.5px solid ${guessOk?'rgba(0,201,123,.3)':'rgba(255,140,66,.3)'};border-radius:14px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px">
+        <span style="font-size:26px">${guessOk?'🎯':'💡'}</span>
+        <div>
+          <div style="font-size:14px;font-weight:900;color:${guessOk?'#00c97b':'#ff8c42'}">${guessOk?'Richtig!':'Richtig wären 7 Einkunftsarten.'}</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:700">§§ 13–22 EStG – nur diese 7 Quellen werden besteuert.</div>
+        </div>
       </div>
-      <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:8px 10px;margin-bottom:8px;display:flex;flex-wrap:wrap;gap:5px">
-        <div style="font-size:9px;color:rgba(255,255,255,.35);font-weight:700;width:100%;margin-bottom:3px;font-family:'Space Mono',monospace;text-transform:uppercase;letter-spacing:1px">Abkürzungslegende</div>
-        ${EINK.map(e=>`<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.55);white-space:nowrap">${e.icon}<b style="color:var(--cyan)">${e.kurz}</b>=${e.name.split(' ')[0]}</div>`).join('<span style="color:rgba(255,255,255,.15);font-size:10px"> · </span>')}
+
+      <div style="font-size:10px;font-weight:900;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">📋 Die 7 Einkunftsarten:</div>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px">
+        ${EINK.map(e=>`
+        <div style="display:flex;align-items:center;gap:12px;padding:10px 12px;background:rgba(255,255,255,.05);border-radius:12px;border:1.5px solid rgba(255,255,255,.1)">
+          <span style="font-size:22px;flex-shrink:0">${e.icon}</span>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;font-weight:900;color:#fff">${e.name}</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.45);font-weight:700">${e.info}</div>
+          </div>
+          <div style="font-size:10px;font-weight:900;color:${e.farbe};background:${e.farbe}22;padding:3px 9px;border-radius:100px;flex-shrink:0">${e.para}</div>
+        </div>`).join('')}
       </div>
-      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">
+
+      <div style="font-size:10px;font-weight:900;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">🎯 Zuordnen – welcher Beruf gehört zu welcher Einkunftsart?</div>
+      <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px">
         ${this._shuffled.map(b=>{
           const done=answers[b.id]!==undefined; const ok=done&&answers[b.id]===b.correct; const sel=selBeruf===b.id;
-          return `<button onclick="tourAnswers.sel_beruf='${b.id}';renderTourStep(document.getElementById('ga'))" style="padding:7px 10px;border-radius:100px;border:2px solid ${done?(ok?'rgba(0,201,123,.5)':'rgba(255,77,109,.4)'):sel?'var(--cyan)':'rgba(255,255,255,.15)'};background:${done?(ok?'rgba(0,201,123,.1)':'rgba(255,77,109,.08)'):sel?'rgba(0,194,224,.12)':'rgba(255,255,255,.05)'};color:${done?(ok?'#00c97b':'#ff4d6d'):sel?'var(--cyan)':'rgba(255,255,255,.7)'};font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer">${b.icon} ${b.label} ${done?(ok?'✓':'✗'):''}</button>`;
+          return `<button onclick="tourAnswers.sel_beruf='${b.id}';renderTourStep(document.getElementById('ga'))"
+            style="padding:9px 14px;border-radius:12px;border:2px solid ${done?(ok?'rgba(0,201,123,.5)':'rgba(255,77,109,.4)'):sel?'var(--cyan)':'rgba(255,255,255,.2)'};background:${done?(ok?'rgba(0,201,123,.1)':'rgba(255,77,109,.08)'):sel?'rgba(0,194,224,.14)':'rgba(255,255,255,.06)'};color:${done?(ok?'#00c97b':'#ff4d6d'):sel?'var(--cyan)':'rgba(255,255,255,.85)'};font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:7px">
+            <span style="font-size:17px">${b.icon}</span><span>${b.label}</span>${done?` <span>${ok?'✓':'✗'}</span>`:''}
+          </button>`;
         }).join('')}
       </div>
+
       ${selBeruf&&!answers[selBeruf]?`
-      <div style="font-size:11px;color:rgba(255,255,255,.6);font-weight:700;margin-bottom:8px">Einkunftsart für <b style="color:#fff">${this._shuffled.find(b=>b.id===selBeruf)?.icon} ${this._shuffled.find(b=>b.id===selBeruf)?.label}</b>:</div>
-      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">
-        ${EINK.map(e=>`<button onclick="if(!tourAnswers.eink)tourAnswers.eink={};tourAnswers.eink['${selBeruf}']=${e.nr};tourAnswers.sel_beruf=undefined;renderTourStep(document.getElementById('ga'))" style="padding:7px 10px;border-radius:100px;border:2px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:rgba(255,255,255,.7);font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer">${e.icon} ${e.kurz} <span style="font-size:9px;opacity:.6">${e.para}</span></button>`).join('')}
+      <div style="background:rgba(0,194,224,.1);border:1.5px solid rgba(0,194,224,.3);border-radius:14px;padding:12px;margin-bottom:10px">
+        <div style="font-size:13px;font-weight:900;color:var(--cyan);margin-bottom:10px">${selBerufObj?.icon} ${selBerufObj?.label} → welche Einkunftsart?</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          ${EINK.map(e=>`
+          <button onclick="if(!tourAnswers.eink)tourAnswers.eink={};tourAnswers.eink['${selBeruf}']=${e.nr};tourAnswers.sel_beruf=undefined;renderTourStep(document.getElementById('ga'))"
+            style="padding:10px 14px;border-radius:11px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:#fff;font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:10px;text-align:left"
+            onmouseover="this.style.background='rgba(255,255,255,.14)'" onmouseout="this.style.background='rgba(255,255,255,.06)'">
+            <span style="font-size:20px">${e.icon}</span>
+            <div style="flex:1"><div style="font-size:13px">${e.name}</div><div style="font-size:10px;color:rgba(255,255,255,.45)">${e.para} · ${e.info}</div></div>
+          </button>`).join('')}
+        </div>
       </div>`:''}
-      ${allDone?`
-      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px;margin-bottom:12px">
-        <div style="font-size:11px;font-weight:900;color:#ffd94a;margin-bottom:8px">Alle 7 Einkunftsarten · §§ 13–22 EStG</div>
-        ${EINK.map(e=>`<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05)">
-          <span style="font-size:14px">${e.icon}</span><div style="font-size:11px;font-weight:900;color:#fff;flex:1">${e.name}</div>
-          <span style="font-size:9px;color:var(--cyan);font-family:'Space Mono',monospace;font-weight:700">${e.para}</span>
-        </div>`).join('')}
-        <div style="margin-top:8px;font-size:10px;color:rgba(255,255,255,.4);font-weight:700">Nr. 1–3 = Gewinneinkunftsarten (§ 4/5 EStG). Nr. 4–7 = Überschusseinkunftsarten (Einnahmen ./. WK).</div>
-        ${this._shuffled.filter(b=>answers[b.id]!==b.correct).map(b=>`<div style="margin-top:6px;font-size:10px;color:rgba(255,140,66,.8);font-weight:700">${b.icon} ${b.label}: ${b.tip}</div>`).join('')}
-      </div>
-      <button onclick="tourNext()" style="width:100%;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,#005c36,#00c97b);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">Fertig! Zusammenfassung →</button>`
-      :`<div style="text-align:center;font-size:11px;color:rgba(255,255,255,.35);font-family:'Space Mono',monospace;font-weight:700">${Object.keys(answers).length} / ${BERUFE.length} zugeordnet</div>`}`;
+
+      ${Object.entries(answers).length>0?`
+      <div style="font-size:10px;font-weight:900;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Deine Antworten:</div>
+      ${Object.entries(answers).map(([bid,nr])=>{
+        const b=BERUFE.find(x=>x.id===bid); if(!b) return '';
+        const ok=nr===b.correct;
+        return `<div style="background:${ok?'rgba(0,201,123,.07)':'rgba(255,77,109,.06)'};border:1.5px solid ${ok?'rgba(0,201,123,.25)':'rgba(255,77,109,.2)'};border-radius:13px;padding:12px;margin-bottom:8px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span style="font-size:20px">${b.icon}</span>
+            <div style="font-size:13px;font-weight:900;color:${ok?'#00c97b':'#ff4d6d'}">${ok?'✓':'✗'} ${b.label}</div>
+          </div>
+          <div style="font-size:11px;color:rgba(255,255,255,.75);font-weight:700;line-height:1.65">${b.tip}</div>
+        </div>`;
+      }).join('')}`:''}
+
+      ${allDone?`<button onclick="tourNext()" style="width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer;margin-top:6px">Weiter: Was kann ich absetzen? →</button>`:''}`;
     }
   },
 
@@ -11318,3 +11415,582 @@ function _lpStartKlausur(pfadId){
   sw('pruefung');
 }
 
+
+// ═══════════════════════════════════════════════════════════════════════
+// D_BUCH_DRAG – 20 Drag & Drop Buchungssätze (rechtlich geprüft HGB/UStG)
+// ═══════════════════════════════════════════════════════════════════════
+const D_BUCH_DRAG = [
+  {icon:'🖥️',title:'IT-Kauf auf Ziel',desc:'Server 4.000 € netto + 760 € VSt (19%) auf Ziel.',
+   soll:'IT-Ausstattung + Vorsteuer',haben:'Verbindlichkeiten aus L+L',netto:4000,ust:760,
+   erkl:'Aktivkonto steigt (Soll). VSt abziehbar (§ 15 UStG). Kreditkauf → Verbindlichkeit, keine Zahlung. Drei-Konten-Buchung: Anlage + VSt / Verbindlichkeiten.'},
+  {icon:'💳',title:'Tilgung Verbindlichkeit',desc:'Offene Verbindlichkeit 4.760 € wird per Bank beglichen.',
+   soll:'Verbindlichkeiten aus L+L',haben:'Bank',netto:4760,ust:0,
+   erkl:'Passivkonto sinkt (Soll auf Passiv). Aktivkonto sinkt (Haben auf Aktiv). Typischer Aktiv-Passiv-Tausch: Bilanz verkürzt sich.'},
+  {icon:'📦',title:'Wareneinkauf auf Ziel',desc:'Waren 10.000 € + 1.900 € USt (19%) auf Ziel.',
+   soll:'Wareneingang + Vorsteuer',haben:'Verbindlichkeiten aus L+L',netto:10000,ust:1900,
+   erkl:'Wareneingang = Aufwandskonto (Soll). VSt 1.900 € (Soll). Verbindlichkeiten 11.900 € (Haben). Drei-Konten-Buchung bei Rechnungskauf.'},
+  {icon:'🏦',title:'Bankdarlehen aufnehmen',desc:'100.000 € Darlehen wird auf Bankkonto gutgeschrieben.',
+   soll:'Bank',haben:'Darlehensverbindlichkeiten',netto:100000,ust:0,
+   erkl:'Bank steigt (Aktiv-Soll). Darlehensverbindlichkeit steigt (Passiv-Haben). Keine GuV-Wirkung – reine Bilanzverlängerung. Kein USt-Vorgang.'},
+  {icon:'⚡',title:'Stromrechnung bar bezahlt',desc:'Stromrechnung 595 € brutto (500 € + 95 € USt 19%).',
+   soll:'Energiekosten + Vorsteuer',haben:'Bank',netto:500,ust:95,
+   erkl:'Aufwandskonto 500 € + VSt 95 € (Soll). Bank 595 € (Haben). Aufwand mindert Gewinn in der GuV. VSt als eigenes Konto (§ 15 UStG).'},
+  {icon:'📄',title:'Ausgangsrechnung auf Ziel',desc:'Rechnung an Kunden 10.000 € + 1.900 € USt.',
+   soll:'Forderungen aus L+L',haben:'Umsatzerlöse + Umsatzsteuer',netto:10000,ust:1900,
+   erkl:'Forderung 11.900 € (Aktiv-Soll). Umsatzerlöse 10.000 € (Ertrag-Haben) + USt 1.900 € (Passiv-Haben). USt ans FA abführen (§ 18 UStG).'},
+  {icon:'📮',title:'Kundenzahlung eingehend',desc:'Kunde überweist Forderung 11.900 € auf Bankkonto.',
+   soll:'Bank',haben:'Forderungen aus L+L',netto:11900,ust:0,
+   erkl:'Bank steigt (Soll). Forderung sinkt (Haben). Reiner Aktiv-Tausch – keine GuV-Wirkung, kein neuer USt-Vorgang.'},
+  {icon:'🔧',title:'Jahresabschreibung Maschine',desc:'Maschine AK 60.000 €, ND 5 Jahre → 12.000 €/Jahr linear.',
+   soll:'Abschreibungen auf Sachanlagen',haben:'Maschinen',netto:12000,ust:0,
+   erkl:'§ 253 Abs. 3 HGB: Planmäßige AfA. Aufwand steigt (Soll). Maschinenkonto sinkt (Haben). Kein Geldfluss. Linear: AK ÷ ND.'},
+  {icon:'📊',title:'Rückstellung Gewährleistung',desc:'Rückstellung 8.000 € für wahrscheinliche Garantieforderungen.',
+   soll:'Aufwand für Rückstellungen',haben:'Rückstellungen für Gewährleistungen',netto:8000,ust:0,
+   erkl:'§ 249 Abs. 1 HGB: Passivierungspflicht bei ungewissen Verbindlichkeiten. Aufwand heute (Soll), unsichere Zahlung später. Vorsichtsprinzip (§ 252 Nr. 4 HGB).'},
+  {icon:'👩‍💼',title:'Lohnzahlung (Bruttoprinzip)',desc:'Bruttolohn 3.000 €: Netto 1.950 €, LSt 450 €, SV-AN 600 €.',
+   soll:'Löhne und Gehälter',haben:'Bank + Verbindlichkeiten LSt + Verbindlichkeiten SV',netto:3000,ust:0,
+   erkl:'Gesamtaufwand 3.000 € (Soll). Bank nur Nettolohn 1.950 € (Haben). LSt 450 € + SV 600 € werden als Verbindlichkeiten einbehalten und später abgeführt.'},
+  {icon:'🔄',title:'USt-Voranmeldung: Zahlung',desc:'USt 5.800 € – VSt 3.200 € = Zahllast 2.600 €.',
+   soll:'Umsatzsteuer',haben:'Bank',netto:2600,ust:0,
+   erkl:'§ 16 UStG: USt-Konto (Passiv) sinkt → Soll auf Passiv. Bank sinkt (Haben). Bei Vorsteuerüberhang: Erstattung (Bank steigt). Voranmeldung monatlich/quartalsweise (§ 18 UStG).'},
+  {icon:'📉',title:'Außerplanmäßige Abschreibung',desc:'Wertpapiere AV Buchwert 50.000 €, Zeitwert dauerhaft 35.000 €.',
+   soll:'Abschreibungen auf Finanzanlagen',haben:'Wertpapiere des Anlagevermögens',netto:15000,ust:0,
+   erkl:'§ 253 Abs. 3 S. 5 HGB: Bei dauerhafter Wertminderung → außerplanmäßige Abschreibung (gemildertes NWP im AV). 50.000 – 35.000 = 15.000 €.'},
+  {icon:'📝',title:'Jahresabschluss: Aufwand → GuV',desc:'Personalaufwand 45.000 € wird über GuV abgeschlossen.',
+   soll:'Gewinn- und Verlustkonto',haben:'Personalaufwand',netto:45000,ust:0,
+   erkl:'Jahresabschluss: Alle Aufwandskonten werden per Soll-Buchung auf das GuV-Konto übertragen. Ertragskonten umgekehrt. GuV-Saldo = Jahresüberschuss oder -fehlbetrag.'},
+  {icon:'💰',title:'Privatentnahme Einzelunternehmer',desc:'Inhaber entnimmt 2.000 € aus dem Betrieb (Banküberweisung).',
+   soll:'Privatkonto (Eigenkapital)',haben:'Bank',netto:2000,ust:0,
+   erkl:'§ 4 Abs. 1 S. 2 EStG: Entnahme mindert Betriebsvermögen. Privatkonto = EK-Gegenkonto (Soll auf EK). Bank sinkt (Haben). Steuerlich: EK-mindernde Umbuchung.'},
+  {icon:'📅',title:'Aktiver RAP: Vorauszahlung Miete',desc:'Miete für Jan–März nächstes Jahr: 3.000 € jetzt bezahlt.',
+   soll:'Aktiver Rechnungsabgrenzungsposten',haben:'Bank',netto:3000,ust:0,
+   erkl:'§ 250 Abs. 1 HGB: Ausgabe vor Stichtag → Aufwand für Zeit danach. ARAP aktivieren (Soll), Bank sinkt (Haben). Im neuen Jahr: ARAP auflösen → Mietaufwand.'},
+  {icon:'🏢',title:'Erhaltene Anzahlung Kunde',desc:'Anzahlung 5.950 € brutto (5.000 € + 950 € USt) vom Kunden erhalten.',
+   soll:'Bank',haben:'Erhaltene Anzahlungen + Umsatzsteuer',netto:5000,ust:950,
+   erkl:'§ 13 Abs. 1 Nr. 1a S. 4 UStG: USt entsteht bereits bei Vereinnahmung der Anzahlung. Erhaltene Anzahlungen = Verbindlichkeit (noch keine Leistung erbracht). Bank steigt (Soll).'},
+  {icon:'🔁',title:'Zuführung gesetzliche Rücklage AG',desc:'5 % des Jahresüberschusses 200.000 € = 10.000 € in Rücklage.',
+   soll:'Jahresüberschuss',haben:'Gesetzliche Rücklage',netto:10000,ust:0,
+   erkl:'§ 150 AktG gilt für AG: 5 % des JÜ bis 10 % des Grundkapitals. GmbH: keine gesetzliche Pflicht (§ 29 GmbHG). EK-interne Umbuchung: kein Aufwand, kein Ertrag.'},
+  {icon:'💸',title:'Geleistete Anzahlung an Lieferant',desc:'Anzahlung 2.380 € brutto (2.000 € + 380 € VSt 19%).',
+   soll:'Geleistete Anzahlungen + Vorsteuer',haben:'Bank',netto:2000,ust:380,
+   erkl:'Geleistete Anzahlung = Forderung (Aktiv-Soll). VSt 380 € sofort abziehbar wenn ordnungsgemäße Anzahlungsrechnung (§ 14 Abs. 5 UStG). Bank sinkt (Haben).'},
+  {icon:'🏭',title:'KSt-Vorauszahlung GmbH',desc:'GmbH überweist KSt-Vorauszahlung 7.500 € ans FA.',
+   soll:'Körperschaftsteuer (Steueraufwand)',haben:'Bank',netto:7500,ust:0,
+   erkl:'§ 30 KStG: KSt-Vorauszahlungen quartalsweise (10.03/06/09/12). Steueraufwand (Soll) mindert GuV → JÜ sinkt. Bank sinkt (Haben). Kein VSt-Vorgang.'},
+  {icon:'📈',title:'Zuschreibung Wertpapiere',desc:'Wertpapiere AV: Buchwert 30.000 €, erholt auf 38.000 €.',
+   soll:'Wertpapiere des Anlagevermögens',haben:'Erträge aus Zuschreibungen',netto:8000,ust:0,
+   erkl:'§ 253 Abs. 5 HGB: Zuschreibungsgebot (Wertaufholungsgebot) wenn Gründe für frühere außerplanmäßige Abschreibung weggefallen. Max. auf ursprüngliche fortgeführte AK. Ertrag (Haben).'},
+];
+
+// ── Drag & Drop State ──────────────────────────────────────────────────
+let buchDragIdx = 0, buchDragPhase = 'q', buchDragSoll = null, buchDragHaben = null;
+let _bdDeck = [];
+
+// ── Render ─────────────────────────────────────────────────────────────
+function renderBilanzDrag(a, tabs){
+  if(!_bdDeck.length) _bdDeck = [...D_BUCH_DRAG].sort(()=>Math.random()-.5);
+  const total = _bdDeck.length;
+
+  if(buchDragIdx >= total){
+    a.innerHTML = (tabs||'') + `<div style="text-align:center;padding:48px 16px 80px">
+      <div style="font-size:56px;margin-bottom:14px">🏆</div>
+      <div style="font-size:20px;font-weight:900;color:var(--navy);margin-bottom:8px">Alle ${total} Buchungssätze gemeistert!</div>
+      <div style="font-size:12px;color:#888;font-weight:700;margin-bottom:24px">Buchführung nach HGB – alle §§ korrekt</div>
+      <button onclick="buchDragIdx=0;buchDragSoll=null;buchDragHaben=null;buchDragPhase='q';_bdDeck=[...D_BUCH_DRAG].sort(()=>Math.random()-.5);swBilanz('drag')"
+        style="padding:13px 32px;border-radius:13px;border:none;background:#1a3a8f;color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">↺ Nochmal üben</button>
+    </div>`;
+    return;
+  }
+
+  const q = _bdDeck[buchDragIdx];
+  const answered = buchDragPhase === 'done';
+  const okS = buchDragSoll === q.soll;
+  const okH = buchDragHaben === q.haben;
+  const allOk = okS && okH;
+
+  // Build options: correct + 5 distractors
+  const allSoll  = [...new Set(D_BUCH_DRAG.map(e=>e.soll))];
+  const allHaben = [...new Set(D_BUCH_DRAG.map(e=>e.haben))];
+  const pool = [...new Set([...allSoll,...allHaben])].filter(o=>o!==q.soll&&o!==q.haben);
+  const distractors = pool.sort(()=>Math.random()-.5).slice(0,5);
+  const opts = [q.soll, q.haben, ...distractors].sort(()=>Math.random()-.5);
+
+  const progress = `<div style="display:flex;gap:3px;margin-bottom:14px">${_bdDeck.map((_,i)=>`<div style="flex:1;height:5px;border-radius:100px;background:${i<buchDragIdx?'#1a3a8f':i===buchDragIdx?'#5b8dee':'#dde5f5'}"></div>`).join('')}</div>`;
+
+  const slotStyle = (ok, filled) =>
+    `min-height:52px;border-radius:12px;border:2.5px dashed ${answered?(ok?'#22c55e':'#ef4444'):(filled?'#1a3a8f':'#c8d4f0')};` +
+    `background:${answered?(ok?'rgba(0,201,123,.08)':'rgba(239,68,68,.06)'):(filled?'rgba(26,58,143,.06)':'#f7f9ff')};` +
+    `padding:10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;` +
+    `color:${answered?(ok?'#166534':'#991b1b'):(filled?'#1a3a8f':'#bbb')};text-align:center;transition:all .2s`;
+
+  a.innerHTML = (tabs||'') + `
+<div style="padding-bottom:80px">
+  ${progress}
+
+  <!-- Fall-Karte -->
+  <div style="background:linear-gradient(135deg,#1a3a8f,#0a1a5a);border-radius:18px;padding:16px;margin-bottom:16px">
+    <div style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.45);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">Buchungssatz bilden · ${buchDragIdx+1}/${total}</div>
+    <div style="display:flex;align-items:flex-start;gap:12px">
+      <span style="font-size:30px;line-height:1">${q.icon}</span>
+      <div>
+        <div style="font-size:15px;font-weight:900;color:#fff;margin-bottom:4px">${q.title}</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.65);font-weight:700;line-height:1.5">${q.desc}</div>
+        ${q.ust>0?`<div style="font-size:10px;color:rgba(0,194,224,.8);font-weight:700;margin-top:4px;font-family:'Space Mono',monospace">Netto: ${q.netto.toLocaleString('de-DE')} € | USt: ${q.ust.toLocaleString('de-DE')} € | Brutto: ${(q.netto+q.ust).toLocaleString('de-DE')} €</div>`:
+        `<div style="font-size:10px;color:rgba(255,255,255,.35);font-weight:700;margin-top:4px;font-family:'Space Mono',monospace">Betrag: ${q.netto.toLocaleString('de-DE')} €</div>`}
+      </div>
+    </div>
+  </div>
+
+  <!-- Drop Zones -->
+  <div style="background:#f4f7ff;border-radius:16px;padding:14px;margin-bottom:14px">
+    <div style="font-size:11px;font-weight:900;color:#555;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px">🎯 Konten zuordnen – ziehen oder tippen:</div>
+    <div style="display:flex;gap:10px;align-items:stretch">
+      <div style="flex:1">
+        <div style="font-size:10px;font-weight:900;color:${answered?(okS?'#166534':'#991b1b'):'#1a3a8f'};margin-bottom:6px;text-align:center;letter-spacing:.5px">SOLL</div>
+        <div id="slot-soll"
+          ondragover="event.preventDefault();this.style.borderColor='#1a3a8f'"
+          ondragleave="this.style.borderColor=''"
+          ondrop="buchDrop(event,'soll')"
+          onclick="buchSlotClick('soll')"
+          style="${slotStyle(okS, !!buchDragSoll)}">${buchDragSoll || '<span style="opacity:.4">hierher ziehen</span>'}</div>
+      </div>
+      <div style="display:flex;align-items:center;font-weight:900;color:#aaa;font-size:16px;flex-shrink:0;padding-top:20px">an</div>
+      <div style="flex:1">
+        <div style="font-size:10px;font-weight:900;color:${answered?(okH?'#166534':'#991b1b'):'#1a3a8f'};margin-bottom:6px;text-align:center;letter-spacing:.5px">HABEN</div>
+        <div id="slot-haben"
+          ondragover="event.preventDefault();this.style.borderColor='#1a3a8f'"
+          ondragleave="this.style.borderColor=''"
+          ondrop="buchDrop(event,'haben')"
+          onclick="buchSlotClick('haben')"
+          style="${slotStyle(okH, !!buchDragHaben)}">${buchDragHaben || '<span style="opacity:.4">hierher ziehen</span>'}</div>
+      </div>
+    </div>
+    ${buchDragSoll||buchDragHaben?`<div style="text-align:center;margin-top:10px"><button onclick="buchDragSoll=null;buchDragHaben=null;swBilanz('drag')" style="font-size:10px;color:#aaa;background:none;border:none;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700">↺ Zurücksetzen</button></div>`:''}
+  </div>
+
+  <!-- Chips -->
+  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px">
+    ${opts.map(opt=>`<div
+      draggable="true"
+      ondragstart="buchDS(event,'${opt.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}')"
+      onclick="buchChipClick('${opt.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}')"
+      ontouchstart="buchTS(event,this)"
+      ontouchmove="buchTM(event)"
+      ontouchend="buchTE(event)"
+      style="padding:9px 14px;background:#fff;border:2px solid ${answered?(opt===q.soll||opt===q.haben?'rgba(0,201,123,.5)':'#eee'):'#c8d4f0'};border-radius:11px;font-size:12px;font-weight:800;color:${answered?(opt===q.soll||opt===q.haben?'#166534':'#bbb'):'#1a3a8f'};cursor:grab;user-select:none;touch-action:none;transition:all .15s"
+      onmouseover="if(!${answered})this.style.borderColor='#1a3a8f';this.style.transform='translateY(-2px)'"
+      onmouseout="this.style.borderColor='${answered?'':'#c8d4f0'}';this.style.transform=''"
+    >${opt}</div>`).join('')}
+  </div>
+
+  <!-- Feedback -->
+  ${answered ? `
+    <div style="background:${allOk?'rgba(0,201,123,.08)':'rgba(239,68,68,.06)'};border:2px solid ${allOk?'#22c55e':'#f87171'};border-radius:16px;padding:16px;margin-bottom:12px">
+      <div style="font-size:14px;font-weight:900;color:${allOk?'#166534':'#991b1b'};margin-bottom:8px">${allOk?'✅ Perfekt!':'❌ Nicht ganz – die Lösung:'}</div>
+      ${!allOk?`<div style="font-size:13px;color:#1a3a8f;font-weight:900;margin-bottom:8px;background:rgba(26,58,143,.08);border-radius:10px;padding:10px">
+        Soll: <b>${q.soll}</b><br>an Haben: <b>${q.haben}</b>
+      </div>`:''}
+      <div style="font-size:11px;color:#444;font-weight:700;line-height:1.7">${q.erkl}</div>
+    </div>
+    <button onclick="buchDragIdx++;buchDragPhase='q';buchDragSoll=null;buchDragHaben=null;swBilanz('drag')"
+      style="width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,#1a3a8f,#3d6fd4);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">
+      ${buchDragIdx+1<total?'Nächster Fall →':'Alle abgeschlossen 🎉'}
+    </button>`
+  : `<button onclick="buchCheck()"
+      style="width:100%;padding:14px;border-radius:14px;border:none;background:${(buchDragSoll&&buchDragHaben)?'linear-gradient(135deg,#1a3a8f,#3d6fd4)':'#c8d4f0'};color:${(buchDragSoll&&buchDragHaben)?'#fff':'#888'};font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:${(buchDragSoll&&buchDragHaben)?'pointer':'default'};transition:all .2s">
+      ${(buchDragSoll&&buchDragHaben)?'✓ Buchungssatz prüfen':'Erst Soll und Haben befüllen'}
+    </button>`}
+</div>`;
+}
+
+// ── Interaction Handlers ───────────────────────────────────────────────
+let _bdDragVal = '';
+let _bdTouchEl = null, _bdGhost = null, _bdLastSlot = null;
+
+function buchDS(e, v){ _bdDragVal = v; e.dataTransfer.effectAllowed = 'move'; }
+
+function buchDrop(e, slot){
+  e.preventDefault();
+  if(slot==='soll') buchDragSoll = _bdDragVal;
+  else buchDragHaben = _bdDragVal;
+  swBilanz('drag');
+}
+
+function buchChipClick(v){
+  if(!buchDragSoll) buchDragSoll = v;
+  else if(!buchDragHaben) buchDragHaben = v;
+  else { buchDragSoll = v; buchDragHaben = null; }
+  swBilanz('drag');
+}
+
+let _bdSlotTarget = null;
+function buchSlotClick(slot){ _bdSlotTarget = slot; }
+
+function buchCheck(){
+  if(!buchDragSoll || !buchDragHaben) return;
+  buchDragPhase = 'done';
+  const q = _bdDeck[buchDragIdx];
+  const ok = buchDragSoll===q.soll && buchDragHaben===q.haben;
+  if(typeof updSc === 'function') updSc(ok);
+  swBilanz('drag');
+}
+
+// Touch support
+function buchTS(e, el){
+  _bdTouchEl = el; _bdDragVal = el.textContent.trim();
+  e.preventDefault();
+}
+function buchTM(e){
+  if(!_bdTouchEl) return; e.preventDefault();
+  if(!_bdGhost){
+    _bdGhost = _bdTouchEl.cloneNode(true);
+    Object.assign(_bdGhost.style, {
+      position:'fixed', zIndex:'9999', opacity:'.85', pointerEvents:'none',
+      padding:'9px 14px', background:'#fff', border:'2px solid #1a3a8f',
+      borderRadius:'11px', fontSize:'12px', fontWeight:'800', color:'#1a3a8f'
+    });
+    document.body.appendChild(_bdGhost);
+  }
+  const t = e.touches[0];
+  _bdGhost.style.left = (t.clientX - 50)+'px';
+  _bdGhost.style.top  = (t.clientY - 22)+'px';
+  // Highlight slots
+  const sS = document.getElementById('slot-soll');
+  const sH = document.getElementById('slot-haben');
+  [sS,sH].forEach(el=>{ if(!el) return; const r=el.getBoundingClientRect(); el.style.borderColor=(t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom)?'#1a3a8f':''; });
+}
+function buchTE(e){
+  if(!_bdTouchEl) return;
+  if(_bdGhost){ document.body.removeChild(_bdGhost); _bdGhost = null; }
+  const t = e.changedTouches[0];
+  const sS = document.getElementById('slot-soll');
+  const sH = document.getElementById('slot-haben');
+  const rS = sS&&sS.getBoundingClientRect(), rH = sH&&sH.getBoundingClientRect();
+  if(rS && t.clientX>=rS.left&&t.clientX<=rS.right&&t.clientY>=rS.top&&t.clientY<=rS.bottom)
+    buchDragSoll = _bdDragVal;
+  else if(rH && t.clientX>=rH.left&&t.clientX<=rH.right&&t.clientY>=rH.top&&t.clientY<=rH.bottom)
+    buchDragHaben = _bdDragVal;
+  else buchChipClick(_bdDragVal);
+  _bdTouchEl = null;
+  swBilanz('drag');
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// ERWEITERTE LERNKARTEN – Fortgeschritten
+// Von 44 auf 220+ Karten in 9 Kategorien
+// ═══════════════════════════════════════════════════════════════════════
+
+// ── USt (16 Karten) ───────────────────────────────────────────────────
+const D_FC_UST = [
+  {icon:'⚖️',term:'Steuerbar vs. steuerpflichtig',sub:'§§ 1, 4 UStG',
+   answer:'<b>Steuerbar</b>: Umsatz erfüllt § 1 Abs. 1 UStG (Lieferung/Leistung + Entgelt + Inland + Unternehmer).<br><b>Steuerpflichtig</b>: steuerbar UND kein Befreiungsgrund (§ 4 UStG).<br>Arzt: steuerbar aber steuerfrei → nicht steuerpflichtig.',
+   merkhilfe:'Steuerbar = Tatbestand erfüllt. Steuerpflichtig = steuerbar + kein § 4.'},
+  {icon:'🔨',term:'Werklieferung (§ 3 Abs. 4)',sub:'§ 3 Abs. 4 UStG',
+   answer:'Unternehmer be-/verarbeitet Gegenstand mit <b>eigenen Hauptstoffen</b> → gilt als <b>Lieferung</b>.<br>Leistungsort: Ort des Einbaus (§ 3 Abs. 7 UStG). USt-Satz 19 %.',
+   merkhilfe:'Eigene Hauptstoffe = Werklieferung = Lieferung. Einbauort entscheidet.'},
+  {icon:'🔧',term:'Werkleistung (§ 3 Abs. 9)',sub:'§ 3 Abs. 9 UStG',
+   answer:'Unternehmer arbeitet mit <b>fremden Hauptstoffen</b> (Auftraggeber stellt) → <b>sonstige Leistung</b>.<br>B2B-Leistungsort: Sitz des Empfängers (§ 3a Abs. 2).',
+   merkhilfe:'Fremde Hauptstoffe = Werkleistung = sonstige Leistung.'},
+  {icon:'📍',term:'B2B-Leistungsort',sub:'§ 3a Abs. 2 UStG',
+   answer:'Sonstige Leistung an Unternehmer → Leistungsort beim <b>Empfänger</b> (Bestimmungslandprinzip).<br>Folge: Reverse Charge bei grenzüberschreitenden B2B-Leistungen (§ 13b).',
+   merkhilfe:'B2B = Bestimmungsland = Empfänger ist zuständig.'},
+  {icon:'📍',term:'B2C-Leistungsort',sub:'§ 3a Abs. 1 UStG',
+   answer:'Sonstige Leistung an Privatperson → Leistungsort beim <b>Leistenden</b> (Ursprungslandprinzip).<br>Ausnahmen: Grundstücke (Belegenheit), digitale DL (Empfängerort ab 10.000 €).',
+   merkhilfe:'B2C = Ursprungsland = Leistender bestimmt den Ort.'},
+  {icon:'🏠',term:'Grundstücksleistungen',sub:'§ 3a Abs. 3 Nr. 1 UStG',
+   answer:'Alle Leistungen im Zusammenhang mit Grundstücken → <b>Belegenheitsort</b>. Gilt B2B und B2C.<br>Beispiele: Bauunternehmen, Architekten, Vermietung, Makler.',
+   merkhilfe:'Grundstück = Belegenheitsort. Immer. B2B oder B2C.'},
+  {icon:'✅',term:'Echte Steuerbefreiung',sub:'§ 4 Nr. 1, 2 UStG',
+   answer:'Steuerfrei + <b>Vorsteuerabzug bleibt erhalten</b>.<br>Beispiele: ig. Lieferung (§ 4 Nr. 1b), Ausfuhrlieferung (§ 4 Nr. 1a), Seeschifffahrt.<br>Unternehmer trägt kein Steuerrisiko.',
+   merkhilfe:'Echte SB = frei + VSt. Kein Schaden für den Unternehmer.'},
+  {icon:'❌',term:'Unechte Steuerbefreiung',sub:'§ 4 Nr. 14, 20 UStG',
+   answer:'Steuerfrei + <b>kein Vorsteuerabzug</b> (§ 15 Abs. 2 UStG).<br>Beispiele: Ärzte, Zahnärzte, Krankenhäuser, Bildungseinrichtungen.<br>USt auf Eingangsleistungen wird zum Kostenfaktor.',
+   merkhilfe:'Unechte SB = frei ABER kein VSt. USt = Kosten.'},
+  {icon:'🔁',term:'Reverse Charge (§ 13b)',sub:'§ 13b UStG',
+   answer:'Steuerschuldnerschaft wechselt zum Empfänger bei:<br>• Leistungen ausländ. Unternehmer<br>• Bauleistungen B2B (Empfänger = Bauunternehmer, Bescheinigung USt 1 TG)<br>• Schrottlieferungen, Mobilfunk<br>Empfänger: bucht USt + VSt → neutral.',
+   merkhilfe:'§ 13b: Empfänger zahlt. Neutraleffekt für VSt-berechtigen Unternehmer.'},
+  {icon:'💹',term:'§ 15a – Vorsteuerberichtigung',sub:'§ 15a UStG',
+   answer:'Ändert sich die Verwendung (stpfl. ↔ steuerfrei): Berichtigung über Zeitraum.<br>Bewegliche WG: <b>5 Jahre</b>. Grundstücke: <b>10 Jahre</b>.<br>Formel: (alt% – neu%) × VSt ÷ Jahre = jährl. Berichtigung.',
+   merkhilfe:'§ 15a: Nutzungsänderung = anteilige VSt-Korrektur. 5 oder 10 Jahre.'},
+  {icon:'🏪',term:'Differenzbesteuerung (§ 25a)',sub:'§ 25a UStG',
+   answer:'Wiederverkäufer mit gebrauchten WG (Vorerwerb ohne VSt) → USt nur auf <b>Marge</b>.<br>Kein separater USt-Ausweis erlaubt. Gilt für Kfz-Händler, Kunsthandel etc.',
+   merkhilfe:'Gebrauchtware ohne VSt-Vorerwerb → Marge besteuern.'},
+  {icon:'🌍',term:'Reihengeschäft',sub:'§ 3 Abs. 6a UStG',
+   answer:'Ware geht direkt von A → C, zwei Lieferungen: A→B und B→C.<br>Nur EINE ist die <b>bewegte</b> Lieferung (ig./Ausfuhr-steuerfrei).<br>Mittelsmann B: USt-ID Abgangsland → B→C bewegt. Bestimmungsland → A→B bewegt.',
+   merkhilfe:'Mittelsmann: Abgangsland-ID → B→C bewegt. Bestimmungsland-ID → A→B bewegt.'},
+  {icon:'🏢',term:'USt-Organschaft',sub:'§ 2 Abs. 2 Nr. 2 UStG',
+   answer:'Drei Eingliederungen nötig: finanziell, wirtschaftlich, organisatorisch.<br>Organgesellschaft = kein eigener Unternehmer. Innenumsätze = nicht steuerbar.<br>Organträger schuldet die gesamte USt des Kreises.',
+   merkhilfe:'Organschaft = ein Unternehmen. Innen: nicht steuerbar. Außen: Organträger haftet.'},
+  {icon:'📜',term:'Rechnungspflichtangaben',sub:'§ 14 Abs. 4 UStG',
+   answer:'9 Pflichtangaben: Name+Anschrift, Steuernr./USt-IdNr., Ausstellungsdatum, fortlfd. Nr., Leistungsbeschreibung, Leistungsdatum, Nettobetrag, Steuersatz, Steuerbetrag.<br>Fehlt eine → VSt-Abzug gefährdet!',
+   merkhilfe:'9 Angaben. Eine fehlt = kein VSt. Kleinbetragsrechnung ≤ 250 € brutto: vereinfacht (§ 33 UStDV).'},
+  {icon:'🔖',term:'Kleinunternehmer (ab 2025)',sub:'§ 19 UStG n.F.',
+   answer:'Ab 2025: Vorjahr ≤ <b>25.000 €</b> + laufendes Jahr voraussichtlich ≤ <b>100.000 €</b>.<br>Kein USt-Ausweis erlaubt. Kein VSt-Abzug.<br>USt-Ausweis trotzdem: § 14c – Steuerschuldnerschaft!',
+   merkhilfe:'25K Vorjahr + 100K laufend = Kleinunternehmer. Überschreitung: sofort weg.'},
+  {icon:'🌐',term:'OSS – One-Stop-Shop',sub:'§ 18j UStG',
+   answer:'B2C-Umsätze in anderen EU-Staaten: ab 10.000 € EU-Schwelle → Bestimmungsland besteuert.<br>OSS ermöglicht zentrale Erklärung in einem EU-Staat statt Registrierung in jedem Land.',
+   merkhilfe:'OSS ab 2021: > 10.000 € B2C EU-weit → Empfängerland. Zentrale Meldung.'},
+];
+
+// ── KSt (14 Karten) ───────────────────────────────────────────────────
+const D_FC_KST = [
+  {icon:'🏢',term:'KSt-Pflicht & Satz',sub:'§§ 1, 23 KStG',
+   answer:'Unbeschränkt stpfl.: Körperschaften mit Sitz/Geschäftsleitung im Inland (§ 1).<br>KSt-Satz: einheitlich <b>15 %</b> auf das zvE (§ 23). Zzgl. 5,5 % SolZ = 15,825 % effektiv.<br>Dazu GewSt: Gesamtbelastung ca. 30–33 %.',
+   merkhilfe:'15 % KSt + SolZ + GewSt = ca. 30-33 % Gesamtlast.'},
+  {icon:'⚠️',term:'vGA – Verdeckte Gewinnausschüttung',sub:'§ 8 Abs. 3 Satz 2 KStG',
+   answer:'Durch Gesellschaftsverhältnis veranlasste Vermögensminderung ohne Gewinnverteilungsbeschluss.<br>Maßstab: <b>Fremdvergleich</b> (ordentlicher Geschäftsführer).<br>Folgen: + zum GmbH-Gewinn (KSt) + KapSt beim Gesellschafter.',
+   merkhilfe:'Fremdvergleich! Überhöhtes GF-Gehalt = vGA → Doppelbelastung KSt + KapSt.'},
+  {icon:'📈',term:'Verdeckte Einlage',sub:'§ 8 Abs. 3 Satz 3 KStG',
+   answer:'Gesellschafter erbringt Leistung ohne angemessenes Entgelt (zu günstig).<br>Erhöht den Buchwert der Beteiligung. Steuerlich neutral für die GmbH.<br>Gegenstück zur vGA.',
+   merkhilfe:'Gesellschafter gibt zu günstig = verdeckte Einlage. Buchwert Beteiligung steigt.'},
+  {icon:'🔗',term:'KSt-Organschaft',sub:'§§ 14–19 KStG',
+   answer:'Voraussetzungen: (1) finanzielle Eingliederung (Mehrheit Stimmrechte ab Beginn WJ) + (2) EAV für mind. 5 Jahre + tatsächlich durchgeführt.<br>Folge: Einkommen der Organgesellschaft = Organträger → Verlustverrechnung im Konzern.',
+   merkhilfe:'EAV ≥ 5 Jahre + finanzielle Eingliederung = Organschaft. Verluste nutzbar.'},
+  {icon:'🔒',term:'§ 8c KStG – Verlustuntergang',sub:'§ 8c KStG',
+   answer:'Anteilsübertragung > 50 % innerhalb 5 Jahren an einen Erwerber → vollständiger Verlustuntergang.<br>Ausnahmen: stille-Reserven-Klausel (§ 8c Abs. 1 S. 6), Konzernklausel, Sanierungsklausel (§ 8c Abs. 1a).',
+   merkhilfe:'>50 % in 5 Jahren = Verluste weg. Ausnahmen: stille Reserven, Konzern, Sanierung.'},
+  {icon:'💹',term:'Teileinkünfteverfahren',sub:'§ 3 Nr. 40 EStG',
+   answer:'Betriebsvermögen: Dividenden und Veräußerungsgewinne aus KapGes-Anteilen → nur <b>60 % steuerpflichtig</b>.<br>40 % steuerfrei. WK nur zu 60 % abziehbar (§ 3c Abs. 2).<br>Unterschied zu Privatvermögen: Abgeltungsteuer 25 %.',
+   merkhilfe:'Betriebs-BV: 60/40. Privat: Abgeltungsteuer 25 %. Nie verwechseln!'},
+  {icon:'🏦',term:'Kapitalertragsteuer (KapSt)',sub:'§§ 43 ff. EStG',
+   answer:'GmbH behält bei Ausschüttung <b>25 % KapSt + 5,5 % SolZ</b> ein (= 26,375 %).<br>Privatvermögen: Abgeltungswirkung, Sparerpauschbetrag 1.000 €.<br>Betriebsvermögen: Anrechnung auf ESt/KSt.',
+   merkhilfe:'25 % KapSt + SolZ von GmbH einbehalten und abgeführt. Brutto × 0,73625 = Netto. (25 % KapSt + 5,5 % SolZ auf KapSt = 26,375 % Gesamtabzug)'},
+  {icon:'📉',term:'§ 8b KStG – Schachtelprivileg',sub:'§ 8b KStG',
+   answer:'Dividenden und Veräußerungsgewinne aus Beteiligungen an KapGes → 95 % steuerfrei für KapGes (§ 8b Abs. 1/2).<br>5 % pauschal als nichtabziehbare BA (§ 8b Abs. 5).<br>Effektiv: 15 % × 5 % = 0,75 % Steuer.',
+   merkhilfe:'§ 8b: 95 % steuerfrei für GmbH als Anteilseigner. 5 % pauschal versteuert.'},
+  {icon:'🏗️',term:'GmbH-Gründung & Stammkapital',sub:'§§ 5, 7 GmbHG · § 1 KStG',
+   answer:'Mindest-Stammkapital: <b>25.000 €</b> (§ 5 GmbHG). Bei Gründung: mind. 25 % je Geschäftsanteil eingezahlt + gesamt mind. 12.500 € (§ 7 Abs. 2 GmbHG).<br>KSt-Pflicht: ab Eintragung ins HR. Vorgesellschaft: beschränkte Haftung.',
+   merkhilfe:'25.000 € Stammkapital. 12.500 € bei Gründung mindestens eingezahlt.'},
+  {icon:'🔀',term:'Umwandlungssteuerrecht',sub:'§§ 3 ff. UmwStG',
+   answer:'Umwandlung kann steuerneutral erfolgen (Buchwertfortführung).<br>Einbringung in GmbH (§ 20 UmwStG): wahlweise Buch-/Zwischenwert/gemeiner Wert.<br>Aufdeckung stiller Reserven wenn kein Buchwertansatz.',
+   merkhilfe:'UmwStG: Buchwertfortführung möglich → keine Steuer. Höherer Ansatz → stille Reserven aufgedeckt.'},
+  {icon:'💼',term:'GmbH-GF-Vergütung',sub:'§ 8 Abs. 3 KStG · § 19 EStG',
+   answer:'GF-Gehalt: beim GF steuerpflichtig als § 19 EStG (Arbeitslohn).<br>Bei der GmbH: BA (mindert KSt). Fremdvergleich beachten (vGA-Gefahr).<br>Sozialversicherung: nur wenn kein beherrschender Gesellschafter.',
+   merkhilfe:'GF-Gehalt = BA bei GmbH + Arbeitslohn beim GF. Fremdvergleich!'},
+  {icon:'🏛️',term:'Gemeinnützigkeit (§ 5 KStG)',sub:'§ 5 Abs. 1 Nr. 9 KStG · §§ 51–68 AO',
+   answer:'Steuerbefreit wenn: gemeinnützige, mildtätige oder kirchliche Zwecke (§§ 52–54 AO).<br>Voraussetzungen: Satzung, tatsächliche Geschäftsführung.<br>Wirtschaftlicher Geschäftsbetrieb > 45.000 € → steuerpflichtig.',
+   merkhilfe:'Gemeinnützig = KSt-frei. Wirtschaftlicher GB > 45.000 € → KSt-pflichtig.'},
+  {icon:'📊',term:'Körperschaftsteuervorauszahlungen',sub:'§ 30 KStG',
+   answer:'Quartalsweise: <b>10.03. · 10.06. · 10.09. · 10.12.</b><br>Je ¼ der voraussichtlichen Jahressteuer.<br>Parallele Termine zur GewSt-Vorauszahlung.',
+   merkhilfe:'10. März/Juni/Sept./Dez. = KSt-VZ. Gleiche Logik wie GewSt.'},
+  {icon:'🔢',term:'KSt-Einkommensermittlung',sub:'§§ 7–8 KStG',
+   answer:'Ausgangspunkt: Handelsbilanz-Gewinn (§ 60 EStDV).<br>+ Hinzurechnungen: vGA, nichtabziehbare Aufwendungen (§ 10 KStG).<br>./. Kürzungen: steuerfreie Einnahmen (§ 8b).<br>= zvE × 15 % = KSt.',
+   merkhilfe:'HB-Gewinn ± Anpassungen = KSt-zvE × 15 %.'},
+];
+
+// ── ESt vertieft (18 Karten) ──────────────────────────────────────────
+const D_FC_EST_VERTIEFT = [
+  {icon:'📊',term:'ZvE-Schema vollständig',sub:'§ 2 EStG',
+   answer:'Einnahmen ./. WK/BA = <b>Einkünfte</b> je Einkunftsart<br>Summe aller Einkünfte = <b>GdE</b><br>./. Sonderausgaben (§§ 10–10b)<br>./. AuBe (§ 33)<br>./. Verlustabzug (§ 10d)<br>= <b>Einkommen</b> ./. Kinderfreibeträge = <b>zvE</b> × Tarif = ESt',
+   merkhilfe:'Einnahmen → Einkünfte → GdE → Einkommen → zvE → ESt. Reihenfolge auswendig!'},
+  {icon:'💼',term:'Sieben Einkunftsarten',sub:'§§ 13–22 EStG',
+   answer:'<b>Gewinn</b> (Betriebsvermögensvergleich/Überschuss): § 13 L+F, § 15 Gewerbebetrieb, § 18 Selbständige Arbeit.<br><b>Überschuss</b> (Einnahmen ./. WK): § 19 Nichtselbst. Arbeit, § 20 Kapitalvermögen, § 21 V+V, § 22 Sonstige.',
+   merkhilfe:'3 Gewinn + 4 Überschuss. Gewinn: 13/15/18. Überschuss: 19/20/21/22.'},
+  {icon:'🚗',term:'Entfernungspauschale 2026',sub:'§ 9 Abs. 1 Nr. 4 EStG',
+   answer:'Ab VZ 2026: einheitlich <b>0,38 €/km</b> ab dem ersten Kilometer (Steueränderungsgesetz 2025).<br>Nur einfache Strecke. Max. 4.500 € ohne eigenes KFZ.<br>Nicht kumulierbar mit Homeoffice-Pauschale am selben Tag.',
+   merkhilfe:'2026: 0,38 €/km ab km 1. Einheitlich. Nur Hinfahrt.'},
+  {icon:'🏠',term:'Homeoffice-Pauschale',sub:'§ 4 Abs. 5 Nr. 6b EStG',
+   answer:'6 €/Tag × max. 210 Tage = <b>1.260 €/Jahr</b>. Dauerhaft seit VZ 2023.<br>Kein Arbeitszimmer nötig. Gilt alternativ zur Entfernungspauschale (nicht kumulierbar für denselben Tag).',
+   merkhilfe:'6 € × 210 = 1.260 €. Kein Arbeitszimmer. Nicht am Fahrtag.'},
+  {icon:'📉',term:'Verlustausgleich und -abzug',sub:'§§ 2, 10d EStG',
+   answer:'<b>Horizontaler VA</b>: innerhalb einer Einkunftsart.<br><b>Vertikaler VA</b>: zwischen Einkunftsarten (grds. möglich; Ausnahmen: § 2a, § 15a, § 20 Abs. 6).<br>Rücktrag: max. 10 Mio. €. Vortrag: unbegrenzt, ab 1 Mio. Mindestbesteuerung 60 %.',
+   merkhilfe:'Horizontal frei. Vertikal grds. frei, Ausnahmen § 2a/15a/20. Rücktrag 10 Mio.'},
+  {icon:'🏡',term:'§ 23 EStG Spekulationsfrist',sub:'§ 23 EStG',
+   answer:'<b>Immobilien</b>: 10 Jahre. Ausnahme: Eigennutzung im VJ + 2 Vorjahre → steuerfrei (§ 23 Abs. 1 Nr. 1 Satz 3).<br><b>Sonstige WG</b> (Krypto, Gold, Fremdwährung): 1 Jahr.',
+   merkhilfe:'10 Jahre Immo. 1 Jahr sonst. 3 Kj. Eigennutzung = steuerfrei.'},
+  {icon:'🌍',term:'Progressionsvorbehalt',sub:'§ 32b EStG',
+   answer:'Steuerfreie Einkünfte (DBA, ALG I, Elterngeld, Kurzarbeitergeld) erhöhen den <b>Steuersatz</b> auf das inländische zvE.<br>Die Einkünfte selbst bleiben frei – nur der Satz steigt.',
+   merkhilfe:'Steuerfreie Einkünfte → Satz erhöht sich. Einkünfte bleiben steuerfrei.'},
+  {icon:'🏢',term:'§ 15 Abs. 3 – Abfärbung',sub:'§ 15 Abs. 3 Nr. 1 EStG',
+   answer:'Erzielt eine Personengesellschaft auch nur <b>geringfügig gewerbliche Einkünfte</b> → alle Einkünfte der PG werden zu Gewerbeeinkünften (gewerbliche Infizierung).<br>Folge: GewSt-Pflicht für gesamte PG.',
+   merkhilfe:'1 € Gewerbe in PG = alle Einkünfte gewerblich. Abfärbeeffekt.'},
+  {icon:'💰',term:'§ 16 Betriebsveräußerung',sub:'§ 16 EStG',
+   answer:'Veräußerungsgewinn = Kaufpreis ./. Buchwert ./. Veräußerungskosten.<br>Freibetrag 45.000 € (§ 16 Abs. 4) wenn Vollendung 55. Lj. oder dauerhafte BU.<br>Tarifermäßigung: Fünftelregelung (§ 34) oder 56 %-Satz.',
+   merkhilfe:'§ 16: Betrieb veräußert. Freibetrag 45.000 € ab 55. §34 Ermäßigung.'},
+  {icon:'📋',term:'§ 33 Außergewöhnliche Belastungen',sub:'§ 33 EStG',
+   answer:'Voraussetzungen: außergewöhnlich + zwangsläufig + nicht ersetzt.<br><b>Zumutbare Belastung</b>: 1–7 % des GdE je nach Familienstand und GdE-Höhe (§ 33 Abs. 3).<br>Nur Übersteigendes absetzbar.',
+   merkhilfe:'AuBe ./. zumutbare Belastung (1–7 % GdE) = Abzug. Zwangsläufig ist Schlüsselwort.'},
+  {icon:'👶',term:'Kinder: Freibetrag vs. Kindergeld',sub:'§§ 31, 32 EStG',
+   answer:'<b>Günstigerprüfung (§ 31)</b>: FA prüft automatisch Kindergeld oder Kinderfreibetrag + BEA.<br>KiG 2025: 250 €/Monat/Kind. Kinderfreibetrag: 3.312 € + 1.464 € BEA = 4.776 € p.P. (× 2 bei ZV).<br>Nie beides gleichzeitig!',
+   merkhilfe:'Günstigerprüfung: Kindergeld ODER Freibetrag. FA rechnet automatisch. Nie beides.'},
+  {icon:'🔄',term:'Verlustverrechnung § 20 (Kapital)',sub:'§ 20 Abs. 6 EStG',
+   answer:'KV-Verluste sind in einem <b>abgeschotteten Verrechnungskreis</b>: nur mit positiven KV-Einkünften verrechenbar.<br>Kein vertikaler Verlustausgleich möglich.<br>Vortrag unbegrenzt innerhalb des KV-Topfes.',
+   merkhilfe:'§ 20-Verluste: nur mit § 20-Gewinnen. Streng abgeschottet.'},
+  {icon:'🏗️',term:'§ 7 AfA – Methoden und Sätze',sub:'§ 7 EStG',
+   answer:'Linear: AK ÷ ND (gleichmäßig). Degressiv (§ 7 Abs. 2): 2-fache linear-AfA, max. 20 %. Zuletzt: 2020–2022 + ab 01.04.2024 (Wachstumschancengesetz, für WG bis 31.12.2025 angeschafft/hergestellt).<br>Gebäude: § 7 Abs. 4: 2 % (Baujahr bis 2022), 3 % (ab 2023). § 7 Abs. 5: degress. für best. Gebäude.',
+   merkhilfe:'Linear = gleichmäßig. 2 % Gebäude alt, 3 % Gebäude neu (ab 2023).'},
+  {icon:'💸',term:'Abgeltungsteuer (§ 32d)',sub:'§ 32d EStG',
+   answer:'Kapitalerträge im Privatvermögen: <b>25 % + 5,5 % SolZ</b> (= 26,375 %).<br>Sparerpauschbetrag: 1.000 € (Einzelperson), 2.000 € (Ehepaare).<br>Günstigerprüfung (§ 32d Abs. 6): wenn persönl. Steuersatz < 25 %.',
+   merkhilfe:'25 % Abgeltung + SolZ. 1.000 € frei. Günstigerprüfung bei niedrigem Satz.'},
+  {icon:'🎯',term:'Lohnsteuerklassen',sub:'§§ 38a, 38b EStG',
+   answer:'I: ledig, II: Alleinerziehend, III: Verheiratet (höheres Eink.), IV: Verheiratet gleich, V: Verheiratet (niedrigeres Eink.), VI: Mehrere Arbeitgeber.<br>III/V: Steuerersparnis, aber Pflichtveranlagung.',
+   merkhilfe:'I–VI. III/V: Splittig-Vorteil vorab, Jahresausgleich Pflicht.'},
+  {icon:'📝',term:'Pflichtveranlagung AN (§ 46 EStG)',sub:'§ 46 EStG',
+   answer:'Pflichtveranlagung wenn: Nebeneinkünfte > 410 €, Steuerklasse III/V/VI, Freibeträge im LSt-Abzug, mehrere AG gleichzeitig, Kurzarbeitergeld/Lohnersatz > 410 €.',
+   merkhilfe:'Nebeneinkünfte > 410 € oder StKl III/V → Pflichtveranlagung.'},
+  {icon:'⏰',term:'§ 34 Fünftelregelung',sub:'§ 34 EStG',
+   answer:'Für außerordentliche Einkünfte (Abfindungen, Veräußerungsgewinne, Entschädigungen):<br>Rechnerisch 1/5 zum zvE addieren → Steuer darauf × 5 = Gesamtsteuer.<br>Mildert Progressionswirkung bei einmaligen hohen Beträgen.',
+   merkhilfe:'1/5 addieren, Steuerdiff × 5. Mildert Progression bei Einmalzahlungen.'},
+  {icon:'🏠',term:'Vermietung und Verpachtung (§ 21)',sub:'§ 21 EStG',
+   answer:'Einkünfte aus Überlassung von: Immobilien, beweglichen Sachen, Rechten.<br>Überschuss: Einnahmen ./. WK (AfA, Zinsen, Verwaltung, Reparaturen).<br>Liebhaberei-Prüfung bei dauerhaften Verlusten.',
+   merkhilfe:'§ 21: Überschuss. WK umfassen AfA, Zinsen, Betriebskosten. Liebhaberei prüfen!'},
+];
+
+// ── AO vertieft (18 Karten) ───────────────────────────────────────────
+const D_FC_AO_VERTIEFT = [
+  {icon:'⏱',term:'Festsetzungsverjährung',sub:'§§ 169–171 AO',
+   answer:'<b>4 Jahre</b>: ESt, USt, KSt (Regelfall).<br><b>5 Jahre</b>: leichtfertige Steuerverkürzung (§ 378 AO).<br><b>10 Jahre</b>: Steuerhinterziehung (§ 370 AO).<br>Beginn: Ablauf Kj. der Abgabe (§ 170 Abs. 2), mind. 3 Jahre nach Entstehung.',
+   merkhilfe:'4–5–10 Jahre. Normal–leichtfertig–vorsätzlich. Beginn: Abgabejahr.'},
+  {icon:'📬',term:'Vier-Tage-Fiktion (§ 122 Abs. 2 AO)',sub:'§ 122 Abs. 2 AO',
+   answer:'§ 122 Abs. 2 Nr. 1 AO (aktuelle Fassung nach PostModG 2023): Inlandspost gilt <b>am vierten Tag nach Aufgabe</b> als bekannt gegeben.<br>Aufgabe Montag → Bekanntgabe Freitag.<br>Fällt auf WE/Feiertag: nächster Werktag (§ 108 Abs. 3 AO). Gegenbeweis möglich.',
+   merkhilfe:'Vier-Tage-Fiktion (seit PostModG 2023): Aufgabe + 4 Tage = Bekanntgabe. Mo aufgegeben → Fr bekannt.'},
+  {icon:'📝',term:'Einspruch (§§ 347–368 AO)',sub:'§ 355 Abs. 1 AO',
+   answer:'Frist: <b>1 Monat ab Bekanntgabe</b>.<br>Form: schriftlich oder zur Niederschrift beim FA.<br>Vollprüfung (§ 367 Abs. 2): auch Verböserung möglich → Hinweispflicht + Rücknahmemöglichkeit.',
+   merkhilfe:'1 Monat. Vollprüfung. Verböserung = Pflichthinweis vorab.'},
+  {icon:'🔒',term:'Ablaufhemmung (§ 171 AO)',sub:'§ 171 AO',
+   answer:'Verjährungslauf stoppt bei: Außenprüfung (Nr. 4), Einspruch/Klage (Nr. 3a), Stundung (Nr. 2), Fahndung (Nr. 5a).<br>Endet: mit Abschluss des hemmenden Ereignisses.',
+   merkhilfe:'Ablaufhemmung = Verjährungsuhr bleibt stehen. Prüfung, Einspruch, Stundung.'},
+  {icon:'📋',term:'§ 173 – Neue Tatsachen',sub:'§ 173 AO',
+   answer:'<b>Nr. 1 – zulasten</b>: neue Tatsache → höhere Steuer → Änderung zulässig (kein Verschulden FA nötig).<br><b>Nr. 2 – zugunsten</b>: neue Tatsache → niedrigere Steuer → nur wenn kein <b>grobes Verschulden</b> des Stpfl.',
+   merkhilfe:'Zulasten: immer. Zugunsten: kein grobes Verschulden des Steuerpflichtigen.'},
+  {icon:'✏️',term:'§ 129 – Offenbare Unrichtigkeit',sub:'§ 129 AO',
+   answer:'Berichtigung mechanischer Fehler: Rechen-, Schreib-, Übertragungsfehler.<br>Kein neues Besteuerungsmerkmal. Fehler muss aus Akte selbst erkennbar sein.<br>Jederzeit berichtigbar – keine Verjährungsfrist.',
+   merkhilfe:'§ 129 = Tippmaus-Paragraph. Mechanisch, offensichtlich, kein neuer Sachverhalt.'},
+  {icon:'🔍',term:'Außenprüfung (§§ 193–207 AO)',sub:'§ 193 AO',
+   answer:'Zulässig: Gewerbetreibende, Freiberufler, V+V – auch ohne Anlass.<br>Ankündigung: mind. 2 Wochen (§ 197 AO), außer Gefahr im Verzug.<br>Ablaufhemmung (§ 171 Abs. 4): Verjährung stoppt ab Beginn der Prüfung.',
+   merkhilfe:'Ohne Verdacht möglich. 2 Wochen Vorlauf. Verjährung stoppt sofort.'},
+  {icon:'🚨',term:'§ 370 vs. § 378 AO',sub:'§§ 370, 378 AO',
+   answer:'<b>§ 370 Steuerhinterziehung</b>: Vorsatz → Straftat → bis 5 Jahre Haft (schwere Fälle: bis 10 Jahre) → 10 Jahre Verjährung.<br><b>§ 378 leichtfertige Verkürzung</b>: grobe Fahrlässigkeit → OWi → Geldbuße bis 50.000 € → 5 Jahre.',
+   merkhilfe:'§ 370 vorsätzlich = Straftat. § 378 fahrlässig = OWi. 10 vs. 5 Jahre.'},
+  {icon:'🏳️',term:'Selbstanzeige (§ 371 AO)',sub:'§ 371 AO',
+   answer:'Strafbefreiend wenn: (1) vollständig alle unverjährten Zeiträume, (2) Zahlung Steuer + Zinsen (§ 235 AO) + ggf. Zuschlag (§ 398a AO ab 25.000 €), (3) keine Sperrwirkung (Tatentdeckung, Prüfungsanordnung).<br>Seit 2015: keine Teilanzeigen!',
+   merkhilfe:'Vollständig + zahlen + nicht entdeckt = straffrei. Ab 25K: Zuschlag. Seit 2015 alles oder nichts.'},
+  {icon:'⚖️',term:'Rechtsweg: FA → FG → BFH',sub:'AO · FGO',
+   answer:'Einspruch (FA) → Einspruchsentscheidung → Klage (Finanzgericht) → Revision (BFH).<br>Klagevoraussetzung: Einspruchsentscheidung oder Untätigkeit > 6 Monate (§ 46 FGO).<br>Keine aufschiebende Wirkung → AdV beantragen (§ 361 AO).',
+   merkhilfe:'FA → FG → BFH. Erst Einspruch, dann Klage. AdV für Zahlungsaufschub.'},
+  {icon:'💶',term:'Aussetzung der Vollziehung (AdV)',sub:'§ 361 AO',
+   answer:'Aufschub der Zahlung bei: ernstlichen Zweifeln an Rechtmäßigkeit ODER unbilliger Härte.<br>Keine automatische Wirkung – Antrag nötig.<br>Bei FA oder FG (einstweiliger Rechtsschutz, § 69 FGO).<br>Zinsfolge bei Verlust: 1,8 % p.a. (§ 237 AO).',
+   merkhilfe:'AdV: Antrag stellen! 1,8 % p.a. bei Unterliegen (§ 237). Kein Automatismus.'},
+  {icon:'📊',term:'Schätzung (§ 162 AO)',sub:'§ 162 AO',
+   answer:'FA darf schätzen wenn: keine Steuererklärung, Bücher nicht ordnungsgemäß, Mitwirkung verweigert.<br>Ansatz: Sicherheitszuschlag. Muss schlüssig und folgerichtig sein.<br>Beweislast für FA, aber Widerlegung Pflicht des Stpfl.',
+   merkhilfe:'§ 162: FA schätzt bei Mitwirkungspflichtverletzung. Sicherheitszuschlag üblich.'},
+  {icon:'🔐',term:'Steuergeheimnis (§ 30 AO)',sub:'§ 30 AO',
+   answer:'Amtsträger dürfen steuerliche Verhältnisse nicht offenbaren.<br>Ausnahmen: gesetzl. Offenbarungsbefugnis (Nr. 4), Einwilligung des Betroffenen, Strafverfolgungsinteresse.<br>Verletzung: Straftat (§ 355 StGB).',
+   merkhilfe:'§ 30: Geheimhaltungspflicht aller Amtsträger. Verletzung = Straftat.'},
+  {icon:'📅',term:'Steuerfestsetzung (§§ 155–177 AO)',sub:'§ 155 AO',
+   answer:'Steuerbescheid = Verwaltungsakt (§ 118 AO). Inhalt: Steuerart, VZ, Steuerbetrag, Begründung (§ 121).<br>Bekanntgabe: mit Zustellung wirksam. Nicht nichtig = bestandskräftig wenn kein Einspruch.',
+   merkhilfe:'Bescheid = VA. Bekanntgabe = wirksam. Kein Einspruch = bestandskräftig.'},
+  {icon:'🤝',term:'Treu und Glauben im Steuerrecht',sub:'§ 242 BGB analog · AO',
+   answer:'Treu und Glauben bindet auch FA: Zusagen und verbindliche Auskünfte (§ 89 AO) sind zu beachten.<br>Vertrauensschutz: wenn FA Sachverhalt kannte und keine Beanstandung → Verwirkung möglich.<br>Kein unbeschränkter Vertrauensschutz.',
+   merkhilfe:'Verbindliche Auskunft (§ 89 AO) bindet das FA. Treu+Glauben gilt auch im Steuerrecht.'},
+  {icon:'🏦',term:'Stundung und Erlass (§§ 222, 227 AO)',sub:'§§ 222, 227 AO',
+   answer:'<b>Stundung (§ 222)</b>: Zahlungsaufschub bei erheblicher Härte; Stundungszinsen (§ 234 AO, 1,8 % p.a.).<br><b>Erlass (§ 227)</b>: Verzicht auf Steuerforderung aus Billigkeitsgründen; selten, nur bei sachlicher oder persönlicher Unbilligkeit.',
+   merkhilfe:'Stundung = später zahlen (Zinsen). Erlass = gar nicht zahlen (sehr selten).'},
+  {icon:'📤',term:'Haftung (§§ 69–77 AO)',sub:'§§ 69–77 AO',
+   answer:'§ 69: GF haftet persönlich für nicht gezahlte Steuern wenn Verletzung steuerlicher Pflichten (vorsätzlich/grob fahrlässig).<br>§ 71: Teilnehmer an Steuerhinterziehung haftet.<br>§ 73: Organgesellschaft haftet für Organträger-Steuern.',
+   merkhilfe:'GF-Haftung § 69: persönlich bei Pflichtverletzung. Vorsatz/grobe Fahrlässigkeit.'},
+  {icon:'⚡',term:'Vorläufige Steuerfestsetzung (§ 165 AO)',sub:'§ 165 AO',
+   answer:'FA kann Steuer vorläufig festsetzen wenn: Sachverhalt ungewiss ODER Rechtsfrage beim BFH/BVerfG anhängig.<br>Automatischer Schutz für Stpfl. Änderung nach Klärung ohne Einspruch möglich.',
+   merkhilfe:'§ 165: Vorläufig = automatischer Rechtsschutz. Kein Einspruch nötig.'},
+];
+
+// ── GewSt vertieft (12 Karten) ────────────────────────────────────────
+const D_FC_GEWST_VERTIEFT = [
+  {icon:'🏭',term:'GewSt-Berechnung komplett',sub:'§§ 7, 11, 16 GewStG',
+   answer:'Gewinn (§ 15 EStG / § 8 KStG)<br>+ Hinzurechnungen (§ 8 GewStG)<br>– Kürzungen (§ 9 GewStG)<br>– Freibetrag 24.500 € (nur EU/PG, § 11 Abs. 1)<br>× 3,5 % Messzahl (§ 11 Abs. 2)<br>= Messbetrag × Hebesatz (≥ 200 %, § 16)<br>= <b>Gewerbesteuer</b>',
+   merkhilfe:'Ertrag – 24.500 (EU/PG) × 3,5 % × Hebesatz. GmbH: kein Freibetrag!'},
+  {icon:'➕',term:'Hinzurechnungen § 8 GewStG (Detail)',sub:'§ 8 GewStG',
+   answer:'Nr. 1a: 25 % Schuldzinsen<br>Nr. 1c: 25 % Gewinnanteil stiller Gesellschafter<br>Nr. 1d: 25 % von 20 % Mieten beweg. WG = 5 % effektiv<br>Nr. 1e: 25 % von 50 % Immo-Mieten = 12,5 % effektiv<br>Nr. 1f: 25 % Lizenzen<br>Freibetrag: 200.000 € (Summe Nr. 1)',
+   merkhilfe:'Finanzierungsanteile: Zinsen 25%, Mieten beweg. 5%, Immo 12,5%, Lizenzen 25%. Freigrenze 200K.'},
+  {icon:'➖',term:'Kürzungen § 9 GewStG (Detail)',sub:'§ 9 GewStG',
+   answer:'Nr. 1 S. 1: 1,2 % Einheitswert Grundbesitz (einfache Kürzung)<br>Nr. 1 S. 2: vollständige Erträge aus eigenem Grundbesitz (erweiterte Kürzung – nur reine Immobilien-VG)<br>Nr. 2: Gewinnanteile aus Mitunternehmerschaft<br>Nr. 2a: Schachtelkürzung ≥ 15 % Beteiligung',
+   merkhilfe:'Einfach: 1,2 % EW. Erweitert: volle Kürzung (reine Immo). Schachtel: ≥ 15%.'},
+  {icon:'💱',term:'§ 35 EStG Anrechnung (Detail)',sub:'§ 35 EStG',
+   answer:'4-facher GewSt-Messbetrag wird auf die ESt angerechnet (ab VZ 2020).<br>Bei Hebesatz 400 %: GewSt = Messbetrag × 4. Anrechnung = 4 × Messbetrag → vollständige Entlastung. Effektiv: 3,5 % × 4 = 14 % GewSt = 14 % ESt-Anrechnung → neutral.<br>§ 4 Abs. 5b EStG: GewSt seit 2008 kein BA-Abzug mehr.',
+   merkhilfe:'ESt ./. 4 × Messbetrag. Hebesatz 400 % = neutral. § 4 Abs. 5b: kein BA-Abzug!'},
+  {icon:'📉',term:'Gewerbeverlust (§ 10a GewStG)',sub:'§ 10a GewStG',
+   answer:'Vortrag zeitlich unbegrenzt (kein Rücktrag!). Mindestbesteuerung ab 1 Mio. €: nur 60 % des GE.<br>Untergang bei Gesellschafterwechsel (Mantelkauf analog).<br>Verlust folgt dem Betrieb, nicht dem Gesellschafter.',
+   merkhilfe:'Nur Vortrag. Kein Rücktrag. Ab 1 Mio. 60 % Mindestbesteuerung. Betriebsbezogen.'},
+  {icon:'🗺',term:'Zerlegung (§§ 28–34 GewStG)',sub:'§§ 28–34 GewStG',
+   answer:'Mehrere Betriebsstätten in verschiedenen Gemeinden → Messbetrag nach Arbeitslöhnen aufteilen (§ 29).<br>Jede Gemeinde wendet ihren Hebesatz auf den Zerlegungsanteil an.<br>Betriebsstätte = feste Einrichtung (§ 12 AO).',
+   merkhilfe:'Mehrere Standorte → Zerlegung nach Arbeitslöhnen. Jede Gemeinde eigener Hebesatz.'},
+  {icon:'🤐',term:'Stille Gesellschaft & GewSt',sub:'§ 8 Nr. 1c GewStG',
+   answer:'<b>Typisch stille GS</b>: stiller Gesellschafter = nur Geldgeber, kein Mitunternehmer → keine eigene GewSt-Pflicht. Gewinnanteil des Stillen: Hinzurechnung beim Betrieb (§ 8 Nr. 1c).<br><b>Atypisch stille GS</b>: Mitunternehmerschaft → GewSt-pflichtig.',
+   merkhilfe:'Typisch stille: Zinsen werden hinzugerechnet (§ 8 Nr. 1c). Atypisch: eigene GewSt.'},
+  {icon:'🔄',term:'GewSt-Organschaft',sub:'§ 2 Abs. 2 GewStG',
+   answer:'Voraussetzungen: finanzielle Eingliederung + EAV (wie KSt-Organschaft).<br>Folge: Gewerbeerträge werden dem Organträger zugerechnet – einheitlicher Gewerbeertrag.<br>Ermöglicht Verlustverrechnung innerhalb des Konzerns.',
+   merkhilfe:'GewSt-Organschaft: gleiche Voraussetzungen wie KSt-Organschaft. Verluste nutzbar.'},
+  {icon:'📅',term:'GewSt-Vorauszahlungen & Termine',sub:'§ 21 GewStG',
+   answer:'Quartalsweise: <b>15.02. · 15.05. · 15.08. · 15.11.</b> je ¼ des Vorjahresbetrags.<br>Gläubiger: Gemeinde (§ 1 GewStG, Art. 106 Abs. 6 GG).<br>Nachzahlung/Erstattung nach Steuerfestsetzung.',
+   merkhilfe:'15.02/05/08/11. Gemeinde ist Gläubiger – nicht Bund/Land.'},
+  {icon:'💡',term:'Freiberufler & GewSt-Grenze',sub:'§ 2 GewStG · § 18 EStG',
+   answer:'Freiberufler (§ 18 EStG): Ärzte, Anwälte, Architekten, Ingenieure, Steuerberater → KEINE GewSt-Pflicht.<br>Tricky: Ingenieur-GmbH = Formkaufmann → GewSt! Abfärberegelung bei PG (§ 15 Abs. 3 Nr. 1 EStG) beachten.',
+   merkhilfe:'Freiberufler natürliche Person = keine GewSt. GmbH = immer GewSt (Formkaufmann).'},
+  {icon:'🏗️',term:'Grundbesitz & GewSt-Befreiung',sub:'§§ 3, 9 GewStG',
+   answer:'Kapitalgesellschaft die ausschließlich eigenen Grundbesitz verwaltet und nutzt → erweiterte Kürzung (§ 9 Nr. 1 S. 2) → effektiv GewSt-frei.<br>Voraussetzung: ausschließlich, kein anderer Gewerbebetrieb.',
+   merkhilfe:'Reine Immobilien-GmbH + erweiterte Kürzung = GewSt-frei. "Ausschließlich" ist entscheidend.'},
+  {icon:'🎯',term:'Beispielrechnung GewSt',sub:'§§ 11, 16 GewStG',
+   answer:'GmbH, Gewerbeertrag 200.000 €, Hebesatz Berlin 410 %:<br>Messbetrag: 200.000 × 3,5 % = 7.000 €<br>GewSt: 7.000 × 4,10 = <b>28.700 €</b><br>Effektiv-Satz: 28.700 / 200.000 = <b>14,35 %</b><br>Kein Freibetrag bei GmbH!',
+   merkhilfe:'GmbH 200K × 3,5% × 4,10 = 28.700 €. Effektiv 14,35 %. Freibetrag nur EU/PG.'},
+];
+
+// ── Bilanz vertieft (14 Karten) ───────────────────────────────────────
+const D_FC_BILANZ_VERTIEFT = [
+  {icon:'📋',term:'GoB – Grundsätze',sub:'§§ 238, 243, 252 HGB',
+   answer:'Wichtigste GoB:<br>• <b>Klarheit und Übersichtlichkeit</b> (§ 243 Abs. 2)<br>• <b>Vollständigkeit</b> (§ 246 Abs. 1)<br>• <b>Vorsichtsprinzip</b> (§ 252 Abs. 1 Nr. 4)<br>• <b>Realisationsprinzip</b>: Gewinne erst bei Realisierung<br>• <b>Imparitätsprinzip</b>: Verluste antizipieren<br>• <b>Periodenprinzip</b> (Nr. 5)<br>• <b>Kontinuität</b> (Nr. 6)',
+   merkhilfe:'GoB: Klar, vollständig, vorsichtig, realisiert, paritätisch, periodengerecht, kontinuierlich.'},
+  {icon:'⚖️',term:'Maßgeblichkeit HB/StB',sub:'§ 5 Abs. 1 EStG',
+   answer:'Handelsbilanz ist maßgeblich für die Steuerbilanz (formelle Maßgeblichkeit).<br>Steuerrechtliche Abweichungen möglich wenn: eigene Steuervorschrift (z.B. §§ 6, 7 EStG), steuerliches Wahlrecht (§ 5 Abs. 1 S. 2).<br>Rückwirkende Maßgeblichkeit abgeschafft seit BilMoG 2009.',
+   merkhilfe:'HB = Ausgangspunkt StB. Abweichung nur wenn Steuerrecht eigene Regel hat.'},
+  {icon:'🔢',term:'Bewertung Zugangsbewertung',sub:'§ 255 HGB',
+   answer:'<b>Anschaffungskosten</b>: Kaufpreis + Nebenkosten (GrESt, Notar, Transport) + nachträgliche AK – Preisnachlasse.<br><b>Herstellungskosten</b>: Material + Fertigungs-EA + -GK + Sonder-EA + Verwaltungskosten (wahlweise).<br>Obere Grenze: kein Aufwand aktivieren.',
+   merkhilfe:'AK = Preis + Nebenkosten – Nachlässe. HK = Material + Fertigung. Keine Vertriebskosten!'},
+  {icon:'📉',term:'Bewertung Folgebewertung AV',sub:'§ 253 Abs. 1–3 HGB',
+   answer:'Anlagevermögen: fortgeführte AK/HK (./. planmäßige AfA).<br>Dauerhafter Wertverlust: außerplanmäßige Abschreibung Pflicht (§ 253 Abs. 3 S. 5).<br>Vorübergehend: außerplanmäßige Abschreibung erlaubt (Wahlrecht bei Finanzanlagen).<br>Zuschreibungsgebot (§ 253 Abs. 5): bei Wegfall der Gründe.',
+   merkhilfe:'AV: planmäßig. Dauerhaft Verlust → Pflicht. Vorübergehend FA → Wahlrecht. Zuschreibung wenn Grund weg.'},
+  {icon:'📈',term:'Bewertung Folgebewertung UV',sub:'§ 253 Abs. 4 HGB',
+   answer:'Umlaufvermögen: <b>strenges Niederstwertprinzip</b>.<br>Immer auf niedrigeren Wert (AK oder beizulegender Zeitwert) abschreiben – auch bei vorübergehender Wertminderung.<br>Kein Wahlrecht. Zuschreibungsgebot wenn Wert steigt (§ 253 Abs. 5).',
+   merkhilfe:'UV: streng niedrig. Immer auf niedrigsten Wert. Auch vorübergehend. Kein Wahlrecht.'},
+  {icon:'🔄',term:'Rückstellungen im Detail',sub:'§ 249 HGB',
+   answer:'Passivierungspflicht: ungewisse Verbindlichkeiten, drohende Verluste aus schwebenden Geschäften.<br>Passivierungsverbot: Aufwandsrückstellungen (§ 249 Abs. 2 n.F.).<br>Bewertung: vernünftige kaufmännische Beurteilung, abzuzinsen wenn LZ > 1 Jahr (§ 253 Abs. 2).',
+   merkhilfe:'Pflicht: ungewisse Verbindlichkeiten + drohende Verluste. Aufwandsrückst. verboten! Abzinsung > 1 Jahr.'},
+  {icon:'📅',term:'Rechnungsabgrenzungsposten',sub:'§ 250 HGB',
+   answer:'<b>ARAP</b> (aktiv, § 250 Abs. 1): Ausgabe vor Stichtag → Aufwand für Zeit danach (z.B. vorausgezahlte Miete).<br><b>PRAP</b> (passiv, § 250 Abs. 2): Einnahme vor Stichtag → Ertrag für Zeit danach (z.B. vorausgezahltes Abo).<br>Realisiert Periodenprinzip (§ 252 Nr. 5).',
+   merkhilfe:'ARAP: bezahlt, noch nicht Aufwand. PRAP: eingenommen, noch nicht Ertrag.'},
+  {icon:'🏗️',term:'Latente Steuern (§ 274 HGB)',sub:'§ 274 HGB',
+   answer:'Temporäre Differenzen zwischen Handels- und Steuerbilanz → latente Steuern.<br><b>Aktiv</b> (Erstattungsanspruch): wenn StB-Gewinn > HB-Gewinn jetzt, aber später umgekehrt.<br><b>Passiv</b> (Verbindlichkeit): wenn HB-Gewinn > StB-Gewinn jetzt.<br>Saldierung möglich.',
+   merkhilfe:'Aktive latente Steuer: heute mehr StB-Gewinn, später Erstattung. Passiv: heute mehr HB.'},
+  {icon:'📊',term:'Bilanzgliederung § 266 HGB',sub:'§ 266 HGB',
+   answer:'<b>Aktiva</b>: A. Anlagevermögen (I. Immateriell, II. Sachanlagen, III. Finanzanlagen) · B. Umlaufvermögen (I. Vorräte, II. Forderungen, III. Wertpapiere, IV. Liquide Mittel) · C. RAP · D. Aktive latente Steuern.<br><b>Passiva</b>: A. EK · B. Rückstellungen · C. Verbindlichkeiten · D. RAP · E. Passive latente Steuern.',
+   merkhilfe:'AV (immat./Sach/Fin) + UV (Vorräte/Ford./WP/Kasse) aktiv. EK+RSt+Verb passiv.'},
+  {icon:'💡',term:'Imparitätsprinzip',sub:'§ 252 Abs. 1 Nr. 4 HGB',
+   answer:'Verluste die bis zum Abschlussstichtag entstanden, aber noch nicht realisiert sind → müssen berücksichtigt werden.<br>Gewinne dürfen erst bei Realisation (= Leistungserbringung) ausgewiesen werden.<br>Teil des Vorsichtsprinzips. Ziel: Gläubigerschutz.',
+   merkhilfe:'Verluste sofort antizipieren. Gewinne erst bei Realisation. Asymmetrie = Gläubigerschutz.'},
+  {icon:'🔡',term:'Grundsatz der Einzelbewertung',sub:'§ 252 Abs. 1 Nr. 3 HGB',
+   answer:'Jeder Vermögensgegenstand und jede Schuld ist einzeln zu bewerten. Keine Saldierung von WG und Schulden.<br>Ausnahmen: Bewertungseinheiten (§ 254 HGB, z.B. Hedging), Festwert, Gruppen-WG.',
+   merkhilfe:'Jedes WG einzeln. Keine Saldierung. Ausnahme: § 254 Bewertungseinheiten.'},
+  {icon:'📈',term:'GuV nach GKV',sub:'§ 275 Abs. 2 HGB',
+   answer:'Gesamtkostenverfahren (GKV): Umsatzerlöse ± Bestandsveränderungen + AEL ./. Aufwendungen nach Arten (Material, Personal, AfA, sonstige) = <b>Betriebsergebnis</b> ± Finanzergebnis = EBT ./. Steuern = <b>Jahresüberschuss</b>.',
+   merkhilfe:'GKV: Umsatz + Bestandsänderung – Kosten nach Arten. Ergebnis = JÜ.'},
+  {icon:'🔄',term:'Eigenkapital GmbH (§ 266 HGB)',sub:'§§ 266, 272 HGB',
+   answer:'A. Eigenkapital: I. Gezeichnetes Kapital (Stammkapital min. 25.000 €) · II. Kapitalrücklage · III. Gewinnrücklagen (gesetzl. + freie) · IV. Gewinnvortrag/Verlustvortrag · V. Jahresüberschuss/Jahresfehlbetrag.',
+   merkhilfe:'EK: GK + KapRL + GewRL + GewVortrag + JÜ. GmbH min. 25.000 € GK.'},
+  {icon:'📝',term:'Jahresabschluss & Offenlegung',sub:'§§ 264, 267, 325 HGB',
+   answer:'Pflichten je nach Größe (§ 267 HGB):<br>Klein: Bilanz + GuV (vereinfacht) + Anhang (keine Lageberichtspflicht)<br>Mittel: + Lagebericht<br>Groß: + Pflichtprüfung WP + strengere Offenlegung.<br>Frist: 12 Monate nach Bilanzstichtag.',
+   merkhilfe:'Groß: Pflichtprüfung. Klein: Vereinfacht. Alle: Offenlegung im Bundesanzeiger.'},
+];
+
+// ═══════════════════════════════════════════════════════════════════════
+// getFcData ROUTING – alle Arrays
+// ═══════════════════════════════════════════════════════════════════════
+function getFcData(m){
+  if(m==='ao')          return [...D_FC_AO, ...(typeof D_FC_AO_VERTIEFT!=='undefined'?D_FC_AO_VERTIEFT:[])];
+  if(m==='recht')       return D_FC_RECHT;
+  if(m==='gewst')       return [...D_FC_GEWST, ...(typeof D_FC_GEWST_VERTIEFT!=='undefined'?D_FC_GEWST_VERTIEFT:[])];
+  if(m==='gesellschaft')return D_FC_GESELLSCHAFT;
+  if(m==='ust')         return typeof D_FC_UST!=='undefined' ? D_FC_UST : D_FC_EST;
+  if(m==='kst')         return typeof D_FC_KST!=='undefined' ? D_FC_KST : D_FC_EST;
+  if(m==='bilanz')      return typeof D_FC_BILANZ_VERTIEFT!=='undefined' ? D_FC_BILANZ_VERTIEFT : D_FC_EST;
+  // ESt: basic + vertieft zusammen
+  return [...D_FC_EST, ...(typeof D_FC_EST_VERTIEFT!=='undefined'?D_FC_EST_VERTIEFT:[])];
+}
