@@ -5538,6 +5538,8 @@ let _basicsAnswered = false;
 let _basicsMode = '';
 
 function _renderBasicsModule(a, modeKey) {
+  // Ensure dark background so white quiz text and explanation are visible
+  a.classList.add('basics-dark-mode');
   _basicsMode = modeKey;
   _basicsCase = 0;
   _basicsAnswered = false;
@@ -6709,6 +6711,8 @@ const FC_CATS = [
 ];
 
 function renderFlashcard(a){
+  // Ensure dark background so white text and transparent colours are visible
+  a.classList.add('basics-dark-mode');
   if(fcView==='picker'){ _fcRenderPicker(a); return; }
   _fcRenderCard(a);
 }
