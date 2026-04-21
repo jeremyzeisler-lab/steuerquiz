@@ -2120,8 +2120,8 @@ function renderStoryOverview(a){
   const filtered = f==='all' ? D_STORY : D_STORY.filter(s=>(s.cat||'est')===f);
 
   const filterHtml = `<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">
-    <button onclick="window._storyFilter='all';renderStoryOverview(document.getElementById('ga'))" style="padding:6px 14px;border-radius:100px;font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer;border:2px solid ${f==='all'?'var(--blue)':'#dde5f5'};background:${f==='all'?'#1a3a8f':'#f0f4ff'};color:${f==='all'?'#fff':'#555'}">Alle (${D_STORY.length})</button>
-    ${cats.map(cat=>`<button onclick="window._storyFilter='${cat}';renderStoryOverview(document.getElementById('ga'))" style="padding:6px 14px;border-radius:100px;font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer;border:2px solid ${f===cat?'var(--blue)':'#dde5f5'};background:${f===cat?'#1a3a8f':'#f0f4ff'};color:${f===cat?'#fff':'#555'}">${catLabel[cat]||cat} (${D_STORY.filter(s=>(s.cat||'est')===cat).length})</button>`).join('')}
+    <button onclick="window._storyFilter='all';renderStoryOverview(document.getElementById('ga'))" style="padding:6px 14px;border-radius:100px;font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer;border:2px solid ${f==='all'?'var(--cyan)':'rgba(255,255,255,.15)'};background:${f==='all'?'rgba(0,194,224,.15)':'rgba(255,255,255,.06)'};color:${f==='all'?'var(--cyan)':'rgba(255,255,255,.5)'}">Alle (${D_STORY.length})</button>
+    ${cats.map(cat=>`<button onclick="window._storyFilter='${cat}';renderStoryOverview(document.getElementById('ga'))" style="padding:6px 14px;border-radius:100px;font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer;border:2px solid ${f===cat?'var(--cyan)':'rgba(255,255,255,.15)'};background:${f===cat?'rgba(0,194,224,.15)':'rgba(255,255,255,.06)'};color:${f===cat?'var(--cyan)':'rgba(255,255,255,.5)'}">${catLabel[cat]||cat} (${D_STORY.filter(s=>(s.cat||'est')===cat).length})</button>`).join('')}
   </div>`;
 
   const cards = filtered.map(s=>{
@@ -2133,31 +2133,31 @@ function renderStoryOverview(a){
     const pct = done ? 100 : Math.round(sceneDone/total*100);
     const statusLabel = done ? '✅ Abgeschlossen' : inProg ? `⏸ ${sceneDone}/${total} Szenen` : `${total} Szenen`;
 
-    const btnStyle = `flex:1;padding:10px;border-radius:10px;border:none;color:#fff;font-family:Nunito,sans-serif;font-weight:900;font-size:12px;cursor:pointer;background:${s.color}`;
-    const btn2Style = 'flex:1;padding:10px;border-radius:10px;border:2px solid #dde5f5;background:#f0f4ff;color:var(--navy);font-family:Nunito,sans-serif;font-weight:900;font-size:12px;cursor:pointer';
+    const btnPrimary = `flex:1;padding:10px;border-radius:10px;border:none;color:#fff;font-family:Nunito,sans-serif;font-weight:900;font-size:12px;cursor:pointer;background:${s.color}`;
+    const btnSecondary = 'flex:1;padding:10px;border-radius:10px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.07);color:rgba(255,255,255,.7);font-family:Nunito,sans-serif;font-weight:900;font-size:12px;cursor:pointer';
 
     let btns = inProg
-      ? `<button style="${btnStyle}" onclick="startStory('${s.id}',true)">▶ Weiterlesen</button><button style="${btn2Style}" onclick="startStory('${s.id}',false)">↺ Neu</button>`
+      ? `<button style="${btnPrimary}" onclick="startStory('${s.id}',true)">▶ Weiterlesen</button><button style="${btnSecondary}" onclick="startStory('${s.id}',false)">↺ Neu</button>`
       : done
-      ? `<button style="${btn2Style}" onclick="startStory('${s.id}',false)">↺ Nochmal</button>`
-      : `<button style="${btnStyle}" onclick="startStory('${s.id}',false)">▶ Story starten</button>`;
+      ? `<button style="${btnSecondary}" onclick="startStory('${s.id}',false)">↺ Nochmal lesen</button>`
+      : `<button style="${btnPrimary}" onclick="startStory('${s.id}',false)">▶ Story starten</button>`;
 
-    return `<div style="background:#fff;border-radius:18px;border:2px solid ${done?'rgba(0,201,123,.35)':inProg?'rgba(26,74,143,.25)':'#dde5f5'};padding:0;margin-bottom:12px;overflow:hidden">
-      <div style="height:4px;background:#f0f4ff"><div style="height:100%;width:${pct}%;background:${s.color};transition:width .6s"></div></div>
+    return `<div style="background:rgba(255,255,255,.05);border-radius:18px;border:1.5px solid ${done?'rgba(0,201,123,.3)':inProg?'rgba(0,194,224,.2)':'rgba(255,255,255,.1)'};padding:0;margin-bottom:12px;overflow:hidden">
+      <div style="height:3px;background:rgba(255,255,255,.08)"><div style="height:100%;width:${pct}%;background:${s.color};transition:width .6s"></div></div>
       <div style="padding:16px">
         <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:10px">
           <div style="font-size:34px;line-height:1;flex-shrink:0">${s.icon}</div>
           <div style="flex:1;min-width:0">
             <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:4px">
-              <span style="font-size:9px;font-family:Space Mono,monospace;background:${s.color}22;color:${s.color};padding:2px 8px;border-radius:100px;font-weight:700;text-transform:uppercase">${s.level}</span>
-              <span style="font-size:9px;color:#bbb;font-family:Space Mono,monospace">⏱ ${s.duration}</span>
-              <span style="font-size:9px;color:#bbb;font-family:Space Mono,monospace;margin-left:auto">${catLabel[s.cat||'est']||''}</span>
+              <span style="font-size:9px;font-family:Space Mono,monospace;background:${s.color}33;color:${s.color};padding:2px 8px;border-radius:100px;font-weight:700;text-transform:uppercase">${s.level}</span>
+              <span style="font-size:9px;color:rgba(255,255,255,.3);font-family:Space Mono,monospace">⏱ ${s.duration}</span>
+              <span style="font-size:9px;color:rgba(255,255,255,.3);font-family:Space Mono,monospace;margin-left:auto">${catLabel[s.cat||'est']||''}</span>
             </div>
-            <div style="font-size:15px;font-weight:900;color:var(--navy);margin-bottom:2px;line-height:1.3">${s.title}</div>
-            <div style="font-size:11px;color:#999;font-weight:700">${s.protagonist}</div>
+            <div style="font-size:15px;font-weight:900;color:#fff;margin-bottom:2px;line-height:1.3">${s.title}</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:700">${s.protagonist}</div>
           </div>
         </div>
-        <div style="font-size:10px;color:#aaa;font-family:Space Mono,monospace;margin-bottom:10px">${statusLabel}</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.3);font-family:Space Mono,monospace;margin-bottom:10px">${statusLabel}</div>
         <div style="display:flex;gap:8px">${btns}</div>
       </div>
     </div>`;
@@ -2171,8 +2171,8 @@ function renderStoryOverview(a){
       <div style="font-size:12px;color:rgba(255,255,255,.45);font-weight:700">${D_STORY.length} Geschichten · echte §§ · echte Zahlen</div>
     </div>
     ${filterHtml}
-    ${cards.length ? cards : '<div style="text-align:center;padding:40px 20px;color:#aaa;font-weight:700">Keine Stories in dieser Kategorie</div>'}
-    <button onclick="sw('basics')" style="width:100%;padding:11px;border-radius:13px;border:2px solid #dde5f5;background:#f0f4ff;color:var(--navy);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer;margin-bottom:90px">← Zurück</button>`;
+    ${cards.length ? cards : '<div style="text-align:center;padding:40px 20px;color:rgba(255,255,255,.35);font-weight:700">Keine Stories in dieser Kategorie</div>'}
+    <button onclick="sw('basics')" style="width:100%;padding:11px;border-radius:13px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:rgba(255,255,255,.6);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer;margin-bottom:90px">← Zurück</button>`;
 }
 
 
@@ -2193,10 +2193,10 @@ function renderStoryScene(a, story){
   if(scene.type==='choice'){
     if(storyChosen === null){
       // Show options
-      choiceHtml = '<div style="margin-top:4px;background:#f4f7ff;border-radius:14px;padding:14px 15px;margin-bottom:14px">'
-        +'<div style="font-size:13px;font-weight:900;color:var(--navy);margin-bottom:12px">💬 '+scene.question+'</div>'
+      choiceHtml = '<div style="margin-top:4px;background:rgba(255,255,255,.06);border-radius:14px;padding:14px 15px;margin-bottom:14px">'
+        +'<div style="font-size:13px;font-weight:900;color:#fff;margin-bottom:12px">💬 '+scene.question+'</div>'
         + scene.opts.map((o,i)=>
-            '<button onclick="storyChoose('+i+')" style="display:block;width:100%;text-align:left;padding:13px 15px;border-radius:12px;border:2px solid #dde5f5;background:#fff;margin-bottom:8px;font-family:Nunito,sans-serif;font-weight:800;font-size:13px;cursor:pointer;color:var(--navy);transition:all .18s" onmouseover="this.style.borderColor=\''+story.color+'\'" onmouseout="this.style.borderColor=\'#dde5f5\'">'+o.text+'</button>'
+            '<button onclick="storyChoose('+i+')" style="display:block;width:100%;text-align:left;padding:13px 15px;border-radius:12px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.07);margin-bottom:8px;font-family:Nunito,sans-serif;font-weight:800;font-size:13px;cursor:pointer;color:#fff;transition:all .18s" onmouseover="this.style.borderColor=\''+story.color+'\';this.style.background=\''+story.color+'22\'" onmouseout="this.style.borderColor=\'rgba(255,255,255,.15)\';this.style.background=\'rgba(255,255,255,.07)\'">'+o.text+'</button>'
           ).join('')
         +'</div>';
     } else {
@@ -2228,30 +2228,30 @@ function renderStoryScene(a, story){
       <div style="display:flex;gap:4px;align-items:center">${dots}</div>
     </div>
 
-    <div style="background:#f8faff;border-radius:14px;padding:15px 16px;margin-bottom:14px;border-left:4px solid ${story.color}">
-      <div style="font-size:13px;font-weight:700;color:rgba(255,255,255,.7);line-height:1.7;font-style:italic">${scene.narrative}</div>
+    <div style="background:rgba(255,255,255,.06);border-radius:14px;padding:15px 16px;margin-bottom:14px;border-left:4px solid ${story.color}">
+      <div style="font-size:13px;font-weight:700;color:rgba(255,255,255,.9);line-height:1.7;font-style:italic">${scene.narrative}</div>
     </div>
 
     ${choiceHtml}
 
-    ${scene.fact && (storyChosen!==null || scene.type==='info') ? `<div style="background:#fff;border-radius:14px;border:2px solid #dde5f5;padding:14px 16px;margin-bottom:14px">
+    ${scene.fact && (storyChosen!==null || scene.type==='info') ? `<div style="background:rgba(255,255,255,.05);border-radius:14px;border:1.5px solid rgba(255,255,255,.12);padding:14px 16px;margin-bottom:14px">
       <div style="font-size:9px;font-family:'Space Mono',monospace;color:${story.color};font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px">📋 ${scene.fact.title}</div>
-      <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.7);line-height:1.7">${scene.fact.content}</div>
-      <div style="margin-top:8px;font-size:10px;font-family:'Space Mono',monospace;color:#aaa;font-weight:700">${scene.fact.norm}</div>
+      <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.85);line-height:1.7">${scene.fact.content}</div>
+      <div style="margin-top:8px;font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.3);font-weight:700">${scene.fact.norm}</div>
     </div>` : ''}
 
     ${nextHtml}
     <div style="display:flex;gap:8px;margin-bottom:90px">
-      <button onclick="storyBack()" style="flex:1;padding:10px;border-radius:11px;border:2px solid #dde5f5;background:#f0f4ff;color:var(--navy);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">← ${storyScene===0?'Zur Übersicht':'Zurück'}</button>
-      <button onclick="storyOpen=null;render()" style="flex:1;padding:10px;border-radius:11px;border:2px solid #dde5f5;background:#f0f4ff;color:var(--navy);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">📚 Alle Stories</button>
+      <button onclick="storyBack()" style="flex:1;padding:10px;border-radius:11px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:rgba(255,255,255,.6);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">← ${storyScene===0?'Zur Übersicht':'Zurück'}</button>
+      <button onclick="storyOpen=null;render()" style="flex:1;padding:10px;border-radius:11px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:rgba(255,255,255,.6);font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer">📚 Alle Stories</button>
     </div>`;
 }
 
 function renderStoryEnd(a, story){
   const learnedHtml = story.learned.map(l=>
-    '<div style="display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid #f0f4ff">'
+    '<div style="display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.07)">'
     +'<span style="color:'+story.color+';font-size:14px;flex-shrink:0">✓</span>'
-    +'<span style="font-size:12px;font-weight:700;color:var(--navy)">'+l+'</span>'
+    +'<span style="font-size:12px;font-weight:700;color:rgba(255,255,255,.85)">'+l+'</span>'
     +'</div>'
   ).join('');
 
@@ -2262,17 +2262,17 @@ function renderStoryEnd(a, story){
       <div style="font-size:20px;font-weight:900;color:#fff;margin-bottom:4px">${story.title}</div>
       <div style="font-size:12px;color:rgba(255,255,255,.55);font-weight:700">${story.protagonist}</div>
     </div>
-    <div style="background:#fff;border-radius:16px;border:2px solid #dde5f5;padding:16px;margin-bottom:14px">
-      <div style="font-size:11px;font-weight:900;color:#888;font-family:'Space Mono',monospace;letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px">📚 Das hast du gelernt</div>
+    <div style="background:rgba(255,255,255,.05);border-radius:16px;border:1.5px solid rgba(255,255,255,.1);padding:16px;margin-bottom:14px">
+      <div style="font-size:11px;font-weight:900;color:rgba(255,255,255,.35);font-family:'Space Mono',monospace;letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px">📚 Das hast du gelernt</div>
       ${learnedHtml}
     </div>
     <div style="background:linear-gradient(135deg,#003d1a,#00703a);border-radius:14px;padding:14px 16px;margin-bottom:10px">
       <div style="font-size:11px;font-weight:900;color:rgba(255,255,255,.8);margin-bottom:8px">🎯 Jetzt dein Wissen testen!</div>
       <div style="font-size:11px;color:rgba(255,255,255,.6);font-weight:700;margin-bottom:10px;line-height:1.6">Du hast die Story gelesen – prüfe sofort, ob du die Konzepte verstanden hast.</div>
-      <button onclick="storyTestStart(storyOpen)" style="width:100%;padding:11px;border-radius:10px;border:none;background:rgba(255,255,255,.15);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer;border:1px solid rgba(255,255,255,.25)">⚡ Schnell-Quiz starten (5 Fragen)</button>
+      <button onclick="storyTestStart(storyOpen)" style="width:100%;padding:11px;border-radius:10px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.15);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">⚡ Schnell-Quiz starten (5 Fragen)</button>
     </div>
     <button onclick="storyOpen=null;sw('basics')" style="width:100%;padding:12px;border-radius:13px;border:none;background:${einstLaunched?'linear-gradient(135deg,#005c36,#00c97b)':'linear-gradient(135deg,#1a3a8f,#0d2b5e)'};color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer;margin-bottom:8px">${einstLaunched?'← Zurück zum Lernpfad':'← Zurück zu Basics'}</button>
-    ${einstLaunched?'':'<button onclick="sw(\'est\')" style="width:100%;padding:10px;border-radius:11px;border:2px solid #dde5f5;background:#f0f4ff;color:var(--navy);font-family:\'Nunito\',sans-serif;font-weight:800;font-size:12px;cursor:pointer;margin-bottom:90px">💼 Zum ESt-Quiz →</button>'}
+    ${einstLaunched?'':'<button onclick="sw(\'est\')" style="width:100%;padding:10px;border-radius:11px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:rgba(255,255,255,.6);font-family:\'Nunito\',sans-serif;font-weight:800;font-size:12px;cursor:pointer;margin-bottom:90px">💼 Zum ESt-Quiz →</button>'}
     <div style="height:90px"></div>`;
 }
 
@@ -5538,8 +5538,6 @@ let _basicsAnswered = false;
 let _basicsMode = '';
 
 function _renderBasicsModule(a, modeKey) {
-  // Ensure dark background so white quiz text and explanation are visible
-  a.classList.add('basics-dark-mode');
   _basicsMode = modeKey;
   _basicsCase = 0;
   _basicsAnswered = false;
@@ -6711,8 +6709,6 @@ const FC_CATS = [
 ];
 
 function renderFlashcard(a){
-  // Ensure dark background so white text and transparent colours are visible
-  a.classList.add('basics-dark-mode');
   if(fcView==='picker'){ _fcRenderPicker(a); return; }
   _fcRenderCard(a);
 }
