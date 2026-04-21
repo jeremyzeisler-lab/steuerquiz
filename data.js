@@ -871,6 +871,9 @@ const D_FC_EST = [
 ];
 
 let fcMode='ao', fcIdx=0, fcFlipped=false, fcKnown=[], fcUnknown=[];
+let fcView='picker'; // 'picker' | 'card'
+const fcProgress = {};
+function _fcProg(m){ if(!fcProgress[m]) fcProgress[m]={known:new Set(),unknown:new Set()}; return fcProgress[m]; }
 let fcData = [];
 
 const D_FC_GEWST = [
@@ -2203,8 +2206,8 @@ function renderStoryScene(a, story){
       const borderCol = chosen.correct ? 'rgba(0,201,123,.4)' : 'rgba(255,77,109,.3)';
       const resultIcon = chosen.correct ? '✅' : '❌';
       choiceHtml = '<div style="background:'+bgCol+';border:2px solid '+borderCol+';border-radius:14px;padding:15px;margin-bottom:14px">'
-        +'<div style="font-size:14px;font-weight:900;color:var(--navy);margin-bottom:8px">'+resultIcon+' '+chosen.outcome+'</div>'
-        +'<div style="font-size:12px;font-weight:700;color:#555;line-height:1.65">'+chosen.explain+'</div>'
+        +'<div style="font-size:14px;font-weight:900;color:'+(chosen.correct?'#00c97b':'#ff6b8a')+';margin-bottom:8px">'+resultIcon+' '+chosen.outcome+'</div>'
+        +'<div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.8);line-height:1.65">'+chosen.explain+'</div>'
         +'</div>';
       nextHtml = '<button onclick="storyNext(this)" style="width:100%;padding:13px;border-radius:13px;border:none;background:'+story.color+';color:#fff;font-family:Nunito,sans-serif;font-weight:900;font-size:14px;cursor:pointer;margin-bottom:8px">'+(storyScene+1<total?'Weiter ➜':'Abschluss 🎓')+'</button>';
     }
@@ -2226,14 +2229,14 @@ function renderStoryScene(a, story){
     </div>
 
     <div style="background:#f8faff;border-radius:14px;padding:15px 16px;margin-bottom:14px;border-left:4px solid ${story.color}">
-      <div style="font-size:13px;font-weight:700;color:#444;line-height:1.7;font-style:italic">${scene.narrative}</div>
+      <div style="font-size:13px;font-weight:700;color:rgba(255,255,255,.7);line-height:1.7;font-style:italic">${scene.narrative}</div>
     </div>
 
     ${choiceHtml}
 
     ${scene.fact && (storyChosen!==null || scene.type==='info') ? `<div style="background:#fff;border-radius:14px;border:2px solid #dde5f5;padding:14px 16px;margin-bottom:14px">
       <div style="font-size:9px;font-family:'Space Mono',monospace;color:${story.color};font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px">📋 ${scene.fact.title}</div>
-      <div style="font-size:12px;font-weight:700;color:#444;line-height:1.7">${scene.fact.content}</div>
+      <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.7);line-height:1.7">${scene.fact.content}</div>
       <div style="margin-top:8px;font-size:10px;font-family:'Space Mono',monospace;color:#aaa;font-weight:700">${scene.fact.norm}</div>
     </div>` : ''}
 
@@ -2830,7 +2833,7 @@ function _doSw(m){
     if(!window._storyExplicitOpen) storyOpen = null;
     window._storyExplicitOpen = false;
   }
-  else if(m==='flashcard'){fcIdx=0;fcFlipped=false;fcKnown=[];}
+  else if(m==='flashcard'){fcIdx=0;fcFlipped=false;fcKnown=[];fcView='picker';}
   else if(m==='praxis'){ if(mode!=='praxis') praxisOpen=null; praxisStep=0; praxisAnswered=false; praxisScore=0; }
   else if(m==='meinbereich'){loadDailyData();updateStreakChip();}
   else if(m==='speed'){ clearInterval(spTimer); }
@@ -5539,7 +5542,7 @@ function _renderBasicsModule(a, modeKey) {
   _basicsCase = 0;
   _basicsAnswered = false;
   const mod = BASICS_MODULES[modeKey];
-  if (!mod) { a.innerHTML = '<p style="color:#fff">Inhalt folgt bald.</p>'; return; }
+  if (!mod) { a.innerHTML = `<div style="text-align:center;padding:40px 20px"><div style="font-size:40px;margin-bottom:12px">🔧</div><div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:6px">Modul nicht gefunden</div><div style="font-size:12px;color:rgba(255,255,255,.4);font-weight:700">Bitte starte das Fach über die Basics-Startseite neu.</div><button onclick="sw('basics')" style="margin-top:16px;padding:12px 24px;border-radius:12px;border:none;background:var(--cyan);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">← Zur Startseite</button></div>`; return; }
   a.innerHTML = `
     <div style="background:linear-gradient(135deg,${mod.color}dd,${mod.color}88);border-radius:18px;padding:18px 20px;margin-bottom:16px">
       <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,.55);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px">${mod.icon} Lernmodul</div>
@@ -5618,9 +5621,9 @@ function _basicsAnswer(chosen, correct, btn) {
   if (aufEl) {
     aufEl.style.display = 'block';
     aufEl.innerHTML = `
-      <div style="background:${ok?'rgba(0,201,123,.07)':'rgba(255,77,109,.07)'};border:2px solid ${ok?'rgba(0,201,123,.35)':'rgba(255,77,109,.3)'};border-radius:14px;padding:15px 16px;margin-top:10px">
-        <div style="font-size:13px;font-weight:900;color:var(--navy);margin-bottom:10px">${ok?'✅ Richtig!':'❌ Leider nicht – hier ist die Auflösung:'}</div>
-        <div style="font-size:12px;font-weight:700;color:#444;line-height:1.75">${c.aufloesung}</div>
+      <div style="background:${ok?'rgba(0,201,123,.08)':'rgba(255,77,109,.08)'};border:2px solid ${ok?'rgba(0,201,123,.35)':'rgba(255,77,109,.3)'};border-radius:14px;padding:15px 16px;margin-top:10px">
+        <div style="font-size:12px;font-weight:900;color:${ok?'#00c97b':'#ff6b8a'};margin-bottom:8px;letter-spacing:.5px">${ok?'✅ Richtig!':'❌ Leider falsch – hier ist die Auflösung:'}</div>
+        <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.85);line-height:1.75">${c.aufloesung}</div>
       </div>`;
     aufEl.scrollIntoView({ behavior:'smooth', block:'nearest' });
   }
@@ -5800,7 +5803,7 @@ function renderAoIntro3(a){
         <button onclick="aoGeheimAnswers[${i}]=false;render()" style="flex:1;padding:10px;border-radius:10px;border:2px solid #ff4d6d;background:rgba(255,77,109,.06);color:#c0392b;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">❌ Nein, verboten</button>
       </div>`:`<div style="background:${correct?'rgba(0,201,123,.07)':'rgba(255,77,109,.07)'};border:1.5px solid ${correct?'rgba(0,201,123,.3)':'rgba(255,77,109,.3)'};border-radius:10px;padding:10px">
         <div style="font-size:12px;font-weight:900;color:${correct?'#007a48':'#c0392b'};margin-bottom:4px">${correct?'✅ Richtig!':'❌ Leider falsch.'} – ${c.darf?'Erlaubt (§ 30 Abs. 4 AO)':'Verboten (§ 30 Abs. 1 AO)'}</div>
-        <div style="font-size:11px;font-weight:700;color:#555;line-height:1.65">${correct?c.ok:c.nok}</div>
+        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.8);line-height:1.65">${correct?c.ok:c.nok}</div>
       </div>`}
     </div>`;
   });
@@ -6028,7 +6031,7 @@ function renderEstIntro3(a){
       ${!shown?`<button onclick="estTarifAnswers[${i}]=true;render()" style="width:100%;padding:10px;border-radius:10px;border:2px solid #1a3a8f;background:rgba(26,58,143,.06);color:#1a3a8f;font-family:'Nunito',sans-serif;font-weight:900;font-size:12px;cursor:pointer">💡 Auflösung anzeigen</button>`
       :`<div style="background:rgba(0,201,123,.07);border:1.5px solid rgba(0,201,123,.3);border-radius:10px;padding:10px">
         <div style="font-size:12px;font-weight:900;color:#007a48;margin-bottom:4px">→ ${c.ans}</div>
-        <div style="font-size:11px;font-weight:700;color:#555;line-height:1.65">${c.explain}</div>
+        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.8);line-height:1.65">${c.explain}</div>
       </div>`}
     </div>`;
   });
@@ -6170,7 +6173,7 @@ function renderRechtIntro3(a){
         <button onclick="rechtQuizAnswers[${i}]=false;render()" style="flex:1;padding:9px;border-radius:10px;border:2px solid #ff4d6d;background:rgba(255,77,109,.06);color:#c0392b;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">❌ Unwirksam</button>
       </div>`:`<div style="background:${correct?'rgba(0,201,123,.07)':'rgba(255,77,109,.07)'};border:1.5px solid ${correct?'rgba(0,201,123,.3)':'rgba(255,77,109,.3)'};border-radius:10px;padding:10px">
         <div style="font-size:11px;font-weight:900;color:${correct?'#007a48':'#c0392b'};margin-bottom:3px">${correct?'✅ Richtig!':'❌ Falsch!'} – Vertrag ist ${c.ok?'wirksam':'unwirksam'}</div>
-        <div style="font-size:11px;font-weight:700;color:#555;line-height:1.65">${correct?(c.ok?c.ja:c.nein):(c.ok?c.nein:c.ja)}</div>
+        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.8);line-height:1.65">${correct?(c.ok?c.ja:c.nein):(c.ok?c.nein:c.ja)}</div>
       </div>`}
     </div>`;
   });
@@ -6307,7 +6310,7 @@ function renderBilanzIntro3(a){
       ${!shown?`<button onclick="bilanzQuizAnswers[${i}]=true;render()" style="width:100%;padding:10px;border-radius:10px;border:2px solid #27ae60;background:rgba(39,174,96,.07);color:#1a5a30;font-family:'Nunito',sans-serif;font-weight:900;font-size:12px;cursor:pointer">💡 Buchungssatz aufdecken</button>`
       :`<div style="background:rgba(0,201,123,.07);border:1.5px solid rgba(0,201,123,.3);border-radius:10px;padding:10px">
         <div style="background:#0a1a10;border-radius:6px;padding:7px;margin-bottom:6px;font-family:'Space Mono',monospace;font-size:11px;font-weight:700"><span style="color:#7eb8ff">${c.ans.split(' an ')[0]}</span><span style="color:rgba(255,255,255,.5)"> an </span><span style="color:#ff8c42">${c.ans.split(' an ')[1]}</span></div>
-        <div style="font-size:11px;font-weight:700;color:#555;line-height:1.65">${c.erkl}</div>
+        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.8);line-height:1.65">${c.erkl}</div>
       </div>`}
     </div>`;
   });
@@ -6467,7 +6470,7 @@ function renderUstIntro3(a){
       ${!shown?`<button onclick="ustQuizAnswers[${i}]=true;render()" style="width:100%;padding:10px;border-radius:10px;border:2px solid #e67e22;background:rgba(230,126,34,.06);color:#a04000;font-family:'Nunito',sans-serif;font-weight:900;font-size:12px;cursor:pointer">💡 Antwort aufdecken</button>`
       :`<div style="background:rgba(230,126,34,.07);border:1.5px solid rgba(230,126,34,.3);border-radius:10px;padding:10px">
         <div style="font-size:12px;font-weight:900;color:#a04000;margin-bottom:4px">→ ${c.ans}</div>
-        <div style="font-size:11px;font-weight:700;color:#555;line-height:1.65">${c.erkl}</div>
+        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.8);line-height:1.65">${c.erkl}</div>
       </div>`}
     </div>`;
   });
@@ -6680,24 +6683,144 @@ function ansBilanzBuch(chosenIdx, isCorrect){
 }
 
 // ─── LERNKARTEN (FLASHCARD) ────────────────────────────────────
+
+// Category catalogue
+const FC_CATS = [
+  {
+    group: 'Steuerrecht – Grundlagen',
+    col: '#0095c8',
+    items: [
+      { id:'ao',          icon:'⚖️',  label:'Abgabenordnung',        sub:'§§ 118, 169, 370 AO …' },
+      { id:'est',         icon:'💼',  label:'Einkommensteuer',        sub:'§§ 2–25 EStG, Werbungskosten …' },
+      { id:'ust',         icon:'🛒',  label:'Umsatzsteuer',           sub:'§§ 1–19 UStG, Vorsteuer …' },
+      { id:'recht',       icon:'🏛️',  label:'Privat- & Öffentl. Recht', sub:'BGB, GG, Finanzgericht …' },
+    ]
+  },
+  {
+    group: 'Steuerrecht – Vertieft',
+    col: '#7b5ea7',
+    items: [
+      { id:'gewst',       icon:'🏭',  label:'Gewerbesteuer',          sub:'§§ 2–9 GewStG, Hinzurechnungen …' },
+      { id:'kst',         icon:'🏢',  label:'Körperschaftsteuer',     sub:'§§ 1–9 KStG, vGA …' },
+      { id:'gesellschaft',icon:'🤝',  label:'Gesellschaftsbesteuerung', sub:'GmbH, Organschaft, GbR …' },
+      { id:'bilanz',      icon:'📋',  label:'Bilanz & Rechnungslegung', sub:'HGB, Bilanzpositionen …' },
+    ]
+  },
+];
+
 function renderFlashcard(a){
-  fcData=getFcData(fcMode);
+  if(fcView==='picker'){ _fcRenderPicker(a); return; }
+  _fcRenderCard(a);
+}
+
+function _fcRenderPicker(a){
+  const allProgress = FC_CATS.flatMap(g=>g.items).map(item=>{
+    const data = getFcData(item.id);
+    const prog = _fcProg(item.id);
+    const knownCount = prog.known.size;
+    const pct = data.length ? Math.round(knownCount/data.length*100) : 0;
+    return { id:item.id, total:data.length, known:knownCount, pct };
+  });
+  const totalAll = allProgress.reduce((s,p)=>s+p.total,0);
+  const knownAll = allProgress.reduce((s,p)=>s+p.known,0);
+  const pctAll   = totalAll ? Math.round(knownAll/totalAll*100) : 0;
+
+  let html = `<div style="color:#fff;padding-bottom:20px">
+    <!-- Header -->
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
+      <div style="flex:1">
+        <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px">Lernkarten</div>
+        <div style="font-size:19px;font-weight:900">Fach auswählen</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:22px;font-weight:900;color:var(--cyan);font-family:'Space Mono',monospace">${pctAll}%</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700">${knownAll}/${totalAll} gelernt</div>
+      </div>
+    </div>
+    <!-- Global progress bar -->
+    <div style="height:5px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden;margin-bottom:22px">
+      <div style="height:100%;width:${pctAll}%;background:linear-gradient(90deg,var(--cyan),#00c97b);border-radius:100px;transition:width .5s"></div>
+    </div>
+    <!-- Mix all button -->
+    <button onclick="fcStartMix()" style="width:100%;padding:13px;border-radius:14px;border:none;background:linear-gradient(135deg,#1a0a60,#3a2a9f);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer;margin-bottom:20px;display:flex;align-items:center;justify-content:center;gap:8px">
+      🎲 <span>Alle Fächer mischen</span> <span style="background:rgba(255,255,255,.15);border-radius:6px;padding:2px 8px;font-size:11px;font-family:'Space Mono',monospace">${totalAll} Karten</span>
+    </button>`;
+
+  FC_CATS.forEach(group=>{
+    html += `<div style="font-size:9px;font-family:'Space Mono',monospace;color:${group.col};font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">${group.group}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px">`;
+
+    group.items.forEach(item=>{
+      const data = getFcData(item.id);
+      const prog = _fcProg(item.id);
+      const known = prog.known.size;
+      const total = data.length;
+      const pct = total ? Math.round(known/total*100) : 0;
+      const done = pct===100;
+      html += `<button onclick="fcOpenCat('${item.id}')" style="text-align:left;padding:12px;border-radius:14px;border:1.5px solid ${done?'rgba(0,201,123,.35)':'rgba(255,255,255,.1)'};background:${done?'rgba(0,201,123,.07)':'rgba(255,255,255,.04)'};cursor:pointer;position:relative;overflow:hidden">
+        <div style="position:absolute;bottom:0;left:0;height:3px;width:${pct}%;background:${done?'#00c97b':group.col};transition:width .5s;border-radius:0 3px 3px 0"></div>
+        <div style="font-size:22px;margin-bottom:5px">${item.icon}</div>
+        <div style="font-size:12px;font-weight:900;color:#fff;line-height:1.3;margin-bottom:2px">${item.label}</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700;line-height:1.4;margin-bottom:8px">${item.sub}</div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <span style="font-size:9px;font-family:'Space Mono',monospace;color:${done?'#00c97b':group.col};font-weight:700">${known}/${total}</span>
+          <span style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.35)">${pct}%${done?' ✓':''}</span>
+        </div>
+      </button>`;
+    });
+    html += `</div>`;
+  });
+
+  html += `</div>`;
+  a.innerHTML = html;
+}
+
+function _fcRenderCard(a){
+  fcData = getFcData(fcMode);
   if(fcIdx>=fcData.length){
-    const known=fcKnown.length, total=fcData.length;
-    a.innerHTML=`<div style="text-align:center;padding:32px 20px">
-      <div style="font-size:52px;margin-bottom:12px">${known===total?'🏆':'🎯'}</div>
-      <div style="font-size:20px;font-weight:900;color:#fff;margin-bottom:6px">${known===total?'Alle Karten gewusst!':'Stapel abgeschlossen'}</div>
-      <div style="font-size:13px;color:rgba(255,255,255,.5);margin-bottom:24px">${known} / ${total} gewusst</div>
+    const prog   = _fcProg(fcMode);
+    const known  = fcKnown.length;
+    const total  = fcData.length;
+    const pct    = Math.round(known/total*100);
+    a.innerHTML=`<div style="color:#fff;text-align:center;padding:32px 20px">
+      <button onclick="fcView='picker';renderFlashcard(document.getElementById('ga'))" style="background:rgba(255,255,255,.08);border:none;color:rgba(255,255,255,.45);border-radius:8px;padding:6px 14px;font-size:11px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer;margin-bottom:24px">← Fachauswahl</button>
+      <div style="font-size:52px;margin-bottom:12px">${pct===100?'🏆':pct>=70?'🎯':'📖'}</div>
+      <div style="font-size:20px;font-weight:900;margin-bottom:6px">${pct===100?'Alle gewusst!':'Stapel fertig'}</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.5);margin-bottom:20px">${known} / ${total} richtig · ${pct} %</div>
+      <div style="height:8px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden;margin-bottom:20px">
+        <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,var(--cyan),#00c97b);border-radius:100px"></div>
+      </div>
       ${fcUnknown.length?`<button onclick="fcRestartUnknown()" style="width:100%;padding:13px;border-radius:13px;border:none;background:linear-gradient(135deg,var(--orange),#e06000);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer;margin-bottom:10px">🔁 Unbekannte nochmal (${fcUnknown.length})</button>`:''}
-      <button onclick="fcRestart()" style="width:100%;padding:12px;border-radius:13px;border:2px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:rgba(255,255,255,.7);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">↺ Alle Karten nochmal</button>
+      <button onclick="fcRestart()" style="width:100%;padding:12px;border-radius:13px;border:2px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:rgba(255,255,255,.7);font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer;margin-bottom:10px">↺ Nochmal von vorne</button>
+      <button onclick="fcView='picker';renderFlashcard(document.getElementById('ga'))" style="width:100%;padding:12px;border-radius:13px;border:none;background:linear-gradient(135deg,var(--cyan),#0095c8);color:#0d1b3e;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">→ Anderes Fach wählen</button>
     </div>`;
     return;
   }
-  const card=fcData[fcIdx]; const total=fcData.length;
-  const modeTabsHtml=[{id:'est',l:'ESt'},{id:'ust',l:'USt'},{id:'ao',l:'AO'},{id:'gewst',l:'GewSt'},{id:'kst',l:'KSt'},{id:'bilanz',l:'Bilanz'},{id:'recht',l:'Recht'},{id:'gesellschaft',l:'GmbH/KSt'}].map(({id:m,l})=>`<button onclick="fcSwitchMode('${m}')" style="flex:1;padding:7px;border-radius:9px;border:2px solid ${fcMode===m?'var(--cyan)':'rgba(255,255,255,.15)'};background:${fcMode===m?'rgba(0,194,224,.12)':'rgba(255,255,255,.05)'};color:${fcMode===m?'#fff':'rgba(255,255,255,.5)'};font-family:'Nunito',sans-serif;font-weight:800;font-size:10px;cursor:pointer">${m==='ao'?'⚖️ AO':m==='recht'?'🏛️ Recht':m==='gewst'?'🏭 GewSt':m==='gesellschaft'?'🏢 Gesellschaft':'💼 ESt'}</button>`).join('');
-  a.innerHTML=`<div style="display:flex;gap:5px;margin-bottom:12px">${modeTabsHtml}</div>
-    <div style="font-size:10px;font-family:'Space Mono',monospace;color:#aaa;margin-bottom:10px;display:flex;justify-content:space-between"><span>Karte ${fcIdx+1} / ${total}</span><span class="u-green">${fcKnown.length} ✓ gewusst</span></div>
-    <div class="fc-card ${fcFlipped?'fc-card-back':'fc-card-front'}" onclick="fcFlip()" id="fc-card">
+
+  const card  = fcData[fcIdx];
+  const total = fcData.length;
+  const prog  = _fcProg(fcMode);
+  const knownCount = prog.known.size;
+  const catInfo = FC_CATS.flatMap(g=>g.items).find(i=>i.id===fcMode) || {icon:'🃏',label:fcMode,col:'var(--cyan)'};
+  const groupCol = FC_CATS.find(g=>g.items.some(i=>i.id===fcMode))?.col || 'var(--cyan)';
+
+  a.innerHTML=`<div style="color:#fff">
+    <!-- Top bar -->
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+      <button onclick="fcView='picker';renderFlashcard(document.getElementById('ga'))" style="background:rgba(255,255,255,.08);border:none;color:rgba(255,255,255,.45);border-radius:8px;padding:6px 11px;font-size:11px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer;flex-shrink:0">← Fächer</button>
+      <div style="flex:1;height:5px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden">
+        <div style="height:100%;width:${Math.round(fcIdx/total*100)}%;background:${groupCol};border-radius:100px;transition:width .4s"></div>
+      </div>
+      <span style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.4);font-weight:700;flex-shrink:0">${fcIdx+1}/${total}</span>
+    </div>
+    <!-- Subject chip -->
+    <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px">
+      <span style="font-size:12px">${catInfo.icon}</span>
+      <span style="font-size:10px;font-weight:900;color:${groupCol};text-transform:uppercase;letter-spacing:1px;font-family:'Space Mono',monospace">${catInfo.label}</span>
+      <span style="margin-left:auto;font-size:10px;font-family:'Space Mono',monospace;color:rgba(0,201,123,.8);font-weight:700">${knownCount} ✓</span>
+    </div>
+    <!-- Card -->
+    <div class="fc-card ${fcFlipped?'fc-card-back':'fc-card-front'}" onclick="fcFlip()" id="fc-card" style="min-height:200px">
       <div style="font-size:36px;margin-bottom:10px">${card.icon}</div>
       ${fcFlipped
         ? `<div style="font-size:10px;font-family:'Space Mono',monospace;opacity:.55;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">Antwort</div>
@@ -6710,17 +6833,53 @@ function renderFlashcard(a){
     ${fcFlipped?`<div style="display:flex;gap:8px;margin-top:10px">
       <button onclick="fcAnswer(false)" style="flex:1;padding:12px;border-radius:12px;border:2px solid rgba(255,77,109,.4);background:rgba(255,77,109,.1);color:#ff6b8a;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">❌ Nochmal</button>
       <button onclick="fcAnswer(true)" style="flex:1;padding:12px;border-radius:12px;border:2px solid rgba(0,201,123,.4);background:rgba(0,201,123,.1);color:#00c97b;font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;cursor:pointer">✅ Gewusst</button>
-    </div>`:''}`;
+    </div>`:''}
+  </div>`;
 }
 
 function fcFlip(){ fcFlipped=!fcFlipped; renderFlashcard(document.getElementById('ga')); }
+
 function fcAnswer(known){
-  if(known) fcKnown.push(fcIdx); else fcUnknown.push(fcIdx);
+  const prog = _fcProg(fcMode);
+  if(known){ fcKnown.push(fcIdx); prog.known.add(fcIdx); prog.unknown.delete(fcIdx); }
+  else { fcUnknown.push(fcIdx); prog.unknown.add(fcIdx); prog.known.delete(fcIdx); }
   fcIdx++; fcFlipped=false; renderFlashcard(document.getElementById('ga'));
 }
-function fcRestart(){ fcIdx=0; fcFlipped=false; fcKnown=[]; fcUnknown=[]; renderFlashcard(document.getElementById('ga')); }
-function fcRestartUnknown(){ const u=[...fcUnknown]; fcData=u.map(i=>getFcData(fcMode)[i]); fcIdx=0; fcFlipped=false; fcKnown=[]; fcUnknown=[]; renderFlashcard(document.getElementById('ga')); }
-function fcSwitchMode(m){ fcMode=m; fcIdx=0; fcFlipped=false; fcKnown=[]; fcUnknown=[]; fcData=getFcData(m); renderFlashcard(document.getElementById('ga')); }
+
+function fcRestart(){
+  fcIdx=0; fcFlipped=false; fcKnown=[]; fcUnknown=[];
+  // Keep per-mode progress intact, only reset session arrays
+  renderFlashcard(document.getElementById('ga'));
+}
+
+function fcRestartUnknown(){
+  const u=[...fcUnknown];
+  fcData=u.map(i=>getFcData(fcMode)[i]);
+  fcIdx=0; fcFlipped=false; fcKnown=[]; fcUnknown=[];
+  renderFlashcard(document.getElementById('ga'));
+}
+
+function fcOpenCat(m){
+  fcMode=m; fcIdx=0; fcFlipped=false; fcKnown=[]; fcUnknown=[];
+  fcView='card'; renderFlashcard(document.getElementById('ga'));
+}
+
+function fcStartMix(){
+  // Combine all categories into a shuffled deck, tag each card with its source
+  const allCards = FC_CATS.flatMap(g=>g.items).flatMap(item=>{
+    return getFcData(item.id).map(c=>({...c, _src:item.id}));
+  });
+  // Fisher-Yates shuffle
+  for(let i=allCards.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [allCards[i],allCards[j]]=[allCards[j],allCards[i]];
+  }
+  fcMode='mix'; fcData=allCards;
+  fcIdx=0; fcFlipped=false; fcKnown=[]; fcUnknown=[];
+  fcView='card'; renderFlashcard(document.getElementById('ga'));
+}
+
+function fcSwitchMode(m){ fcMode=m; fcIdx=0; fcFlipped=false; fcKnown=[]; fcUnknown=[]; fcData=getFcData(m); fcView='card'; renderFlashcard(document.getElementById('ga')); }
 
 // ==================== END QUIZ FUNCTIONS ====================
 function renderResult2(containerId,name,total,direct=false){
@@ -6770,6 +6929,190 @@ function restart(){
   else if(mode==='est'){if(submode==='einkunft')sh_ein=shuffle(D_EINKUNFT);else sh_werb=shuffle(D_WERBUNG);}
   else if(mode==='bilanz'){if(bilanzSub==='zu')sh_bzu=shuffle(D_BILANZ_ZU);else sh_buch=shuffle(D_BUCHUNG);}
   render();
+}
+
+// ==================== GLOSSAR ====================
+function renderGlossar(a){
+  const view = glossarView;
+  const filter = (glossarFilter||'').toLowerCase();
+  const alpha = glossarAlpha;
+
+  // Build alphabet index from GLOSSAR_DATA
+  const allTerms = GLOSSAR_DATA;
+  const letters = [...new Set(allTerms.map(t=>t.term[0].toUpperCase()))].sort();
+
+  // Filtered and sliced list
+  const filtered = allTerms.filter(t=>{
+    if(filter && !t.term.toLowerCase().includes(filter) && !t.def.toLowerCase().includes(filter) && !(t.norm||'').toLowerCase().includes(filter)) return false;
+    if(alpha && t.term[0].toUpperCase()!==alpha) return false;
+    return true;
+  });
+
+  const termListHtml = filtered.map(t=>`
+    <div style="border-bottom:1px solid rgba(255,255,255,.07);padding:13px 0">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+        <span style="font-size:13px;font-weight:900;color:#fff">${t.term}</span>
+        <span style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);background:rgba(0,194,224,.12);padding:2px 7px;border-radius:5px">${t.norm}</span>
+      </div>
+      <div style="font-size:12px;color:rgba(255,255,255,.65);line-height:1.65;font-weight:700">${t.def}</div>
+      ${t.example?`<div style="margin-top:7px;background:rgba(255,255,255,.05);border-left:2px solid rgba(0,194,224,.4);border-radius:0 8px 8px 0;padding:7px 10px;font-size:11px;color:rgba(255,255,255,.5);font-weight:700;line-height:1.55">📌 ${t.example}</div>`:''}
+    </div>`).join('');
+
+  const merksatzHtml = MERKSATZ_DATA.map(cat=>`
+    <div style="margin-bottom:18px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;padding:9px 12px;background:${cat.color}22;border-radius:10px;border-left:3px solid ${cat.color}">
+        <span style="font-size:16px">${cat.icon}</span>
+        <span style="font-size:11px;font-weight:900;color:${cat.color};text-transform:uppercase;letter-spacing:1px;font-family:'Space Mono',monospace">${cat.cat}</span>
+      </div>
+      ${cat.rules.map(r=>`
+        <div style="background:rgba(255,255,255,.04);border-radius:12px;padding:11px 13px;margin-bottom:7px;border:1px solid rgba(255,255,255,.08)">
+          <div style="display:flex;align-items:center;gap:7px;margin-bottom:5px">
+            <span style="font-size:12px;font-weight:900;color:#fff">${r.title}</span>
+            <span style="font-size:9px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.35);margin-left:auto">${r.norm}</span>
+          </div>
+          <div style="font-size:12px;font-weight:800;color:rgba(255,255,255,.75);line-height:1.55;margin-bottom:6px">${r.rule}</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.4);font-weight:700;line-height:1.5;border-top:1px solid rgba(255,255,255,.07);padding-top:6px">💡 ${r.hint}</div>
+        </div>`).join('')}
+    </div>`).join('');
+
+  const alphaHtml = letters.map(l=>`<button onclick="glossarAlpha='${alpha===l?'':l}';renderGlossar(document.getElementById('ga'))" style="width:30px;height:30px;border-radius:7px;border:1.5px solid ${alpha===l?'var(--cyan)':'rgba(255,255,255,.12)'};background:${alpha===l?'rgba(0,194,224,.15)':'transparent'};color:${alpha===l?'var(--cyan)':'rgba(255,255,255,.4)'};font-family:'Space Mono',monospace;font-weight:700;font-size:11px;cursor:pointer;flex-shrink:0">${l}</button>`).join('');
+
+  a.innerHTML=`<div style="color:#fff;padding-bottom:60px">
+    <!-- Header -->
+    <div style="margin-bottom:16px">
+      <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px">Nachschlagewerk</div>
+      <div style="font-size:20px;font-weight:900;margin-bottom:12px">📖 Steuer-Glossar</div>
+      <!-- View tabs -->
+      <div style="display:flex;gap:6px;margin-bottom:12px">
+        <button onclick="glossarView='glossar';renderGlossar(document.getElementById('ga'))" style="flex:1;padding:9px;border-radius:10px;border:2px solid ${view==='glossar'?'var(--cyan)':'rgba(255,255,255,.12)'};background:${view==='glossar'?'rgba(0,194,224,.12)':'transparent'};color:${view==='glossar'?'#fff':'rgba(255,255,255,.45)'};font-family:'Nunito',sans-serif;font-weight:900;font-size:12px;cursor:pointer">📖 Begriffe (${allTerms.length})</button>
+        <button onclick="glossarView='merksatz';renderGlossar(document.getElementById('ga'))" style="flex:1;padding:9px;border-radius:10px;border:2px solid ${view==='merksatz'?'var(--cyan)':'rgba(255,255,255,.12)'};background:${view==='merksatz'?'rgba(0,194,224,.12)':'transparent'};color:${view==='merksatz'?'#fff':'rgba(255,255,255,.45)'};font-family:'Nunito',sans-serif;font-weight:900;font-size:12px;cursor:pointer">📌 Merksätze</button>
+      </div>
+    </div>
+
+    ${view==='glossar'?`
+    <!-- Search -->
+    <div style="position:relative;margin-bottom:10px">
+      <input oninput="glossarFilter=this.value;glossarAlpha='';renderGlossar(document.getElementById('ga'))"
+        value="${glossarFilter}"
+        placeholder="Begriff, Norm oder Stichwort suchen …"
+        style="width:100%;box-sizing:border-box;padding:10px 14px 10px 36px;border-radius:11px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.07);color:#fff;font-family:'Nunito',sans-serif;font-weight:700;font-size:13px;outline:none">
+      <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:14px;pointer-events:none">🔍</span>
+      ${glossarFilter?`<button onclick="glossarFilter='';renderGlossar(document.getElementById('ga'))" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.4);font-size:16px;cursor:pointer">✕</button>`:''}
+    </div>
+    <!-- Alpha index -->
+    ${!filter?`<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:14px">${alphaHtml}</div>`:''}
+    <!-- Count -->
+    <div style="font-size:10px;font-family:'Space Mono',monospace;color:rgba(255,255,255,.3);margin-bottom:8px">${filtered.length} Einträge${filter?' für "'+glossarFilter+'"':alpha?' mit '+alpha:''}</div>
+    <!-- Terms -->
+    <div>${termListHtml||'<div style="text-align:center;padding:40px;color:rgba(255,255,255,.3);font-weight:700">Keine Treffer für „'+glossarFilter+'"</div>'}</div>
+    `:merksatzHtml}
+  </div>`;
+}
+
+// ==================== MEIN BEREICH ====================
+function renderMeinBereich(a){
+  updateStreakChip();
+  const streak  = dailyStreak.count || 0;
+  const badges  = earnedBadges.length;
+  const totalB  = typeof BADGES!=='undefined' ? BADGES.length : 0;
+  const modes   = Object.keys(highscores);
+  const avgPct  = modes.length
+    ? Math.round(modes.reduce((s,m)=>{ const h=highscores[m]; return s+(h?h.score/h.total*100:0); },0)/modes.length)
+    : 0;
+
+  // Best and weakest topics
+  const scored = modes.map(m=>({ m, pct:Math.round(highscores[m].score/highscores[m].total*100), hs:highscores[m] }))
+    .sort((a,b)=>b.pct-a.pct);
+  const best3   = scored.slice(0,3);
+  const weak3   = scored.filter(x=>x.pct<70).slice(-3).reverse();
+
+  const ALL_MODES = ['est','ust','bilanz','ao','recht','kurios','speed','pruefung','flashcard','gesellschaft','gewst'];
+  const notPlayed = ALL_MODES.filter(m=>!playedModes.includes(m));
+
+  const ICONS={'est':'💼','ust':'🛒','bilanz':'📋','ao':'⚖️','recht':'🏛️','kurios':'🤯','speed':'⚡','pruefung':'🎓','flashcard':'🃏','gesellschaft':'🏢','gewst':'🏭'};
+  const LABELS={'est':'Einkommensteuer','ust':'Umsatzsteuer','bilanz':'Bilanz','ao':'Abgabenordnung','recht':'Recht','kurios':'Kurioses','speed':'Speed-Quiz','pruefung':'Prüfungsmodus','flashcard':'Lernkarten','gesellschaft':'Gesellschaft','gewst':'Gewerbesteuer'};
+
+  const modeRows = scored.map(x=>{
+    const pct=x.pct; const bar=pct;
+    const col=pct>=80?'#00c97b':pct>=50?'var(--cyan)':'var(--orange)';
+    return `<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06)">
+      <span style="font-size:14px;flex-shrink:0">${ICONS[x.m]||'📊'}</span>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,.7);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${LABELS[x.m]||x.m}</div>
+        <div style="height:5px;background:rgba(255,255,255,.1);border-radius:100px;overflow:hidden">
+          <div style="height:100%;width:${bar}%;background:${col};border-radius:100px;transition:width .6s"></div>
+        </div>
+      </div>
+      <span style="font-size:11px;font-family:'Space Mono',monospace;color:${col};font-weight:700;flex-shrink:0">${pct}%</span>
+      <span style="font-size:10px;color:rgba(255,255,255,.3);font-family:'Space Mono',monospace;flex-shrink:0">${x.hs.score}/${x.hs.total}</span>
+    </div>`;}).join('');
+
+  a.innerHTML=`<div style="color:#fff;padding-bottom:60px">
+    <!-- Header -->
+    <div style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px">Dein Fortschritt</div>
+    <div style="font-size:20px;font-weight:900;margin-bottom:16px">⭐ Mein Bereich</div>
+
+    <!-- Top Stats Row -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px">
+      <div style="background:linear-gradient(135deg,rgba(255,140,66,.15),rgba(255,140,66,.07));border:1px solid rgba(255,140,66,.25);border-radius:14px;padding:12px;text-align:center">
+        <div style="font-size:26px;margin-bottom:2px">🔥</div>
+        <div style="font-size:22px;font-weight:900;font-family:'Space Mono',monospace;color:#ff8c42">${streak}</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700">Streak</div>
+      </div>
+      <div style="background:linear-gradient(135deg,rgba(255,217,74,.15),rgba(255,217,74,.07));border:1px solid rgba(255,217,74,.25);border-radius:14px;padding:12px;text-align:center">
+        <div style="font-size:26px;margin-bottom:2px">🏅</div>
+        <div style="font-size:22px;font-weight:900;font-family:'Space Mono',monospace;color:#ffd94a">${badges}<span style="font-size:12px;color:rgba(255,255,255,.3)">/${totalB}</span></div>
+        <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700">Abzeichen</div>
+      </div>
+      <div style="background:linear-gradient(135deg,rgba(0,194,224,.15),rgba(0,194,224,.07));border:1px solid rgba(0,194,224,.25);border-radius:14px;padding:12px;text-align:center">
+        <div style="font-size:26px;margin-bottom:2px">📊</div>
+        <div style="font-size:22px;font-weight:900;font-family:'Space Mono',monospace;color:var(--cyan)">${modes.length?avgPct+'%':'–'}</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.4);font-weight:700">Ø Erfolg</div>
+      </div>
+    </div>
+
+    ${modes.length?`
+    <!-- Highlights: Best & Weak -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px">
+      ${best3.length?`<div style="background:rgba(0,201,123,.07);border:1px solid rgba(0,201,123,.2);border-radius:14px;padding:12px">
+        <div style="font-size:9px;font-weight:900;color:#00c97b;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">💪 Stärken</div>
+        ${best3.map(x=>`<div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:11px;font-weight:800"><span style="color:rgba(255,255,255,.7)">${ICONS[x.m]||''} ${LABELS[x.m]||x.m}</span><span style="color:#00c97b;font-family:'Space Mono',monospace">${x.pct}%</span></div>`).join('')}
+      </div>`:''}
+      ${weak3.length?`<div style="background:rgba(255,140,66,.07);border:1px solid rgba(255,140,66,.2);border-radius:14px;padding:12px">
+        <div style="font-size:9px;font-weight:900;color:var(--orange);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">📖 Üben</div>
+        ${weak3.map(x=>`<div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:11px;font-weight:800"><span style="color:rgba(255,255,255,.7)">${ICONS[x.m]||''} ${LABELS[x.m]||x.m}</span><button onclick="sw('${x.m}')" style="font-size:10px;background:rgba(255,140,66,.2);border:none;color:var(--orange);border-radius:5px;padding:2px 7px;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800">→</button></div>`).join('')}
+      </div>`:'<div style="background:rgba(0,201,123,.07);border:1px solid rgba(0,201,123,.2);border-radius:14px;padding:12px;display:flex;align-items:center;justify-content:center;text-align:center"><div style="color:rgba(255,255,255,.5);font-size:12px;font-weight:700">🎯 Alle Themen<br>über 70 %!</div></div>'}
+    </div>
+
+    <!-- Full score list -->
+    <div style="background:rgba(255,255,255,.04);border-radius:14px;padding:14px;margin-bottom:16px">
+      <div style="font-size:10px;font-weight:900;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Alle Themen · Bestleistung</div>
+      ${modeRows}
+    </div>`:`
+    <!-- No data yet -->
+    <div style="text-align:center;padding:30px 20px;background:rgba(255,255,255,.04);border-radius:16px;margin-bottom:16px">
+      <div style="font-size:40px;margin-bottom:10px">🎯</div>
+      <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:6px">Noch keine Daten</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.4);font-weight:700;line-height:1.6">Starte ein Quiz, um deinen Fortschritt hier zu sehen!</div>
+    </div>`}
+
+    ${notPlayed.length?`
+    <!-- Noch nicht gespielt -->
+    <div style="background:rgba(255,255,255,.04);border-radius:14px;padding:14px;margin-bottom:16px">
+      <div style="font-size:10px;font-weight:900;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">🔓 Noch nicht ausprobiert</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">
+        ${notPlayed.map(m=>`<button onclick="sw('${m}')" style="padding:7px 12px;border-radius:9px;border:1.5px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:rgba(255,255,255,.6);font-family:'Nunito',sans-serif;font-weight:800;font-size:11px;cursor:pointer">${ICONS[m]||'📊'} ${LABELS[m]||m}</button>`).join('')}
+      </div>
+    </div>`:''}
+
+    <!-- Abzeichen quick link -->
+    <button onclick="sw('badges')" style="width:100%;padding:13px;border-radius:14px;border:2px solid rgba(255,217,74,.25);background:rgba(255,217,74,.07);color:#ffd94a;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer;margin-bottom:8px">
+      🏅 Alle Abzeichen ansehen → (${badges}/${totalB})
+    </button>
+    <button onclick="sw('fehler')" style="width:100%;padding:12px;border-radius:13px;border:2px solid rgba(255,77,109,.2);background:rgba(255,77,109,.06);color:#ff6b8a;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer">
+      🔁 Meine Fehler aufarbeiten
+    </button>
+  </div>`;
 }
 
 // ==================== CONFETTI ====================
@@ -7186,7 +7529,7 @@ function spProcessAnswer(correct, idx, explain){
     checkBadges(); conf(4);
     const fb=document.getElementById('spfb');
     fb.className='fb show correct';
-    fb.innerHTML=`✅ Richtig! +${pts} Pkt${spCombo>1?` <span class="para-xp">🔥 ${spCombo}er Combo!</span>`:''}${explain?`<br><span style="font-size:11px;color:#666">${explain}</span>`:''}`;
+    fb.innerHTML=`✅ Richtig! +${pts} Pkt${spCombo>1?` <span class="para-xp">🔥 ${spCombo}er Combo!</span>`:''}${explain?`<br><span style="font-size:11px;color:rgba(255,255,255,.7)">${explain}</span>`:''}`;
   } else {
     spCombo=0; spWrong++; wrong++; streak=0;
     document.getElementById('sbopt-'+idx).classList.add('wrong');
@@ -7201,7 +7544,7 @@ function spProcessAnswer(correct, idx, explain){
     });
     const fb=document.getElementById('spfb');
     fb.className='fb show wrong';
-    fb.innerHTML=`❌ Falsch! Combo weg.${explain?`<br><span style="font-size:11px;color:#666">${explain}</span>`:''}`;
+    fb.innerHTML=`❌ Falsch! Combo weg.${explain?`<br><span style="font-size:11px;color:rgba(255,255,255,.7)">${explain}</span>`:''}`;
   }
   setTimeout(()=>{spIdx++;spRender();},1600);
 }
@@ -8476,7 +8819,7 @@ function renderFehlerOverview(a){
       <p>Falsch beantwortete Fragen aus allen Quiz-Bereichen</p>
       <div class="fehler-count-chip">🔴 ${n} Frage${n!==1?'n':''} offen</div>
     </div>
-    <div style="background:rgba(255,77,109,.05);border:2px solid rgba(255,77,109,.2);border-radius:14px;padding:11px 14px;margin-bottom:12px;font-size:12px;color:#666;font-weight:700;line-height:1.6">
+    <div style="background:rgba(255,77,109,.05);border:2px solid rgba(255,77,109,.2);border-radius:14px;padding:11px 14px;margin-bottom:12px;font-size:12px;color:rgba(255,255,255,.7);font-weight:700;line-height:1.6">
       💡 Beantworte eine Frage <b>richtig</b> → sie verschwindet. Falsch → sie bleibt. Mit <b>✕</b> einzeln löschen.
     </div>
     <button onclick="startFehlerSession()" style="width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,#c0003a,#ff4d6d);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:15px;cursor:pointer;margin-bottom:10px">🔁 Alle ${n} Fragen jetzt üben</button>
@@ -11287,7 +11630,7 @@ function _lpHome(a){
           <div style="flex:1">
             <div style="font-size:18px;font-weight:900;color:var(--navy);margin-bottom:2px">${pfad.titel}</div>
             <div style="font-size:12px;color:#888;font-weight:700;margin-bottom:6px">${pfad.untertitel}</div>
-            <div style="font-size:11px;color:#666;font-weight:700;line-height:1.5">${pfad.beschreibung}</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.55);font-weight:700;line-height:1.5">${pfad.beschreibung}</div>
           </div>
         </div>
         <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
@@ -11622,7 +11965,7 @@ function renderBilanzDrag(a, tabs){
       ${!allOk?`<div style="font-size:13px;color:#1a3a8f;font-weight:900;margin-bottom:8px;background:rgba(26,58,143,.08);border-radius:10px;padding:10px">
         Soll: <b>${q.soll}</b><br>an Haben: <b>${q.haben}</b>
       </div>`:''}
-      <div style="font-size:11px;color:#444;font-weight:700;line-height:1.7">${q.erkl}</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.75);font-weight:700;line-height:1.7">${q.erkl}</div>
     </div>
     <button onclick="buchDragIdx++;buchDragPhase='q';buchDragSoll=null;buchDragHaben=null;swBilanz('drag')"
       style="width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,#1a3a8f,#3d6fd4);color:#fff;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;cursor:pointer">
@@ -12017,9 +12360,27 @@ const D_FC_BILANZ_VERTIEFT = [
 // ═══════════════════════════════════════════════════════════════════════
 // getFcData ROUTING – alle Arrays
 // ═══════════════════════════════════════════════════════════════════════
+const D_FC_RECHT_VERTIEFT = [
+  {icon:'🔨',term:'Bundesfinanzhof (BFH)',sub:'Gerichtsbarkeit',answer:'Höchstes deutsches Steuergericht, Sitz in München. Instanzenweg: Einspruch beim FA → Klage vor dem Finanzgericht (FG) → Revision vor dem BFH. Revision nur zulässig, wenn das FG sie zulässt oder der BFH sie wegen grundsätzlicher Bedeutung (§ 115 Abs. 2 FGO) zulässt.',merkhilfe:'Einspruch → FG → BFH. Der BFH ist kein "normales" Berufungsgericht – er prüft nur Rechtsfragen, keine neuen Tatsachen.'},
+  {icon:'⏸️',term:'Aussetzung der Vollziehung (AdV)',sub:'§ 361 AO / § 69 FGO',answer:'Während eines Einspruchs- oder Klageverfahrens kann der Steuerpflichtige beantragen, dass der angefochtene Bescheid <b>vorläufig nicht vollzogen</b> wird. Voraussetzung: ernstliche Zweifel an der Rechtmäßigkeit oder unbillige Härte. Zinsen laufen weiter (§ 237 AO: 1,8 % p.a.)!',merkhilfe:'AdV = Steuerschuld "einfrieren" bis das Verfahren entschieden ist. Achtung: Zinsen laufen trotzdem! Nur sinnvoll bei wirklich ernstlichen Zweifeln.'},
+  {icon:'⚖️',term:'Verhältnismäßigkeitsgrundsatz',sub:'Art. 20 GG / Art. 14 GG',answer:'Staatliche Eingriffe (auch Steuern!) müssen <b>geeignet, erforderlich und angemessen</b> sein. Übermäßige Steuerlast kann Art. 14 GG (Eigentumsgarantie) verletzen. BVerfG: Die Steuer darf nicht "erdrosseln" – Halbteilungsgrundsatz (heute: weiche Grenze, kein fester 50%-Satz).',merkhilfe:'Steuern sind Eingriffe in Grundrechte – sie brauchen eine Rechtfertigung. Ohne Verhältnismäßigkeit: verfassungswidrig.'},
+  {icon:'🔁',term:'Nichtanwendungserlass',sub:'Verwaltungspraxis BMF',answer:'Wenn der BFH zugunsten des Steuerpflichtigen urteilt, kann das BMF per <b>Nichtanwendungserlass</b> anordnen, dass die Finanzverwaltung dieses Urteil <b>nicht über den Einzelfall hinaus</b> anwendet. Kritisiert als Umgehung der Gewaltenteilung, aber rechtlich zulässig.',merkhilfe:'BFH gewinnt vor Gericht – BMF ignoriert das Urteil trotzdem für alle anderen Fälle. Paradox, aber Realität im deutschen Steuerrecht.'},
+  {icon:'📝',term:'Steuerberatervorbehalt',sub:'§ 3 StBerG',answer:'Geschäftsmäßige Hilfeleistung in Steuersachen darf nur von zugelassenen Berufen erbracht werden: <b>Steuerberater, Wirtschaftsprüfer, Rechtsanwälte</b> und vereidigte Buchprüfer. Verstoß = Ordnungswidrigkeit (§ 161 StBerG).',merkhilfe:'Nicht jeder darf Steuererklärungen gegen Geld erstellen – das ist den zugelassenen Berufsgruppen vorbehalten. Freunde/Familie = okay (unentgeltlich).'},
+  {icon:'📋',term:'Steuerberaterkammer',sub:'§§ 73 ff. StBerG',answer:'Pflichtmitgliedschaft für alle Steuerberater. Aufgaben: Zulassung, Berufsaufsicht, Fortbildungspflichten, Berufsordnung. Bundesweit: <b>Bundessteuerberaterkammer (BStBK)</b>.',merkhilfe:'Ähnlich wie Ärzte in der Ärztekammer – Steuerberater sind Pflichtmitglieder, die Kammer überwacht die Berufsausübung.'},
+  {icon:'🔐',term:'Verschwiegenheitspflicht StB',sub:'§ 57 Abs. 1 StBerG',answer:'Steuerberater sind zur <b>absoluten Verschwiegenheit</b> über alle ihnen anvertrauten Informationen verpflichtet. Auch nach Beendigung des Mandats. Ausnahmen: gesetzliche Pflichten, ausdrückliche Entbindung durch den Mandanten.',merkhilfe:'Was dem StB anvertraut wird, bleibt beim StB. Gilt auch nach Kündigung des Mandats – lebenslange Schweigepflicht.'},
+  {icon:'📊',term:'Leistungsfähigkeitsprinzip',sub:'Art. 3 GG i.V.m. § 2 EStG',answer:'Steuerpflichtige sollen nach ihrer <b>wirtschaftlichen Leistungsfähigkeit</b> besteuert werden. Grundlage des progressiven Einkommensteuertarifs (§ 32a EStG): Wer mehr verdient, zahlt prozentual mehr. Ausfluss des allgemeinen Gleichheitssatzes (Art. 3 GG).',merkhilfe:'Gleiche sollen gleich, ungleiche sollen ungleich behandelt werden – wer mehr hat, zahlt mehr. Das ist Verfassungsprinzip, nicht nur Finanzpolitik.'},
+  {icon:'🏠',term:'Objektives Nettoprinzip',sub:'§§ 4, 9 EStG',answer:'Nur der <b>Nettoertrag</b> (Einnahmen minus erwerbsbedingte Ausgaben) wird besteuert. Betriebsausgaben (§ 4 EStG) und Werbungskosten (§ 9 EStG) sind abziehbar. Abzugsverbot für private Ausgaben (§ 12 EStG).',merkhilfe:'Der Staat besteuert nur den echten Gewinn/Überschuss – nicht den Umsatz. Kosten für die Erzielung von Einnahmen mindern die Steuerlast.'},
+  {icon:'⚡',term:'Sofortiger Vollzug',sub:'§ 361 AO',answer:'Grundsatz: Ein Einspruch hat <b>keine aufschiebende Wirkung</b>. Das Finanzamt kann den Bescheid sofort vollstrecken, auch wenn Einspruch eingelegt ist. Ausnahme: Aussetzung der Vollziehung (AdV) auf Antrag.',merkhilfe:'Einspruch einlegen = trotzdem erstmal zahlen! Anders als im allgemeinen Verwaltungsrecht, wo Widersprüche oft aufschiebende Wirkung haben.'},
+  {icon:'🔍',term:'Finanzgericht – Verfahren',sub:'§§ 40 ff. FGO',answer:'Klage beim FG erst nach erfolglosem Einspruch zulässig. <b>Klagefrist: 1 Monat</b> nach Zustellung der Einspruchsentscheidung (§ 47 FGO). Kein Anwaltszwang vor FG (anders: BFH → Steuerberater/RA Pflicht). Kosten nach § 135 FGO: Unterliegender zahlt.',merkhilfe:'FG-Klage = letzter Schritt nach Einspruch. Ohne Einspruch keine FG-Klage! Kein Anwalt nötig, aber beim BFH schon.'},
+  {icon:'🧾',term:'Rückwirkendes Ereignis',sub:'§ 175 Abs. 1 Nr. 2 AO',answer:'Tritt nach Erlass eines Steuerbescheids ein <b>rückwirkendes Ereignis</b> ein, das steuerliche Wirkung für die Vergangenheit hat, <b>muss</b> der Bescheid geändert werden. Beispiel: Kaufpreisminderung nach § 812 BGB wirkt auf den ursprünglichen VZ zurück.',merkhilfe:'Was heute passiert, kann gestern steuerwirksam werden – wenn das Steuergesetz eine rückwirkende Wirkung anordnet.'},
+  {icon:'🛡️',term:'Vertrauensschutz',sub:'§ 176 AO',answer:'Bei Änderung von Steuerbescheiden darf das FA <b>nicht zum Nachteil des Steuerpflichtigen</b> von einer früheren höchstrichterlichen Rechtsprechung abweichen. Schützt das Vertrauen in bestehende Rechtslage.',merkhilfe:'Wenn der BFH seine Meinung ändert, darf das FA dich nicht rückwirkend schlechter stellen als du nach der alten Rechtsprechung standest.'},
+  {icon:'📌',term:'Treu und Glauben – Bindende Auskunft',sub:'§ 89 Abs. 2 AO',answer:'Auf Antrag kann das FA eine <b>verbindliche Auskunft</b> über die steuerliche Beurteilung eines noch nicht verwirklichten Sachverhalts erteilen. Gebührenpflichtig ab Gegenstandswert 10.000 €. Bindet das FA – nicht aber die Finanzgerichte!',merkhilfe:'Unsicher wie das FA entscheiden wird? Verbindliche Auskunft beantragen! Das FA muss sich daran halten – aber das kostet Gebühren.'},
+  {icon:'🗓️',term:'Bestandskraft und Änderungsvorschriften',sub:'§§ 172 ff. AO',answer:'Steuerbescheide werden nach Ablauf der Einspruchsfrist <b>bestandskräftig</b> – grundsätzlich nicht mehr änderbar. Ausnahmen (§§ 172–177 AO): Neue Tatsachen (§ 173), rückwirkendes Ereignis (§ 175), Schreibfehler (§ 129), offensichtliche Unrichtigkeit. Änderung zugunsten und zulasten möglich.',merkhilfe:'Bestandskraft = Schloss vor dem Bescheid. § 173 AO ist das häufigste Schlüssel: neue Tatsachen öffnen das Schloss – aber nur wenn den Steuerpflichtigen kein grobes Verschulden trifft!'},
+];
+
 function getFcData(m){
   if(m==='ao')          return [...D_FC_AO, ...(typeof D_FC_AO_VERTIEFT!=='undefined'?D_FC_AO_VERTIEFT:[])];
-  if(m==='recht')       return D_FC_RECHT;
+  if(m==='recht')       return [...D_FC_RECHT, ...(typeof D_FC_RECHT_VERTIEFT!=='undefined'?D_FC_RECHT_VERTIEFT:[])];
   if(m==='gewst')       return [...D_FC_GEWST, ...(typeof D_FC_GEWST_VERTIEFT!=='undefined'?D_FC_GEWST_VERTIEFT:[])];
   if(m==='gesellschaft')return D_FC_GESELLSCHAFT;
   if(m==='ust')         return typeof D_FC_UST!=='undefined' ? D_FC_UST : D_FC_EST;
