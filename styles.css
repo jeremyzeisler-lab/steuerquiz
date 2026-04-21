@@ -74,7 +74,7 @@ header p{color:rgba(255,255,255,.55);font-size:var(--tx-base)}
 .mode-tab:hover{border-color:rgba(0,194,224,.5);color:#fff;background:rgba(0,194,224,.08)}
 .mode-tab.active{background:var(--blue);border-color:var(--cyan);color:#fff;box-shadow:var(--sh-glow-cyan)}
 .mode-tab .ti{font-size:var(--tx-md);line-height:1}
-/* visited checkmark removed */
+.mode-tab.visited::after{content:'✓';position:absolute;top:2px;right:3px;font-size:var(--tx-2xs);color:var(--green);font-weight:900;line-height:1}
 
 /* ===== MOBILE BOTTOM NAV (definition below near line 600) ===== */
 /* Quiz Drawer */
@@ -103,13 +103,9 @@ header p{color:rgba(255,255,255,.55);font-size:var(--tx-base)}
   header h1{font-size:clamp(20px,7vw,32px)}
   .logo-badge{font-size:var(--tx-2xs);padding:4px 10px}
 
-  /* Score bar: smaller + cleaner on mobile */
+  /* Score bar: smaller on mobile */
   .score-bar{padding:7px 10px;border-radius:var(--r-sm)}
   .score-item .value{font-size:var(--tx-lg)}
-  .score-badge-btn{display:none}
-  .score-reset-btn{display:none}
-  .daily-streak-chip{display:none}
-  .score-bar .score-divider:not(:first-of-type){display:none}
 
   /* Game area: less padding */
   .game-area{border-radius:var(--r-lg);padding:var(--sp-md)}
@@ -169,9 +165,6 @@ header p{color:rgba(255,255,255,.55);font-size:var(--tx-base)}
 .game-area.etag-mode{background:linear-gradient(160deg,#08152e,#0d2b5e 60%,#09281a);padding:var(--sp-md)}
 .game-area.karriere-mode{background:linear-gradient(160deg,#08152e,#0a1f3a 60%,#08231a);padding:var(--sp-md)}
 .game-area.basics-dark-mode{background:linear-gradient(160deg,#08152e,#0a1f3a 60%,#08231a);padding:var(--sp-md)}
-/* Hide score bar on non-quiz pages */
-.game-area.karriere-mode ~ #tour-scorebar,
-.game-area.basics-dark-mode ~ #tour-scorebar { display: none !important; }
 /* Topic banner (dark header per section) */
 .topic-banner{border-radius:var(--r-lg);padding:var(--sp-md) var(--sp-md) 12px;margin-bottom:var(--sp-md);position:relative;overflow:hidden}
 .topic-banner::after{content:'';position:absolute;right:-20px;bottom:-20px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,.06);pointer-events:none}
@@ -696,9 +689,9 @@ header p{color:rgba(255,255,255,.55);font-size:var(--tx-base)}
 .spot-next{padding:9px 18px;border-radius:var(--r-pill);background:var(--navy);color:#fff;border:none;font-family:'Nunito',sans-serif;font-weight:900;font-size:var(--tx-sm);cursor:pointer;transition:all .2s}
 .spot-next:hover{background:var(--blue);transform:translateY(-1px)}
 /* ? button */
-.tour-restart-btn{position:fixed;bottom:88px;right:16px;z-index:9000;width:48px;height:48px;border-radius:50%;background:linear-gradient(145deg,#0a1a4e,#1a0060);border:2.5px solid rgba(0,194,224,.6);color:var(--cyan);font-family:"Space Mono",monospace;font-weight:900;font-size:22px;cursor:pointer;box-shadow:0 4px 20px rgba(0,194,224,.35);transition:all .2s;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);text-shadow:0 0 12px rgba(0,194,224,.6)}
+.tour-restart-btn{position:fixed;bottom:80px;right:16px;z-index:500;width:42px;height:42px;border-radius:50%;background:var(--navy);border:2px solid rgba(255,255,255,.25);color:var(--cyan);font-family:'Space Mono',monospace;font-weight:700;font-size:var(--tx-md);cursor:pointer;box-shadow:var(--sh-md);transition:all .2s;display:flex;align-items:center;justify-content:center}
 .tour-restart-btn:hover{background:var(--blue);border-color:var(--cyan);transform:scale(1.1)}
-@media(max-width:640px){.tour-restart-btn{bottom:calc(68px + env(safe-area-inset-bottom,0px));right:12px;width:44px;height:44px;font-size:20px}}
+@media(max-width:640px){.tour-restart-btn{bottom:90px}}
 /* ===== BASICS – QUIZ CATEGORIES ===== */
 .quiz-cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-sm);margin-bottom:var(--sp-lg)}
 @media(max-width:400px){.quiz-cat-grid{grid-template-columns:1fr}}
@@ -1298,14 +1291,14 @@ header p{color:rgba(255,255,255,.55);font-size:var(--tx-base)}
 
 /* ── Lernszenarien story cards (Einsteiger) ── */
 .story-list{display:flex;flex-direction:column;gap:var(--sp-sm);margin-bottom:var(--sp-sm)}
-.story-card{background:#f0f4ff;border-radius:var(--r-md);border:2px solid #c0d4ff;padding:14px;cursor:pointer;transition:all .2s}
-.story-card:hover{border-color:#7b9eff;transform:translateY(-1px);box-shadow:var(--sh-md);background:#e8eeff}
-.story-card.done{border-color:#b7f5dc;background:#f0fff8}
+.story-card{background:rgba(255,255,255,.08);border-radius:var(--r-md);border:2px solid rgba(0,194,224,.25);padding:14px;cursor:pointer;transition:all .2s}
+.story-card:hover{border-color:rgba(0,194,224,.5);transform:translateY(-1px);box-shadow:var(--sh-md);background:rgba(255,255,255,.13)}
+.story-card.done{border-color:rgba(0,201,123,.5);background:rgba(0,201,123,.08)}
 .sc-top{display:flex;align-items:center;gap:var(--sp-sm)}
 .sc-emoji{font-size:var(--tx-2xl);flex-shrink:0;width:36px;text-align:center}
 .sc-info{flex:1;min-width:0}
-.sc-title{font-size:var(--tx-base);font-weight:900;color:var(--navy);line-height:1.3}
-.sc-sub{font-size:var(--tx-xs);font-weight:700;color:#888;margin-top:3px;font-family:'Space Mono',monospace}
+.sc-title{font-size:var(--tx-base);font-weight:900;color:#fff;line-height:1.3}
+.sc-sub{font-size:var(--tx-xs);font-weight:700;color:rgba(255,255,255,.55);margin-top:3px;font-family:'Space Mono',monospace}
 
 
 /* ===== KI-ASSISTENT ===== */
@@ -1402,40 +1395,26 @@ header p{color:rgba(255,255,255,.55);font-size:var(--tx-base)}
 
 /* ==================== §TEVE ==================== */
 
-/* tour-restart-btn is the § button that opens §teve */
+/* Hide the old tour-restart-btn */
+.tour-restart-btn { display: none !important; }
 
-/* §teve wrapper - fixed bottom-right */
-#steve-btn-wrap { display: none !important; }
-
-
-/* The §teve round button */
-#steve-avatar-btn {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: linear-gradient(145deg, #0a1a4e, #1a0060);
-  border: 2.5px solid rgba(0,194,224,.6);
-  color: var(--cyan);
-  font-size: 26px;
-  font-weight: 900;
-  font-family: 'Space Mono', monospace;
+/* Wrapper – positions everything */
+#steve-btn-wrap {
+  position: fixed;
+  bottom: 90px;
+  right: 16px;
+  z-index: 400;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 20px rgba(0,194,224,.35);
-  transition: all .2s;
-  text-shadow: 0 0 12px rgba(0,194,224,.6);
-  animation: steve-idle 4s ease-in-out infinite;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  cursor: pointer;
 }
-#steve-btn-wrap:hover #steve-avatar-btn,
-#steve-btn-wrap.active #steve-avatar-btn {
-  transform: scale(1.1);
-  border-color: var(--cyan);
-  box-shadow: 0 6px 28px rgba(0,194,224,.6);
-}
-@keyframes steve-idle {
-  0%,100% { transform: translateY(0); }
-  50%      { transform: translateY(-4px); }
+@media(max-width:640px) {
+  #steve-btn-wrap {
+    bottom: calc(70px + env(safe-area-inset-bottom, 16px));
+    right: 12px;
+  }
 }
 
 /* Speech bubble */
@@ -1453,21 +1432,103 @@ header p{color:rgba(255,255,255,.55);font-size:var(--tx-base)}
   animation: bubble-in .4s cubic-bezier(.34,1.56,.64,1) forwards,
              bubble-bob 4s ease-in-out 2s infinite;
   transform-origin: bottom right;
+  max-width: 200px;
 }
-.steve-bubble.hidden { display: none; }
+.steve-bubble.hidden {
+  animation: bubble-out .25s ease forwards;
+  pointer-events: none;
+}
 @keyframes bubble-in {
   from { opacity:0; transform: scale(.7) translateY(6px); }
   to   { opacity:1; transform: scale(1) translateY(0); }
+}
+@keyframes bubble-out {
+  to { opacity:0; transform: scale(.8) translateY(4px); }
 }
 @keyframes bubble-bob {
   0%,100% { transform: translateY(0); }
   50%      { transform: translateY(-3px); }
 }
 
+/* The § button itself */
+#steve-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2.5px solid rgba(0,194,224,.6);
+  background: linear-gradient(145deg, #0a1a4e, #1a0060 60%, #0d2b5e);
+  color: var(--cyan);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0,194,224,.35), 0 0 0 0 rgba(0,194,224,.3);
+  transition: transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .2s, border-color .2s;
+  animation: steve-idle 6s ease-in-out infinite;
+  overflow: hidden;
+}
+#steve-btn-wrap:hover #steve-btn,
+#steve-btn-wrap.active #steve-btn {
+  transform: scale(1.1);
+  border-color: var(--cyan);
+  box-shadow: 0 6px 28px rgba(0,194,224,.6), 0 0 0 8px rgba(0,194,224,.1);
+  animation: steve-excited .5s ease-in-out infinite alternate;
+}
+@keyframes steve-idle {
+  0%,40%,100% { transform: translateY(0) rotate(0deg); }
+  20%          { transform: translateY(-3px) rotate(-2deg); }
+  60%          { transform: translateY(-2px) rotate(1deg); }
+}
+@keyframes steve-excited {
+  from { transform: scale(1.1) rotate(-3deg); }
+  to   { transform: scale(1.12) rotate(3deg); }
+}
+
+/* The § character */
+.steve-para {
+  font-size: 28px;
+  font-weight: 900;
+  font-family: 'Space Mono', monospace;
+  color: var(--cyan);
+  line-height: 1;
+  text-shadow: 0 0 16px rgba(0,194,224,.6);
+  animation: para-glow 3s ease-in-out infinite;
+  position: relative;
+  z-index: 1;
+}
+@keyframes para-glow {
+  0%,100% { text-shadow: 0 0 10px rgba(0,194,224,.4); }
+  50%      { text-shadow: 0 0 24px rgba(0,194,224,.9), 0 0 40px rgba(0,194,224,.3); }
+}
+
+/* Little eyes on the § */
+.steve-eyes {
+  position: absolute;
+  top: 10px;
+  right: 11px;
+  display: flex;
+  gap: 3px;
+  z-index: 2;
+}
+.steve-eye {
+  width: 5px;
+  height: 5px;
+  background: var(--cyan);
+  border-radius: 50%;
+  animation: blink 5s ease-in-out infinite;
+  box-shadow: 0 0 4px rgba(0,194,224,.8);
+}
+.steve-eye:nth-child(2) { animation-delay: .15s; }
+@keyframes blink {
+  0%,48%,52%,100% { transform: scaleY(1); }
+  50%              { transform: scaleY(.1); }
+}
+
 /* §teve Panel */
 #steve-panel {
   position: fixed;
-  bottom: 148px;
+  bottom: 158px;
   right: 16px;
   z-index: 399;
   width: 320px;
@@ -1475,7 +1536,7 @@ header p{color:rgba(255,255,255,.55);font-size:var(--tx-base)}
   background: rgba(8,15,38,.97);
   border: 1.5px solid rgba(0,194,224,.3);
   border-radius: 20px 20px 4px 20px;
-  box-shadow: 0 12px 48px rgba(0,0,0,.6);
+  box-shadow: 0 12px 48px rgba(0,0,0,.6), 0 0 0 1px rgba(0,194,224,.08);
   display: flex;
   flex-direction: column;
   backdrop-filter: blur(24px);
@@ -1484,14 +1545,17 @@ header p{color:rgba(255,255,255,.55);font-size:var(--tx-base)}
   transform: translateY(12px) scale(.97);
   transition: opacity .25s, transform .25s;
 }
-#steve-panel.open { opacity: 1; transform: translateY(0) scale(1); }
+#steve-panel.open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
 @media(max-width:640px) {
   #steve-panel {
     right: 8px;
     left: 8px;
     width: auto;
-    bottom: calc(128px + env(safe-area-inset-bottom, 0px));
-    max-height: 60vh;
+    bottom: calc(140px + env(safe-area-inset-bottom, 16px));
+    max-height: 55vh;
   }
 }
 
@@ -1516,27 +1580,38 @@ header p{color:rgba(255,255,255,.55);font-size:var(--tx-base)}
   color: var(--navy);
   font-family: 'Space Mono', monospace;
   flex-shrink: 0;
+  animation: para-glow 3s ease-in-out infinite;
 }
-.steve-name { font-size:13px;font-weight:900;color:#fff;font-family:'Nunito',sans-serif; }
-.steve-sub  { font-size:9px;font-weight:700;color:rgba(255,255,255,.35);font-family:'Space Mono',monospace; }
-.steve-close, .steve-clear {
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.2);
-  color: rgba(255,255,255,.7);
-  border-radius: 7px;
-  padding: 5px 10px;
-  cursor: pointer;
-  font-size: 14px;
+.steve-name {
+  font-size: 13px;
+  font-weight: 900;
+  color: #fff;
   font-family: 'Nunito', sans-serif;
-  font-weight: 800;
+}
+.steve-sub {
+  font-size: 9px;
+  font-weight: 700;
+  color: rgba(255,255,255,.35);
+  font-family: 'Space Mono', monospace;
+}
+.steve-close, .steve-clear {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  color: rgba(255,255,255,.45);
+  border-radius: 7px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
   flex-shrink: 0;
   transition: all .15s;
 }
-.steve-clear { margin-left: auto; }
+.steve-clear { margin-left: auto; font-size: 14px; }
 .steve-close:hover, .steve-clear:hover {
-  background: rgba(255,77,109,.2);
+  background: rgba(255,77,109,.15);
   color: #ff8099;
-  border-color: rgba(255,77,109,.4);
+  border-color: rgba(255,77,109,.3);
 }
 .steve-msgs {
   flex: 1;
@@ -1546,29 +1621,202 @@ header p{color:rgba(255,255,255,.55);font-size:var(--tx-base)}
   flex-direction: column;
   gap: 10px;
   scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,.1) transparent;
 }
-.steve-msg { font-size:12px;font-weight:700;line-height:1.65;max-width:92%;padding:9px 12px;border-radius:12px;word-break:break-word; }
-.steve-msg-steve { background:rgba(0,194,224,.08);border:1px solid rgba(0,194,224,.18);color:rgba(255,255,255,.85);border-radius:12px 12px 12px 3px;align-self:flex-start; }
-.steve-msg-user  { background:rgba(26,58,143,.5);border:1px solid rgba(0,194,224,.2);color:#fff;border-radius:12px 12px 3px 12px;align-self:flex-end; }
-.steve-chips { display:flex;flex-wrap:wrap;gap:5px;padding:0 12px 10px;flex-shrink:0; }
+.steve-msg {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.65;
+  max-width: 90%;
+  padding: 9px 12px;
+  border-radius: 12px;
+  word-break: break-word;
+}
+.steve-msg-steve {
+  background: rgba(0,194,224,.08);
+  border: 1px solid rgba(0,194,224,.18);
+  color: rgba(255,255,255,.85);
+  border-radius: 12px 12px 12px 3px;
+  align-self: flex-start;
+}
+.steve-msg-user {
+  background: rgba(26,58,143,.5);
+  border: 1px solid rgba(0,194,224,.2);
+  color: #fff;
+  border-radius: 12px 12px 3px 12px;
+  align-self: flex-end;
+}
+.steve-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 0 12px 10px;
+  flex-shrink: 0;
+}
 .steve-chip {
-  font-size:10px;font-weight:800;font-family:'Nunito',sans-serif;
-  padding:5px 10px;border-radius:100px;
-  border:1px solid rgba(0,194,224,.25);background:rgba(0,194,224,.06);
-  color:rgba(0,194,224,.85);cursor:pointer;transition:all .15s;white-space:nowrap;
+  font-size: 10px;
+  font-weight: 800;
+  font-family: 'Nunito', sans-serif;
+  padding: 5px 10px;
+  border-radius: 100px;
+  border: 1px solid rgba(0,194,224,.25);
+  background: rgba(0,194,224,.06);
+  color: rgba(0,194,224,.85);
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
 }
-.steve-chip:hover { background:rgba(0,194,224,.15);border-color:rgba(0,194,224,.5);color:var(--cyan); }
-.steve-input-row { display:flex;gap:6px;padding:0 12px 12px;flex-shrink:0; }
+.steve-chip:hover {
+  background: rgba(0,194,224,.15);
+  border-color: rgba(0,194,224,.5);
+  color: var(--cyan);
+}
+.steve-input-row {
+  display: flex;
+  gap: 6px;
+  padding: 0 12px 12px;
+  flex-shrink: 0;
+}
 .steve-input {
-  flex:1;padding:8px 12px;border-radius:10px;
-  border:1.5px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);
-  color:#fff;font-family:'Nunito',sans-serif;font-weight:700;font-size:12px;outline:none;
-  transition:border-color .15s;
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(255,255,255,.1);
+  background: rgba(255,255,255,.05);
+  color: #fff;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  outline: none;
+  transition: border-color .15s;
 }
-.steve-input:focus { border-color:rgba(0,194,224,.4); }
-.steve-input::placeholder { color:rgba(255,255,255,.25); }
+.steve-input:focus { border-color: rgba(0,194,224,.4); }
+.steve-input::placeholder { color: rgba(255,255,255,.25); }
 .steve-send {
-  padding:8px 12px;border-radius:10px;border:none;
-  background:linear-gradient(135deg,var(--cyan),#0095c8);
-  color:var(--navy);cursor:pointer;font-size:14px;font-weight:900;transition:all .15s;flex-shrink:0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, var(--cyan), #0095c8);
+  color: var(--navy);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 900;
+  transition: all .15s;
+  flex-shrink: 0;
+}
+.steve-send:hover { transform: scale(1.05); }
+
+
+/* ===== FIX: STORY & TRAINER – DARK BACKGROUND ===== */
+/* Wenn #tab-story oder #tab-trainer aktiv ist, braucht .game-area
+   einen dunklen Hintergrund. Da die JS-Klasse fehlt, targeten wir
+   über den aktiven Tab-Zustand per :has() Selector.              */
+
+/* Moderne Browser (Chrome 105+, Firefox 121+, Safari 15.4+) */
+body:has(#tab-story.active) .game-area,
+body:has(#tab-trainer.active) .game-area {
+  background: linear-gradient(160deg, #08152e, #0a1f3a 60%, #08231a) !important;
+  padding: var(--sp-md) !important;
+}
+
+/* Fallback: direkte CSS-Klassen für story/trainer,
+   falls sw() diese irgendwann hinzufügt               */
+.game-area.story-mode,
+.game-area.trainer-mode {
+  background: linear-gradient(160deg, #08152e, #0a1f3a 60%, #08231a);
+  padding: var(--sp-md);
+}
+
+/* Story-Karten auf dunklem Hintergrund lesbar machen */
+body:has(#tab-story.active) .story-card,
+.game-area.story-mode .story-card {
+  background: rgba(255,255,255,.08);
+  border-color: rgba(0,194,224,.25);
+}
+body:has(#tab-story.active) .story-card:hover,
+.game-area.story-mode .story-card:hover {
+  background: rgba(255,255,255,.13);
+  border-color: rgba(0,194,224,.5);
+  box-shadow: var(--sh-md);
+}
+body:has(#tab-story.active) .story-card.done,
+.game-area.story-mode .story-card.done {
+  border-color: rgba(0,201,123,.5);
+  background: rgba(0,201,123,.08);
+}
+body:has(#tab-story.active) .sc-title,
+.game-area.story-mode .sc-title {
+  color: #fff;
+}
+body:has(#tab-story.active) .sc-sub,
+.game-area.story-mode .sc-sub {
+  color: rgba(255,255,255,.55);
+}
+
+/* Result-Screen auf dunklem Hintergrund */
+body:has(#tab-story.active) .rs,
+body:has(#tab-trainer.active) .rs,
+.game-area.story-mode .rs,
+.game-area.trainer-mode .rs {
+  color: #fff;
+}
+body:has(#tab-story.active) .rm,
+body:has(#tab-trainer.active) .rm,
+.game-area.story-mode .rm,
+.game-area.trainer-mode .rm {
+  color: rgba(255,255,255,.6);
+}
+
+/* Allgemeine Text-Elemente die im hellen Modus navy-farbig sind */
+body:has(#tab-story.active) .sec-title,
+body:has(#tab-trainer.active) .sec-title,
+.game-area.story-mode .sec-title,
+.game-area.trainer-mode .sec-title {
+  color: #fff;
+}
+body:has(#tab-trainer.active) .bsec,
+.game-area.trainer-mode .bsec {
+  color: rgba(255,255,255,.9);
+}
+body:has(#tab-trainer.active) .bsec::after,
+.game-area.trainer-mode .bsec::after {
+  background: rgba(255,255,255,.12);
+}
+
+/* Quiz-Elemente im Trainer auf dunklem Grund */
+body:has(#tab-trainer.active) .choice-btn,
+.game-area.trainer-mode .choice-btn {
+  background: rgba(255,255,255,.07);
+  border-color: rgba(255,255,255,.15);
+  color: #fff;
+}
+body:has(#tab-trainer.active) .choice-btn:hover:not(:disabled),
+.game-area.trainer-mode .choice-btn:hover:not(:disabled) {
+  background: rgba(0,194,224,.1);
+  border-color: rgba(0,194,224,.4);
+}
+body:has(#tab-trainer.active) .choice-btn.correct,
+.game-area.trainer-mode .choice-btn.correct {
+  background: rgba(0,201,123,.15);
+  border-color: var(--green);
+  color: #00c97b;
+}
+body:has(#tab-trainer.active) .choice-btn.wrong,
+.game-area.trainer-mode .choice-btn.wrong {
+  background: rgba(255,77,109,.1);
+  border-color: var(--red);
+  color: #ff4d6d;
+}
+body:has(#tab-trainer.active) .prog-wrap,
+.game-area.trainer-mode .prog-wrap {
+  background: rgba(255,255,255,.1);
+}
+body:has(#tab-trainer.active) .prog-lbl,
+.game-area.trainer-mode .prog-lbl {
+  color: rgba(255,255,255,.45);
+}
+body:has(#tab-trainer.active) .item-card,
+.game-area.trainer-mode .item-card {
+  background: rgba(255,255,255,.06);
+  border: 1.5px solid rgba(255,255,255,.12);
 }
